@@ -45,6 +45,11 @@ dependencies {
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 	
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+	runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.1")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mockito:mockito-core:5.2.0")
@@ -61,9 +66,9 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	
 	testImplementation("it.ozimov:embedded-redis:0.7.2")
-	testImplementation("com.h2database:h2")
+	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
 	
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 	
 }
 
