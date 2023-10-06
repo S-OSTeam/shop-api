@@ -38,7 +38,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")
@@ -51,8 +51,8 @@ dependencies {
 	
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-	testImplementation("org.mockito:mockito-core:5.2.0")
-	
+	testImplementation("io.mockk:mockk:1.13.5")
+
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
