@@ -49,7 +49,7 @@ dependencies {
 	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
 	implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
 	
-	
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")
@@ -62,8 +62,8 @@ dependencies {
 	
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-	testImplementation("org.mockito:mockito-core:5.2.0")
-	
+	testImplementation("io.mockk:mockk:1.13.5")
+
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	
 	implementation("com.querydsl:querydsl-mongodb:5.0.0") {
