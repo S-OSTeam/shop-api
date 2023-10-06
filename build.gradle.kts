@@ -55,6 +55,9 @@ dependencies {
 	
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	
+	implementation("com.querydsl:querydsl-mongodb:5.0.0") {
+		exclude(group = "org.mongodb", module = "mongo-java-driver")
+	}
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
@@ -66,6 +69,9 @@ dependencies {
 	
 	testImplementation("it.ozimov:embedded-redis:0.7.2")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+	testImplementation("io.mockk:mockk:1.13.2")
+	testImplementation("com.ninja-squad:springmockk:3.1.1")
 	
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 	

@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.account.entity
 
-import lombok.Builder
 import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.DBRef
@@ -17,8 +16,7 @@ import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
 
 @Document
-@Builder
-class Account(
+data class Account(
 	@Indexed(unique = true)
 	val userId: String,
 	val pwd: String,
@@ -26,17 +24,17 @@ class Account(
 	var birtyday: LocalDateTime,
 	var zipcode: String,
 	var address1: String,
-	var address2: String,
-	var address3: String,
-	var address4: String,
+	var address2: String?,
+	var address3: String?,
+	var address4: String?,
 	
 	@Indexed(unique = true)
 	var email: String,
 	var receiveMail: Boolean,
 	
 	val createdIp: String,
-	var adminTxt: String,
-	val snsId: String,
+	var adminTxt: String = "",
+	val snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
 	
 	@Indexed(unique = true)
@@ -45,18 +43,15 @@ class Account(
 	@Indexed(unique = true)
 	var userName: String,
 	
-	var point: Int,
+	var point: Int = 0,
 	
 	var role: Role = Role.ROLE_GUEST,
 	
-	status: AccountStatus
-
-) : LogEntity(), UserDetails {
+	) : LogEntity(), UserDetails {
 	
 	
 	@DBRef(lazy = true)
-	@Setter
-	private val status: AccountStatus = status
+	private lateinit var status: AccountStatus
 	
 	@DBRef(lazy = true)
 	private val faqs: ArrayList<Faq> = ArrayList()
