@@ -16,7 +16,7 @@ import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
 
-@Document
+@Document(collection = "deamhome")
 @Builder
 class Account(
 	@Indexed(unique = true)
@@ -49,14 +49,15 @@ class Account(
 	
 	var role: Role = Role.ROLE_GUEST,
 	
-	status: AccountStatus
+	var status: AccountStatus,
+	var lastLoginDateTime: LocalDateTime,
 
 ) : LogEntity(), UserDetails {
 	
 	
-	@DBRef(lazy = true)
-	@Setter
-	private val status: AccountStatus = status
+//	@DBRef(lazy = true)
+//	@Setter
+//	private var status: AccountStatus = status
 	
 	@DBRef(lazy = true)
 	private val faqs: ArrayList<Faq> = ArrayList()
