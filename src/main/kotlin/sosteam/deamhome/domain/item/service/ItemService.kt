@@ -24,7 +24,7 @@ class ItemService(
     suspend fun createItem(request: ItemCreateRequest) : ItemDTO{
         val account = accountRepository.findById(request.accountId).awaitSingleOrNull()
             ?: return ItemDTO(
-                title = "no Account",
+                title = "no Acount",
                 price = 1010101
             )
         val itemCategory = itemCategoryRepository.findById(request.itemCategoryId).awaitSingleOrNull()
@@ -80,5 +80,4 @@ class ItemService(
         }
         return ItemDTO()
     }
-
 }
