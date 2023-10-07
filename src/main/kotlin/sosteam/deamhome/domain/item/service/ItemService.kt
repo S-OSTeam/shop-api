@@ -4,15 +4,20 @@ import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.domain.category.entity.ItemDetailCategory
+import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
+import sosteam.deamhome.domain.category.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.item.repository.ItemDetailCategoryRepository
+
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
+import sosteam.deamhome.global.attribute.Role
+import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.Image
+import java.time.LocalDateTime
 
 @Service
 class ItemService(
@@ -23,20 +28,15 @@ class ItemService(
     ) {
     suspend fun createItem(request: ItemCreateRequest) : ItemDTO{
         val account = accountRepository.findById(request.accountId).awaitSingleOrNull()
-            ?: return ItemDTO(
-                title = "no Acount",
-                price = 1010101
-            )
-        val itemCategory = itemCategoryRepository.findById(request.itemCategoryId).awaitSingleOrNull()
-            ?:return ItemDTO(
-                title = "no Category",
-                price = 1010101
-            )
+            ?: createDefaultAccount()
         val itemDetailCategory = itemDetailCategoryRepository.findById(request.itemDetailCategoryId).awaitSingleOrNull()
-                ?: return ItemDTO(
-                title = "no DetailCategory",
-                price = 1010101
+            ?: ItemDetailCategory(title = "fruit")
+        val itemCategory = itemCategoryRepository.findById(request.itemCategoryId).awaitSingleOrNull()
+            ?: ItemCategory(
+                title = "food",
+                itemDetailCategory = itemDetailCategory
             )
+
         val images = request.imageUrls.map { imageUrl ->
             Image(
                 fileName = "fileName",
@@ -46,6 +46,10 @@ class ItemService(
                 fileUrl = imageUrl
             )
         }
+        itemDetailCategoryRepository.insert(itemDetailCategory).awaitSingle()
+        itemCategoryRepository.insert(itemCategory).awaitSingle()
+        accountRepository.insert(account).awaitSingle()
+
         val newItem = Item(
             title = request.title,
             content = request.content,
@@ -80,4 +84,29 @@ class ItemService(
         }
         return ItemDTO()
     }
+
+    fun createDefaultAccount(): Account {
+        return Account(
+            userId = "ididid",
+            pwd = "", // 여기에 기본 비밀번호를 설정할 수 있습니다.
+            sex = false,
+            birtyday = LocalDateTime.now(),
+            zipcode = "",
+            address1 = "",
+            address2 = "",
+            address3 = "",
+            address4 = "",
+            email = "", // 여기에 기본 이메일 주소를 설정할 수 있습니다.
+            receiveMail = false,
+            createdIp = "",
+            adminTxt = "",
+            snsId = null,
+            sns = SNS.NORMAL,
+            phone = "", // 여기에 기본 전화번호를 설정할 수 있습니다.
+            userName = "", // 여기에 기본 사용자 이름을 설정할 수 있습니다.
+            point = 0,
+            role = Role.ROLE_GUEST
+        )
+    }
+
 }
