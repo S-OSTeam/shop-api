@@ -12,10 +12,7 @@ import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
-import sosteam.deamhome.global.attribute.Role
-import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.Image
-import java.time.LocalDateTime
 
 @Service
 class ItemService(
