@@ -71,7 +71,6 @@ dependencies {
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.mockk:mockk:1.13.2")
-	testImplementation("com.ninja-squad:springmockk:3.1.1")
 	
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 	
