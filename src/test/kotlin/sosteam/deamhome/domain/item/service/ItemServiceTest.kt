@@ -49,6 +49,8 @@ class ItemServiceTest {
             imageUrls = listOf("image_url_1", "image_url_2")
         )
 
+        //TODO dto 에 account, category detailcategory 도 넣고 dto 에 넣어서 리턴되는지 검증하기
+
         // Given
         coEvery { accountRepository.findById(any<String>()) } returns Mono.just(mockk())
         coEvery { itemCategoryRepository.findById(any<String>()) } returns Mono.just(mockk())
