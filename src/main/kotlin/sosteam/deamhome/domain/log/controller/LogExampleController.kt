@@ -20,7 +20,7 @@ class LogExampleController (
         return LogUtil.getDefaultLog()
             .flatMap { init ->
                 val mailLog = MailLog(
-                    init.ip,
+                    init.ip ,
                     init.userAgent,
                     init.referer,
                     "example@naver.com",
