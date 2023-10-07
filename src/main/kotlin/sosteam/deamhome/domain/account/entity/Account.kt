@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.account.entity
 
-import lombok.Builder
 import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.DBRef
@@ -16,9 +15,10 @@ import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
 
-@Document(collection = "deamhome")
-@Builder
-class Account(
+
+@Document(collection = "accounts")
+data class Account(
+
 	@Indexed(unique = true)
 	val userId: String,
 	val pwd: String,
@@ -26,17 +26,17 @@ class Account(
 	var birtyday: LocalDateTime,
 	var zipcode: String,
 	var address1: String,
-	var address2: String,
-	var address3: String,
-	var address4: String,
+	var address2: String?,
+	var address3: String?,
+	var address4: String?,
 	
 	@Indexed(unique = true)
 	var email: String,
 	var receiveMail: Boolean,
 	
 	val createdIp: String,
-	var adminTxt: String,
-	val snsId: String,
+	var adminTxt: String = "",
+	val snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
 	
 	@Indexed(unique = true)
@@ -45,20 +45,17 @@ class Account(
 	@Indexed(unique = true)
 	var userName: String,
 	
-	var point: Int,
+	var point: Int = 0,
 	
 	var role: Role = Role.ROLE_GUEST,
-	
-	var status: AccountStatus,
+
 	var lastLoginDateTime: LocalDateTime,
 
 ) : LogEntity(), UserDetails {
-	
-	
-//	@DBRef(lazy = true)
-//	@Setter
-//	private var status: AccountStatus = status
-	
+
+	@DBRef(lazy = true)
+	private lateinit var status: AccountStatus
+
 	@DBRef(lazy = true)
 	private val faqs: ArrayList<Faq> = ArrayList()
 	

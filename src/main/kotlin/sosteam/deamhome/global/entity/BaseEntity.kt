@@ -7,11 +7,11 @@ import java.time.LocalDateTime
 
 abstract class BaseEntity {
 	@Id
-	private val id: String? = null
+	private lateinit var id: String
 	
 	@CreatedDate
-	private val createdAt = LocalDateTime.now()
+	private var createdAt = LocalDateTime.now()
 	
 	@LastModifiedDate
-	private val updatedAt = LocalDateTime.now()
+	private var updatedAt = LocalDateTime.now()
 }
