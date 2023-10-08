@@ -17,13 +17,13 @@ class AccountStatus(
 	@Indexed(unique = true)
 	val snsId: String,
 	
-	val status: Status = Status.LIVE,
+	var status: Status = Status.LIVE,
 	
-	account: Account
+	account: Account?
 ) : BaseEntity() {
 	
 	
 	@DBRef(lazy = true)
 	@Setter
-	private val account: Account = account
+	private val account: Account? = account
 }
