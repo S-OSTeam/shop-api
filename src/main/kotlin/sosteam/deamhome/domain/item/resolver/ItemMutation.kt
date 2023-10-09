@@ -13,10 +13,6 @@ class ItemMutation(
     ) {
     @MutationMapping
     suspend fun createItem(@Argument request: ItemCreateRequest) : ItemDTO{
-        if (request == null){
-            println("request 가 null 임")
-            return ItemDTO()
-        }
         return itemService.createItem(request)
     }
 

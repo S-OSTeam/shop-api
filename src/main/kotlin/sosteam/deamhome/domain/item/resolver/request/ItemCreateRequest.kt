@@ -12,8 +12,8 @@ data class ItemCreateRequest(
     val reviewCnt: Int = 0,
     val qnaCnt: Int = 0,
     val status: Boolean = false,
-    val accountId: String,
-    val itemCategoryId: String,
-    val itemDetailCategoryId: String,
-    val imageUrls: List<String>
+    val userId: String,
+    val categoryTitle: String,
+    val detailCategoryTitle: String,
+    val imageId: List<String>
 )

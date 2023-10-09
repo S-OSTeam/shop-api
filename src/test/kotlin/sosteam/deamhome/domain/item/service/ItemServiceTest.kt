@@ -2,22 +2,20 @@ package sosteam.deamhome.domain.item.service
 
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
+import sosteam.deamhome.domain.category.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.item.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 
@@ -43,10 +41,10 @@ class ItemServiceTest {
             content = "Test Content",
             summary = "Test Summary",
             price = 100,
-            accountId = "test_account_id",
-            itemCategoryId = "test_category_id",
-            itemDetailCategoryId = "test_detail_category_id",
-            imageUrls = listOf("image_url_1", "image_url_2")
+            userId = "test_account_id",
+            categoryTitle = "test_category_id",
+            detailCategoryTitle = "test_detail_category_id",
+            imageId = listOf("image_url_1", "image_url_2")
         )
 
         //TODO dto 에 account, category detailcategory 도 넣고 dto 에 넣어서 리턴되는지 검증하기
