@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.1.4"
 	id("io.spring.dependency-management") version "1.1.3"
 	id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
+	id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
 	kotlin("kapt") version "1.8.22"
@@ -23,6 +24,12 @@ version = "1.0.0"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
 }
 
 repositories {
@@ -60,7 +67,7 @@ dependencies {
 	}
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
-	kapt("org.springframework.boot:spring-boot-configuration-processor")
+	kapt("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("com.github.f4b6a3:ulid-creator:5.2.0")
@@ -92,7 +99,18 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-kotlin.sourceSets.main {
-	println("kotlin sourceSets buildDir:: $buildDir")
-	setBuildDir("$buildDir")
+kapt {
+	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")
+}
+
+val querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets.getByName("main") {
+	java.srcDir(querydslDir)
+}
+
+configurations {
+	named("querydsl") {
+		extendsFrom(configurations.compileClasspath.get())
+	}
 }
