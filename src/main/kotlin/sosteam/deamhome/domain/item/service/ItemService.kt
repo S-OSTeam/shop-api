@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.item.service
 
+import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
@@ -11,6 +12,7 @@ import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.category.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
+import sosteam.deamhome.domain.item.repository.ImageRepository
 
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
@@ -25,30 +27,35 @@ class ItemService(
     private val accountRepository: AccountRepository,
     private val itemCategoryRepository: ItemCategoryRepository,
     private val itemDetailCategoryRepository: ItemDetailCategoryRepository,
+    private val imageRepository: ImageRepository
     ) {
     suspend fun createItem(request: ItemCreateRequest) : ItemDTO{
-        val account = accountRepository.findById(request.accountId).awaitSingleOrNull()
+        //TODO findby 를 id 말고 title, userid 로 바꿔야함, 찾았는데 없으면 에러처리해야함, image 바꿔야함
+        val account = accountRepository.findById(request.userId).awaitSingleOrNull()
             ?: createDefaultAccount()
-        val itemDetailCategory = itemDetailCategoryRepository.findById(request.itemDetailCategoryId).awaitSingleOrNull()
+        val itemDetailCategory = itemDetailCategoryRepository.findById(request.categoryTitle).awaitSingleOrNull()
             ?: ItemDetailCategory(title = "fruit")
-        val itemCategory = itemCategoryRepository.findById(request.itemCategoryId).awaitSingleOrNull()
+        val itemCategory = itemCategoryRepository.findById(request.detailCategoryTitle).awaitSingleOrNull()
             ?: ItemCategory(
                 title = "food",
                 itemDetailCategory = itemDetailCategory
             )
-
-        val images = request.imageUrls.map { imageUrl ->
-            Image(
-                fileName = "fileName",
-                fileOriginName = "fileOriginName",
-                size = 10,
-                type = "type",
-                fileUrl = imageUrl
-            )
+        val images = request.imageId.map { id ->
+            imageRepository.findById(id).awaitSingleOrNull()
+                ?: Image(
+                    fileName = "fn",
+                    fileOriginName = "fon",
+                    size = 123,
+                    type = "ty",
+                    fileUrl = "fu"
+                )
         }
         itemDetailCategoryRepository.insert(itemDetailCategory).awaitSingle()
         itemCategoryRepository.insert(itemCategory).awaitSingle()
         accountRepository.insert(account).awaitSingle()
+        images.forEach { image ->
+            imageRepository.insert(image).awaitSingle()
+        }
 
         val newItem = Item(
             title = request.title,
@@ -82,7 +89,10 @@ class ItemService(
                 price = item.price
             )
         }
-        return ItemDTO()
+        return ItemDTO(
+            title = "asdfasdf",
+            price = 123123
+        )
     }
 
     fun createDefaultAccount(): Account {
