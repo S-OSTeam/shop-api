@@ -2,13 +2,11 @@ package sosteam.deamhome.domain.log.entity
 
 import sosteam.deamhome.global.entity.LogEntity
 
-class PointLog(
+class ItemChangeLog(
     ip:String,
     userAgent:String,
     referer:String,
+    private val userId:String,
+    private val title:String,
     private val content:String,
-    private val point:Int,
-    private val type:String,
-    private val relatedId:String,
-    private val action:String
-) : LogEntity(ip, userAgent, referer)
+): LogEntity(ip, userAgent, referer)
