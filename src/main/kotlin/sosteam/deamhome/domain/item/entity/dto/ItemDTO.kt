@@ -4,7 +4,8 @@ import sosteam.deamhome.domain.item.entity.Item
 
 class ItemDTO(
     val title: String? = null,
-    val price: Int? = null
+    val price: Int? = null,
+    val category: String? = null
 ) {
     companion object{
         fun fromItem(item: Item) : ItemDTO{

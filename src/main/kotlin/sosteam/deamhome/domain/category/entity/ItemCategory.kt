@@ -8,17 +8,14 @@ import sosteam.deamhome.global.entity.BaseEntity
 
 @Document
 @Builder
-class ItemCategory(
+data class ItemCategory(
 	var title: String,
-	itemDetailCategory: ItemDetailCategory
+	@DocumentReference(lazy = true) var itemDetailCategory: ItemDetailCategory?
 ) : BaseEntity() {
-	
+
 	@DocumentReference(lazy = true)
 	var items: List<Item> = ArrayList()
-	
-	@DocumentReference(lazy = true)
-	val itemDetailCategory: ItemDetailCategory = itemDetailCategory
-	
+
 	fun modifyItems(items: List<Item>): List<Item> {
 		this.items = items
 		return this.items

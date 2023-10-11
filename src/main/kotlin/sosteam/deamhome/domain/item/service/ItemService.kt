@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.item.service
 
-import kotlinx.coroutines.reactive.awaitSingle
+
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
@@ -11,9 +12,9 @@ import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.category.repository.ItemDetailCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.entity.QItem
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ImageRepository
-
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.attribute.Role
@@ -30,16 +31,18 @@ class ItemService(
     private val imageRepository: ImageRepository
     ) {
     suspend fun createItem(request: ItemCreateRequest) : ItemDTO{
-        //TODO findby 를 id 말고 title, userid 로 바꿔야함, 찾았는데 없으면 에러처리해야함, image 바꿔야함
+        //TODO findby 를 id 말고 title, userid 로 바꿔야함, 찾았는데 없으면 에러처리 혹은 새로 생성해서 inser 해야함, image 바꿔야함
         val account = accountRepository.findById(request.userId).awaitSingleOrNull()
             ?: createDefaultAccount()
-        val itemDetailCategory = itemDetailCategoryRepository.findById(request.categoryTitle).awaitSingleOrNull()
-            ?: ItemDetailCategory(title = "fruit")
-        val itemCategory = itemCategoryRepository.findById(request.detailCategoryTitle).awaitSingleOrNull()
+        val itemDetailCategory = itemDetailCategoryRepository.findById("123").awaitSingleOrNull()
+            ?: ItemDetailCategory(title = "notFounddetail")
+        val itemCategory = itemCategoryRepository.findById("123").awaitSingleOrNull()
             ?: ItemCategory(
-                title = "food",
+                title = "notFoundcategory",
                 itemDetailCategory = itemDetailCategory
             )
+        itemDetailCategory.modifyCategories(listOf(itemCategory))
+
         val images = request.imageId.map { id ->
             imageRepository.findById(id).awaitSingleOrNull()
                 ?: Image(
@@ -56,6 +59,7 @@ class ItemService(
         images.forEach { image ->
             imageRepository.insert(image).awaitSingle()
         }
+//        itemDetailCategoryRepository.insert(itemDetailCategory).awaitSingle()
 
         val newItem = Item(
             title = request.title,
@@ -81,23 +85,38 @@ class ItemService(
         )
     }
 
-    suspend fun findItemByTitle(title: String) : ItemDTO{
-        val item = itemRepository.findByTitle(title)
-        if (item != null) {
-            return ItemDTO(
-                title = item.title,
-                price = item.price
-            )
+    suspend fun findItemByTitle(title: String) : ItemDTO {
+        val all = itemRepository.findAllWithCategory().toList()
+        val one = itemRepository.findByTitleWithCategory(title)
+
+        for(item in all){
+            println(item.title)
+            println(item.price)
+            println(item.category)
         }
+
+        if (one != null) {
+            println(one.title)
+            println(one.price)
+            println(one.category)
+        }
+
+        val qItem = QItem.item
+        val itemPredicate = qItem.title.eq(title)
+        val item = itemRepository.findOne(itemPredicate).awaitSingleOrNull()
+        println(item?.title)
+        println(item?.itemCategory)
+
         return ItemDTO(
             title = "asdfasdf",
-            price = 123123
+            price = 123123,
+            category = "3333"
         )
     }
 
     fun createDefaultAccount(): Account {
         return Account(
-            userId = "ididid",
+            userId = "defulatid",
             pwd = "", // 여기에 기본 비밀번호를 설정할 수 있습니다.
             sex = false,
             birtyday = LocalDateTime.now(),

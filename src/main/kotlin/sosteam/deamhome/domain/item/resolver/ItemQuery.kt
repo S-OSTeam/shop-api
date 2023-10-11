@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.item.resolver
 
 import lombok.RequiredArgsConstructor
+import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,7 +15,7 @@ class ItemQuery(
     private val itemService: ItemService
     ) {
     @QueryMapping
-    suspend fun getItemByTitle(title: String): ItemDTO{
+    suspend fun getItemByTitle(@Argument title: String): ItemDTO{
         println("before")
 //    ResponseEntity<Any> {
         return itemService.findItemByTitle(title)

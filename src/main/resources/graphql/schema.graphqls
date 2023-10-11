@@ -1,6 +1,7 @@
 type ItemDTO {
     title: String
     price: Int
+    category: String
 }
 
 type Image {

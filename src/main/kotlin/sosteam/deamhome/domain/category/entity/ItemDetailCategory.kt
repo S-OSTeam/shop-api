@@ -8,7 +8,7 @@ import sosteam.deamhome.global.entity.BaseEntity
 
 @Document
 @Builder
-class ItemDetailCategory(
+data class ItemDetailCategory(
 	var title: String,
 ) : BaseEntity() {
 	
