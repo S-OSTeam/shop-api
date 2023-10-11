@@ -1,18 +1,17 @@
 package sosteam.deamhome.domain.item.entity
 
 import lombok.Builder
-import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
+import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.entity.Image
-import sosteam.deamhome.global.entity.LogEntity
 
 @Document
 @Builder
-class Item(
+data class Item(
 	var title: String,
 	var content: String,
 	var summary: String,
@@ -24,29 +23,8 @@ class Item(
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
-	account: Account,
-	itemCategory: ItemCategory,
-	itemDetailCategory: ItemDetailCategory,
-	images: List<Image>
-) : LogEntity() {
-	
-	@DBRef(lazy = true)
-	@Setter
-	val account: Account = account
-	
-	@DBRef(lazy = true)
-	var images: ArrayList<Image> = images as ArrayList<Image>
-	
-	@DBRef(lazy = true)
-	@Setter
-	val itemCategory: ItemCategory = itemCategory
-	
-	@DBRef(lazy = true)
-	@Setter
-	private val itemDetailCategory: ItemDetailCategory = itemDetailCategory
-	
-	fun addImage(image: Image): List<Image> {
-		images.add(image)
-		return images
-	}
-}
+	@DocumentReference(lazy = true) var account: Account?,
+	@DocumentReference(lazy = true) var itemCategory: ItemCategory?,
+	@DocumentReference(lazy = true) var itemDetailCategory: ItemDetailCategory?,
+	@DocumentReference(lazy = true) var images: List<Image>?
+) : BaseEntity()

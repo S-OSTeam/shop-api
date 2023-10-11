@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 abstract class BaseEntity {
 	@Id
-	private lateinit var id: String
+	lateinit var id: String
 	
 	@CreatedDate
 	private var createdAt = LocalDateTime.now()
