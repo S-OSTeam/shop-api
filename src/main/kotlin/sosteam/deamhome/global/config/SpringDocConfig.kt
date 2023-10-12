@@ -12,7 +12,7 @@ class SpringDocConfig {
 	@Bean
 	fun openAPI(@Value("\${springdoc.version}") springdocVesion: String?): OpenAPI {
 		val info = Info()
-			.title("deamhome api 서버")
+			.title("DeamHome api 서버")
 			.version(springdocVesion)
 			.description("DeamHome의 서버 swagger 입니다.")
 		return OpenAPI()
