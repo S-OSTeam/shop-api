@@ -43,10 +43,10 @@ class AccountServiceTest(
     @Test
     @DisplayName("Account 생성 테스트")
     fun createAccount()= runBlocking{
-
+        val userId = "testUser"
 
         val requestDTO = AccountRequestDTO(
-            userId = "testUser",
+            userId = userId,
             pwd = "password",
             sex = true,
             birtyday = LocalDateTime.now(),
@@ -66,8 +66,9 @@ class AccountServiceTest(
 
         )
         accountService.createAccount(requestDTO)
+        val updated =accountStatusRepository.findByUserId(userId).block()!!.userId
+        assertEquals(updated, userId)
 
-        Assertions.assertEquals("123", "123")
     }
     @Test
     @DisplayName("AccountStatus 변경 테스트")

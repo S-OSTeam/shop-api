@@ -14,6 +14,7 @@ import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.Status
 import java.time.LocalDateTime
+import java.util.logging.ErrorManager
 
 @Service
 class AccountService(
@@ -38,6 +39,11 @@ class AccountService(
     }
 
     suspend fun createAccount(accountRequestDTO:AccountRequestDTO):Mono<AccountResponseDTO>{
+
+        if(accountRepository.findByUserId(accountRequestDTO.userId)!=null){
+            //에러 처리
+
+        }
         val accountStatus = AccountStatus(
             userId = accountRequestDTO.userId,
             snsId = accountRequestDTO.snsId,
@@ -65,9 +71,10 @@ class AccountService(
             Role.ROLE_GUEST,
             LocalDateTime.now()
         )
-        accountStatusRepository.insert(accountStatus)
+        accountStatusRepository.insert(accountStatus).awaitSingle()
+        val result = accountRepository.insert(account).awaitSingle()
 
-        return accountRepository.insert(account)
+        return Mono.just(result)
             .map{account -> AccountResponseDTO.fromAccount(account)}
     }
 
