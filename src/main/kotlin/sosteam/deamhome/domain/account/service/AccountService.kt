@@ -10,26 +10,39 @@ import sosteam.deamhome.domain.account.dto.AccountResponseDTO
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.Status
 import java.time.LocalDateTime
 
 @Service
 class AccountService(
-
-    private val accountRepository: AccountRepository
+    private val accountStatusRepository: AccountStatusRepository,
+    private val accountRepository: AccountRepository,
 ){
     fun getAllAccounts():Flux<Account>{
         return accountRepository.findAll()
     }
+    suspend fun updateAccountStatus(
+            userId: String,
+            status : Status,
+    ):Mono<AccountStatus>{
+        val accountStatus:AccountStatus? = accountStatusRepository.findByUserId(userId).block()
+        if(accountStatus == null){
+            //에러처리
+        }
+
+        accountStatus!!.status = status
+        accountStatusRepository.save(accountStatus).awaitSingle()
+        return Mono.just(accountStatus)
+    }
 
     suspend fun createAccount(accountRequestDTO:AccountRequestDTO):Mono<AccountResponseDTO>{
-//        val accountStatus = AccountStatus(
-//            userId = accountRequestDTO.userId,
-//            snsId = accountRequestDTO.snsId,
-//            status = Status.LIVE,
-//            account = null, //일단 null
-//        )
+        val accountStatus = AccountStatus(
+            userId = accountRequestDTO.userId,
+            snsId = accountRequestDTO.snsId,
+            status = Status.LIVE,
+        )
         val account = Account(
             accountRequestDTO.userId,
             accountRequestDTO.pwd,
@@ -52,12 +65,12 @@ class AccountService(
             Role.ROLE_GUEST,
             LocalDateTime.now()
         )
+        accountStatusRepository.insert(accountStatus)
+
         return accountRepository.insert(account)
             .map{account -> AccountResponseDTO.fromAccount(account)}
     }
 
-    fun updateAccountStatus(account: Account): Mono<Account>{
-        return accountRepository.save(account)
-    }
+
 
 }

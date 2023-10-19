@@ -1,6 +1,11 @@
 package sosteam.deamhome.schedulers
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
@@ -15,18 +20,19 @@ import java.time.LocalDateTime
 @Component
 class ScheduledTasks(
     @Autowired
-    private val accountService : AccountService
+    private val accountService : AccountService,
 ) {
     @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
-    fun manageDormantMembers() {
+    suspend fun manageDormantMembers()= runBlocking{
         val currentDate = LocalDateTime.now()
 
-        val dormantMembersFlux: Flux<Account> = accountService.getAllAccounts()
-            .filter { account -> isDormant(account.lastLoginDateTime, currentDate) }
-            .flatMap { account -> setMemberToDormant(account) }
+        val dormantMembersFlux = accountService.getAllAccounts()
+                .filter { account -> isDormant(account.lastLoginDateTime, currentDate) }
 
         dormantMembersFlux.subscribe { dormantAccount ->
-            println("Account ${dormantAccount.userId} has been set to dormant status.")
+            CoroutineScope(Dispatchers.IO).launch {
+                setMemberToDormant(dormantAccount)
+            }
         }
     }
 
@@ -34,9 +40,11 @@ class ScheduledTasks(
         return lastLoginDate != null && lastLoginDate.isBefore(currentDate.minusYears(1))
     }
 
-    private fun setMemberToDormant(account: Account): Mono<Account> {
-        account.setStatus(Status.DORMANT)
-        return accountService.updateAccountStatus(account)
+   private suspend fun setMemberToDormant(account: Account){
+
+       accountService.updateAccountStatus(account.userId,Status.DORMANT)
+
+
     }
 
 }
