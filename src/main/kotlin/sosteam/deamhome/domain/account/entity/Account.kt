@@ -57,9 +57,6 @@ data class Account(
 ) : LogEntity(), UserDetails {
 
 	@DocumentReference(lazy = true)
-	private lateinit var status: AccountStatus
-
-	@DocumentReference(lazy = true)
 	private val faqs: ArrayList<Faq> = ArrayList()
 
 	@DocumentReference(lazy = true)
@@ -72,9 +69,6 @@ data class Account(
 	fun addFaq(faq: Faq): List<Faq> {
 		faqs.add(faq)
 		return faqs
-	}
-	fun setStatus(status :Status){
-		this.status.status = status
 	}
 
 	fun addReview(review: Review): List<Review> {

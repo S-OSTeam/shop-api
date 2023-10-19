@@ -18,12 +18,7 @@ class AccountStatus(
 	val snsId: String,
 	
 	var status: Status = Status.LIVE,
-	
-	account: Account?
+
 ) : BaseEntity() {
-	
-	
-	@DBRef(lazy = true)
-	@Setter
-	private val account: Account? = account
+
 }
