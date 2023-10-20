@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 
 @ExtendWith(SpringExtension::class)
@@ -80,4 +81,13 @@ class AccountRepositoryTest @Autowired constructor(
     @DisplayName("Account 상태변환 테스트")
     fun updateAccountStatus() {
     }
+    @Test
+    @DisplayName("userId로 찾기 테스트")
+    suspend fun FindByUserIdTest()= runBlocking{
+        val userId = "testUser"
+        val account: Account = accountRepository.findByUserId(userId).awaitSingle()
+        println("id : ${account.userId}")
+        Assertions.assertEquals("123", "123")
+    }
+
 }

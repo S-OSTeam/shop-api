@@ -3,8 +3,12 @@ package sosteam.deamhome.schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactor.awaitSingle
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.MongoOperations
+import org.springframework.data.mongodb.core.ReactiveMongoOperations
 import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -19,9 +23,12 @@ import java.time.LocalDateTime
 
 @Component
 class ScheduledTasks(
-    @Autowired
-    private val accountService : AccountService,
+        @Autowired
+        private val accountService : AccountService,
+
+
 ) {
+
     @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
     suspend fun manageDormantMembers()= runBlocking{
         val currentDate = LocalDateTime.now()
@@ -40,11 +47,10 @@ class ScheduledTasks(
         return lastLoginDate != null && lastLoginDate.isBefore(currentDate.minusYears(1))
     }
 
-   private suspend fun setMemberToDormant(account: Account){
-
+   suspend fun setMemberToDormant(account: Account){
        accountService.updateAccountStatus(account.userId,Status.DORMANT)
 
+   }
 
-    }
 
 }

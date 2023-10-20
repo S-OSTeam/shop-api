@@ -74,15 +74,17 @@ class AccountServiceTest(
     @DisplayName("AccountStatus 변경 테스트")
     fun UpdateAccountStatus()= runBlocking {
         val userId :String = "testUser!!!"
+        val updatedStatus :Status = Status.LIVE
+
         val accountStatus: Mono<AccountStatus> = accountService.updateAccountStatus(
                 userId = userId,
-                status =  Status.DORMANT,
+                status = updatedStatus,
                 )
 
         accountStatus
                 .doOnNext { account -> println("AccountStatus: ${account.status}") }
                 .block()
         val updated =accountStatusRepository.findByUserId(userId).block()!!.status
-        assertEquals(updated, Status.DORMANT)
+        assertEquals(updated, updatedStatus)
     }
 }

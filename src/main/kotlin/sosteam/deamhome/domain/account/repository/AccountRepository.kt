@@ -8,4 +8,5 @@ import sosteam.deamhome.domain.account.entity.Account
 interface AccountRepository : ReactiveMongoRepository<Account, String> {
     override fun findAll(): Flux<Account>
     fun findByUserId(userId:String): Mono<Account>
+    override fun deleteById(id: String): Mono<Void>
 }
