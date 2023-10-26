@@ -29,7 +29,7 @@ class ScheduledTasks(
 
 ) {
 
-    @Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
+    @Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
     suspend fun manageDormantMembers()= runBlocking{
         val currentDate = LocalDateTime.now()
 
