@@ -16,23 +16,22 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.data.mongodb.core.ReactiveMongoOperations
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.account.service.AccountStatusService
+import sosteam.deamhome.global.BaseTest
 import sosteam.deamhome.global.attribute.Status
 
 
-@EnableAutoConfiguration
-@SpringBootTest
-@EnableMongoRepositories
-@EnableMongoAuditing
 class ScheduledTasksTest (
     @Autowired
-        private val accountService : AccountDataControlService,
+    private val accountStatusService : AccountStatusService,
     @Autowired
-        private val reactiveMongoOperations: ReactiveMongoOperations,
+    private val reactiveMongoOperations: ReactiveMongoOperations,
     @Autowired
-        private val accountRepository: AccountRepository,
+    private val accountRepository: AccountRepository,
+    @Autowired
+    private val accountDataControlService: AccountDataControlService,
 
-    ){
-
+    ):BaseTest(){
 
 
 //    @Test
@@ -59,9 +58,9 @@ class ScheduledTasksTest (
             //에러처리
         }else{
             println("id : ${account!!.userId}")
-            accountService.updateAccountStatus(account.userId,Status.DORMANT)
+            accountStatusService.updateAccountStatus(account.userId,Status.DORMANT)
             reactiveMongoOperations.save(account, "accounts_dormant").awaitSingleOrNull()
-            accountService.deleteAccount(account)
+            accountDataControlService.deleteAccount(account)
         }
     }
 }

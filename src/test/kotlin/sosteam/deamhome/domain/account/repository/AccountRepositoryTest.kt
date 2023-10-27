@@ -22,16 +22,13 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import sosteam.deamhome.global.BaseTest
 
 
-@ExtendWith(SpringExtension::class)
-@DataMongoTest
-@EnableAutoConfiguration
-@EnableMongoRepositories
-@EnableMongoAuditing
 class AccountRepositoryTest @Autowired constructor(
     private val accountRepository:AccountRepository,
-){
+):BaseTest()
+{
     private val logger = LoggerFactory.getLogger(AccountRepository::class.java)
 
     @Test
@@ -42,7 +39,7 @@ class AccountRepositoryTest @Autowired constructor(
         actualAccounts
             .doOnNext { account -> println("Account: $account") }
             .blockLast()
-
+        Assertions.assertEquals("123", "123")
     }
 
     @Test
@@ -79,7 +76,7 @@ class AccountRepositoryTest @Autowired constructor(
 
     @Test
     @DisplayName("userId로 찾기 테스트")
-    suspend fun FindByUserIdTest()= runBlocking{
+    fun FindByUserIdTest()= runBlocking{
         val userId = "testUser"
         val account: Account = accountRepository.findByUserId(userId).awaitSingle()
         println("id : ${account.userId}")

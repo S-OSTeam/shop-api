@@ -23,16 +23,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.core.publisher.Flux
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
+import sosteam.deamhome.global.BaseTest
 
 
-@ExtendWith(SpringExtension::class)
-@DataMongoTest
-@EnableAutoConfiguration
-@EnableMongoRepositories
-@EnableMongoAuditing
 class AccountStatusRepositoryTest @Autowired constructor(
     private val accountStatusRepository: AccountStatusRepository,
-){
+): BaseTest(){
     @Test
     @DisplayName("AccountStatus 전부 가져오기")
     fun getAllAccountStatus() =runBlocking {

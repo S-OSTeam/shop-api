@@ -5,11 +5,14 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.account.dto.request.AccountRequestDTO
@@ -17,14 +20,12 @@ import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.service.AccountDataControlService
 import sosteam.deamhome.domain.account.service.AccountGetService
+import sosteam.deamhome.global.BaseTest
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import java.time.LocalDateTime
 
-@EnableAutoConfiguration
-@SpringBootTest
-@EnableMongoRepositories
-@EnableMongoAuditing
+
 class AccountServiceTest(
     @Autowired
     private val accountDataControlService: AccountDataControlService,
@@ -32,7 +33,7 @@ class AccountServiceTest(
     private val accountStatusRepository: AccountStatusRepository,
     @Autowired
     private val accountGetService: AccountGetService,
-){
+): BaseTest(){
     @Test
     @DisplayName("Account 전부 가져오기")
     fun getAllAccounts() {
