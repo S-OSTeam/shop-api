@@ -78,10 +78,6 @@ class AccountRepositoryTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("Account 상태변환 테스트")
-    fun updateAccountStatus() {
-    }
-    @Test
     @DisplayName("userId로 찾기 테스트")
     suspend fun FindByUserIdTest()= runBlocking{
         val userId = "testUser"

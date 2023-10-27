@@ -12,10 +12,11 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import sosteam.deamhome.domain.account.dto.AccountRequestDTO
+import sosteam.deamhome.domain.account.dto.request.AccountRequestDTO
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.entity.AccountStatus
-import sosteam.deamhome.domain.account.service.AccountService
+import sosteam.deamhome.domain.account.service.AccountDataControlService
+import sosteam.deamhome.domain.account.service.AccountGetService
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import java.time.LocalDateTime
@@ -26,14 +27,16 @@ import java.time.LocalDateTime
 @EnableMongoAuditing
 class AccountServiceTest(
     @Autowired
-    private val accountService: AccountService,
+    private val accountDataControlService: AccountDataControlService,
     @Autowired
     private val accountStatusRepository: AccountStatusRepository,
+    @Autowired
+    private val accountGetService: AccountGetService,
 ){
     @Test
     @DisplayName("Account 전부 가져오기")
     fun getAllAccounts() {
-        val actualAccounts: Flux<Account> = accountService.getAllAccounts()
+        val actualAccounts: Flux<Account> = accountGetService.getAllAccounts()
 
         actualAccounts
             .doOnNext { account -> println("Account: $account") }
@@ -65,26 +68,10 @@ class AccountServiceTest(
             point = 0
 
         )
-        accountService.createAccount(requestDTO)
+        accountDataControlService.createAccount(requestDTO)
         val updated =accountStatusRepository.findByUserId(userId).block()!!.userId
         assertEquals(updated, userId)
 
     }
-    @Test
-    @DisplayName("AccountStatus 변경 테스트")
-    fun UpdateAccountStatus()= runBlocking {
-        val userId :String = "testUser!!!"
-        val updatedStatus :Status = Status.LIVE
 
-        val accountStatus: Mono<AccountStatus> = accountService.updateAccountStatus(
-                userId = userId,
-                status = updatedStatus,
-                )
-
-        accountStatus
-                .doOnNext { account -> println("AccountStatus: ${account.status}") }
-                .block()
-        val updated =accountStatusRepository.findByUserId(userId).block()!!.status
-        assertEquals(updated, updatedStatus)
-    }
 }

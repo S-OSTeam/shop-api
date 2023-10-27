@@ -4,35 +4,18 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.jdbc.Sql
 import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.account.service.AccountService
-import java.time.LocalDateTime
-import io.mockk.every
-import io.mockk.mockk
+import sosteam.deamhome.domain.account.service.AccountDataControlService
 import kotlinx.coroutines.reactive.awaitFirstOrDefault
-import kotlinx.coroutines.reactive.awaitFirstOrNull
-import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.data.mongodb.config.EnableMongoAuditing
-import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.ReactiveMongoOperations
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
-import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.account.service.AccountRepositoryTest
 import sosteam.deamhome.global.attribute.Status
 
 
@@ -41,14 +24,14 @@ import sosteam.deamhome.global.attribute.Status
 @EnableMongoRepositories
 @EnableMongoAuditing
 class ScheduledTasksTest (
-        @Autowired
-        private val accountService : AccountService,
-        @Autowired
+    @Autowired
+        private val accountService : AccountDataControlService,
+    @Autowired
         private val reactiveMongoOperations: ReactiveMongoOperations,
-        @Autowired
+    @Autowired
         private val accountRepository: AccountRepository,
 
-){
+    ){
 
 
 
