@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.account.dto
+package sosteam.deamhome.domain.account.dto.request
 
 import org.springframework.data.mongodb.core.index.Indexed
 import sosteam.deamhome.domain.account.entity.AccountStatus

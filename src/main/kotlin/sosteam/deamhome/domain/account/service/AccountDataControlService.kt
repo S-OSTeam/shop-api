@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.account.service
 
 import kotlinx.coroutines.reactor.awaitSingle
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.account.dto.request.AccountRequestDTO

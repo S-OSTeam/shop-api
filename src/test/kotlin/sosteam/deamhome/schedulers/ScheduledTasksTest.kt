@@ -55,7 +55,7 @@ class ScheduledTasksTest (
         val account:Account? = accountRepository.findByUserId(userId).awaitFirstOrDefault(null)
 
         if(account == null){
-            //에러처리
+            //TODO: 에러처리
         }else{
             println("id : ${account!!.userId}")
             accountStatusService.updateAccountStatus(account.userId,Status.DORMANT)

@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.account.dto
+package sosteam.deamhome.domain.account.dto.response
 
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.attribute.SNS

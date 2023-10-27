@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.account.repository
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -36,12 +37,12 @@ class AccountServiceTest(
 ): BaseTest(){
     @Test
     @DisplayName("Account 전부 가져오기")
-    fun getAllAccounts() {
-        val actualAccounts: Flux<Account> = accountGetService.getAllAccounts()
+    fun getAllAccounts() =runBlocking {
+        val actualAccounts: Flow<Account> = accountGetService.getAllAccounts()
 
-        actualAccounts
-            .doOnNext { account -> println("Account: $account") }
-            .blockLast()
+        actualAccounts.collect { account ->
+            println("Account: $account")
+        }
         Assertions.assertEquals("123", "123")
     }
     @Test
