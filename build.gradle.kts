@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.1.4"
 	id("io.spring.dependency-management") version "1.1.3"
 	id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
+	id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
 	kotlin("kapt") version "1.8.22"
@@ -23,6 +24,12 @@ version = "1.0.0"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
 }
 
 repositories {
@@ -72,7 +79,10 @@ dependencies {
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.mockk:mockk:1.13.2")
 
+	testImplementation("com.ninja-squad:springmockk:3.1.1")
+	
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+	implementation ("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 
 }
 
@@ -93,4 +103,16 @@ tasks.withType<Test> {
 
 kapt {
 	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")
+}
+
+val querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets.getByName("main") {
+	java.srcDir(querydslDir)
+}
+
+configurations {
+	named("querydsl") {
+		extendsFrom(configurations.compileClasspath.get())
+	}
 }
