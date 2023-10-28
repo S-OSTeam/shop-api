@@ -31,7 +31,7 @@ class ItemServiceTest {
     private lateinit var itemDetailCategoryRepository: ItemDetailCategoryRepository
 
     @InjectMockKs
-    private lateinit var itemService: ItemService
+    private lateinit var itemService: ItemCreateService
 
     @Test
     fun createItemTest() = runBlocking {
