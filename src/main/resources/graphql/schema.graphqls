@@ -4,6 +4,10 @@ type ItemDTO {
     category: String
 }
 
+type ItemCategoryDTO{
+    title: String
+}
+
 type Image {
     fileName: String
     fileOriginName: String
@@ -17,7 +21,18 @@ type Query {
 }
 
 type Mutation {
-    createItem(request: ItemCreateRequest): ItemDTO
+    createItem(request: ItemCreateRequest): ItemCategoryDTO
+    createCategory(request: CategoryCreateRequest): ItemCategoryDTO
+    createDetailCategory(request: DetailCategoryCreateRequest): ItemCategoryDTO
+}
+
+input CategoryCreateRequest {
+    title: String
+}
+
+input DetailCategoryCreateRequest {
+    title: String
+    categoryTitle: String
 }
 
 input ItemCreateRequest {

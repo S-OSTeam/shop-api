@@ -12,8 +12,7 @@ data class ItemCreateRequest(
     val reviewCnt: Int = 0,
     val qnaCnt: Int = 0,
     val status: Boolean = false,
-    val userId: String,
     val categoryTitle: String,
     val detailCategoryTitle: String,
-    val imageId: List<String>
+    val imageId: MutableList<String>
 )

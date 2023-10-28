@@ -9,4 +9,5 @@ import sosteam.deamhome.domain.item.entity.Item
 @Repository
 interface ItemCategoryRepository : ReactiveMongoRepository<ItemCategory, String> {
     suspend fun findByTitle(name: String): ItemCategory?
+
 }

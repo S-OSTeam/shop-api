@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
+import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.entity.Image
 
@@ -22,9 +23,31 @@ data class Item(
 	val avgReview: Double = 0.0,
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
-	val status: Boolean = false,
-	@DocumentReference(lazy = true) var account: Account?,
-	@DocumentReference(lazy = true) var itemCategory: ItemCategory?,
-	@DocumentReference(lazy = true) var itemDetailCategory: ItemDetailCategory?,
-	@DocumentReference(lazy = true) var images: List<Image>?
-) : BaseEntity()
+	val status: Boolean = false
+) : BaseEntity(){
+	var images: MutableList<String> = mutableListOf()
+	@DocumentReference(lazy = true) var account: Account? = null
+
+	fun modifyImage(images: MutableList<String>): MutableList<String>{
+		this.images = images
+		return this.images
+	}
+
+	companion object {
+		fun fromRequest(request: ItemCreateRequest, account: Account): Item {
+			return Item(
+				title = request.title,
+				content = request.content,
+				summary = request.summary,
+				price = request.price,
+				sellCnt = request.sellCnt,
+				wishCnt = request.wishCnt,
+				clickCnt = request.clickCnt,
+				avgReview = request.avgReview,
+				reviewCnt = request.reviewCnt,
+				qnaCnt = request.qnaCnt,
+				status = request.status
+			).apply { images = request.imageId }
+		}
+	}
+}
