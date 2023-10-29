@@ -1,0 +1,3 @@
+package sosteam.deamhome.domain.account.repository.custom
+
+interface AccountCustomRepository

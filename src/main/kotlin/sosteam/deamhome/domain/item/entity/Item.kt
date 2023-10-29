@@ -2,8 +2,8 @@ package sosteam.deamhome.domain.item.entity
 
 import lombok.Builder
 import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
@@ -30,18 +30,18 @@ class Item(
 	images: List<Image>
 ) : LogEntity() {
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	val account: Account = account
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	var images: ArrayList<Image> = images as ArrayList<Image>
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	val itemCategory: ItemCategory = itemCategory
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	private val itemDetailCategory: ItemDetailCategory = itemDetailCategory
 	

@@ -1,0 +1,27 @@
+input signUpRequest{
+    userId: String!
+    pwd: String!
+    sex: Boolean
+    birthday: DateTime
+    zipcode: String!
+    address1: String!
+    address2: String
+    address3: String
+    address4: String
+
+    email: String!
+    phone: String
+    receiveMail: Boolean!
+
+    snsId: String
+    sns: String
+
+    userName: String!
+}
+
+input loginRequest{
+    pwd: String!
+    userId: String
+    snsId: String
+    sns: String
+}

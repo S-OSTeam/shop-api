@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.DocumentReference
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import sosteam.deamhome.domain.faq.entity.Faq
 import sosteam.deamhome.domain.item.entity.Wishlist
-import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
@@ -53,21 +51,19 @@ data class Account(
 	
 	) : LogEntity() {
 	
-	private val faqs: ArrayList<Faq> = ArrayList()
+	private val faqs: ArrayList<String> = ArrayList()
 	
-	@DocumentReference(lazy = true)
 	@Setter
-	private val wishlist: Wishlist? = null
+	private val wishlist: ArrayList<Wishlist> = ArrayList()
 	
-	@DocumentReference(lazy = true)
-	private val reviews: ArrayList<Review> = ArrayList()
+	private val reviews: ArrayList<String> = ArrayList()
 	
-	fun addFaq(faq: Faq): List<Faq> {
-		faqs.add(faq)
+	fun addFaq(faq: Faq): List<String> {
+		faqs.add(faq.id)
 		return faqs
 	}
 	
-	fun addReview(review: Review): List<Review> {
+	fun addReview(review: String): List<String> {
 		reviews.add(review)
 		return reviews
 	}

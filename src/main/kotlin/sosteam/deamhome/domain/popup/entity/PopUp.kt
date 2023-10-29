@@ -3,8 +3,8 @@ package sosteam.deamhome.domain.popup.entity
 import jakarta.validation.constraints.NotNull
 import lombok.Builder
 import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.entity.Image
@@ -25,11 +25,11 @@ class PopUp(
 	account: Account
 ) : BaseEntity() {
 	
-	@DBRef
+	@DocumentReference
 	@Setter
 	var image: Image = image
 	
-	@DBRef
+	@DocumentReference
 	@Setter
 	val account: Account = account
 }
