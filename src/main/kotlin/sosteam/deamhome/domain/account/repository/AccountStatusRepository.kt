@@ -8,6 +8,6 @@ import sosteam.deamhome.domain.account.entity.AccountStatus
 
 interface AccountStatusRepository : ReactiveMongoRepository<AccountStatus, String> {
     fun deleteByUserId(userId:String): Flux<AccountStatus>
-    fun findByUserId(userId:String): Mono<AccountStatus>
+    suspend fun findByUserId(userId:String): AccountStatus?
     override fun findAll(): Flux<AccountStatus>
 }

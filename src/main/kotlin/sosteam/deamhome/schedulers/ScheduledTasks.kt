@@ -23,7 +23,7 @@ class ScheduledTasks(
 ) {
 
     @Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
-    suspend fun manageDormantMembers()= runBlocking{
+    suspend fun manageDormantMembers(){
         val currentDate = LocalDateTime.now()
 
         val dormantMembersFlux = accountGetService.getAllAccounts()

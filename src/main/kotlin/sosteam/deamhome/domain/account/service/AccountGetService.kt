@@ -13,10 +13,10 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 class AccountGetService(
     private val accountRepository: AccountRepository,
 ){
-    fun getAllAccounts(): Flow<Account> {
+    suspend fun getAllAccounts(): Flow<Account> {
         return accountRepository.findAll().asFlow()
     }
-    fun findByUserId(userId:String): Mono<Account> {
+    suspend fun findByUserId(userId:String): Account? {
         return accountRepository.findByUserId(userId)
     }
 

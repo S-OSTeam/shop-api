@@ -78,8 +78,8 @@ class AccountRepositoryTest @Autowired constructor(
     @DisplayName("userId로 찾기 테스트")
     fun FindByUserIdTest()= runBlocking{
         val userId = "testUser"
-        val account: Account = accountRepository.findByUserId(userId).awaitSingle()
-        println("id : ${account.userId}")
+        val account: Account? = accountRepository.findByUserId(userId)
+        println("id : ${account?.userId}")
         Assertions.assertEquals("123", "123")
     }
 
