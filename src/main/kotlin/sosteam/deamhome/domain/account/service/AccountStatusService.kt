@@ -27,7 +27,7 @@ class AccountStatusService(
         userId : String,
         status : Status,
     ): Mono<AccountStatus> {
-        val accountStatus: AccountStatus? = accountStatusRepository.findByUserId(userId).awaitFirstOrDefault(null)
+        val accountStatus: AccountStatus? = accountStatusRepository.findByUserId(userId)
         if(accountStatus == null){
             //에러처리
         }
@@ -35,7 +35,7 @@ class AccountStatusService(
         accountStatusRepository.save(accountStatus).awaitSingle() // accountStatus 상태 바꿔줌
 
         if(status == Status.DORMANT){ // 휴면계정으로의 전환
-            val account: Account? = accountRepository.findByUserId(userId).awaitFirstOrDefault(null)
+            val account: Account? = accountRepository.findByUserId(userId)
             if(account == null){
                 //TODO : 에러처리
             }

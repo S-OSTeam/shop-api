@@ -71,7 +71,7 @@ class AccountServiceTest(
 
         )
         accountDataControlService.createAccount(requestDTO)
-        val updated =accountStatusRepository.findByUserId(userId).block()!!.userId
+        val updated =accountStatusRepository.findByUserId(userId)!!.userId
         assertEquals(updated, userId)
 
     }

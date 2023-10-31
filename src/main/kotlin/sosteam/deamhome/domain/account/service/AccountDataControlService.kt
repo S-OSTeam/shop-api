@@ -24,7 +24,7 @@ class AccountDataControlService(
         accountRepository.delete(account).awaitSingle()
     }
 
-    suspend fun createAccount(accountRequestDTO: AccountRequestDTO):Mono<AccountResponseDTO>{
+    suspend fun createAccount(accountRequestDTO: AccountRequestDTO):AccountResponseDTO?{
 
         if(accountRepository.findByUserId(accountRequestDTO.userId)!=null){
             //TODO : 에러 처리
@@ -60,8 +60,7 @@ class AccountDataControlService(
         accountStatusRepository.insert(accountStatus).awaitSingle()
         val result = accountRepository.insert(account).awaitSingle()
 
-        return Mono.just(result)
-            .map{account -> AccountResponseDTO.fromAccount(account)}
+        return result?.let { AccountResponseDTO.fromAccount(it) }
     }
 
 
