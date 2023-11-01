@@ -4,12 +4,9 @@ import lombok.Builder
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.entity.BaseEntity
-import sosteam.deamhome.global.entity.Image
 
 @Document
 @Builder
@@ -34,7 +31,7 @@ data class Item(
 		return this.images
 	}
 
-	fun Item.toItemDTO(): ItemDTO {
+	fun toItemDTO(): ItemDTO {
 		return ItemDTO(
 			title = this.title,
 			content = this.content,

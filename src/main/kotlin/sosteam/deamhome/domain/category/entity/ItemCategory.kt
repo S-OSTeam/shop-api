@@ -4,6 +4,7 @@ import lombok.Builder
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.domain.category.dto.ItemCategoryDTO2
+import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.global.entity.BaseEntity
 
 
@@ -26,5 +27,11 @@ data class ItemCategory(
             title = this.title,
             itemDetailCategories = this.itemDetailCategories
         )
+    }
+
+    fun toItemDTOList(): List<ItemDTO> {
+        return itemDetailCategories
+            .flatMap { it.items }
+            .map { it.toItemDTO() }
     }
 }
