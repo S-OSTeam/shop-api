@@ -8,6 +8,31 @@ type ItemCategoryDTO{
     title: String
 }
 
+type ItemCategoryDTO2{
+    title: String,
+    itemDetailCategories: [ItemDetailCategory]
+}
+
+type ItemDetailCategory{
+    title: String,
+    items: [Item]
+}
+
+type Item{
+    title: String
+    content: String
+    summary: String
+    price: Int
+    sellCnt: Int
+    wishCnt: Int
+    clickCnt: Int
+    avgReview: Float
+    reviewCnt: Int
+    qnaCnt: Int
+    status: Boolean
+    imageId: [String]
+}
+
 type Image {
     fileName: String
     fileOriginName: String
@@ -17,7 +42,10 @@ type Image {
 }
 
 type Query {
-    getItemByTitle(title: String): ItemDTO
+#    getItemByTitle(title: String): ItemDTO
+    findCategoryByTitle(title: String): ItemCategoryDTO2
+    getItemsContainsTitle(title: String): [ItemCategoryDTO2]
+
 }
 
 type Mutation {

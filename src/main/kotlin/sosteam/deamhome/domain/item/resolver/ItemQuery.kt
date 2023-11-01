@@ -8,7 +8,6 @@ import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.service.ItemCreateService
 
 @RestController
-@RequiredArgsConstructor
 class ItemQuery(
     private val itemService: ItemCreateService
     ) {
