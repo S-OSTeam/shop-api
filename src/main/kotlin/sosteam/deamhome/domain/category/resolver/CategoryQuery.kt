@@ -1,17 +1,13 @@
 package sosteam.deamhome.domain.category.resolver
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactor.asFlux
-import kotlinx.coroutines.reactor.flux
-import kotlinx.coroutines.reactor.mono
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import sosteam.deamhome.domain.category.dto.ItemCategoryDTO2
 import sosteam.deamhome.domain.category.service.CategorySearchService
-import java.util.concurrent.CompletableFuture
+import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 
 @RestController
 class CategoryQuery (
@@ -24,9 +20,17 @@ class CategoryQuery (
     }
 
     @QueryMapping
-    fun getItemsContainsTitle(@Argument title:String): Flow<ItemCategoryDTO2> {
+    fun getItemCategoriesContainsTitle(@Argument title:String): Flux<ItemCategoryDTO2> {
+        val itemCategoriesContainsTitle = categorySearchService.getItemCategoriesContainsTitle(title)
+            .asFlux()
+        return itemCategoriesContainsTitle
+    }
+
+    @QueryMapping
+    fun getItemsContainsTitle(@Argument title:String): Flux<ItemDTO> {
         val itemsContainsTitle = categorySearchService.getItemsContainsTitle(title)
-//            .asFlux()
+            .asFlux()
         return itemsContainsTitle
     }
+
 }

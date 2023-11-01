@@ -44,7 +44,8 @@ type Image {
 type Query {
 #    getItemByTitle(title: String): ItemDTO
     findCategoryByTitle(title: String): ItemCategoryDTO2
-    getItemsContainsTitle(title: String): [ItemCategoryDTO2]
+    getItemCategoriesContainsTitle(title: String): [ItemCategoryDTO2]
+    getItemsContainsTitle(title: String): [ItemDTO]
 
 }
 

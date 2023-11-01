@@ -39,7 +39,7 @@ class CategorySearchServiceTest {
     }
 
     @Test
-    fun `getItemsContainsTitle should return Flow of ItemCategoryDTO2`() = runTest {
+    fun `getItemCategoriesContainsTitle should return Flow of ItemCategoryDTO2`() = runTest {
         // Arrange
         val title1 = "Test Category"
         val title2 = "Test Category2"
@@ -56,10 +56,10 @@ class CategorySearchServiceTest {
         val itemCategoryList = listOf(itemCategory1, itemCategory2)
         val dtoList = itemCategoryList.map { it.toDTO() }
 
-        coEvery { itemCategoryRepository.getItemsContainsTitle(searchKeyword) } returns dtoList.asFlow()
+        coEvery { itemCategoryRepository.getItemCategoriesContainsTitle(searchKeyword) } returns dtoList.asFlow()
 
         // Act
-        val result = service.getItemsContainsTitle(searchKeyword)
+        val result = service.getItemCategoriesContainsTitle(searchKeyword)
 
         // Assert
         result.collect {
