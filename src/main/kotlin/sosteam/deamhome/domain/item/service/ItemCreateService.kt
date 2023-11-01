@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.category.DTO.ItemCategoryDTO
+import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
@@ -16,12 +16,13 @@ import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 class ItemCreateService(
     private val accountRepository: AccountRepository,
     private val itemCategoryRepository: ItemCategoryRepository
     ) {
-    @Transactional
-    suspend fun createItem(request: ItemCreateRequest) : ItemCategoryDTO{
+
+    suspend fun createItem(request: ItemCreateRequest) : ItemCategoryDTO {
         val minho = createDefaultAccount()
         val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)
         val itemDetailCategories = itemCategory.itemDetailCategories

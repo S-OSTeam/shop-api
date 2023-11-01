@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
+import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.entity.Image
@@ -33,6 +34,24 @@ data class Item(
 		return this.images
 	}
 
+	fun Item.toItemDTO(): ItemDTO {
+		return ItemDTO(
+			title = this.title,
+			content = this.content,
+			summary = this.summary,
+			price = this.price,
+			sellCnt = this.sellCnt,
+			wishCnt = this.wishCnt,
+			clickCnt = this.clickCnt,
+			avgReview = this.avgReview,
+			reviewCnt = this.reviewCnt,
+			qnaCnt = this.qnaCnt,
+			status = this.status,
+			account = this.account,
+			images = this.images.toList()
+		)
+	}
+
 	companion object {
 		fun fromRequest(request: ItemCreateRequest, account: Account): Item {
 			return Item(
@@ -49,5 +68,6 @@ data class Item(
 				status = request.status
 			).apply { images = request.imageId }
 		}
+
 	}
 }

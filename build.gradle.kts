@@ -59,6 +59,11 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mockito:mockito-core:5.2.0")
+	testImplementation("org.springframework.graphql:spring-graphql-test")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+//	testImplementation("io.kotest:kotest-core:4.1.3")
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
+	testImplementation("io.kotest:kotest-framework-datatest:5.6.2")
 
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
