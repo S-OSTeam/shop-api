@@ -1,7 +1,22 @@
 type ItemDTO {
     title: String
-    price: Int
-    category: String
+    content: String
+    summary: String
+    sellCnt: Int
+    wishCnt: Int
+    clickCnt: Int
+    avgReview: Float
+    reviewCnt: Int
+    qnaCnt: Int
+    status: Boolean
+    images: [String]
+#    account: Account
+    account: String
+}
+
+type ItemDetailCategoryResponse{
+    title: String
+    itemIdList: [String]
 }
 
 type ItemCategoryDTO{
@@ -15,7 +30,7 @@ type ItemCategoryDTO2{
 
 type ItemDetailCategory{
     title: String,
-    items: [Item]
+    itemIdList: [String]
 }
 
 type Item{
@@ -45,12 +60,13 @@ type Query {
 #    getItemByTitle(title: String): ItemDTO
     findCategoryByTitle(title: String): ItemCategoryDTO2
     getItemCategoriesContainsTitle(title: String): [ItemCategoryDTO2]
-    getItemsContainsTitle(title: String): [ItemDTO]
+#    getItemsContainsTitle(title: String): [ItemDTO]
+    getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponse
 
 }
 
 type Mutation {
-    createItem(request: ItemCreateRequest): ItemCategoryDTO
+    createItem(request: ItemCreateRequest): ItemDTO
     createCategory(request: CategoryCreateRequest): ItemCategoryDTO
     createDetailCategory(request: DetailCategoryCreateRequest): ItemCategoryDTO
 }

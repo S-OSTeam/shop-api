@@ -10,6 +10,7 @@ import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.attribute.Role
@@ -24,7 +25,9 @@ class ItemCreateService(
     private val itemRepository: ItemRepository
     ) {
 
-    suspend fun createItem(request: ItemCreateRequest) : ItemCategoryDTO {
+    //TODO  account find by 로 수정
+    //TODO account, itemCategory, itemDetailCategory findby 해서 없으면 만들지 말고 에러처리
+    suspend fun createItem(request: ItemCreateRequest) : ItemDTO {
         val minho = createDefaultAccount()
         val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)
         val itemDetailCategories = itemCategory.itemDetailCategories
@@ -37,18 +40,20 @@ class ItemCreateService(
             itemCategory.modifyDetailCategory(itemDetailCategories)
         }
 
-        val items = existingItemDetailCategory.items
+        val items = existingItemDetailCategory.itemIdList
         val item = Item.fromRequest(request, minho)
-        items.add(item)
-        items.add(item)
-        items.add(item)
 
         val insert = itemRepository.save(item).awaitSingleOrNull()
-        println(insert)
+//        에러처리? 지금은 unique index 가 없어서 넣으면 무조건 들어감
+//            ?: null
+        val itemDTO = insert!!.toItemDTO()
 
-//        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
-//        println(inserted)
-        return ItemCategoryDTO(title = "inserted?.title")
+        items.add(item.id)
+        println(item.id)
+
+        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
+
+        return itemDTO
     }
 
     fun createDefaultAccount(): Account {
