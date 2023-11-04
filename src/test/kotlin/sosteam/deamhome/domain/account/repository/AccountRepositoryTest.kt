@@ -29,7 +29,7 @@ class AccountRepositoryTest @Autowired constructor(
     private val accountRepository:AccountRepository,
 ):BaseTest()
 {
-    private val logger = LoggerFactory.getLogger(AccountRepository::class.java)
+    private val logger = LoggerFactory.getLogger(this.javaClass)
 
     @Test
     @DisplayName("Account 전부 가져오기")
@@ -37,7 +37,7 @@ class AccountRepositoryTest @Autowired constructor(
         val actualAccounts:Flux<Account> = accountRepository.findAll()
 
         actualAccounts
-            .doOnNext { account -> println("Account: $account") }
+            .doOnNext { account -> logger.info("Account: $account") }
             .blockLast()
         Assertions.assertEquals("123", "123")
     }

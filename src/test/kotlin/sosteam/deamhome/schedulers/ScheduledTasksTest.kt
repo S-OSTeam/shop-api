@@ -19,6 +19,8 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.service.AccountStatusService
 import sosteam.deamhome.global.BaseTest
 import sosteam.deamhome.global.attribute.Status
+import sosteam.deamhome.global.exception.DefaultException
+import sosteam.deamhome.global.exception.ErrorCode
 
 
 class ScheduledTasksTest (
@@ -52,10 +54,10 @@ class ScheduledTasksTest (
     @DisplayName("Dormant 전환함수 테스트")
     fun SetMemberToDormant()= runBlocking {
         val userId :String = "testUser"
-        val account:Account? = accountRepository.findByUserId(userId).awaitFirstOrDefault(null)
+        val account:Account? = accountRepository.findByUserId(userId)
 
         if(account == null){
-            //TODO: 에러처리
+            throw DefaultException(errorCode = ErrorCode.ACCOUNT_NOT_FOUND)
         }else{
             println("id : ${account!!.userId}")
             accountStatusService.updateAccountStatus(account.userId,Status.DORMANT)
