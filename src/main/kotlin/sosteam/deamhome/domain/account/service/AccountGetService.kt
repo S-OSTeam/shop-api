@@ -17,5 +17,4 @@ class AccountGetService(
 	suspend fun findByUserId(userId: String): Account {
 		return accountRepository.findAccountByUserId(userId)
 	}
-	
 }

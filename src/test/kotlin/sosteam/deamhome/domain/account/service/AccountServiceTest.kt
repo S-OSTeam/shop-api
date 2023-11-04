@@ -65,5 +65,4 @@ class AccountServiceTest(
 		assertEquals(updated, userId)
 		
 	}
-	
 }

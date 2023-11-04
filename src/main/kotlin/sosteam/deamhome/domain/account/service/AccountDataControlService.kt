@@ -57,5 +57,4 @@ class AccountDataControlService(
 		return AccountResponseDTO.fromAccount(result)
 	}
 	
-	
 }

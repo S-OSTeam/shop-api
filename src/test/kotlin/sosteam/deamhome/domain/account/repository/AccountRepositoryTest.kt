@@ -60,5 +60,5 @@ class AccountRepositoryTest @Autowired constructor(
 		
 		assertEquals("123", "123")
 	}
-	
+
 }
