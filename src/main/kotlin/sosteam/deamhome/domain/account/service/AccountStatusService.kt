@@ -14,6 +14,8 @@ import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.Status
+import sosteam.deamhome.global.exception.DefaultException
+import sosteam.deamhome.global.exception.ErrorCode
 
 @Service
 class AccountStatusService(
@@ -29,7 +31,7 @@ class AccountStatusService(
     ): Mono<AccountStatus> {
         val accountStatus: AccountStatus? = accountStatusRepository.findByUserId(userId)
         if(accountStatus == null){
-            //에러처리
+            throw DefaultException(errorCode = ErrorCode.ACCOUNT_STATUS_NOT_FOUND)
         }
         accountStatus!!.status = status
         accountStatusRepository.save(accountStatus).awaitSingle() // accountStatus 상태 바꿔줌
@@ -37,7 +39,7 @@ class AccountStatusService(
         if(status == Status.DORMANT){ // 휴면계정으로의 전환
             val account: Account? = accountRepository.findByUserId(userId)
             if(account == null){
-                //TODO : 에러처리
+                throw DefaultException(errorCode = ErrorCode.ACCOUNT_NOT_FOUND)
             }
             reactiveMongoOperations.save(account!!, "accounts_dormant").awaitSingleOrNull()
             accountRepository.delete(account).awaitSingle()
@@ -48,7 +50,7 @@ class AccountStatusService(
                 .findOne(query, Account::class.java, "accounts_dormant")
                 .awaitSingleOrNull()
             if(account == null){
-                //TODO : 에러처리
+                throw DefaultException(errorCode = ErrorCode.ACCOUNT_NOT_FOUND)
             }
             reactiveMongoOperations
                 .remove(query, Account::class.java, "accounts_dormant")

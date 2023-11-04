@@ -12,6 +12,8 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.Status
+import sosteam.deamhome.global.exception.DefaultException
+import sosteam.deamhome.global.exception.ErrorCode
 import java.time.LocalDateTime
 
 @Service
@@ -27,9 +29,9 @@ class AccountDataControlService(
     suspend fun createAccount(accountRequestDTO: AccountRequestDTO):AccountResponseDTO?{
 
         if(accountRepository.findByUserId(accountRequestDTO.userId)!=null){
-            //TODO : 에러 처리
-
+            throw DefaultException(errorCode = ErrorCode.ACCOUNT_NOT_FOUND)
         }
+
         val accountStatus = AccountStatus(
             userId = accountRequestDTO.userId,
             snsId = accountRequestDTO.snsId,
