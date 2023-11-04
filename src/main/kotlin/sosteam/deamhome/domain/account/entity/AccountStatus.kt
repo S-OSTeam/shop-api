@@ -1,12 +1,11 @@
 package sosteam.deamhome.domain.account.entity
 
 import lombok.Builder
-import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.BaseEntity
+import java.time.LocalDateTime
 
 @Document
 @Builder
@@ -18,7 +17,6 @@ class AccountStatus(
 	val snsId: String,
 	
 	var status: Status = Status.LIVE,
-
-) : BaseEntity() {
-
-}
+	
+	val loginAt: LocalDateTime = LocalDateTime.now()
+) : BaseEntity()

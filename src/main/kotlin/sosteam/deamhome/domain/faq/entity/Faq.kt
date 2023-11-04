@@ -1,8 +1,8 @@
 package sosteam.deamhome.domain.faq.entity
 
 import lombok.Builder
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.entity.LogEntity
 
@@ -17,12 +17,12 @@ class Faq(
 ) : LogEntity() {
 	
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	val user: Account = user
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	lateinit var admin: Account
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	var category: FaqCategory = category
 }

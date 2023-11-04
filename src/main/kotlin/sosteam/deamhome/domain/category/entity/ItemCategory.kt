@@ -1,8 +1,8 @@
 package sosteam.deamhome.domain.category.entity
 
 import lombok.Builder
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.BaseEntity
 
@@ -13,10 +13,10 @@ class ItemCategory(
 	itemDetailCategory: ItemDetailCategory
 ) : BaseEntity() {
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	var items: List<Item> = ArrayList()
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	val itemDetailCategory: ItemDetailCategory = itemDetailCategory
 	
 	fun modifyItems(items: List<Item>): List<Item> {
