@@ -10,6 +10,7 @@ import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
@@ -19,7 +20,8 @@ import java.time.LocalDateTime
 @Transactional
 class ItemCreateService(
     private val accountRepository: AccountRepository,
-    private val itemCategoryRepository: ItemCategoryRepository
+    private val itemCategoryRepository: ItemCategoryRepository,
+    private val itemRepository: ItemRepository
     ) {
 
     suspend fun createItem(request: ItemCreateRequest) : ItemCategoryDTO {
@@ -38,9 +40,15 @@ class ItemCreateService(
         val items = existingItemDetailCategory.items
         val item = Item.fromRequest(request, minho)
         items.add(item)
+        items.add(item)
+        items.add(item)
 
-        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
-        return ItemCategoryDTO(title = inserted?.title)
+        val insert = itemRepository.save(item).awaitSingleOrNull()
+        println(insert)
+
+//        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
+//        println(inserted)
+        return ItemCategoryDTO(title = "inserted?.title")
     }
 
     fun createDefaultAccount(): Account {
