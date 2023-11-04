@@ -29,9 +29,9 @@ data class ItemCategory(
         )
     }
 
-    fun toItemDTOList(): List<ItemDTO> {
-        return itemDetailCategories
-            .flatMap { it.items }
-            .map { it.toItemDTO() }
-    }
+//    fun toItemDTOList(): List<ItemDTO> {
+//        return itemDetailCategories
+//            .flatMap { it.items }
+//            .map { it.toItemDTO() }
+//    }
 }

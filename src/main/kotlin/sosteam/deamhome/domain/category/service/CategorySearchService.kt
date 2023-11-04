@@ -13,6 +13,7 @@ class CategorySearchService (
     private val itemCategoryRepository: ItemCategoryRepository
 ){
 
+    //TODO 에러처리해라
     suspend fun findCategoryByTitle(title: String) : ItemCategoryDTO2 {
         val itemCategory = itemCategoryRepository.findByTitle(title)
             ?: return ItemCategoryDTO2(title = "not found", itemDetailCategories = mutableListOf())
@@ -23,11 +24,12 @@ class CategorySearchService (
         )
     }
 
+    //TODO 비어있으면 에러처리
     fun getItemCategoriesContainsTitle(title: String): Flow<ItemCategoryDTO2>{
         return itemCategoryRepository.getItemCategoriesContainsTitle(title)
     }
 
-    fun getItemsContainsTitle(title: String): Flow<ItemDTO>{
-        return itemCategoryRepository.getItemsContainsTitle(title)
-    }
+//    fun getItemsContainsTitle(title: String): Flow<ItemDTO>{
+//        return itemCategoryRepository.getItemsContainsTitle(title)
+//    }
 }

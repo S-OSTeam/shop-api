@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
+import sosteam.deamhome.domain.category.dto.response.ItemDetailCategoryResponse
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.BaseEntity
 
@@ -13,14 +14,19 @@ import sosteam.deamhome.global.entity.BaseEntity
 @Builder
 data class ItemDetailCategory(
 	@Indexed(unique = true)
-	var title: String
+	var title: String,
+	var itemIdList: MutableList<String> = mutableListOf()
 ) : BaseEntity() {
-
-	@DocumentReference(lazy = true)
-	var items: MutableList<Item> = mutableListOf()
 	
-	fun modifyItems(items: MutableList<Item>): MutableList<Item> {
-		this.items = items
-		return this.items
+	fun modifyItems(itemIdList: MutableList<String>): MutableList<String> {
+		this.itemIdList = itemIdList
+		return this.itemIdList
+	}
+
+	fun toResponse(): ItemDetailCategoryResponse{
+		return ItemDetailCategoryResponse(
+			title = this.title,
+			itemIdList = this.itemIdList
+		)
 	}
 }

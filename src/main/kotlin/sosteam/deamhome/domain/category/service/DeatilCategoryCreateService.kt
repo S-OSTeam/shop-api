@@ -14,6 +14,7 @@ import sosteam.deamhome.domain.category.resolver.request.DetailCategoryCreateReq
 class DeatilCategoryCreateService(
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
+    //TODO dto 뭘로 바꾸지? 지금은 findby 해서 이미 있으면 save 로 안만들어지게 해놓음
     suspend fun createDetailCategory(request: DetailCategoryCreateRequest) : ItemCategoryDTO {
         val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)
         val itemDetailCategories = itemCategory.itemDetailCategories
