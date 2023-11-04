@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.stereotype.Controller
-import sosteam.deamhome.domain.account.service.CreateAccountService
+import sosteam.deamhome.domain.account.service.AccountCreateService
 import sosteam.deamhome.domain.auth.handler.request.SignUpRequest
 
 @Controller
 @RequiredArgsConstructor
-class AuthResolver(private val createAccountService: CreateAccountService) {
+class AuthResolver(private val createAccountService: AccountCreateService) {
 	
 	@MutationMapping
 	fun signUp(@Argument @Valid request: SignUpRequest): String {

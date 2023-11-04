@@ -4,4 +4,4 @@ import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.repository.AccountRepository
 
 @Service
-class ValidAccountService(private val accountRepository: AccountRepository)
+class AccountValidService(private val accountRepository: AccountRepository)

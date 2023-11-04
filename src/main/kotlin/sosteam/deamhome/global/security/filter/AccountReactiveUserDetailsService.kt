@@ -1,7 +1,6 @@
 package sosteam.deamhome.global.security.filter
 
 import kotlinx.coroutines.reactor.mono
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -14,7 +13,7 @@ class AccountReactiveUserDetailsService(
 	private val accountRepository: AccountRepository
 ) : ReactiveUserDetailsService {
 	override fun findByUsername(username: String?): Mono<UserDetails> = mono {
-		val account = accountRepository.findAccountByUserId(username!!) ?: throw BadCredentialsException("error")
+		val account = accountRepository.findAccountByUserId(username!!)
 		return@mono User(account.userId, null, account.getAuthorities())
 	}
 }
