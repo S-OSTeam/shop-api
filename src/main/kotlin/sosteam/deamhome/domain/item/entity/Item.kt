@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
+import sosteam.deamhome.domain.item.entity.dto.request.ItemCreateRequest
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Document

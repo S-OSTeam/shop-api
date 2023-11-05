@@ -7,7 +7,7 @@ import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.category.resolver.request.CategoryCreateRequest
+import sosteam.deamhome.domain.category.dto.request.CategoryCreateRequest
 
 @Service
 @Transactional
