@@ -5,7 +5,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
+import sosteam.deamhome.domain.item.entity.dto.request.ItemCreateRequest
 import sosteam.deamhome.domain.item.service.ItemCreateService
 
 @RestController

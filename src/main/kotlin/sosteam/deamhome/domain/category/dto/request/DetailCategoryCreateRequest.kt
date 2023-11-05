@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.category.resolver.request
+package sosteam.deamhome.domain.category.dto.request
 
 class DetailCategoryCreateRequest(
     val title: String,

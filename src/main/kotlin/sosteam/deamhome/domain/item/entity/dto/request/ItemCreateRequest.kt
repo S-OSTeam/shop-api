@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.item.resolver.request
+package sosteam.deamhome.domain.item.entity.dto.request
 
 data class ItemCreateRequest(
     val title: String,

@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.domain.item.resolver.request.ItemCreateRequest
+import sosteam.deamhome.domain.item.entity.dto.request.ItemCreateRequest
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
@@ -26,7 +25,8 @@ class ItemCreateService(
     ) {
 
     //TODO  account find by 로 수정
-    //TODO account, itemCategory, itemDetailCategory findby 해서 없으면 만들지 말고 에러처리
+    //TODO account, itemCategory, itemDetailCategory findby 해서 없으면 만들지 말고 에러처리?? 아니면 생기는게 맞나?
+    //TODO item entity 에 image 가 List<String> 으로 돼있는데 나중에 싹다 바꿔야함
     suspend fun createItem(request: ItemCreateRequest) : ItemDTO {
         val minho = createDefaultAccount()
         val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)

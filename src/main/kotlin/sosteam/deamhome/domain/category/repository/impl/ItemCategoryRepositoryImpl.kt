@@ -1,9 +1,6 @@
 package sosteam.deamhome.domain.category.repository.impl
 
-import com.querydsl.mongodb.morphia.MorphiaQuery
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import lombok.RequiredArgsConstructor
@@ -13,10 +10,6 @@ import sosteam.deamhome.domain.category.dto.response.ItemDetailCategoryResponse
 import sosteam.deamhome.domain.category.entity.QItemCategory
 import sosteam.deamhome.domain.category.repository.custom.ItemCategoryRepositoryCustom
 import sosteam.deamhome.domain.category.repository.querydsl.ItemCategoryQueryDslRepository
-import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.domain.item.entity.QItem
-import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.global.provider.log
 
 @GraphQlRepository
 @RequiredArgsConstructor
@@ -36,22 +29,8 @@ class ItemCategoryRepositoryImpl (
                     ?.toResponse()
             }
             .awaitSingleOrNull()
-        log().info(findOne.toString())
-        println("hihihihi")
         return findOne
-
 
     }
 
-//    override fun getItemsContainsTitle(title: String): Flow<ItemDTO> {
-//        val findAll = repository
-//            .findAll(itemCategory.itemDetailCategories.any().items.any().title.contains(title))
-//            .map {
-//                it.toItemDTOList().asFlow()
-//            }.asFlow()
-//            .flattenMerge()
-//
-//
-//        return findAll
-//    }
 }
