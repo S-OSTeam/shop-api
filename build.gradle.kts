@@ -60,10 +60,9 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
-	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-//	testImplementation("io.kotest:kotest-core:4.1.3")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
-	testImplementation("io.kotest:kotest-framework-datatest:5.6.2")
+	testImplementation("io.kotest:kotest-assertions-core:5.6.2")
+
 
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
@@ -83,7 +82,6 @@ dependencies {
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.mockk:mockk:1.13.2")
-
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
 	
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
@@ -103,6 +101,10 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
+	useJUnitPlatform()
+}
+
+tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
 
