@@ -1,9 +1,9 @@
 package sosteam.deamhome.global.exception
 
 import graphql.ErrorClassification
-import graphql.ErrorType
 import graphql.GraphQLError
 import graphql.language.SourceLocation
+import org.springframework.graphql.execution.ErrorType
 
 abstract class CustomGraphQLException(
 	private val errorCode: String = "",

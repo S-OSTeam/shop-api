@@ -19,7 +19,7 @@ data class Account(
 	
 	@Indexed(unique = true)
 	val userId: String,
-	val pwd: String,
+	var pwd: String,
 	val sex: Boolean,
 	var birtyday: LocalDateTime,
 	var zipcode: String,
@@ -47,7 +47,7 @@ data class Account(
 	
 	var role: Role = Role.ROLE_GUEST,
 	
-	var lastLoginDateTime: LocalDateTime,
+	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
 	

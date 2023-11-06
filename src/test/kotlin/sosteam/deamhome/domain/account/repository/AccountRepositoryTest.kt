@@ -11,7 +11,6 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.global.RepositoryBaseTest
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
-import sosteam.deamhome.global.provider.log
 import java.time.LocalDateTime
 
 
@@ -41,7 +40,7 @@ class AccountRepositoryTest @Autowired constructor(
 			userName = "Test User",
 			point = 0,
 			role = Role.ROLE_GUEST,
-			lastLoginDateTime = LocalDateTime.now()
+			loginAt = LocalDateTime.now()
 		)
 		
 		
@@ -51,6 +50,7 @@ class AccountRepositoryTest @Autowired constructor(
 		
 	}
 	
+<<<<<<< Updated upstream
 	@Test
 	@DisplayName("userId로 찾기 테스트")
 	fun FindByUserIdTest() = runBlocking {
@@ -61,4 +61,6 @@ class AccountRepositoryTest @Autowired constructor(
 		assertEquals("123", "123")
 	}
 
+=======
+>>>>>>> Stashed changes
 }

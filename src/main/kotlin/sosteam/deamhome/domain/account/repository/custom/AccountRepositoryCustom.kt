@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 import sosteam.deamhome.domain.account.entity.Account
 
 interface AccountRepositoryCustom {
-	fun getMan(): Flow<Account>
+	fun getDormantAccount(): Flow<Account>
 }
