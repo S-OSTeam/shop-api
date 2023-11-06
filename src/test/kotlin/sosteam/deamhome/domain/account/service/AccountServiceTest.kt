@@ -1,39 +1,22 @@
 package sosteam.deamhome.domain.account.repository
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
+import lombok.RequiredArgsConstructor
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import sosteam.deamhome.domain.account.dto.request.AccountRequestDTO
-import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.account.service.AccountDataControlService
-import sosteam.deamhome.domain.account.service.AccountGetService
+import sosteam.deamhome.domain.account.service.AccountCreateService
 import sosteam.deamhome.global.RepositoryBaseTest
 import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
 
 
+@RequiredArgsConstructor
 class AccountServiceTest(
-	@Autowired
-	private val accountDataControlService: AccountDataControlService,
-	@Autowired
+	private val accountCreateService: AccountCreateService,
 	private val accountStatusRepository: AccountStatusRepository,
-	@Autowired
-	private val accountGetService: AccountGetService,
 ) : RepositoryBaseTest() {
-	@Test
-	@DisplayName("Account 전부 가져오기")
-	fun getAllAccounts() = runBlocking {
-		val actualAccounts: Flow<Account> = accountGetService.getAllAccounts()
-		
-		actualAccounts.collect { account ->
-			println("Account: $account")
-		}
-		assertEquals("123", "123")
-	}
 	
 	@Test
 	@DisplayName("Account 생성 테스트")
@@ -60,8 +43,8 @@ class AccountServiceTest(
 			point = 0
 		
 		)
-		accountDataControlService.createAccount(requestDTO)
-		val updated = accountStatusRepository.findByUserId(userId).block()!!.userId
+		accountCreateService.createAccount(requestDTO)
+		val updated = accountStatusRepository.findByUserId(userId)?.userId
 		assertEquals(updated, userId)
 		
 	}

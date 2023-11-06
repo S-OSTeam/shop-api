@@ -20,33 +20,6 @@ class ScheduledTasks(
 	private val accountRepository: AccountRepository,
 	private val accountStatusModifyService: AccountStatusModifyService,
 ) {
-<<<<<<< Updated upstream
-
-    @Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
-    suspend fun manageDormantMembers(){
-        val currentDate = LocalDateTime.now()
-
-        val dormantMembersFlux = accountGetService.getAllAccounts()
-            .filter { account -> isDormant(account.lastLoginDateTime, currentDate) }
-            .collect { dormantAccount ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    setMemberToDormant(dormantAccount)
-                }
-            }
-    }
-
-    private fun isDormant(lastLoginDate: LocalDateTime, currentDate: LocalDateTime): Boolean {
-        return lastLoginDate != null && lastLoginDate.isBefore(currentDate.minusYears(1))
-    }
-
-    suspend fun setMemberToDormant(account: Account){
-        accountStatusService.updateAccountStatus(account.userId,Status.DORMANT)
-
-    }
-
-
-=======
-	
 	@Async
 	@Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
 	fun manageDormantMembers() = runBlocking {
@@ -63,5 +36,4 @@ class ScheduledTasks(
 	suspend fun setMemberToDormant(account: Account) {
 		accountStatusModifyService.updateAccountStatus(account.userId, Status.DORMANT)
 	}
->>>>>>> Stashed changes
 }
