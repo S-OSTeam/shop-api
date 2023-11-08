@@ -9,8 +9,11 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
+import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
+import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 
 @Service
 @Transactional
@@ -51,9 +54,40 @@ class KakaoService(
             .post()
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .body(BodyInserters.fromFormData(formData))
-            .retrieve()
+            .retrieve()// 응답을 받을 것
             .bodyToMono(KakaoTokenReturnResponse::class.java)// 본문 응답 타입 지정
             .awaitSingle() // 비동기 응답 대기
+
+        return response
+    }
+
+    suspend fun getKakaoUserInfo(token: String): KakaoUserInfo {
+        val reqUrl = "https://kapi.kakao.com/v2/user/me"
+
+        val response = WebClient.builder()
+            .baseUrl(reqUrl)
+            .build()
+            .post()
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .header("Authorization", "Bearer " + token)
+            .retrieve()
+            .bodyToMono(KakaoUserInfo::class.java)
+            .awaitSingle()
+        return response
+    }
+
+    suspend fun unlinkKakao(token: String): KakaoUnlinkResponse {
+        val reqUrl = "https://kapi.kakao.com/v1/user/unlink"
+
+        val response = WebClient.builder()
+            .baseUrl(reqUrl)
+            .build()
+            .post()
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .header("Authorization", "Bearer " + token)
+            .retrieve()
+            .bodyToMono(KakaoUnlinkResponse::class.java)
+            .awaitSingle()
 
         return response
     }
