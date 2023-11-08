@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ItemRepository
 
@@ -12,7 +13,8 @@ import sosteam.deamhome.domain.item.repository.ItemRepository
 class ItemSearchServiceTest : FunSpec({
 
     val itemRepository = mockk<ItemRepository>()
-    val itemSearchService = ItemSearchService(itemRepository)
+    val categoryRepository = mockk<ItemCategoryRepository>()
+    val itemSearchService = ItemSearchService(itemRepository, categoryRepository)
 
     test("getItemsContainsTitle should return flow of ItemDTO") {
         // Given

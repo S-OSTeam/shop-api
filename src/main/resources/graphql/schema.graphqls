@@ -62,7 +62,7 @@ type Query {
     getItemCategoriesContainsTitle(title: String): [ItemCategoryDTO2]
     getItemsContainsTitle(title: String): [ItemDTO]
     getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponse
-
+    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemDTO]
 }
 
 type Mutation {
