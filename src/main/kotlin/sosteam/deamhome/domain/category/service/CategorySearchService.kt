@@ -2,13 +2,10 @@ package sosteam.deamhome.domain.category.service
 
 import kotlinx.coroutines.flow.Flow
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.dto.ItemCategoryDTO2
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 
 @Service
-@Transactional
 class CategorySearchService (
     private val itemCategoryRepository: ItemCategoryRepository
 ){

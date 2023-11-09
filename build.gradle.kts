@@ -105,9 +105,9 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.withType<Test>().configureEach {
-	useJUnitPlatform()
-}
+//tasks.withType<Test>().configureEach {
+//	useJUnitPlatform()
+//}
 
 kapt {
 	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")

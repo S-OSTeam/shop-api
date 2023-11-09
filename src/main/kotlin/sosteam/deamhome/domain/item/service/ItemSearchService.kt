@@ -1,17 +1,13 @@
 package sosteam.deamhome.domain.item.service
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.global.provider.log
 
 @Service
-@Transactional
 class ItemSearchService(
     private val itemRepository: ItemRepository,
     private val categoryRepository: ItemCategoryRepository

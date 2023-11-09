@@ -1,6 +1,0 @@
-type Mutation {
-    signUp(request: signUpRequest!): String
-    signOut: String
-    login(request: loginRequest!): String
-    logout: String
-}
