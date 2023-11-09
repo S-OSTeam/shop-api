@@ -2,8 +2,8 @@ package sosteam.deamhome.domain.review.entity
 
 import lombok.Builder
 import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.Image
@@ -22,14 +22,14 @@ class Review(
 	images: List<Image>
 ) : LogEntity() {
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	val images: ArrayList<Image> = images as ArrayList<Image>
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	var item: Item = item
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	var account: Account = account
 	

@@ -2,10 +2,7 @@ package sosteam.deamhome.domain.category.entity
 
 import lombok.Builder
 import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.DocumentReference
-import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.dto.response.ItemDetailCategoryResponse
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.BaseEntity
@@ -17,7 +14,7 @@ data class ItemDetailCategory(
 	var title: String,
 	var itemIdList: MutableList<String> = mutableListOf()
 ) : BaseEntity() {
-	
+
 	fun modifyItems(itemIdList: MutableList<String>): MutableList<String> {
 		this.itemIdList = itemIdList
 		return this.itemIdList

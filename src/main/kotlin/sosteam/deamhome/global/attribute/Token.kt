@@ -1,9 +1,6 @@
 package sosteam.deamhome.global.attribute
 
-import lombok.Getter
-
-@Getter
-enum class Token(time: Int, type: String) {
+enum class Token(val time: Long, val type: String) {
 	ACCESS(
 		1000 * 60 * 60 * 12,
 		"accessToken"
@@ -12,12 +9,4 @@ enum class Token(time: Int, type: String) {
 		1000 * 60 * 60 * 24 * 14,
 		"refreshToken"
 	);
-	
-	private val milliseconds: Long
-	private val type: String
-	
-	init {
-		milliseconds = time.toLong()
-		this.type = type
-	}
 }

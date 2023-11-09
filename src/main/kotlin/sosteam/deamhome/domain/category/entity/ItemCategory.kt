@@ -11,7 +11,7 @@ import sosteam.deamhome.global.entity.BaseEntity
 @Builder
 data class ItemCategory(
     @Indexed(unique = true)
-	var title: String
+    var title: String
 ) : BaseEntity(){
 
     var itemDetailCategories: MutableList<ItemDetailCategory> = mutableListOf()
@@ -27,5 +27,6 @@ data class ItemCategory(
             itemDetailCategories = this.itemDetailCategories
         )
     }
+
 
 }

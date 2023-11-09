@@ -1,8 +1,8 @@
 package sosteam.deamhome.domain.order.entity
 
 import lombok.Builder
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.Item
 
@@ -22,10 +22,10 @@ class Order(
 	var isPaid = false
 	var isRefund = false
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	private val account: Account = account
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	private val items: ArrayList<Item> = ArrayList()
 	
 	fun addItem(item: Item): List<Item> {

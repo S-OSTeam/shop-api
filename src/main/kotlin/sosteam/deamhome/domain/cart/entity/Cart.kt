@@ -2,8 +2,8 @@ package sosteam.deamhome.domain.cart.entity
 
 import lombok.Builder
 import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.LogEntity
@@ -19,11 +19,11 @@ class Cart(
 	item: Item,
 	account: Account,
 ) : LogEntity() {
-	@DBRef
+	@DocumentReference
 	@Setter
 	private val item: Item = item
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	@Setter
 	private val account: Account = account
 }
