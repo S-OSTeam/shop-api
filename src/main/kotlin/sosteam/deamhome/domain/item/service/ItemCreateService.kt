@@ -76,7 +76,8 @@ class ItemCreateService(
             phone = "01042412447",
             userName = "jung min ho",
             point = 0,
-            role = Role.ROLE_GUEST
+            role = Role.ROLE_GUEST,
+            loginAt = LocalDateTime.now()
         )
     }
 
