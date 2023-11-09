@@ -83,8 +83,12 @@ dependencies {
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.mockk:mockk:1.13.2")
 	testImplementation("com.ninja-squad:springmockk:3.1.1")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+	implementation ("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
+
+	implementation("org.json:json:20211205")
 	
-	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 }
 
 tasks.withType<Jar> {
