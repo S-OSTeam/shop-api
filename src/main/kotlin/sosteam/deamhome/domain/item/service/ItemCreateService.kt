@@ -2,7 +2,6 @@ package sosteam.deamhome.domain.item.service
 
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -17,7 +16,6 @@ import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
 
 @Service
-@Transactional
 class ItemCreateService(
     private val accountRepository: AccountRepository,
     private val itemCategoryRepository: ItemCategoryRepository,

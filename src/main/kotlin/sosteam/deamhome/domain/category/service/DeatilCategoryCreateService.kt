@@ -2,7 +2,6 @@ package sosteam.deamhome.domain.category.service
 
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
@@ -10,7 +9,6 @@ import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.category.dto.request.DetailCategoryCreateRequest
 
 @Service
-@Transactional
 class DeatilCategoryCreateService(
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
