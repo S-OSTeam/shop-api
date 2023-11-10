@@ -12,9 +12,14 @@ data class AccountStatus(
 	val userId: String,
 	
 	@Indexed(unique = true)
-	val snsId: String,
+	val snsId: String? = null,
 	
 	val sns: SNS,
 	
+	val email: String,
+	
 	var status: Status = Status.LIVE,
-) : BaseEntity()
+	
+	) : BaseEntity() {
+	lateinit var accountId: String
+}

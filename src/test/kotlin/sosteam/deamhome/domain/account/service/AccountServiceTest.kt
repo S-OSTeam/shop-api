@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import sosteam.deamhome.domain.account.dto.request.AccountRequestDTO
 import sosteam.deamhome.domain.account.service.AccountCreateService
+import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.global.RepositoryBaseTest
 import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
@@ -23,7 +23,7 @@ class AccountServiceTest(
 	fun createAccount() = runBlocking {
 		val userId = "testUser"
 		
-		val requestDTO = AccountRequestDTO(
+		val requestDTO = AccountCreateRequest(
 			userId = userId,
 			pwd = "password",
 			sex = true,
