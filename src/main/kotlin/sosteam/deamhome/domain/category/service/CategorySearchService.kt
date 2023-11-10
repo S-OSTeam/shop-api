@@ -13,11 +13,11 @@ class CategorySearchService (
     //TODO 에러처리해라
     suspend fun findCategoryByTitle(title: String) : ItemCategoryDTO2 {
         val itemCategory = itemCategoryRepository.findByTitle(title)
-            ?: return ItemCategoryDTO2(title = "not found", itemDetailCategories = mutableListOf())
+//            ?: return ItemCategoryDTO2(title = "not found", itemDetailCategories = mutableListOf())
 
         return ItemCategoryDTO2(
-            title = title,
-            itemDetailCategories = itemCategory.itemDetailCategories
+            title = itemCategory?.title ?: "not found",
+            itemDetailCategories = itemCategory?.itemDetailCategories ?: mutableListOf()
         )
     }
 
