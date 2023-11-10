@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 
 abstract class BaseEntity : Domain {
 	@Id
-	val id: String = UlidCreator.getMonotonicUlid().toString()
+	var id: String = UlidCreator.getMonotonicUlid().toString()
+		private set
 	
 	@CreatedDate
 	private var createdAt = LocalDateTime.now()
