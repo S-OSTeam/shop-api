@@ -11,24 +11,21 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import sosteam.deamhome.global.attribute.Token
-import sosteam.deamhome.global.security.filter.AccountReactiveUserDetailsService
 import sosteam.deamhome.global.security.response.TokenResponse
 import java.util.*
 
 @Component
 class JWTProvider(
 	@Value("\${jwt.secret.key}")
-	private val secretKey: String,
-	private val accountReactiveUserDetailsService: AccountReactiveUserDetailsService
+	private val secretKey: String
 ) {
 	private final val encodedSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
 	
-	fun generate(userId: String, roles: List<SimpleGrantedAuthority>, mac: String): TokenResponse {
-		val issuedAt = Date(System.currentTimeMillis())
+	fun generate(userId: String, roles: List<SimpleGrantedAuthority>, mac: String, issuedAt: Date): TokenResponse {
 		val accessToken = createToken(userId, roles, mac, Token.ACCESS, issuedAt)
 		val refreshToken = createToken(userId, roles, mac, Token.REFRESH, issuedAt)
 		
-		return TokenResponse(accessToken, refreshToken, issuedAt)
+		return TokenResponse(accessToken, refreshToken, userId, issuedAt)
 	}
 	
 	fun createToken(
@@ -46,7 +43,7 @@ class JWTProvider(
 			.signWith(encodedSecretKey, SignatureAlgorithm.HS384)
 			.compact()
 	
-	fun extractToken(token: String?): Claims {
+	fun extractToken(token: String): Claims {
 		return Jwts.parserBuilder()
 			.setSigningKey(encodedSecretKey)
 			.build()
@@ -54,23 +51,32 @@ class JWTProvider(
 			.body
 	}
 	
+	fun getLeftTime(token: String): Long {
+		val claims = extractToken(token)
+		
+		val expiration = claims.expiration
+		
+		return expiration.time - System.currentTimeMillis()
+	}
+	
 	fun getData(token: String): String =
-		Jwts.parserBuilder()
-			.setSigningKey(encodedSecretKey)
-			.build()
-			.parseClaimsJws(token)
-			.body
+		extractToken(token)
 			.subject
 	
 	fun getAuthentication(token: String): Authentication {
 		val userName = getData(token)
-		val role =
-			extractToken(token)["role"].toString().split(",").filterNot { it.isEmpty() }.map(::SimpleGrantedAuthority)
+		val role = getSimpleGrantedAuthority(token)
+		
 		return UsernamePasswordAuthenticationToken(
 			userName,
 			null,
 			role,
 		)
+	}
+	
+	fun getSimpleGrantedAuthority(token: String): List<SimpleGrantedAuthority> {
+		return extractToken(token)["role"].toString().split(",").filterNot { it.isEmpty() }
+			.map(::SimpleGrantedAuthority)
 	}
 	
 	fun createClaims(roles: List<SimpleGrantedAuthority>, mac: String, type: String): Map<String, Any> {
@@ -82,7 +88,9 @@ class JWTProvider(
 		return claims
 	}
 	
-	fun isValid(token: String?, mac: String?, tokenType: Token): Boolean {
+	//mac 및 토큰 동시 검증
+	//따로 사용하는 경우가 존재 하지 않으므로 하나로 합침.
+	fun isValid(token: String, mac: String, tokenType: Token): Boolean {
 		try {
 			val body = extractToken(token)
 			val expireTime = body.expiration

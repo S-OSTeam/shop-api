@@ -7,5 +7,10 @@ import sosteam.deamhome.global.attribute.SNS
 interface AccountStatusRepositoryCustom {
 	fun getStatusByBeforeAYear(): Flow<AccountStatus>
 	
-	suspend fun getStatusByUserIdOrSNS(userId: String, sns: SNS, snsId: String): AccountStatus?
+	suspend fun getStatusByUserIdOrSNS(
+		userId: String?,
+		sns: SNS,
+		snsId: String?,
+		email: String?
+	): AccountStatus?
 }

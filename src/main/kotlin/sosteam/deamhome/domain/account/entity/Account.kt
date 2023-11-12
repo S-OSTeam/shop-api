@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import sosteam.deamhome.domain.faq.entity.Faq
 import sosteam.deamhome.domain.item.entity.Wishlist
@@ -69,8 +68,8 @@ data class Account(
 	}
 	
 	@JsonIgnore
-	fun getAuthorities(): Collection<GrantedAuthority?> {
-		val simpleGrantedAuthorities = ArrayList<SimpleGrantedAuthority?>()
+	fun getAuthorities(): List<SimpleGrantedAuthority> {
+		val simpleGrantedAuthorities = ArrayList<SimpleGrantedAuthority>()
 		simpleGrantedAuthorities.add(SimpleGrantedAuthority(role.name))
 		return simpleGrantedAuthorities
 	}

@@ -1,6 +1,7 @@
 input signUpRequest{
     userId: String!
     pwd: String!
+    confirmPwd: String!
     sex: Boolean
     birthday: DateTime
     zipcode: String!
@@ -22,6 +23,7 @@ input signUpRequest{
 input loginRequest{
     pwd: String!
     userId: String
+    email: String
     snsId: String
-    sns: String
+    sns: String!
 }
