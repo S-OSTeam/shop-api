@@ -19,10 +19,4 @@ data class ItemDetailCategory(
 		return this.itemIdList
 	}
 
-	fun toResponse(): ItemDetailCategoryResponseDTO{
-		return ItemDetailCategoryResponseDTO(
-			title = this.title,
-			itemIdList = this.itemIdList
-		)
-	}
 }

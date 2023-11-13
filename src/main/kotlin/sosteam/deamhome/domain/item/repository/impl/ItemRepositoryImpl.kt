@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.asFlow
 import lombok.RequiredArgsConstructor
 import org.springframework.graphql.data.GraphQlRepository
+import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.QItem
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.custom.ItemRepositoryCustom
@@ -21,15 +22,15 @@ class ItemRepositoryImpl (
 {
     private val item = QItem.item
 
-    override fun getItemsContainsTitle(title: String): Flow<ItemDTO> {
-         return repository.findAll(item.title.contains(title)).asFlow().map { it.toItemDTO() }
+    override fun getItemsContainsTitle(title: String): Flow<Item> {
+         return repository.findAll(item.title.contains(title)).asFlow()
     }
 
-    override fun getItemsByOption(itemIdList: List<String>?, title: String?): Flow<ItemDTO> {
+    override fun getItemsByOption(itemIdList: List<String>?, title: String?): Flow<Item> {
 
         //둘 다 null 이면 모두 검색하는게 맞나? 아니면 검색 조건을 넣어주세요 라고 해야하나?
         //둘 다 null 이면 graphql 에서 syntax error 남
-        return repository.findAll(searchOption(itemIdList, title)).asFlow().map { it.toItemDTO() }
+        return repository.findAll(searchOption(itemIdList, title)).asFlow()
     }
 
     private fun searchOption(itemIdList: List<String>?, title: String?): Predicate{

@@ -4,13 +4,15 @@ import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.entity.ItemDetailCategory
+import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
+import sosteam.deamhome.domain.category.exception.CategorySaveFailException
+import sosteam.deamhome.domain.category.exception.DetailCategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.domain.item.entity.dto.ItemDTO
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.domain.item.entity.dto.request.ItemCreateRequest
+import sosteam.deamhome.domain.item.entity.dto.request.ItemRequestDTO
+import sosteam.deamhome.domain.item.entity.dto.response.ItemResponseDTO
+import sosteam.deamhome.domain.item.exception.ItemSaveFailException
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import java.time.LocalDateTime
@@ -23,40 +25,32 @@ class ItemCreateService(
     ) {
 
     //TODO  account find by 로 수정
-    //TODO account, itemCategory, itemDetailCategory findby 해서 없으면 만들지 말고 에러처리?? 아니면 생기는게 맞나?
     //TODO item entity 에 image 가 List<String> 으로 돼있는데 나중에 싹다 바꿔야함
-    suspend fun createItem(request: ItemCreateRequest) : ItemDTO {
+    suspend fun createItem(request: ItemRequestDTO) : ItemResponseDTO {
         val minho = createDefaultAccount()
-        val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)
-        val itemDetailCategories = itemCategory.itemDetailCategories
 
-        var existingItemDetailCategory = itemDetailCategories.find { it.title == request.detailCategoryTitle }
+        val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle)
+            ?: throw CategoryNotFoundException()
 
-        if (existingItemDetailCategory == null) {
-            existingItemDetailCategory = ItemDetailCategory(title = request.detailCategoryTitle)
-            itemDetailCategories.add(existingItemDetailCategory)
-            itemCategory.modifyDetailCategory(itemDetailCategories)
-        }
+        val itemDetailCategory = itemCategory.itemDetailCategories.find { it.title == request.detailCategoryTitle }
+            ?: throw DetailCategoryNotFoundException()
 
-        val items = existingItemDetailCategory.itemIdList
-        val item = Item.fromRequest(request, minho)
+        val item = request.asDomain()
+        itemDetailCategory.modifyItems((itemDetailCategory.itemIdList + item.id).toMutableList())
 
-        val insert = itemRepository.save(item).awaitSingleOrNull()
+        itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
+            ?: throw CategorySaveFailException()
+
+        val savedItem = itemRepository.save(item).awaitSingleOrNull()
+            ?: throw ItemSaveFailException()
 //        에러처리? 지금은 unique index 가 없어서 넣으면 무조건 들어감
-//            ?: null
-        val itemDTO = insert!!.toItemDTO()
 
-        items.add(item.id)
-        println(item.id)
-
-        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
-
-        return itemDTO
+        return ItemResponseDTO.fromItem(savedItem)
     }
 
     fun createDefaultAccount(): Account {
         return Account(
-            userId = "alsgh",
+            userId = "minho",
             pwd = "1234",
             sex = false,
             birtyday = LocalDateTime.now(),

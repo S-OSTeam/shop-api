@@ -3,7 +3,6 @@ package sosteam.deamhome.domain.category.entity
 import lombok.Builder
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import sosteam.deamhome.domain.category.dto.ItemCategoryDTO2
 import sosteam.deamhome.global.entity.BaseEntity
 
 
@@ -20,13 +19,5 @@ data class ItemCategory(
         this.itemDetailCategories = itemDetailCategories
         return this.itemDetailCategories
     }
-
-    fun toDTO(): ItemCategoryDTO2 {
-        return ItemCategoryDTO2(
-            title = this.title,
-            itemDetailCategories = this.itemDetailCategories
-        )
-    }
-
 
 }

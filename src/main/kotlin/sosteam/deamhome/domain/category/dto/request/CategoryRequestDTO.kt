@@ -1,5 +1,5 @@
 package sosteam.deamhome.domain.category.dto.request
 
-data class CategoryCreateRequestDTO (
+data class CategoryRequestDTO (
     val title: String
 )

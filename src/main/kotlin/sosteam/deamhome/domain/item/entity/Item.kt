@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.entity.dto.request.ItemCreateRequest
+import sosteam.deamhome.domain.item.entity.dto.request.ItemRequestDTO
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Document
@@ -21,7 +21,9 @@ data class Item(
 	val avgReview: Double = 0.0,
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
-	val status: Boolean = false
+	val status: Boolean = false,
+	val categoryTitle: String,
+	val detailCategoryTitle: String
 ) : BaseEntity(){
 	var images: MutableList<String> = mutableListOf()
 	@DocumentReference(lazy = true) var account: Account? = null
@@ -50,7 +52,7 @@ data class Item(
 	}
 
 	companion object {
-		fun fromRequest(request: ItemCreateRequest, account: Account): Item {
+		fun fromRequest(request: ItemRequestDTO, account: Account): Item {
 			return Item(
 				title = request.title,
 				content = request.content,
@@ -62,7 +64,9 @@ data class Item(
 				avgReview = request.avgReview,
 				reviewCnt = request.reviewCnt,
 				qnaCnt = request.qnaCnt,
-				status = request.status
+				status = request.status,
+				categoryTitle = request.categoryTitle,
+				detailCategoryTitle = request.detailCategoryTitle
 			).apply { images = request.imageId }
 		}
 
