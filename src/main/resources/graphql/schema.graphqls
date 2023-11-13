@@ -14,18 +14,14 @@ type ItemDTO {
     account: String
 }
 
-type ItemDetailCategoryResponse{
-    title: String
-    itemIdList: [String]
-}
-
-type ItemCategoryDTO{
-    title: String
-}
-
-type ItemCategoryDTO2{
+type ItemCategoryResponseDTO{
     title: String,
     itemDetailCategories: [ItemDetailCategory]
+}
+
+type ItemDetailCategoryResponseDTO{
+    title: String
+    itemIdList: [String]
 }
 
 type ItemDetailCategory{
@@ -33,20 +29,20 @@ type ItemDetailCategory{
     itemIdList: [String]
 }
 
-type Item{
-    title: String
-    content: String
-    summary: String
-    price: Int
-    sellCnt: Int
-    wishCnt: Int
-    clickCnt: Int
-    avgReview: Float
-    reviewCnt: Int
-    qnaCnt: Int
-    status: Boolean
-    imageId: [String]
-}
+#type Item{
+#    title: String
+#    content: String
+#    summary: String
+#    price: Int
+#    sellCnt: Int
+#    wishCnt: Int
+#    clickCnt: Int
+#    avgReview: Float
+#    reviewCnt: Int
+#    qnaCnt: Int
+#    status: Boolean
+#    imageId: [String]
+#}
 
 type Image {
     fileName: String
@@ -57,25 +53,27 @@ type Image {
 }
 
 type Query {
-#    getItemByTitle(title: String): ItemDTO
-    findCategoryByTitle(title: String): ItemCategoryDTO2
-    getItemCategoriesContainsTitle(title: String): [ItemCategoryDTO2]
+    findCategoryByTitle(title: String): ItemCategoryResponseDTO
+    getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
+    getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
+
     getItemsContainsTitle(title: String): [ItemDTO]
-    getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponse
     getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemDTO]
 }
 
 type Mutation {
+    createCategory(request: CategoryCreateRequestDTO): ItemCategoryResponseDTO
+    createDetailCategory(request: DetailCategoryCreateRequestDTO): ItemCategoryResponseDTO
     createItem(request: ItemCreateRequest): ItemDTO
-    createCategory(request: CategoryCreateRequest): ItemCategoryDTO
-    createDetailCategory(request: DetailCategoryCreateRequest): ItemCategoryDTO
+
+    deleteCategory(id: String): Boolean
 }
 
-input CategoryCreateRequest {
+input CategoryCreateRequestDTO {
     title: String
 }
 
-input DetailCategoryCreateRequest {
+input DetailCategoryCreateRequestDTO {
     title: String
     categoryTitle: String
 }

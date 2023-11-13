@@ -6,27 +6,32 @@ import sosteam.deamhome.domain.category.dto.ItemCategoryDTO
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.category.dto.request.DetailCategoryCreateRequest
+import sosteam.deamhome.domain.category.dto.request.DetailCategoryCreateRequestDTO
+import sosteam.deamhome.domain.category.dto.response.ItemCategoryResponseDTO
+import sosteam.deamhome.domain.category.exception.AlreadyExistDetailCategoryException
+import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
+import sosteam.deamhome.domain.category.exception.CategorySaveFailException
 
 @Service
 class DeatilCategoryCreateService(
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
-    //TODO dto 뭘로 바꾸지? 지금은 findby 해서 이미 있으면 save 로 안만들어지게 해놓음
-    suspend fun createDetailCategory(request: DetailCategoryCreateRequest) : ItemCategoryDTO {
-        val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle) ?: ItemCategory(title = request.categoryTitle)
-        val itemDetailCategories = itemCategory.itemDetailCategories
+    //Category 안에 잘 들어갔나 확인하기 위해서 ItemCategoryResponseDTO 로 했는데 Detail 로 바꿔야하나?
+    suspend fun createDetailCategory(request: DetailCategoryCreateRequestDTO): ItemCategoryResponseDTO {
+        val itemCategory = itemCategoryRepository.findByTitle(request.categoryTitle)
+            ?: throw CategoryNotFoundException()
 
-        val existingItemDetailCategory = itemDetailCategories.find { it.title == request.title }
-
-        if (existingItemDetailCategory == null) {
-            itemDetailCategories.add(ItemDetailCategory(title = request.title))
-            itemCategory.modifyDetailCategory(itemDetailCategories)
+        if (itemCategory.itemDetailCategories.any { it.title == request.title }) {
+            throw AlreadyExistDetailCategoryException()
         }
 
-        val inserted = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
-        return ItemCategoryDTO(
-            title = inserted?.title
-        )
+        val newItemDetailCategory = ItemDetailCategory(title = request.title)
+        itemCategory.modifyDetailCategory((itemCategory.itemDetailCategories + newItemDetailCategory).toMutableList())
+
+        val insertedItemCategory = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
+            ?: throw CategorySaveFailException()
+
+        return ItemCategoryResponseDTO.fromItemCategory(insertedItemCategory)
     }
+
 }
