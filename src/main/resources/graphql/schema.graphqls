@@ -1,4 +1,4 @@
-type ItemDTO {
+type ItemResponseDTO {
     title: String
     content: String
     summary: String
@@ -57,28 +57,28 @@ type Query {
     getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
     getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
 
-    getItemsContainsTitle(title: String): [ItemDTO]
-    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemDTO]
+#    getItemsContainsTitle(title: String): [ItemDTO]
+#    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemDTO]
 }
 
 type Mutation {
-    createCategory(request: CategoryCreateRequestDTO): ItemCategoryResponseDTO
-    createDetailCategory(request: DetailCategoryCreateRequestDTO): ItemCategoryResponseDTO
-    createItem(request: ItemCreateRequest): ItemDTO
+    createCategory(request: CategoryRequestDTO): ItemCategoryResponseDTO
+    createDetailCategory(request: DetailCategoryRequestDTO): ItemCategoryResponseDTO
+    createItem(request: ItemRequest): ItemResponseDTO
 
     deleteCategory(id: String): Boolean
 }
 
-input CategoryCreateRequestDTO {
+input CategoryRequestDTO {
     title: String
 }
 
-input DetailCategoryCreateRequestDTO {
+input DetailCategoryRequestDTO {
     title: String
     categoryTitle: String
 }
 
-input ItemCreateRequest {
+input ItemRequest {
     title: String
     content: String
     summary: String

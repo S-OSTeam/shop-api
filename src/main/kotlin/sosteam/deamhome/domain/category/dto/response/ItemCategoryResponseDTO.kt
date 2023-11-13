@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.category.dto.response
 
-import sosteam.deamhome.domain.account.dto.response.AccountResponseDTO
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 
