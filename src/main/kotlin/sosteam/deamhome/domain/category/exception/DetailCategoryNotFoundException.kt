@@ -3,8 +3,8 @@ package sosteam.deamhome.domain.category.exception
 import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
 
-class CategoryNotFoundException (
-	errorCode: String = "CATEGORY_NOT_FOUND",
+class DetailCategoryNotFoundException (
+	errorCode: String = "DETAIL_CATEGORY_NOT_FOUND",
 	
 	@JvmField
 	@Suppress("INAPPLICABLE_JVM_FIELD")

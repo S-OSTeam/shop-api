@@ -1,15 +1,15 @@
 package sosteam.deamhome.domain.category.repository.custom
 
 import kotlinx.coroutines.flow.Flow
-import sosteam.deamhome.domain.category.dto.ItemCategoryDTO2
-import sosteam.deamhome.domain.category.dto.response.ItemDetailCategoryResponse
+import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 
 
 interface ItemCategoryRepositoryCustom {
 
-    fun getItemCategoriesContainsTitle(title: String) : Flow<ItemCategoryDTO2>
+    fun getItemCategoriesContainsTitle(title: String) : Flow<ItemCategory>
 
-    suspend fun getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponse?
+    suspend fun getItemDetailCategoryByTitle(title: String): ItemDetailCategory?
 
     fun getItemIdsByCategoryTitle(title: String): Flow<String>
 
