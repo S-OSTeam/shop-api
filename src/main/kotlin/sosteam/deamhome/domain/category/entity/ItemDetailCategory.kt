@@ -13,7 +13,6 @@ data class ItemDetailCategory(
 	var title: String,
 	var itemIdList: MutableList<String> = mutableListOf()
 ) : BaseEntity() {
-	
 	fun modifyItems(itemIdList: MutableList<String>): MutableList<String> {
 		this.itemIdList = itemIdList
 		return this.itemIdList

@@ -19,5 +19,4 @@ data class ItemCategory(
         this.itemDetailCategories = itemDetailCategories
         return this.itemDetailCategories
     }
-    
 }

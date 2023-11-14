@@ -4,8 +4,6 @@ import lombok.Builder
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.item.entity.dto.ItemDTO
-import sosteam.deamhome.domain.item.entity.dto.request.ItemRequestDTO
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Document
@@ -33,42 +31,4 @@ data class Item(
 		return this.images
 	}
 
-	fun toItemDTO(): ItemDTO {
-		return ItemDTO(
-			title = this.title,
-			content = this.content,
-			summary = this.summary,
-			price = this.price,
-			sellCnt = this.sellCnt,
-			wishCnt = this.wishCnt,
-			clickCnt = this.clickCnt,
-			avgReview = this.avgReview,
-			reviewCnt = this.reviewCnt,
-			qnaCnt = this.qnaCnt,
-			status = this.status,
-			account = this.account,
-			images = this.images.toList()
-		)
-	}
-
-	companion object {
-		fun fromRequest(request: ItemRequestDTO, account: Account): Item {
-			return Item(
-				title = request.title,
-				content = request.content,
-				summary = request.summary,
-				price = request.price,
-				sellCnt = request.sellCnt,
-				wishCnt = request.wishCnt,
-				clickCnt = request.clickCnt,
-				avgReview = request.avgReview,
-				reviewCnt = request.reviewCnt,
-				qnaCnt = request.qnaCnt,
-				status = request.status,
-				categoryTitle = request.categoryTitle,
-				detailCategoryTitle = request.detailCategoryTitle
-			).apply { images = request.imageId }
-		}
-
-	}
 }
