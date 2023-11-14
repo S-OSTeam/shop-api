@@ -46,6 +46,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
+	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
 	implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
 	
 	

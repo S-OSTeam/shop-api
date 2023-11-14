@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.entity.BaseEntity
-import sosteam.deamhome.global.entity.Image
+import sosteam.deamhome.global.image.entity.Image
 import java.time.LocalDateTime
 
 @Document
