@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.ItemDetailCategory
-import sosteam.deamhome.global.entity.Image
 import sosteam.deamhome.global.entity.LogEntity
+import sosteam.deamhome.global.image.entity.Image
 
 @Document
 @Builder

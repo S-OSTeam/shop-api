@@ -4,4 +4,7 @@ type Mutation {
     login(request: loginRequest!): tokenResponse
     logout: String
     reIssue: tokenResponse
+
+    uploadImage(image: Upload!): String
+    deleteImage(path: String): String
 }

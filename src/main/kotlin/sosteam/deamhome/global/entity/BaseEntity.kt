@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 abstract class BaseEntity : Domain {
 	@Id
-	var id: String = UlidCreator.getMonotonicUlid().toString()
+	var id: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 		private set
 	
 	@CreatedDate
