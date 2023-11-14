@@ -1,0 +1,23 @@
+input CategoryRequestDTO {
+    title: String
+}
+
+input DetailCategoryRequestDTO {
+    title: String
+    categoryTitle: String
+}
+
+type ItemCategoryResponseDTO{
+    title: String,
+    itemDetailCategories: [ItemDetailCategory]
+}
+
+type ItemDetailCategoryResponseDTO{
+    title: String
+    itemIdList: [String]
+}
+
+type ItemDetailCategory{
+    title: String,
+    itemIdList: [String]
+}

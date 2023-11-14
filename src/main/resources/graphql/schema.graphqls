@@ -1,34 +1,10 @@
-type ItemResponseDTO {
-    title: String
-    content: String
-    summary: String
-    sellCnt: Int
-    wishCnt: Int
-    clickCnt: Int
-    avgReview: Float
-    reviewCnt: Int
-    qnaCnt: Int
-    status: Boolean
-    categoryTitle: String
-    detailCategoryTitle: String
-    images: [String]
-#    account: Account
-    account: String
-}
+type Query {
+    findCategoryByTitle(title: String): ItemCategoryResponseDTO
+    getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
+    getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
 
-type ItemCategoryResponseDTO{
-    title: String,
-    itemDetailCategories: [ItemDetailCategory]
-}
-
-type ItemDetailCategoryResponseDTO{
-    title: String
-    itemIdList: [String]
-}
-
-type ItemDetailCategory{
-    title: String,
-    itemIdList: [String]
+    getItemsContainsTitle(title: String): [ItemResponseDTO]
+    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
 }
 
 #type Item{
@@ -46,55 +22,10 @@ type ItemDetailCategory{
 #    imageId: [String]
 #}
 
-type Image {
-    fileName: String
-    fileOriginName: String
-    size: Int
-    type: String
-    fileUrl: String
-}
-
-type Query {
-    findCategoryByTitle(title: String): ItemCategoryResponseDTO
-    getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
-    getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
-
-    getItemsContainsTitle(title: String): [ItemResponseDTO]
-    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
-}
-
-type Mutation {
-    createCategory(request: CategoryRequestDTO): ItemCategoryResponseDTO
-    createDetailCategory(request: DetailCategoryRequestDTO): ItemCategoryResponseDTO
-    createItem(request: ItemRequest): ItemResponseDTO
-#    Boolean 이 맞나?? 리턴값 컨트롤러에서는 없는데 스키마에 리턴값 없으면 문법 에러인듯
-    deleteCategory(id: String): Boolean
-    deleteItem(id: String): Boolean
-}
-
-input CategoryRequestDTO {
-    title: String
-}
-
-input DetailCategoryRequestDTO {
-    title: String
-    categoryTitle: String
-}
-
-input ItemRequest {
-    title: String
-    content: String
-    summary: String
-    price: Int
-    sellCnt: Int
-    wishCnt: Int
-    clickCnt: Int
-    avgReview: Float
-    reviewCnt: Int
-    qnaCnt: Int
-    status: Boolean
-    userId: String
-    categoryTitle: String
-    detailCategoryTitle: String
-    imageId: [String]
-}
+#type Image {
+#    fileName: String
+#    fileOriginName: String
+#    size: Int
+#    type: String
+#    fileUrl: String
+#}

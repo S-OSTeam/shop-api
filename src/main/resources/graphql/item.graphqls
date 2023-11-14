@@ -1,0 +1,35 @@
+input ItemRequest {
+    title: String
+    content: String
+    summary: String
+    price: Int
+    sellCnt: Int
+    wishCnt: Int
+    clickCnt: Int
+    avgReview: Float
+    reviewCnt: Int
+    qnaCnt: Int
+    status: Boolean
+    userId: String
+    categoryTitle: String
+    detailCategoryTitle: String
+    imageId: [String]
+}
+
+type ItemResponseDTO {
+    title: String
+    content: String
+    summary: String
+    sellCnt: Int
+    wishCnt: Int
+    clickCnt: Int
+    avgReview: Float
+    reviewCnt: Int
+    qnaCnt: Int
+    status: Boolean
+    categoryTitle: String
+    detailCategoryTitle: String
+    images: [String]
+    #    account: Account
+    account: String
+}
