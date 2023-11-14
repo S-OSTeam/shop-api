@@ -9,6 +9,8 @@ type ItemResponseDTO {
     reviewCnt: Int
     qnaCnt: Int
     status: Boolean
+    categoryTitle: String
+    detailCategoryTitle: String
     images: [String]
 #    account: Account
     account: String
@@ -57,8 +59,8 @@ type Query {
     getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
     getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
 
-#    getItemsContainsTitle(title: String): [ItemDTO]
-#    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemDTO]
+    getItemsContainsTitle(title: String): [ItemResponseDTO]
+    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
 }
 
 type Mutation {
