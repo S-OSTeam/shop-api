@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.category.repository.custom.ItemCategoryRepository
 interface ItemCategoryRepository : ReactiveMongoRepository<ItemCategory, String>, ItemCategoryRepositoryCustom {
     suspend fun findByTitle(title: String): ItemCategory?
 
+    //그냥 삭제해도 되나? 안에 detailCategory 들어 있는지 보고 없으면 삭제해야하나?
     suspend fun deleteItemCategoryById(id: String)
 
 }

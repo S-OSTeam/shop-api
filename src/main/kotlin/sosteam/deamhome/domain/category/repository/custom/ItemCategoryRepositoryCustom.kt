@@ -15,4 +15,6 @@ interface ItemCategoryRepositoryCustom {
 
     fun getItemIdsByItemDetailCategoryTitle(title: String): Flow<String>
 
+//    suspend fun deleteDetailCategoryById(id: String)
+
 }

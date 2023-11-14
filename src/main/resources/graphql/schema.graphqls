@@ -67,8 +67,9 @@ type Mutation {
     createCategory(request: CategoryRequestDTO): ItemCategoryResponseDTO
     createDetailCategory(request: DetailCategoryRequestDTO): ItemCategoryResponseDTO
     createItem(request: ItemRequest): ItemResponseDTO
-
+#    Boolean 이 맞나?? 리턴값 컨트롤러에서는 없는데 스키마에 리턴값 없으면 문법 에러인듯
     deleteCategory(id: String): Boolean
+    deleteItem(id: String): Boolean
 }
 
 input CategoryRequestDTO {
