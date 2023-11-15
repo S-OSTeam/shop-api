@@ -3,11 +3,8 @@ package sosteam.deamhome.domain.item.entity.dto.request
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.DTO
 
-//TODO account 추가해야함
 data class ItemRequestDTO(
     val title: String,
-    val categoryTitle: String,
-    val detailCategoryTitle: String,
     val content: String,
     val summary: String,
     val price: Int = 0,
@@ -18,6 +15,9 @@ data class ItemRequestDTO(
     val reviewCnt: Int = 0,
     val qnaCnt: Int = 0,
     val status: Boolean = false,
+    val categoryTitle: String,
+    val detailCategoryTitle: String,
+    val sellerId: String,
     val imageId: MutableList<String>
 ) : DTO {
     override fun asDomain(): Item {
@@ -35,6 +35,7 @@ data class ItemRequestDTO(
             this.status,
             this.categoryTitle,
             this.detailCategoryTitle,
+            this.sellerId
         ).apply {
             images = imageId}
     }

@@ -2,8 +2,6 @@ package sosteam.deamhome.domain.item.entity
 
 import lombok.Builder
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.DocumentReference
-import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Document
@@ -21,10 +19,10 @@ data class Item(
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
 	val categoryTitle: String,
-	val detailCategoryTitle: String
+	val detailCategoryTitle: String,
+	val sellerId: String,
 ) : BaseEntity(){
 	var images: MutableList<String> = mutableListOf()
-	@DocumentReference(lazy = true) var account: Account? = null
 
 	fun modifyImage(images: MutableList<String>): MutableList<String>{
 		this.images = images
