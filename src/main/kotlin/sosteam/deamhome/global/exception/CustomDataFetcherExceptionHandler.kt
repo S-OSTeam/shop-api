@@ -13,13 +13,10 @@ class CustomDataFetcherExceptionHandler : DataFetcherExceptionHandler {
 		val sourceLocation = handlerParameters?.sourceLocation
 		val path = handlerParameters?.path
 
-		println("hihihihih------------------------hihihih")
-
-
-
 		val error = when (exception) {
 			is CustomGraphQLException ->
 				GraphqlErrorException.newErrorException()
+					.cause(exception)
 					.errorClassification(exception.errorType)
 					.message(exception.message)
 					.extensions(exception.extensions)

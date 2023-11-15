@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component
 class CustomExceptionResolver : DataFetcherExceptionResolverAdapter() {
 
     override fun resolveToSingleError(ex: Throwable, env: DataFetchingEnvironment): GraphQLError? {
-        println("hellohellohello21323")
         return if (ex is CustomGraphQLException) {
             GraphqlErrorBuilder.newError()
                 .errorType(ex.errorType)

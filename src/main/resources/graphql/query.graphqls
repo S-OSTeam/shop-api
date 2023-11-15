@@ -1,4 +1,6 @@
 type Query {
+    ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
+
     findCategoryByTitle(title: String): ItemCategoryResponseDTO
     getItemCategoriesContainsTitle(title: String): [ItemCategoryResponseDTO]
     getItemDetailCategoryByTitle(title: String): ItemDetailCategoryResponseDTO
@@ -6,26 +8,3 @@ type Query {
     getItemsContainsTitle(title: String): [ItemResponseDTO]
     getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
 }
-
-#type Item{
-#    title: String
-#    content: String
-#    summary: String
-#    price: Int
-#    sellCnt: Int
-#    wishCnt: Int
-#    clickCnt: Int
-#    avgReview: Float
-#    reviewCnt: Int
-#    qnaCnt: Int
-#    status: Boolean
-#    imageId: [String]
-#}
-
-#type Image {
-#    fileName: String
-#    fileOriginName: String
-#    size: Int
-#    type: String
-#    fileUrl: String
-#}

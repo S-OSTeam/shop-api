@@ -44,7 +44,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	
+
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
 	implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
@@ -66,7 +66,6 @@ dependencies {
 	testImplementation("org.springframework.graphql:spring-graphql-test")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
 	testImplementation("io.kotest:kotest-assertions-core:5.6.2")
-
 
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
@@ -105,10 +104,6 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
-
-//tasks.withType<Test>().configureEach {
-//	useJUnitPlatform()
-//}
 
 kapt {
 	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")

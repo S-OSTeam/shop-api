@@ -1,4 +1,4 @@
-input ItemRequest {
+input ItemRequestDTO {
     title: String
     content: String
     summary: String
@@ -13,6 +13,7 @@ input ItemRequest {
     userId: String
     categoryTitle: String
     detailCategoryTitle: String
+    sellerId: String
     imageId: [String]
 }
 
@@ -30,6 +31,7 @@ type ItemResponseDTO {
     categoryTitle: String
     detailCategoryTitle: String
     images: [String]
+    sellerId: String
     #    account: Account
     account: String
 }

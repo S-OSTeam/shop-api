@@ -2,7 +2,6 @@ package sosteam.deamhome.domain.item.entity.dto.response
 
 import sosteam.deamhome.domain.item.entity.Item
 
-//TODO account 추가해야함
 class ItemResponseDTO (
     val title: String,
     val content: String,
@@ -18,6 +17,7 @@ class ItemResponseDTO (
     val imageId: MutableList<String>,
     val categoryTitle: String,
     val detailCategoryTitle: String,
+    val sellerId: String
 ) {
     companion object {
         fun fromItem(item: Item): ItemResponseDTO {
@@ -35,7 +35,8 @@ class ItemResponseDTO (
                 status = item.status,
                 imageId = item.images,
                 categoryTitle = item.categoryTitle,
-                detailCategoryTitle = item.detailCategoryTitle
+                detailCategoryTitle = item.detailCategoryTitle,
+                sellerId = item.sellerId
             )
         }
     }

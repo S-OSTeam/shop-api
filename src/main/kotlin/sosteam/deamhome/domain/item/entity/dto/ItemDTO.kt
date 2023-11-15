@@ -16,5 +16,6 @@ class ItemDTO(
     val qnaCnt: Int = 0,
     val status: Boolean = false,
     val images: List<String> = listOf(),
-    val account: Account? = null
+    val sellerId: String
+//    val account: Account? = null
 )
