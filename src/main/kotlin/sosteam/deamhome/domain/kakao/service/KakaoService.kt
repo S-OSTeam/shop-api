@@ -21,8 +21,6 @@ import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 class KakaoService(
     @Value("\${spring.security.oauth2.client.kakao.client_id}")
     private val kakaoRestApiToken: String,
-    @Value("\${spring.security.oauth2.client.kakao.redirect_code_uri}")
-    private val kakaoRedirectCodeUri: String,
     @Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
     private val kakaoRedirectUri: String,
     @Value("\${spring.security.oauth2.client.kakao.client_secret}")
