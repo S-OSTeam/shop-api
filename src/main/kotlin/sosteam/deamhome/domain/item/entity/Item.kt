@@ -22,11 +22,11 @@ data class Item(
 	val detailCategoryTitle: String,
 	val sellerId: String,
 ) : BaseEntity(){
-	var images: MutableList<String> = mutableListOf()
+	var imageUrls: MutableList<String> = mutableListOf()
 
-	fun modifyImage(images: MutableList<String>): MutableList<String>{
-		this.images = images
-		return this.images
+	fun modifyImage(imageUrls: MutableList<String>): MutableList<String>{
+		this.imageUrls = imageUrls
+		return this.imageUrls
 	}
 
 }

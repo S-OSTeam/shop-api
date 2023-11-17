@@ -14,7 +14,7 @@ class ItemResponseDTO (
     val reviewCnt: Int = 0,
     val qnaCnt: Int = 0,
     val status: Boolean = false,
-    val imageId: MutableList<String>,
+    val imageUrls: MutableList<String>,
     val categoryTitle: String,
     val detailCategoryTitle: String,
     val sellerId: String
@@ -33,7 +33,7 @@ class ItemResponseDTO (
                 reviewCnt = item.reviewCnt,
                 qnaCnt = item.qnaCnt,
                 status = item.status,
-                imageId = item.images,
+                imageUrls = item.imageUrls,
                 categoryTitle = item.categoryTitle,
                 detailCategoryTitle = item.detailCategoryTitle,
                 sellerId = item.sellerId

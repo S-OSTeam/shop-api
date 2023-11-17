@@ -37,8 +37,8 @@ class ImageProvider(
 		}
 		url += "${imageUuid}"
 		File(filePath).mkdirs()
-		
-		val file = File("x:/images/item/review/", imageUuid)
+
+		val file = File(filePath, imageUuid)
 		
 		val ret = Image(
 			imageUuid,

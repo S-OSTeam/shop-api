@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.item.entity.dto.request
 
+import org.springframework.http.codec.multipart.FilePart
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.DTO
 
@@ -18,7 +19,7 @@ data class ItemRequestDTO(
     val categoryTitle: String,
     val detailCategoryTitle: String,
     val sellerId: String,
-    val imageId: MutableList<String>
+    val images: List<FilePart>
 ) : DTO {
     override fun asDomain(): Item {
         return Item(
@@ -36,7 +37,6 @@ data class ItemRequestDTO(
             this.categoryTitle,
             this.detailCategoryTitle,
             this.sellerId
-        ).apply {
-            images = imageId}
+        )
     }
 }

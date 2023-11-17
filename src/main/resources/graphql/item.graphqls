@@ -14,7 +14,7 @@ input ItemRequestDTO {
     categoryTitle: String
     detailCategoryTitle: String
     sellerId: String
-    imageId: [String]
+    images: [Upload]
 }
 
 type ItemResponseDTO {
@@ -30,7 +30,7 @@ type ItemResponseDTO {
     status: Boolean
     categoryTitle: String
     detailCategoryTitle: String
-    images: [String]
+    imageUrls: [String]
     sellerId: String
     #    account: Account
     account: String
