@@ -62,7 +62,7 @@ class NaverLoginService(
         val userInfo = getUserInfo(token).awaitSingle()
         val snsId = userInfo.get("id").toString()
 
-        // DB에 있는지 확인
+        // DB에 account 계정이 있는지 확인
         val account = accountValidService.getAccountBySnsId(snsId) as Account
         if (account != null) {
             throw AccountNotFoundException()
