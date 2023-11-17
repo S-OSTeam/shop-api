@@ -1,10 +1,10 @@
 package sosteam.deamhome.domain.kakao.dto.response
 
 data class KakaoTokenReturnResponse(
-    val token_type: String? = null,
-    val access_token: String? = null,
-    val expires_in: Int? = null,
-    val refresh_token: String? = null,
-    val refresh_token_expires_in: Int? = null,
-    val scope: String? = null
+    val token_type: String,
+    val access_token: String,
+    val expires_in: Int,
+    val refresh_token: String,
+    val refresh_token_expires_in: Int,
+    val scope: String
 )

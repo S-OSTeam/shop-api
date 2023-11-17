@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.util.UriComponentsBuilder
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
+import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
+import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
 
 @Service
 @Transactional
@@ -23,8 +24,6 @@ class KakaoService(
     private val kakaoRestApiToken: String,
     @Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
     private val kakaoRedirectUri: String,
-    @Value("\${spring.security.oauth2.client.kakao.client_secret}")
-    private val kakaoClientSecret: String
 ) {
     suspend fun getKakaoLoginPage(): String {
         val reqUrl = "https://kauth.kakao.com/oauth/authorize"
@@ -36,6 +35,12 @@ class KakaoService(
         return uriBuilder.toUriString()
     }
 
+    suspend fun kakaoSign(code: String): KakaoTokenReturnResponse {
+        val token = getKakaoToken(code);
+        getKakaoUserInfo(token.access_token)
+        return token
+    }
+
     suspend fun getKakaoToken(code: String): KakaoTokenReturnResponse {
         val reqUrl = "https://kauth.kakao.com/oauth/token"
 
@@ -43,8 +48,6 @@ class KakaoService(
         formData.add("code", code)
         formData.add("grant_type", "authorization_code")
         formData.add("client_id", kakaoRestApiToken)
-        formData.add("redirect_uri", kakaoRedirectUri)
-        //formData.add("client_secret", kakaoClientSecret)
 
         val response = WebClient.builder()
             .baseUrl(reqUrl)
@@ -55,6 +58,9 @@ class KakaoService(
             .retrieve()// 응답을 받을 것
             .bodyToMono(KakaoTokenReturnResponse::class.java)// 본문 응답 타입 지정
             .awaitSingle() // 비동기 응답 대기
+
+        if (response == null || response.access_token.isNullOrEmpty())
+            throw KakaoTokenNotFoundException("kakao token is empty")
 
         return response
     }
@@ -71,6 +77,10 @@ class KakaoService(
             .retrieve()
             .bodyToMono(KakaoUserInfo::class.java)
             .awaitSingle()
+
+        if (response == null)
+            throw KakaoUserNotFoundException("cannot get kakao user info")
+
         return response
     }
 

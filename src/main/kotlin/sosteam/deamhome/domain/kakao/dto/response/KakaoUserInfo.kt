@@ -4,5 +4,5 @@ import java.util.*
 
 data class KakaoUserInfo (
     val id: Long? = null,
-    val connected_at: Date? = null
+    val kakaoAccount: KakaoAccount? = null
 )

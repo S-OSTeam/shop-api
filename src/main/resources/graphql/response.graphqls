@@ -4,3 +4,26 @@ type tokenResponse{
     userId: String
     issuedAt: DateTime
 }
+
+type KakaoTokenReturnResponse {
+    token_type: String
+    access_token: String
+    expires_in: Int
+    refresh_token: String
+    refresh_token_expires_in: Int
+    scope: String
+}
+
+type KakaoUnlinkResponse {
+    id: String
+}
+
+type KakaoUserInfo {
+    id: Long
+    kakaoAccount: KakaoAccount
+}
+
+type KakaoAccount {
+    email: String
+    is_email_valid: Boolean
+}
