@@ -4,3 +4,8 @@ type tokenResponse{
     userId: String
     issuedAt: DateTime
 }
+
+type urlResponse{
+    naverUrl: String
+}
+
