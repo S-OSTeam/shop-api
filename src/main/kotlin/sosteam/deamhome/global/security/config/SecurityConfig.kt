@@ -37,7 +37,7 @@ class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
 			.csrf { it.disable() }
 			.cors { it.disable() }
 			.httpBasic { it.disable() }
-			.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+			//.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 		
 		return http.build()
 	}

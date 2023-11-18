@@ -17,7 +17,6 @@ import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
 import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
 
 @Service
-@Transactional
 @Slf4j
 class KakaoService(
     @Value("\${spring.security.oauth2.client.kakao.client_id}")
