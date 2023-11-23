@@ -9,15 +9,9 @@ input DetailCategoryRequestDTO {
 
 type ItemCategoryResponseDTO{
     title: String!,
-    itemDetailCategories: [ItemDetailCategory]!
+    itemDetailCategories: [ItemDetailCategoryResponseDTO]!
 }
 
 type ItemDetailCategoryResponseDTO{
     title: String!
-    itemIdList: [String]!
-}
-
-type ItemDetailCategory{
-    title: String!,
-    itemIdList: [String]!
 }

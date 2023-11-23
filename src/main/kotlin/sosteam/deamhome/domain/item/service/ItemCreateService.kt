@@ -36,14 +36,16 @@ class ItemCreateService(
         val imagesRequests = request.images
         val images = mutableListOf<Image>()
 
-        val innerLocation = request.categoryTitle + request.detailCategoryTitle + request.title
+        val item = request.asDomain().apply { this.images = images }
+
+        val innerLocation = itemCategory.id + "/" + itemDetailCategory.id + item.id
 
         imagesRequests.map {
             val ret = imageProvider.saveImage(it, "item", innerLocation).awaitSingle()
             images.add(ret)
         }
 
-        val item = request.asDomain().apply { this.images = images }
+
         itemDetailCategory.modifyItems((itemDetailCategory.itemIdList + item.id).toMutableList())
 
         itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
