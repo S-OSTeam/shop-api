@@ -11,6 +11,7 @@ import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.entity.dto.request.ItemRequestDTO
 import sosteam.deamhome.domain.item.entity.dto.response.ItemResponseDTO
 import sosteam.deamhome.domain.item.exception.ItemSaveFailException
+import sosteam.deamhome.global.image.entity.Image
 import sosteam.deamhome.global.image.provider.ImageProvider
 
 @Service
@@ -22,7 +23,6 @@ class ItemCreateService(
     ) {
 
     //TODO  account find by 로 수정
-    //TODO item entity 에 image 가 List<String> 으로 돼있는데 나중에 싹다 바꿔야함
     suspend fun createItem(request: ItemRequestDTO) : ItemResponseDTO {
 //        val account = accountRepository.findAccountByUserId(request.sellerId)
 //            ?: throw AccountNotFoundException()
@@ -33,17 +33,17 @@ class ItemCreateService(
         val itemDetailCategory = itemCategory.itemDetailCategories.find { it.title == request.detailCategoryTitle }
             ?: throw DetailCategoryNotFoundException()
 
-        val images = request.images
-        val imageUrls = mutableListOf<String>()
+        val imagesRequests = request.images
+        val images = mutableListOf<Image>()
 
         val innerLocation = request.categoryTitle + request.detailCategoryTitle + request.title
 
-        images.map {
+        imagesRequests.map {
             val ret = imageProvider.saveImage(it, "item", innerLocation).awaitSingle()
-            imageUrls.add(ret.fileUrl)
+            images.add(ret)
         }
 
-        val item = request.asDomain().apply { this.imageUrls = imageUrls }
+        val item = request.asDomain().apply { this.images = images }
         itemDetailCategory.modifyItems((itemDetailCategory.itemIdList + item.id).toMutableList())
 
         itemCategoryRepository.save(itemCategory).awaitSingleOrNull()

@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.category.service
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -14,15 +15,16 @@ class CategoryDeleteServiceTest : FunSpec({
     test("deleteItemCategoryById should call repository's deleteItemCategoryById method with the correct id") {
         // Given
         val categoryId = "testCategoryId"
-        coEvery { itemCategoryRepository.deleteItemCategoryById(categoryId) } returns Unit
+        coEvery { itemCategoryRepository.deleteItemCategoryById(categoryId) } returns 1L
 
         // When
-        categoryDeleteService.deleteItemCategoryById(categoryId)
+        val result = categoryDeleteService.deleteItemCategoryById(categoryId)
 
         // Then
         coVerify(exactly = 1) {
             itemCategoryRepository.deleteItemCategoryById(categoryId)
         }
+        result shouldBe 1L
     }
 
 })

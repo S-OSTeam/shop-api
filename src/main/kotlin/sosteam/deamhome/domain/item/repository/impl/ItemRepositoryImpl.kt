@@ -27,9 +27,6 @@ class ItemRepositoryImpl (
     }
 
     override fun getItemsByOption(itemIdList: List<String>?, title: String?): Flow<Item> {
-
-        //둘 다 null 이면 모두 검색하는게 맞나? 아니면 검색 조건을 넣어주세요 라고 해야하나?
-        //둘 다 null 이면 graphql 에서 syntax error 남
         return repository.findAll(searchOption(itemIdList, title)).asFlow()
     }
 
@@ -37,11 +34,11 @@ class ItemRepositoryImpl (
         val builder = BooleanBuilder()
         if(itemIdList != null){
             builder.and(item.id.`in`(itemIdList))
-            log().info("builder add id")
+            log().debug("builder add id")
         }
         if(!title.isNullOrBlank() ){
             builder.and(item.title.eq(title))
-            log().info("builder add title")
+            log().debug("builder add title")
         }
         return builder
     }

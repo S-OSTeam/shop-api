@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.item.entity.dto.response
 
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.global.image.entity.Image
 
 class ItemResponseDTO (
     val title: String,
@@ -14,9 +15,7 @@ class ItemResponseDTO (
     val reviewCnt: Int = 0,
     val qnaCnt: Int = 0,
     val status: Boolean = false,
-    val imageUrls: MutableList<String>,
-    val categoryTitle: String,
-    val detailCategoryTitle: String,
+    val images: MutableList<Image>,
     val sellerId: String
 ) {
     companion object {
@@ -33,9 +32,7 @@ class ItemResponseDTO (
                 reviewCnt = item.reviewCnt,
                 qnaCnt = item.qnaCnt,
                 status = item.status,
-                imageUrls = item.imageUrls,
-                categoryTitle = item.categoryTitle,
-                detailCategoryTitle = item.detailCategoryTitle,
+                images = item.images,
                 sellerId = item.sellerId
             )
         }

@@ -31,8 +31,6 @@ class ItemSearchService(
 
         val itemIdList = itemIds?.toList()
 
-//        println(itemIdList)
-
         return itemRepository.getItemsByOption(itemIdList, itemTitle)
             .map { ItemResponseDTO.fromItem(it) }
     }

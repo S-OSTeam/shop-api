@@ -15,7 +15,6 @@ class CustomExceptionResolver : DataFetcherExceptionResolverAdapter() {
                 .errorType(ex.errorType)
                 .message(ex.message)
                 .extensions(ex.extensions)
-//                .path(env.executionStepInfo.path)
                 .location(env.field.sourceLocation)
                 .build()
         } else {

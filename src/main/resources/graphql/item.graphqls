@@ -1,37 +1,36 @@
 input ItemRequestDTO {
-    title: String
-    content: String
-    summary: String
-    price: Int
-    sellCnt: Int
-    wishCnt: Int
-    clickCnt: Int
-    avgReview: Float
-    reviewCnt: Int
-    qnaCnt: Int
-    status: Boolean
-    userId: String
-    categoryTitle: String
-    detailCategoryTitle: String
-    sellerId: String
-    images: [Upload]
+    title: String!
+    content: String!
+    summary: String!
+    price: Int!
+    status: Boolean!
+    categoryTitle: String!
+    detailCategoryTitle: String!
+    sellerId: String!
+    images: [Upload!]
 }
 
 type ItemResponseDTO {
-    title: String
-    content: String
-    summary: String
-    sellCnt: Int
-    wishCnt: Int
-    clickCnt: Int
-    avgReview: Float
-    reviewCnt: Int
-    qnaCnt: Int
-    status: Boolean
-    categoryTitle: String
-    detailCategoryTitle: String
-    imageUrls: [String]
-    sellerId: String
+    title: String!
+    content: String!
+    summary: String!
+    sellCnt: Int!
+    wishCnt: Int!
+    clickCnt: Int!
+    avgReview: Float!
+    reviewCnt: Int!
+    qnaCnt: Int!
+    status: Boolean!
+    images: [Image]!
+    sellerId: String!
     #    account: Account
-    account: String
+}
+
+type Image{
+    fileName: String
+    fileOriName: String
+    path: String
+    size: Long
+    type: String
+    fileUrl: String
 }

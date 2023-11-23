@@ -3,6 +3,7 @@ package sosteam.deamhome.domain.item.entity
 import lombok.Builder
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.entity.BaseEntity
+import sosteam.deamhome.global.image.entity.Image
 
 @Document
 @Builder
@@ -18,15 +19,13 @@ data class Item(
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
-	val categoryTitle: String,
-	val detailCategoryTitle: String,
-	val sellerId: String,
+	val sellerId: String
 ) : BaseEntity(){
-	var imageUrls: MutableList<String> = mutableListOf()
+	var images: MutableList<Image> = mutableListOf()
 
-	fun modifyImage(imageUrls: MutableList<String>): MutableList<String>{
-		this.imageUrls = imageUrls
-		return this.imageUrls
+	fun modifyImage(images: MutableList<Image>): MutableList<Image>{
+		this.images = images
+		return this.images
 	}
 
 }
