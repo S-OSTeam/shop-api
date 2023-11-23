@@ -23,8 +23,9 @@ class ItemResolver(
     }
 
     @MutationMapping
-    suspend fun deleteItem(@Argument id: String){
+    suspend fun deleteItem(@Argument id: String) : Boolean{
         itemDeleteService.deleteItem(id)
+        return true
     }
 
     @QueryMapping
