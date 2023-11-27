@@ -1,7 +1,5 @@
 package sosteam.deamhome.domain.item.entity.dto
 
-import sosteam.deamhome.domain.account.entity.Account
-
 
 class ItemDTO(
     val title: String? = null,

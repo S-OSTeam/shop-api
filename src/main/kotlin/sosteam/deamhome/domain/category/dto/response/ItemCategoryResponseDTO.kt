@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.category.dto.response
 
 import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.entity.ItemDetailCategory
 
 class ItemCategoryResponseDTO (
     val title: String? = null,

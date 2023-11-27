@@ -2,7 +2,7 @@ package sosteam.deamhome.domain.category.exception
 
 import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
-//TODO NTERNAL_ERROR 가 맞나요?
+//TODO INTERNAL_ERROR 가 맞나요?
 class CategorySaveFailException (
     errorCode: String = "CATEGORY_SAVE_FAIL",
 

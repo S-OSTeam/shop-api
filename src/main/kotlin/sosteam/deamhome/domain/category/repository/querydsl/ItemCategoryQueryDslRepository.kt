@@ -5,5 +5,4 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import sosteam.deamhome.domain.category.entity.ItemCategory
 
 interface ItemCategoryQueryDslRepository: ReactiveCrudRepository<ItemCategory, String>,
-    ReactiveQuerydslPredicateExecutor<ItemCategory> {
-}
+    ReactiveQuerydslPredicateExecutor<ItemCategory>
