@@ -20,7 +20,7 @@ allOpen {
 }
 
 group = "sosteam"
-version = "1.0.0"
+version = "0.1.0"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
