@@ -18,6 +18,11 @@ class ImageResolver(private val imageProvider: ImageProvider) {
 	}
 	
 	@MutationMapping
+	suspend fun test(): String {
+		return "test"
+	}
+	
+	@MutationMapping
 	suspend fun deleteImage(@Argument path: String): String {
 		imageProvider.deleteImage(path)
 		

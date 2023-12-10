@@ -5,6 +5,7 @@ type Mutation {
     logout: String
     reIssue: tokenResponse
 
+    test: String
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
 
