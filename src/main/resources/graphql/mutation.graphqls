@@ -15,4 +15,5 @@ type Mutation {
     deleteCategory(id: String): Boolean
     deleteItem(id: String): Boolean
     increaseClickCnt(itemId: String): ItemResponseDTO
+    moveDetailCategory(detailCategoryTitle: String, categoryTitle: String): ItemCategoryResponseDTO
 }

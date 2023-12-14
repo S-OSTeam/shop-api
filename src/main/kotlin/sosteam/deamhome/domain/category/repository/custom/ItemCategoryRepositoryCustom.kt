@@ -17,6 +17,8 @@ interface ItemCategoryRepositoryCustom {
 
     suspend fun findCategoryByItemId(itemId: String): ItemCategory?
 
+    suspend fun getCategoryByDetailCategoryTitle(detailCategoryTitle: String): ItemCategory?
+
 //    suspend fun deleteDetailCategoryById(id: String)
 
 }

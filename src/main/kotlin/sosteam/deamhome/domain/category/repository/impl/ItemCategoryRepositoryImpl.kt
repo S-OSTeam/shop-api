@@ -53,6 +53,11 @@ class ItemCategoryRepositoryImpl (
             .awaitSingleOrNull()
     }
 
+    override suspend fun getCategoryByDetailCategoryTitle(detailCategoryTitle: String): ItemCategory? {
+        return repository.findOne(itemCategory.itemDetailCategories.any().title.eq(detailCategoryTitle))
+            .awaitSingleOrNull()
+    }
+
 //    override suspend fun deleteDetailCategoryById(id: String) {
 //        // 그냥 삭제해도 되나? 안에 item 들어있는지 확인해보고 없으면 삭제해야하나??
 //    }
