@@ -10,12 +10,14 @@ import sosteam.deamhome.domain.item.entity.dto.response.ItemResponseDTO
 import sosteam.deamhome.domain.item.service.ItemCreateService
 import sosteam.deamhome.domain.item.service.ItemDeleteService
 import sosteam.deamhome.domain.item.service.ItemSearchService
+import sosteam.deamhome.domain.item.service.ItemUpdateService
 
 @RestController
 class ItemResolver(
     private val itemCreateService: ItemCreateService,
     private val itemDeleteService: ItemDeleteService,
-    private val itemSearchService: ItemSearchService
+    private val itemSearchService: ItemSearchService,
+    private val itemUpdateService: ItemUpdateService
     ) {
     @MutationMapping
     suspend fun createItem(@Argument request: ItemRequestDTO) : ItemResponseDTO {
@@ -39,6 +41,11 @@ class ItemResolver(
         //검색조건 추가하라고 하는게 나을듯
         //graphql 에서 인자로 아무것도 안넣으면 syntax error 라서 null 이라도 넣으면 작동함
         return itemSearchService.getItemsByOption(categoryTitle, detailTitle, itemTitle).toList()
+    }
+
+    @MutationMapping
+    suspend fun increaseClickCnt(@Argument itemId: String): ItemResponseDTO{
+        return itemUpdateService.increaseClickCnt(itemId)
     }
 
 }
