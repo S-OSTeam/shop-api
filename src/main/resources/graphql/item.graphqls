@@ -8,6 +8,7 @@ input ItemRequestDTO {
     detailCategoryTitle: String!
     sellerId: String!
     images: [Upload!]
+    freeDelivery: Boolean!
 }
 
 type ItemResponseDTO {
@@ -23,6 +24,7 @@ type ItemResponseDTO {
     status: Boolean!
     images: [Image]!
     sellerId: String!
+    freeDelivery: Boolean!
     #    account: Account
 }
 

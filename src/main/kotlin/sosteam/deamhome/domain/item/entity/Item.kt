@@ -19,7 +19,8 @@ data class Item(
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
-	val sellerId: String
+	val sellerId: String,
+	val freeDelivery: Boolean = false
 ) : BaseEntity(){
 	var images: MutableList<Image> = mutableListOf()
 

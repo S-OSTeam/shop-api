@@ -16,7 +16,8 @@ class ItemResponseDTO (
     val qnaCnt: Int = 0,
     val status: Boolean = false,
     val images: MutableList<Image>,
-    val sellerId: String
+    val sellerId: String,
+    val freeDelivery: Boolean = false
 ) {
     companion object {
         fun fromItem(item: Item): ItemResponseDTO {
@@ -33,7 +34,8 @@ class ItemResponseDTO (
                 qnaCnt = item.qnaCnt,
                 status = item.status,
                 images = item.images,
-                sellerId = item.sellerId
+                sellerId = item.sellerId,
+                freeDelivery = item.freeDelivery
             )
         }
     }
