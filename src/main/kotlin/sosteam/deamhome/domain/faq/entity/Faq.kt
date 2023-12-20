@@ -12,10 +12,9 @@ class Faq(
 	user: Account,
 	category: FaqCategory
 ) : LogEntity() {
-
 	val user: Account = user
-
+	
 	lateinit var admin: Account
-
+	
 	var category: FaqCategory = category
 }

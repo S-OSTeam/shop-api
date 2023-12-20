@@ -7,13 +7,4 @@ import sosteam.deamhome.global.entity.LogEntity
 class FaqCategory(
 	var title: String,
 	
-	) : LogEntity() {
-	
-//	@DocumentReference(lazy = true)
-	val faqs: ArrayList<Faq> = ArrayList()
-	
-	fun addFaq(faq: Faq): List<Faq> {
-		faqs.add(faq)
-		return faqs
-	}
-}
+	) : LogEntity()
