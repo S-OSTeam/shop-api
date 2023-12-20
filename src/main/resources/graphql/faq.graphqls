@@ -1,0 +1,23 @@
+type Faq {
+    id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+
+type FaqCategory {
+    title: String!
+    faqIds: [String]
+}
+
+input FaqCategoryRequest {
+    faqCategories: [FaqCategory!]
+}
+
+input FaqsRequest {
+    faq: [Faq]
+}
+
+type FaqResponse {
+
+}
