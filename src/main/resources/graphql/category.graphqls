@@ -1,17 +1,12 @@
-input CategoryRequestDTO {
+input ItemCategoryRequest {
     title: String!
+    parentSeq: Long
 }
 
-input DetailCategoryRequestDTO {
+type ItemCategoryResponse{
     title: String!
-    categoryTitle: String!
+    sequence: Long!
+    parentSeq: Long
+    childrenSeq: [Long]!
 }
 
-type ItemCategoryResponseDTO{
-    title: String!,
-    itemDetailCategories: [ItemDetailCategoryResponseDTO]!
-}
-
-type ItemDetailCategoryResponseDTO{
-    title: String!
-}

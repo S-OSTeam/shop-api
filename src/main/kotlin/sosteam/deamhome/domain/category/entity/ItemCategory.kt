@@ -1,22 +1,18 @@
 package sosteam.deamhome.domain.category.entity
 
-import lombok.Builder
-import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.entity.BaseEntity
 
-
 @Document
-@Builder
 data class ItemCategory(
-    @Indexed(unique = true)
-	var title: String
-) : BaseEntity(){
+    var title: String,
+    var sequence: Long = 0L,
+    var parentSeq: Long? = null,
+    var childrenSeq: MutableList<Long> = mutableListOf()
+) : BaseEntity() {
 
-    var itemDetailCategories: MutableList<ItemDetailCategory> = mutableListOf()
-
-    fun modifyDetailCategory(itemDetailCategories: MutableList<ItemDetailCategory>): List<ItemDetailCategory> {
-        this.itemDetailCategories = itemDetailCategories
-        return this.itemDetailCategories
+    companion object {
+        const val SEQUENCE_NAME = "CATEGORY_SEQUENCE"
+        const val MAX_DEPTH = 2
     }
 }
