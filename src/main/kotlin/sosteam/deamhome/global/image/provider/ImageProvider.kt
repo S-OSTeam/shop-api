@@ -38,7 +38,7 @@ class ImageProvider(
 		url += "${imageUuid}"
 		File(filePath).mkdirs()
 		
-		val file = File("x:/images/item/review/", imageUuid)
+		val file = File(filePath, imageUuid)
 		
 		val ret = Image(
 			imageUuid,
@@ -51,7 +51,16 @@ class ImageProvider(
 		
 		
 		return image.transferTo(file).then(
-			Mono.just(ret)
+			Mono.just(
+				Image(
+					imageUuid,
+					image.filename(),
+					filePath + imageUuid,
+					file.length(),
+					type,
+					url
+				)
+			)
 		)
 	}
 	

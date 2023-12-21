@@ -5,6 +5,13 @@ type Mutation {
     logout: String
     reIssue: tokenResponse
 
+    test: String
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
+
+    createCategory(request: CategoryRequestDTO): ItemCategoryResponseDTO
+    createDetailCategory(request: DetailCategoryRequestDTO): ItemCategoryResponseDTO
+    createItem(request: ItemRequestDTO): ItemResponseDTO
+    deleteCategory(id: String): Boolean
+    deleteItem(id: String): Boolean
 }
