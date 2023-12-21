@@ -22,11 +22,6 @@ class AccountValidService(
         return accountRepository.findAccountByUserId(userId)
     }
 
-    //snsId로 account 가져오기
-    suspend fun getAccountBySnsId(snsId: String): Account? {
-        return accountRepository.findAccountBySnsId(snsId)
-    }
-
     suspend fun getAccountLoginDTO(id: String, pwd: String): AccountLoginDTO {
         val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
 
