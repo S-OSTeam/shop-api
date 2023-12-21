@@ -6,12 +6,7 @@ type tokenResponse{
 }
 
 type KakaoTokenReturnResponse {
-    token_type: String
-    access_token: String
-    expires_in: Int
-    refresh_token: String
-    refresh_token_expires_in: Int
-    scope: String
+    accessToken: String
 }
 
 type KakaoUnlinkResponse {
@@ -25,5 +20,4 @@ type KakaoUserInfo {
 
 type KakaoAccount {
     email: String
-    is_email_valid: Boolean
 }

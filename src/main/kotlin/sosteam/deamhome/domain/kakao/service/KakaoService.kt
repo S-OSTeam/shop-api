@@ -36,7 +36,7 @@ class KakaoService(
 
     suspend fun kakaoSign(code: String): KakaoTokenReturnResponse {
         val token = getKakaoToken(code);
-        getKakaoUserInfo(token.access_token)
+        getKakaoUserInfo(token.accessToken)
         return token
     }
 
@@ -58,7 +58,7 @@ class KakaoService(
             .bodyToMono(KakaoTokenReturnResponse::class.java)// 본문 응답 타입 지정
             .awaitSingle() // 비동기 응답 대기
 
-        if (response == null || response.access_token.isNullOrEmpty())
+        if (response == null || response.accessToken.isNullOrEmpty())
             throw KakaoTokenNotFoundException("kakao token is empty")
 
         return response
