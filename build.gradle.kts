@@ -49,7 +49,6 @@ dependencies {
     implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
     implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
 
-
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testCompileOnly("org.projectlombok:lombok")
@@ -84,8 +83,12 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.2")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
 
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.mockito:mockito-core:5.2.0")
+
     implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 
     implementation("org.json:json:20211205")
 
