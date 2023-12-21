@@ -49,7 +49,6 @@ dependencies {
     implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
     implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
 
-
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testCompileOnly("org.projectlombok:lombok")
@@ -63,6 +62,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.mockito:mockito-core:5.2.0")
+    testImplementation("org.springframework.graphql:spring-graphql-test")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.6.2")
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
@@ -78,14 +80,22 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    testImplementation("org.springframework.graphql:spring-graphql-test:1.2.3")
+
     testImplementation("it.ozimov:embedded-redis:0.7.2")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.4.2")
     testImplementation("io.mockk:mockk:1.13.2")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
 
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.mockito:mockito-core:5.2.0")
+
     implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 
     implementation("org.json:json:20211205")
 
