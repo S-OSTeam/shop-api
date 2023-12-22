@@ -1,39 +1,39 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.4"
-    id("io.spring.dependency-management") version "1.1.3"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
-    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
-    kotlin("kapt") version "1.8.22"
+	id("org.springframework.boot") version "3.1.4"
+	id("io.spring.dependency-management") version "1.1.3"
+	id("org.jetbrains.kotlin.plugin.noarg") version "1.8.22"
+	id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
+	kotlin("jvm") version "1.8.22"
+	kotlin("plugin.spring") version "1.8.22"
+	kotlin("kapt") version "1.8.22"
 }
 
 noArg {
-    annotation("jakarta.persistence.Document")
+	annotation("jakarta.persistence.Document")
 }
 
 allOpen {
-    annotation("jakarta.persistence.Document")
-    annotation("jakarta.persistence.Embeddable")
+	annotation("jakarta.persistence.Document")
+	annotation("jakarta.persistence.Embeddable")
 }
 
 group = "sosteam"
 version = "1.0.0"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_17
 }
 
 configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
@@ -95,40 +95,40 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
-  implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
-
-  implementation("org.json:json:20211205")
-
-  testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
+	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+	
+	implementation("org.json:json:20211205")
+	
+	testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
 }
 
 tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
-    }
+	kotlinOptions {
+		freeCompilerArgs += "-Xjsr305=strict"
+		jvmTarget = "17"
+	}
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
 
 kapt {
-    annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")
+	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")
 }
 
 val querydslDir = "$buildDir/generated/querydsl"
 
 sourceSets.getByName("main") {
-    java.srcDir(querydslDir)
+	java.srcDir(querydslDir)
 }
 
 configurations {
-    named("querydsl") {
-        extendsFrom(configurations.compileClasspath.get())
-    }
+	named("querydsl") {
+		extendsFrom(configurations.compileClasspath.get())
+	}
 }
