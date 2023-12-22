@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.category.resolver
+package sosteam.deamhome.domain.category.handler
 
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
@@ -8,8 +8,9 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.category.dto.request.ItemCategoryRequest
-import sosteam.deamhome.domain.category.dto.response.ItemCategoryResponse
+//import sosteam.deamhome.domain.category.handler.request.ItemCategoryListRequest
+import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
+import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
 import sosteam.deamhome.domain.category.service.ItemCategoryDeleteService
 import sosteam.deamhome.domain.category.service.ItemCategorySearchService
@@ -28,8 +29,8 @@ class ItemCategoryResolver(
     }
 
     @QueryMapping
-    suspend fun getItemCategoryBySequence(@Argument @Min(0L) sequence: Long) : ItemCategoryResponse {
-        return itemCategorySearchService.getItemCategoryBySequence(sequence)
+    suspend fun getItemCategoryByPublicId(@Argument @Min(0L) publicId: Long) : ItemCategoryResponse {
+        return itemCategorySearchService.getItemCategoryByPublicId(publicId)
     }
 
     @QueryMapping
@@ -38,15 +39,20 @@ class ItemCategoryResolver(
     }
 
     @MutationMapping
-    suspend fun deleteItemCategoryBySequence(@Argument @Min(0L) sequence: Long) : String{
-        val deletedTitle = itemCategoryDeleteService.deleteItemCategoryBySequence(sequence)
+    suspend fun deleteItemCategoryByPublicId(@Argument @Min(0L) publicId: Long) : String{
+        val deletedTitle = itemCategoryDeleteService.deleteItemCategoryByPublicId(publicId)
         return "$deletedTitle has been deleted"
     }
 
-    @MutationMapping
-    suspend fun moveCategory(@Argument @Min(0L)sourceSeq: Long, @Argument @Min(0L)destinationSeq: Long) : String {
-        itemCategoryUpdateService.moveCategory(sourceSeq, destinationSeq)
-        return "moveCategory"
+    @QueryMapping
+    suspend fun findAllItemCategories() : List<ItemCategoryResponse> {
+        return itemCategorySearchService.findAllItemCategories().toList()
     }
+
+//    @MutationMapping
+//    suspend fun updateItemCategory(@Argument itemCategoryListRequest: ItemCategoryListRequest) : String {
+//        return itemCategoryUpdateService.updateItemCategory(itemCategoryListRequest)
+//        return "updateItemCategory"
+//    }
 
 }

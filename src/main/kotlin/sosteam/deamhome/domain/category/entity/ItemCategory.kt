@@ -6,9 +6,9 @@ import sosteam.deamhome.global.entity.BaseEntity
 @Document
 data class ItemCategory(
     var title: String,
-    var sequence: Long = 0L,
-    var parentSeq: Long? = null,
-    var childrenSeq: MutableList<Long> = mutableListOf()
+    var publicId: Long = 0L,
+    var parentPublicId: Long? = null,
+    var childrenPublicId: MutableList<Long> = mutableListOf()
 ) : BaseEntity() {
 
     companion object {

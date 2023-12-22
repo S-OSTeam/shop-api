@@ -10,7 +10,6 @@ type Mutation {
     deleteImage(path: String): String
 
     createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
-    deleteItemCategoryBySequence(sequence: Long!) : String
-    moveCategory(sourceSeq: Long, destinationSeq: Long) : String
+    deleteItemCategoryBySequence(publicId: Long!) : String
 
 }

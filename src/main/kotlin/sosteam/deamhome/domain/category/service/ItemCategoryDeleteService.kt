@@ -11,15 +11,15 @@ import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 class ItemCategoryDeleteService (
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
-    suspend fun deleteItemCategoryBySequence(sequence: Long): String {
-        val itemCategory = (itemCategoryRepository.deleteBySequence(sequence)
+    suspend fun deleteItemCategoryByPublicId(publicId: Long): String {
+        val itemCategory = (itemCategoryRepository.deleteByPublicId(publicId)
             ?: throw CategoryNotFoundException())
 
-        itemCategory.parentSeq?.let { parentSeq ->
-            val parentCategory = itemCategoryRepository.findBySequence(parentSeq)
+        itemCategory.parentPublicId?.let { parentPublicId ->
+            val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
 
-            parentCategory.childrenSeq.remove(sequence)
+            parentCategory.childrenPublicId.remove(publicId)
             itemCategoryRepository.save(parentCategory).awaitSingleOrNull()
         }
         return itemCategory.title
