@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 //import sosteam.deamhome.domain.category.handler.request.ItemCategoryListRequest
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
+import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
 import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
 import sosteam.deamhome.domain.category.service.ItemCategoryDeleteService
 import sosteam.deamhome.domain.category.service.ItemCategorySearchService
@@ -31,6 +32,11 @@ class ItemCategoryResolver(
     @QueryMapping
     suspend fun getItemCategoryByPublicId(@Argument @Min(0L) publicId: Long) : ItemCategoryResponse {
         return itemCategorySearchService.getItemCategoryByPublicId(publicId)
+    }
+
+    @QueryMapping
+    suspend fun findAllItemCategoriesTree() : List<ItemCategoryTreeResponse> {
+        return itemCategorySearchService.findAllItemCategoriesTree()
     }
 
     @QueryMapping
