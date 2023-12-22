@@ -14,7 +14,7 @@ internal class NaverLoginServiceTest : BehaviorSpec() {
     override fun extensions() = listOf(SpringExtension)
 
     @Autowired
-    private lateinit var naverLoginService: NaverLoginService
+    private lateinit var naverService: NaverService
 
     @MockkBean
     private lateinit var randomKeyProvider: RandomKeyProvider
@@ -26,7 +26,7 @@ internal class NaverLoginServiceTest : BehaviorSpec() {
             When("naverUrl을 생성하면") {
                 every { randomKeyProvider.randomAlphabetNumber(32) } returns "randomState"
 
-                val url = naverLoginService.naverConnect(randomKeyProvider).naverUrl
+                val url = naverService.naverConnect(randomKeyProvider).naverUrl
                 Then("url 패턴과 같은 형식이어야한다.") {
                     url shouldMatch Regex(expectedPattern)
                 }

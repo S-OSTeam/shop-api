@@ -2,26 +2,35 @@ package sosteam.deamhome.domain.naver.handler
 
 import jakarta.validation.Valid
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
-import sosteam.deamhome.domain.naver.handler.request.AuthorizationCode
-import sosteam.deamhome.domain.naver.handler.response.UrlResponse
-import sosteam.deamhome.domain.naver.service.NaverLoginService
-import sosteam.deamhome.global.security.provider.RandomKeyProvider
-import sosteam.deamhome.global.security.response.TokenResponse
+import sosteam.deamhome.domain.naver.handler.response.NaverTokenReturnResponse
+import sosteam.deamhome.domain.naver.handler.response.NaverUnlinkResponse
+import sosteam.deamhome.domain.naver.handler.response.NaverUserInfo
+import sosteam.deamhome.domain.naver.service.NaverService
 
 @Controller
 class NaverResolver(
-    private val naverLoginService: NaverLoginService,
-    private val randomKeyProvider: RandomKeyProvider
+    private val naverService: NaverService,
 ) {
     @QueryMapping
-    suspend fun getNaverUrl(): UrlResponse {
-        return naverLoginService.naverConnect(randomKeyProvider)
+    suspend fun naverLoginUrl(): String {
+        return naverService.getNaverLoginPage()
+    }
+
+    @MutationMapping
+    suspend fun naverSignUp(@Argument @Valid code: String, @Argument @Valid state: String): NaverTokenReturnResponse {
+        return naverService.naverSign(code, state)
     }
 
     @QueryMapping
-    suspend fun getNaverLogin(@Argument @Valid authorizationCode: AuthorizationCode): TokenResponse {
-        return naverLoginService.naverLogin(authorizationCode.code, authorizationCode.state)
+    suspend fun naverUserInfo(@Argument @Valid token: String): NaverUserInfo {
+        return naverService.getNaverUserInfo(token)
+    }
+
+    @MutationMapping
+    suspend fun naverUnlink(@Argument @Valid token: String): NaverUnlinkResponse {
+        return naverService.unlinkNaver(token)
     }
 }

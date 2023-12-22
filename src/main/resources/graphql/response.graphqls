@@ -5,9 +5,23 @@ type tokenResponse{
     issuedAt: DateTime
 }
 
-type urlResponse{
-    naverUrl: String
+type NaverTokenReturnResponse {
+    accessToken: String
 }
+
+type NaverUnlinkResponse {
+    id: String
+}
+
+type NaverUserInfo {
+    id: Long
+    naverAccount: NaverAccount
+}
+
+type NaverAccount {
+    email: String
+}
+
 
 type KakaoTokenReturnResponse {
     accessToken: String
