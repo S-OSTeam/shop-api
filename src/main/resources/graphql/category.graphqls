@@ -1,12 +1,18 @@
 input ItemCategoryRequest {
     title: String!
-    parentId: Long
+    parentPublicId: Long
 }
 
 type ItemCategoryResponse{
     title: String!
     publicId: Long!
     parentPublicId: Long
-    childrenId: [Long]!
+    childrenPublicId: [Long]!
 }
+
+type ItemCategoryTreeResponse{
+    title: String!
+    children: [ItemCategoryTreeResponse]!
+}
+
 

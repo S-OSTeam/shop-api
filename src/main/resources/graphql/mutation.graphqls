@@ -11,7 +11,7 @@ type Mutation {
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
 
-    createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
-    deleteItemCategoryBySequence(publicId: Long!) : String
+    createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse!
+    deleteItemCategoryByPublicId(publicId: Long!) : String!
 
 }
