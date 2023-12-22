@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import sosteam.deamhome.domain.faq.entity.Faq
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
@@ -47,45 +46,34 @@ data class Account(
 	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
-    companion object{
-        const val maxWishListSize = 100
-    }
-
-    private var faqs: ArrayList<String> = ArrayList()
-
-    private var wishlist: ArrayList<String> = ArrayList()
-
-    private var reviews: ArrayList<String> = ArrayList()
-
-    fun getWishlist(): List<String> {
-        return wishlist.toList()
-    }
-
-    fun addWishListItem(itemId:String): List<String>{
-        wishlist.add(itemId)
-        return wishlist
-    }
-
-    fun removeWishListItem(itemId:String): List<String>{
-        wishlist.remove(itemId)
-        return wishlist
-    }
-    fun isItemIdInWishlist(itemId: String): Boolean {
-        return wishlist.contains(itemId)
-    }
-
-    fun getWishListSize():Int{
-        return wishlist.size
-    }
-	
-	fun addFaq(faq: Faq): List<String> {
-		faqs.add(faq.id)
-		return faqs
+	companion object {
+		const val maxWishListSize = 100
 	}
 	
-	fun addReview(review: String): List<String> {
-		reviews.add(review)
-		return reviews
+	
+	private val faqs: ArrayList<String> = ArrayList()
+	
+	@Setter
+	private val wishlist: ArrayList<String> = ArrayList()
+	
+	private val reviews: ArrayList<String> = ArrayList()
+	
+	fun addWishListItem(itemId: String): List<String> {
+		wishlist.add(itemId)
+		return wishlist
+	}
+	
+	fun removeWishListItem(itemId: String): List<String> {
+		wishlist.remove(itemId)
+		return wishlist
+	}
+	
+	fun isItemIdInWishlist(itemId: String): Boolean {
+		return wishlist.contains(itemId)
+	}
+	
+	fun getWishListSize(): Int {
+		return wishlist.size
 	}
 	
 	@JsonIgnore

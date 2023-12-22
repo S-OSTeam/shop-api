@@ -23,7 +23,7 @@ type Query {
     findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
     findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
     findItemByPublicId(publicId: Long @Min(value : 1)): ItemResponse
-    
+
 
     getWishList(request: WishListPageRequest): [ItemResponse]
 }
