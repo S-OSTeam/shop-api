@@ -95,11 +95,8 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
-	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
 	
 	implementation("org.json:json:20211205")
-	
-	testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
 }
 
 tasks.withType<Jar> {
