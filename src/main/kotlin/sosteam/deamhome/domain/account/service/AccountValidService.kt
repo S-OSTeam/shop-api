@@ -13,35 +13,35 @@ import sosteam.deamhome.global.exception.PasswordNotMatchedException
 @Service
 @RequiredArgsConstructor
 class AccountValidService(
-    private val accountRepository: AccountRepository,
-    private val passwordEncoder: PasswordEncoder
+	private val accountRepository: AccountRepository,
+	private val passwordEncoder: PasswordEncoder
 ) {
-
-    //userId로 account 가져오기
-    suspend fun getAccountByUserId(userId: String): Account? {
-        return accountRepository.findAccountByUserId(userId)
-    }
-
-    suspend fun getAccountLoginDTO(id: String, pwd: String): AccountLoginDTO {
-        val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
-
-        if (!passwordEncoder.matches(pwd, account.pwd)) {
-            throw LoginFailureException()
-        }
-
-        return AccountLoginDTO.fromDomain(account)
-    }
-
-    suspend fun getAccountByUserName(userName: String): Account? {
-        return accountRepository.findAccountByUserName(userName)
-    }
-
-    suspend fun isValidAccount(accountCreateRequest: AccountCreateRequest): Boolean {
-        if (accountCreateRequest.pwd != accountCreateRequest.confirmPwd)
-            throw PasswordNotMatchedException()
-
-        return true
-    }
-
-
+	
+	//userId로 account 가져오기
+	suspend fun getAccountByUserId(userId: String): Account? {
+		return accountRepository.findAccountByUserId(userId)
+	}
+	
+	suspend fun getAccountLoginDTO(id: String, pwd: String): AccountLoginDTO {
+		val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
+		
+		if (!passwordEncoder.matches(pwd, account.pwd)) {
+			throw LoginFailureException()
+		}
+		
+		return AccountLoginDTO.fromDomain(account)
+	}
+	
+	suspend fun getAccountByUserName(userName: String): Account? {
+		return accountRepository.findAccountByUserName(userName)
+	}
+	
+	suspend fun isValidAccount(accountCreateRequest: AccountCreateRequest): Boolean {
+		if (accountCreateRequest.pwd != accountCreateRequest.confirmPwd)
+			throw PasswordNotMatchedException()
+		
+		return true
+	}
+	
+	
 }

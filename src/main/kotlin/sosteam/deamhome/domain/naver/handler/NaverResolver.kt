@@ -12,25 +12,25 @@ import sosteam.deamhome.domain.naver.service.NaverService
 
 @Controller
 class NaverResolver(
-    private val naverService: NaverService,
+	private val naverService: NaverService,
 ) {
-    @QueryMapping
-    suspend fun naverLoginUrl(): String {
-        return naverService.getNaverLoginPage()
-    }
-
-    @MutationMapping
-    suspend fun naverSignUp(@Argument @Valid code: String, @Argument @Valid state: String): NaverTokenReturnResponse {
-        return naverService.naverSign(code, state)
-    }
-
-    @QueryMapping
-    suspend fun naverUserInfo(@Argument @Valid token: String): NaverUserInfo {
-        return naverService.getNaverUserInfo(token)
-    }
-
-    @MutationMapping
-    suspend fun naverUnlink(@Argument @Valid token: String): NaverUnlinkResponse {
-        return naverService.unlinkNaver(token)
-    }
+	@QueryMapping
+	suspend fun naverLoginUrl(): String {
+		return naverService.getNaverLoginPage()
+	}
+	
+	@MutationMapping
+	suspend fun naverSignUp(@Argument @Valid code: String, @Argument @Valid state: String): NaverTokenReturnResponse {
+		return naverService.naverSign(code, state)
+	}
+	
+	@QueryMapping
+	suspend fun naverUserInfo(@Argument @Valid token: String): NaverUserInfo {
+		return naverService.getNaverUserInfo(token)
+	}
+	
+	@MutationMapping
+	suspend fun naverUnlink(@Argument @Valid token: String): NaverUnlinkResponse {
+		return naverService.unlinkNaver(token)
+	}
 }
