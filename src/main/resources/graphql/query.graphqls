@@ -9,4 +9,7 @@ type Query {
 
     getItemsContainsTitle(title: String): [ItemResponseDTO]
     getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
+
+    kakaoLoginUrl: String
+    kakaoUserInfo(token: String): KakaoUserInfo
 }
