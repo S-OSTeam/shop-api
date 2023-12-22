@@ -7,13 +7,14 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.*
 import reactor.core.publisher.Mono
-import sosteam.deamhome.domain.category.dto.request.ItemCategoryRequest
+import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.exception.CategorySaveFailException
 import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.global.sequence.provider.SequenceGenerator
+
 
 class ItemCategoryCreateServiceTest : BehaviorSpec({
 

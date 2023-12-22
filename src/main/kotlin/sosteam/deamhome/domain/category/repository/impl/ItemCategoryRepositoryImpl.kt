@@ -2,6 +2,7 @@ package sosteam.deamhome.domain.category.repository.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import lombok.RequiredArgsConstructor
 import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -20,4 +21,14 @@ class ItemCategoryRepositoryImpl (
     override fun findItemCategoriesContainsTitle(title: String): Flow<ItemCategory> {
         return repository.findAll(itemCategory.title.contains(title)).asFlow()
     }
+
+    override fun findAllItemCategories(): Flow<ItemCategory> {
+        return repository.findAll().asFlow()
+    }
+
+    override suspend fun findItemCategoryById(id: String): ItemCategory? {
+        return repository.findOne(itemCategory.id.eq(id)).awaitSingleOrNull()
+    }
+
+
 }

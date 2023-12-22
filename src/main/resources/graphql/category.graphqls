@@ -1,12 +1,12 @@
 input ItemCategoryRequest {
     title: String!
-    parentSeq: Long
+    parentId: Long
 }
 
 type ItemCategoryResponse{
     title: String!
-    sequence: Long!
-    parentSeq: Long
-    childrenSeq: [Long]!
+    publicId: Long!
+    parentPublicId: Long
+    childrenId: [Long]!
 }
 

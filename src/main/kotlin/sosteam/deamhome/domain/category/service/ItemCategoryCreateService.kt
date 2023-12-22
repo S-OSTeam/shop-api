@@ -1,14 +1,14 @@
 package sosteam.deamhome.domain.category.service
 
+import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
-import sosteam.deamhome.domain.category.dto.request.ItemCategoryRequest
-import sosteam.deamhome.domain.category.dto.response.ItemCategoryResponse
+import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
+import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
-import sosteam.deamhome.domain.category.exception.CategorySaveFailException
 import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
 import sosteam.deamhome.global.sequence.provider.SequenceGenerator
 
@@ -21,14 +21,14 @@ class ItemCategoryCreateService(
 
     suspend fun createCategory(request: ItemCategoryRequest): ItemCategoryResponse {
         val itemCategory = request.asDomain().apply {
-            sequence = sequenceGenerator.generateSequence(ItemCategory.SEQUENCE_NAME)
+            publicId = sequenceGenerator.generateSequence(ItemCategory.SEQUENCE_NAME)
         }
 
-        itemCategory.parentSeq?.let { parentSeq ->
-            val parentCategory = itemCategoryRepository.findBySequence(parentSeq)
+        itemCategory.parentPublicId?.let { parentPublicId ->
+            val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
 
-            updateParent(parentCategory, itemCategory.sequence)
+            updateParent(parentCategory, itemCategory.publicId)
 
             val depth = calcDepth(parentCategory) + 1
             if (depth > ItemCategory.MAX_DEPTH) {
@@ -36,24 +36,23 @@ class ItemCategoryCreateService(
             }
         }
 
-        val saveCategory = itemCategoryRepository.save(itemCategory).awaitSingleOrNull()
-            ?: throw CategorySaveFailException()
+        val saveCategory = itemCategoryRepository.save(itemCategory).awaitSingle()
 
         return ItemCategoryResponse.fromItemCategory(saveCategory)
     }
 
     private suspend fun calcDepth(category: ItemCategory): Int {
-        return if (category.parentSeq == null) {
+        return if (category.parentPublicId == null) {
             0
         } else {
-            val parentCategory = itemCategoryRepository.findBySequence(category.parentSeq!!)
+            val parentCategory = itemCategoryRepository.findByPublicId(category.parentPublicId!!)
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
             calcDepth(parentCategory) + 1
         }
     }
 
-    private suspend fun updateParent(parentCategory: ItemCategory, childSequence: Long) {
-        parentCategory.childrenSeq.add(childSequence)
-        itemCategoryRepository.save(parentCategory).awaitSingleOrNull()
+    private suspend fun updateParent(parentCategory: ItemCategory, childPublicId: Long) {
+        parentCategory.childrenPublicId.add(childPublicId)
+        itemCategoryRepository.save(parentCategory).awaitSingle()
     }
 }
