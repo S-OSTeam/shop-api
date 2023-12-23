@@ -8,6 +8,8 @@ import sosteam.deamhome.global.image.entity.Image
 @Document
 @Builder
 data class Item(
+	var publicId: Long = 0L,
+	var categoryPublicId: Long = 0L,
 	var title: String,
 	var content: String,
 	var summary: String,
@@ -19,13 +21,18 @@ data class Item(
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
-	val sellerId: String
+	//account 의 userId 는 절대로 안바뀌겠지???
+	val sellerId: String,
+	val freeDelivery: Boolean = false
 ) : BaseEntity(){
 	var images: MutableList<Image> = mutableListOf()
 
 	fun modifyImage(images: MutableList<Image>): MutableList<Image>{
 		this.images = images
 		return this.images
+	}
+	companion object {
+		const val SEQUENCE_NAME = "ITEM_SEQUENCE"
 	}
 
 }

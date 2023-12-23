@@ -2,7 +2,7 @@ type Query {
     ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
 
     getItemCategoryByPublicId(publicId: Long) : ItemCategoryResponse
-    findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]!
-    findAllItemCategories : [ItemCategoryResponse]!
-    findAllItemCategoriesTree: [ItemCategoryTreeResponse]!
+    findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]
+    findAllItemCategories : [ItemCategoryResponse]
+    findAllItemCategoriesTree: [ItemCategoryTreeResponse]
 }

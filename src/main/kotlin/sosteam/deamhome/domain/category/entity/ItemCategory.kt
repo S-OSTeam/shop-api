@@ -12,7 +12,7 @@ data class ItemCategory(
 ) : BaseEntity() {
 
     companion object {
-        const val SEQUENCE_NAME = "CATEGORY_SEQUENCE"
+        const val SEQUENCE_NAME = "ITEM_CATEGORY_SEQUENCE"
         const val MAX_DEPTH = 2
     }
 }
