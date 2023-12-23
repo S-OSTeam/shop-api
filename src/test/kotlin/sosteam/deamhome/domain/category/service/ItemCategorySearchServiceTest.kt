@@ -17,25 +17,25 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
     val itemCategorySearchService = ItemCategorySearchService(itemCategoryRepository)
 
-    Given("a valid category sequence") {
-        val categorySequence = 1L
-        val mockItemCategory = ItemCategory(title = "Test Category", sequence = categorySequence)
+    Given("a valid category publicId") {
+        val categoryPublicId = 1L
+        val mockItemCategory = ItemCategory(title = "Test Category", publicId = categoryPublicId)
 
-        When("getting item category by sequence") {
-            coEvery { itemCategoryRepository.findBySequence(categorySequence) } returns mockItemCategory
+        When("getting item category by publicId") {
+            coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns mockItemCategory
 
             Then("it should return the corresponding ItemCategoryResponse") {
-                val result = itemCategorySearchService.getItemCategoryBySequence(categorySequence)
+                val result = itemCategorySearchService.getItemCategoryByPublicId(categoryPublicId)
                 result.title shouldBe mockItemCategory.title
             }
         }
 
-        When("getting item category by non-existent sequence") {
-            coEvery { itemCategoryRepository.findBySequence(categorySequence) } returns null
+        When("getting item category by non-existent publicId") {
+            coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns null
 
             Then("it should throw CategoryNotFoundException") {
                 val exception = shouldThrow<CategoryNotFoundException> {
-                    itemCategorySearchService.getItemCategoryBySequence(categorySequence)
+                    itemCategorySearchService.getItemCategoryByPublicId(categoryPublicId)
                 }
                 exception.message shouldBe "존재하지 않는 카테고리입니다."
             }
@@ -44,14 +44,14 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
 
     Given("a valid category title") {
 
-        val mockItemCategory1 = ItemCategory(title = "Test Category 1", sequence = 1L)
-        val mockItemCategory2 = ItemCategory(title = "Test Category 2", sequence = 2L)
+        val mockItemCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L)
+        val mockItemCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L)
 
         When("finding item categories containing the title") {
-            coEvery { itemCategoryRepository.findItemCategoriesContainsTitle("Test") } returns flowOf(mockItemCategory1, mockItemCategory2)
+            coEvery { itemCategoryRepository.findItemCategoriesContainTitle("Test") } returns flowOf(mockItemCategory1, mockItemCategory2)
 
             Then("it should return a Flow of corresponding ItemCategoryResponse") {
-                val result = itemCategorySearchService.findItemCategoriesContainsTitle("Test")
+                val result = itemCategorySearchService.findItemCategoriesContainTitle("Test")
                 val toList = result.toList()
                 toList.size shouldBe 2
                 toList.map { it.title } shouldContain "Test Category 1"

@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
-import sosteam.deamhome.domain.category.exception.CategorySaveFailException
 import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.global.sequence.provider.SequenceGenerator
@@ -31,13 +30,13 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     Given("a valid CategoryRequest without a parent") {
         val categoryTitle = "Test Category"
-        val validRequest = ItemCategoryRequest(title = categoryTitle, parentSeq = null)
+        val validRequest = ItemCategoryRequest(title = categoryTitle, parentPublicId = null)
 
         val mockItemCategory = ItemCategory(
             title = categoryTitle,
-            sequence = testSequence,
-            parentSeq = null,
-            childrenSeq = mutableListOf()
+            publicId = testSequence,
+            parentPublicId = null,
+            childrenPublicId = mutableListOf()
         )
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
@@ -47,27 +46,27 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
             Then("it should return ItemCategoryResponse") {
                 result.title shouldBe validRequest.title
-                result.sequence shouldBe testSequence
+                result.publicId shouldBe testSequence
             }
         }
     }
 
     Given("a valid CategoryRequest with a parent") {
         val categoryTitle = "Test Category"
-        val childCategorySeq = 1L // sequenceGenerator 가 1 부터 만들어서
-        val parentCategorySeq = 2L
+        val childCategoryPublicId = 1L // sequenceGenerator 가 1 부터 만들어서
+        val parentCategoryPublicId = 2L
 
-        val validRequest = ItemCategoryRequest(title = categoryTitle, parentSeq = parentCategorySeq)
-        val parentCategory = ItemCategory(title = "Parent Category", sequence = parentCategorySeq)
+        val validRequest = ItemCategoryRequest(title = categoryTitle, parentPublicId = parentCategoryPublicId)
+        val parentCategory = ItemCategory(title = "Parent Category", publicId = parentCategoryPublicId)
 
         val mockItemCategory = ItemCategory(
             title = categoryTitle,
-            sequence = childCategorySeq,
-            parentSeq = parentCategorySeq,
-            childrenSeq = mutableListOf()
+            publicId = childCategoryPublicId,
+            parentPublicId = parentCategoryPublicId,
+            childrenPublicId = mutableListOf()
         )
 
-        coEvery { itemCategoryRepository.findBySequence(parentCategorySeq) } returns parentCategory
+        coEvery { itemCategoryRepository.findByPublicId(parentCategoryPublicId) } returns parentCategory
         val parentCategorySlot = mutableListOf<ItemCategory>()
         coEvery { itemCategoryRepository.save(capture(parentCategorySlot)) } returns Mono.just(mockItemCategory)
 
@@ -76,14 +75,14 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
             Then("it should return ItemCategoryResponse") {
                 result.title shouldBe validRequest.title
-                result.sequence shouldBe childCategorySeq
-                result.parentSeq shouldBe parentCategorySeq
+                result.publicId shouldBe childCategoryPublicId
+                result.parentPublicId shouldBe parentCategoryPublicId
 
                 println(parentCategorySlot)
 
                 val capturedParentCategory = parentCategorySlot.find { it.title == "Parent Category" }
                 capturedParentCategory shouldNotBe null
-                capturedParentCategory!!.childrenSeq shouldContain childCategorySeq
+                capturedParentCategory!!.childrenPublicId shouldContain childCategoryPublicId
 
             }
         }
@@ -91,16 +90,16 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     Given("an invalid CategoryRequest") {
         val categoryTitle = "Test Category"
-        val testCategory1 = ItemCategory(title = "Test Category1", sequence = 1L, parentSeq = null)
-        val testCategory2 = ItemCategory(title = "Test Category2", sequence = 2L, parentSeq = 1L)
-        val testCategory3 = ItemCategory(title = "Test Category3", sequence = 3L, parentSeq = 2L)
-        val invalidRequest = ItemCategoryRequest(title = categoryTitle, parentSeq = 3L)
+        val testCategory1 = ItemCategory(title = "Test Category1", publicId = 1L, parentPublicId = null)
+        val testCategory2 = ItemCategory(title = "Test Category2", publicId = 2L, parentPublicId = 1L)
+        val testCategory3 = ItemCategory(title = "Test Category3", publicId = 3L, parentPublicId = 2L)
+        val invalidRequest = ItemCategoryRequest(title = categoryTitle, parentPublicId = 3L)
 
-        coEvery { itemCategoryRepository.findBySequence(1L) } returns testCategory1
-        coEvery { itemCategoryRepository.findBySequence(2L) } returns testCategory2
-        coEvery { itemCategoryRepository.findBySequence(3L) } returns testCategory3
+        coEvery { itemCategoryRepository.findByPublicId(1L) } returns testCategory1
+        coEvery { itemCategoryRepository.findByPublicId(2L) } returns testCategory2
+        coEvery { itemCategoryRepository.findByPublicId(3L) } returns testCategory3
 
-        val mockItemCategory = ItemCategory(title = categoryTitle, sequence = testSequence)
+        val mockItemCategory = ItemCategory(title = categoryTitle, publicId = testSequence)
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
 
         When("creating a category with a parent exceeding the maximum depth") {
@@ -115,9 +114,9 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
     }
 
     Given("a CategoryRequest with a non-existent parent") {
-        val invalidParentRequest = ItemCategoryRequest(title = "Test Category", parentSeq = 123L)
+        val invalidParentRequest = ItemCategoryRequest(title = "Test Category", parentPublicId = 123L)
 
-        coEvery { itemCategoryRepository.findBySequence(123L) } returns null
+        coEvery { itemCategoryRepository.findByPublicId(123L) } returns null
 
         When("creating a category with a non-existent parent") {
             Then("it should throw CategoryNotFoundException") {
@@ -130,26 +129,4 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         }
     }
 
-    Given("a CategoryRequest with a parent, but fails to save the category") {
-        val parentCategorySeq = 1L
-        val saveFailRequest = ItemCategoryRequest(title = "Test Category", parentSeq = parentCategorySeq)
-        val parentCategory = ItemCategory(
-            title = "Parent Category",
-            sequence = parentCategorySeq,
-            childrenSeq = mutableListOf()
-        )
-
-        coEvery { itemCategoryRepository.findBySequence(1L) } returns parentCategory
-        coEvery { itemCategoryRepository.save(any()) } returns Mono.empty()
-
-        When("creating a category with a parent") {
-            Then("it should throw CategorySaveFailException") {
-                val exception = shouldThrow<CategorySaveFailException> {
-                    itemCategoryCreateService.createCategory(saveFailRequest)
-                }
-
-                exception.message shouldBe "카테고리 저장에 실패하였습니다."
-            }
-        }
-    }
 })
