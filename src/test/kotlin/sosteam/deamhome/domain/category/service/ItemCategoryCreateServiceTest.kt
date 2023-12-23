@@ -109,6 +109,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
                 }
 
                 exception.message shouldBe "카테고리의 최대 깊이를 초과하였습니다."
+                exception.extensions["code"] shouldBe "MAX_DEPTH_EXCEED"
             }
         }
     }
@@ -125,6 +126,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
                 }
 
                 exception.message shouldBe "상위 카테고리를 찾을 수 없습니다."
+                exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
         }
     }

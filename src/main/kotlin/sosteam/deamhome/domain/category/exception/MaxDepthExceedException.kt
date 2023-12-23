@@ -4,7 +4,7 @@ import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
 
 class MaxDepthExceedException (
-    errorCode: String = "MAX_DEPTH_EXCEED_EXCEPTION",
+    errorCode: String = "MAX_DEPTH_EXCEED",
 
     @JvmField
     @Suppress("INAPPLICABLE_JVM_FIELD")
