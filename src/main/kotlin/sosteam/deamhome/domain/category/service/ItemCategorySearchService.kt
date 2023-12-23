@@ -35,7 +35,6 @@ class ItemCategorySearchService (
 
     suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
         val itemCategories = itemCategoryRepository.findAllItemCategories()
-//            .toList()
 
         val map = mutableMapOf<Long, ItemCategoryTreeResponse>()
 
