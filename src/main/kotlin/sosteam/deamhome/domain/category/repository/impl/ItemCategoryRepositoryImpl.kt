@@ -18,7 +18,7 @@ class ItemCategoryRepositoryImpl (
 ) : ItemCategoryRepositoryCustom{
     private val itemCategory = QItemCategory.itemCategory
 
-    override fun findItemCategoriesContainsTitle(title: String): Flow<ItemCategory> {
+    override fun findItemCategoriesContainTitle(title: String): Flow<ItemCategory> {
         return repository.findAll(itemCategory.title.contains(title)).asFlow()
     }
 

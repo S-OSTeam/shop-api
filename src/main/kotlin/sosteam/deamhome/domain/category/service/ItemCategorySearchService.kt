@@ -23,8 +23,8 @@ class ItemCategorySearchService (
         return ItemCategoryResponse.fromItemCategory(itemCategory)
     }
 
-    fun findItemCategoriesContainsTitle(title: String): Flow<ItemCategoryResponse> {
-        return itemCategoryRepository.findItemCategoriesContainsTitle(title)
+    fun findItemCategoriesContainTitle(title: String): Flow<ItemCategoryResponse> {
+        return itemCategoryRepository.findItemCategoriesContainTitle(title)
             .map { ItemCategoryResponse.fromItemCategory(it) }
     }
 

@@ -40,8 +40,8 @@ class ItemCategoryResolver(
     }
 
     @QueryMapping
-    suspend fun findItemCategoriesContainsTitle(@Argument @NotBlank title: String) : List<ItemCategoryResponse> {
-        return itemCategorySearchService.findItemCategoriesContainsTitle(title).toList()
+    suspend fun findItemCategoriesContainTitle(@Argument @NotBlank title: String) : List<ItemCategoryResponse> {
+        return itemCategorySearchService.findItemCategoriesContainTitle(title).toList()
     }
 
     @MutationMapping

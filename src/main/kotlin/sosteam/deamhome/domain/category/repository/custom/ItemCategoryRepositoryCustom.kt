@@ -5,7 +5,7 @@ import sosteam.deamhome.domain.category.entity.ItemCategory
 
 interface ItemCategoryRepositoryCustom {
 
-    fun findItemCategoriesContainsTitle(title: String) : Flow<ItemCategory>
+    fun findItemCategoriesContainTitle(title: String) : Flow<ItemCategory>
 
     fun findAllItemCategories(): Flow<ItemCategory>
 
