@@ -1,19 +1,22 @@
-input ItemRequestDTO {
+input ItemRequest {
+    categoryPublicId: Long!
     title: String!
     content: String!
     summary: String!
     price: Int!
     status: Boolean!
-    categoryTitle: String!
-    detailCategoryTitle: String!
     sellerId: String!
-    images: [Upload!]
+    freeDelivery: Boolean!
+    images: [Upload!]!
 }
 
-type ItemResponseDTO {
+type ItemResponse {
+    publicId: Long!
+    categoryPublicId: Long!
     title: String!
     content: String!
     summary: String!
+    price: Int!
     sellCnt: Int!
     wishCnt: Int!
     clickCnt: Int!
@@ -21,16 +24,7 @@ type ItemResponseDTO {
     reviewCnt: Int!
     qnaCnt: Int!
     status: Boolean!
-    images: [Image]!
     sellerId: String!
-    #    account: Account
-}
-
-type Image{
-    fileName: String
-    fileOriName: String
-    path: String
-    size: Long
-    type: String
-    fileUrl: String
+    freeDelivery: Boolean!
+    imageUrls: [String!]!
 }

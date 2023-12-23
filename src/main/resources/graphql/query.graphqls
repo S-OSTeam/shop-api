@@ -11,7 +11,7 @@ type Query {
     kakaoUserInfo(token: String): KakaoUserInfo
     findAllItemCategories : [ItemCategoryResponse]
     getItemCategoryByPublicId(publicId: Long) : ItemCategoryResponse
-    findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]!
-    findAllItemCategories : [ItemCategoryResponse]!
-    findAllItemCategoriesTree: [ItemCategoryTreeResponse]!
+    findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]
+    findAllItemCategories : [ItemCategoryResponse]
+    findAllItemCategoriesTree: [ItemCategoryTreeResponse]
 }

@@ -7,5 +7,5 @@ import sosteam.deamhome.domain.item.repository.custom.ItemRepositoryCustom
 
 @GraphQlRepository
 interface ItemRepository :ReactiveMongoRepository<Item, String>, ItemRepositoryCustom {
-    suspend fun deleteItemById(id: String)
+
 }

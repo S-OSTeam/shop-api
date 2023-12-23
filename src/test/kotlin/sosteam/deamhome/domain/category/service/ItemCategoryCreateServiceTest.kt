@@ -78,8 +78,6 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
                 result.publicId shouldBe childCategoryPublicId
                 result.parentPublicId shouldBe parentCategoryPublicId
 
-                println(parentCategorySlot)
-
                 val capturedParentCategory = parentCategorySlot.find { it.title == "Parent Category" }
                 capturedParentCategory shouldNotBe null
                 capturedParentCategory!!.childrenPublicId shouldContain childCategoryPublicId
