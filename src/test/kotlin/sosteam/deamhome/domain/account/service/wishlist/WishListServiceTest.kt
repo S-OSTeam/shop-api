@@ -13,49 +13,49 @@ import sosteam.deamhome.domain.item.repository.ItemRepository
 import java.time.LocalDateTime
 
 
-class WishListServiceTest :BehaviorSpec({
-    val accountRepository = mockk<AccountRepository>()
-    val itemRepository = mockk<ItemRepository>()
-    val accountValidService = mockk<AccountValidService>()
-
-    val wishListModifyService = WishListModifyService(accountRepository,itemRepository, accountValidService)
-    Given("addOrRemoveWishListItem 테스트"){
-        val existingItemId = "existingItemId"
-        val newItemId = "newItemId"
-
-        val account = Account(
-            userId = "userId",
-            pwd = "password",
-            sex = true,
-            birtyday = LocalDateTime.now(),
-            zipcode = "12345",
-            address1 = "Address 1",
-            address2 = "Address 1",
-            address3 = "Address 1",
-            address4 = "Address 1",
-            email = "test@example.com",
-            receiveMail = true,
-            createdIp = "127.0.0.1",
-            phone = "123456789",
-            userName = "user123",
-            loginAt = LocalDateTime.now()
-        )
-        account.addWishListItem(existingItemId)
-        coEvery { accountRepository.save(account) } returns Mono.just(account)
-
-        When("이미 존재하는 itemId 라면"){
-            val result = wishListModifyService.addOrRemoveWishListItem(account.id, existingItemId)
-            Then("삭제한다"){
-                result shouldNotContain existingItemId
-            }
-        }
-        When("존재하지 않는 itemId라면"){
-            val result = wishListModifyService.addOrRemoveWishListItem(account.id, newItemId)
-            Then("추가한다"){
-                result shouldContain newItemId
-            }
-        }
-    }
+class WishListServiceTest : BehaviorSpec({
+	val accountRepository = mockk<AccountRepository>()
+	val itemRepository = mockk<ItemRepository>()
+	val accountValidService = mockk<AccountValidService>()
+	
+	val wishListModifyService = WishListModifyService(accountRepository, itemRepository, accountValidService)
+	Given("addOrRemoveWishListItem 테스트") {
+		val existingItemId = "existingItemId"
+		val newItemId = "newItemId"
+		
+		val account = Account(
+			userId = "userId",
+			pwd = "password",
+			sex = true,
+			birtyday = LocalDateTime.now(),
+			zipcode = "12345",
+			address1 = "Address 1",
+			address2 = "Address 1",
+			address3 = "Address 1",
+			address4 = "Address 1",
+			email = "test@example.com",
+			receiveMail = true,
+			createdIp = "127.0.0.1",
+			phone = "123456789",
+			userName = "user123",
+			loginAt = LocalDateTime.now()
+		)
+		account.addWishListItem(existingItemId)
+		coEvery { accountRepository.save(account) } returns Mono.just(account)
+		
+		When("이미 존재하는 itemId 라면") {
+			val result = wishListModifyService.addOrRemoveWishListItem(account.id, existingItemId)
+			Then("삭제한다") {
+				result shouldNotContain existingItemId
+			}
+		}
+		When("존재하지 않는 itemId라면") {
+			val result = wishListModifyService.addOrRemoveWishListItem(account.id, newItemId)
+			Then("추가한다") {
+				result shouldContain newItemId
+			}
+		}
+	}
 
 //    Given("getAllWishList 테스트"){
 //        val itemId1 = "item1"
