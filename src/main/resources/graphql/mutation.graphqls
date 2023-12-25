@@ -10,7 +10,7 @@ type Mutation {
 
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
-
+    
     createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
     deleteItemCategoryByPublicId(publicId: Long!) : String
 
