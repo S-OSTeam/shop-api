@@ -20,7 +20,8 @@ class AccountValidService(
 	
 	//userId로 account 가져오기
 	suspend fun getAccountByUserId(userId: String): Account {
-		return accountRepository.findAccountByUserId(userId)
+		val account: Account? = accountRepository.findAccountByUserId(userId)
+		return account
 			?: throw AccountNotFoundException()
 	}
 	
