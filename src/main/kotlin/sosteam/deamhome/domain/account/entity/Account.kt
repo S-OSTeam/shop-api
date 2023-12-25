@@ -48,13 +48,16 @@ data class Account(
 	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
-	
-	private val faqs: ArrayList<String> = ArrayList()
-	
-	@Setter
-	private val wishlist: ArrayList<String> = ArrayList()
-	
-	private val reviews: ArrayList<String> = ArrayList()
+
+	private var faqs: ArrayList<String> = ArrayList()
+
+	private var wishlist: ArrayList<String> = ArrayList()
+
+	private var reviews: ArrayList<String> = ArrayList()
+
+	fun getWishlist(): List<String> {
+		return wishlist.toList()
+	}
 
 	fun addWishListItem(itemId:String): List<String>{
 		wishlist.add(itemId)
@@ -81,7 +84,7 @@ data class Account(
 		reviews.add(review)
 		return reviews
 	}
-	
+
 	@JsonIgnore
 	fun getAuthorities(): List<SimpleGrantedAuthority> {
 		val simpleGrantedAuthorities = ArrayList<SimpleGrantedAuthority>()
