@@ -12,8 +12,8 @@ class WishListResolver (
     private val wishListService: WishListService
 ){
     @QueryMapping
-    suspend fun getWishList(@Argument userId:String): List<ItemResponseDTO>{
-        return wishListService.getAllWishList(userId)
+    suspend fun getWishList(@Argument userId:String, @Argument page:Int): List<ItemResponseDTO>{
+        return wishListService.getAllWishList(userId, page)
     }
     @MutationMapping
     suspend fun updateWishListItemInclude(@Argument userId: String,@Argument itemId: String ): List<String>{

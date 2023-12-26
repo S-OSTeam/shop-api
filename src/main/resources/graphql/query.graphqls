@@ -11,5 +11,5 @@ type Query {
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
 
-    getWishList(userId: String): [ItemResponseDTO]
+    getWishList(userId: String, page:Int): [ItemResponseDTO]
 }
