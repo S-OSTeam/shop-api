@@ -27,7 +27,7 @@ class WishListService(
 
     suspend fun getAllWishList(userId: String, page:Int):List<ItemResponseDTO>{
         //Todo: wishList에서 itemId 찾아서 리스트로 가져오기
-        val pageSize = 2
+        val pageSize = 10
         val account = accountValidService.getAccountByUserId(userId)
         val pageRequest:PageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("id")))
         return itemRepository.findByIdIn(account.getWishlist(),pageRequest)
