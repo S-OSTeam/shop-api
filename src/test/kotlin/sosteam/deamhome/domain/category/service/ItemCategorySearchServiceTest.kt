@@ -22,44 +22,67 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
         val categoryPublicId = 1L
         val mockItemCategory = ItemCategory(title = "Test Category", publicId = categoryPublicId)
 
-        When("getting item category by publicId") {
+        When("finding item category by publicId") {
             coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns mockItemCategory
+            val result = itemCategorySearchService.findItemCategoryByPublicId(categoryPublicId)
 
             Then("it should return the corresponding ItemCategoryResponse") {
-                val result = itemCategorySearchService.getItemCategoryByPublicId(categoryPublicId)
                 result.title shouldBe mockItemCategory.title
             }
         }
 
-        When("getting item category by non-existent publicId") {
+        When("finding item category by non-existent publicId") {
             coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns null
+            val exception = shouldThrow<CategoryNotFoundException> {
+                itemCategorySearchService.findItemCategoryByPublicId(categoryPublicId)
+            }
 
             Then("it should throw CategoryNotFoundException") {
-                val exception = shouldThrow<CategoryNotFoundException> {
-                    itemCategorySearchService.getItemCategoryByPublicId(categoryPublicId)
-                }
                 exception.message shouldBe "존재하지 않는 카테고리입니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
         }
     }
 
-    Given("a valid category title") {
 
+
+    Given("a valid category title") {
         val mockItemCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L)
         val mockItemCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L)
 
         When("finding item categories containing the title") {
             coEvery { itemCategoryRepository.findItemCategoriesContainTitle("Test") } returns flowOf(mockItemCategory1, mockItemCategory2)
+            val result = itemCategorySearchService.findItemCategoriesContainTitle("Test")
 
             Then("it should return a Flow of corresponding ItemCategoryResponse") {
-                val result = itemCategorySearchService.findItemCategoriesContainTitle("Test")
                 val toList = result.toList()
                 toList.size shouldBe 2
                 toList.map { it.title } shouldContain "Test Category 1"
                 toList.map { it.title } shouldContain "Test Category 2"
             }
         }
+
+        When("finding item category by title") {
+            coEvery { itemCategoryRepository.findByTitle("Test Category 1") } returns mockItemCategory1
+            val result = itemCategorySearchService.findItemCategoryByTitle("Test Category 1")
+
+            Then("it should return the corresponding ItemCategoryResponse") {
+                result.title shouldBe mockItemCategory1.title
+            }
+        }
+
+        When("finding item category by non-existent title") {
+            coEvery { itemCategoryRepository.findByTitle("Test Category 3") } returns null
+            val exception = shouldThrow<CategoryNotFoundException> {
+                itemCategorySearchService.findItemCategoryByTitle("Test Category 3")
+            }
+
+            Then("it should throw CategoryNotFoundException") {
+                exception.message shouldBe "존재하지 않는 카테고리입니다."
+                exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
+            }
+        }
+
     }
 
     Given("a list of item categories") {

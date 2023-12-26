@@ -9,6 +9,8 @@ import sosteam.deamhome.domain.category.repository.custom.ItemCategoryRepository
 @GraphQlRepository
 interface ItemCategoryRepository : ReactiveMongoRepository<ItemCategory, String>, ItemCategoryRepositoryCustom{
     suspend fun findByPublicId(publicId: Long): ItemCategory?
+
+    suspend fun findByTitle(title: String): ItemCategory?
     suspend fun deleteByPublicId(publicId: Long): ItemCategory?
 
 }

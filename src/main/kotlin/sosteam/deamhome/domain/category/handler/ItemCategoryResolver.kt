@@ -30,8 +30,13 @@ class ItemCategoryResolver(
     }
 
     @QueryMapping
-    suspend fun getItemCategoryByPublicId(@Argument @Min(0L) publicId: Long) : ItemCategoryResponse {
-        return itemCategorySearchService.getItemCategoryByPublicId(publicId)
+    suspend fun findItemCategoryByPublicId(@Argument @Min(1L) publicId: Long) : ItemCategoryResponse {
+        return itemCategorySearchService.findItemCategoryByPublicId(publicId)
+    }
+
+    @QueryMapping
+    suspend fun findItemCategoryByTitle(@Argument @NotBlank title: String): ItemCategoryResponse {
+        return itemCategorySearchService.findItemCategoryByTitle(title)
     }
 
     @QueryMapping
@@ -45,7 +50,7 @@ class ItemCategoryResolver(
     }
 
     @MutationMapping
-    suspend fun deleteItemCategoryByPublicId(@Argument @Min(0L) publicId: Long) : String{
+    suspend fun deleteItemCategoryByPublicId(@Argument @Min(1L) publicId: Long) : String{
         val deletedTitle = itemCategoryDeleteService.deleteItemCategoryByPublicId(publicId)
         return "$deletedTitle has been deleted"
     }

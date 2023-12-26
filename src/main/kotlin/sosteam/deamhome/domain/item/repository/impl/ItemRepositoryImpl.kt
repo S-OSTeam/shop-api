@@ -20,25 +20,8 @@ class ItemRepositoryImpl (
 {
     private val item = QItem.item
 
-    override fun getItemsContainsTitle(title: String): Flow<Item> {
+    override fun findItemsContainTitle(title: String): Flow<Item> {
          return repository.findAll(item.title.contains(title)).asFlow()
-    }
-
-    override fun getItemsByOption(itemIdList: List<String>?, title: String?): Flow<Item> {
-        return repository.findAll(searchOption(itemIdList, title)).asFlow()
-    }
-
-    private fun searchOption(itemIdList: List<String>?, title: String?): Predicate{
-        val builder = BooleanBuilder()
-        if(itemIdList != null){
-            builder.and(item.id.`in`(itemIdList))
-            log().debug("builder add id")
-        }
-        if(!title.isNullOrBlank() ){
-            builder.and(item.title.eq(title))
-            log().debug("builder add title")
-        }
-        return builder
     }
 
 }

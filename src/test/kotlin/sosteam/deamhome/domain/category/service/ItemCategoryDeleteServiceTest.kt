@@ -50,11 +50,11 @@ class ItemCategoryDeleteServiceTest : BehaviorSpec({
 
         When("deleting non-existent item category by publicId") {
             coEvery { itemCategoryRepository.deleteByPublicId(categoryPublicId) } returns null
+            val exception = shouldThrow<CategoryNotFoundException> {
+                itemCategoryDeleteService.deleteItemCategoryByPublicId(categoryPublicId)
+            }
 
             Then("it should throw CategoryNotFoundException") {
-                val exception = shouldThrow<CategoryNotFoundException> {
-                    itemCategoryDeleteService.deleteItemCategoryByPublicId(categoryPublicId)
-                }
                 exception.message shouldBe "존재하지 않는 카테고리입니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
@@ -63,11 +63,11 @@ class ItemCategoryDeleteServiceTest : BehaviorSpec({
         When("deleting item category with a non-existent parent") {
             coEvery { itemCategoryRepository.deleteByPublicId(categoryPublicId) } returns mockDeletedCategory
             coEvery { itemCategoryRepository.findByPublicId(2L) } returns null
+            val exception = shouldThrow<CategoryNotFoundException> {
+                itemCategoryDeleteService.deleteItemCategoryByPublicId(categoryPublicId)
+            }
 
             Then("it should throw CategoryNotFoundException") {
-                val exception = shouldThrow<CategoryNotFoundException> {
-                    itemCategoryDeleteService.deleteItemCategoryByPublicId(categoryPublicId)
-                }
                 exception.message shouldBe "상위 카테고리를 찾을 수 없습니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
