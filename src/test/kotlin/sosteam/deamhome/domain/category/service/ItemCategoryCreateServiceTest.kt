@@ -19,9 +19,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
     val sequenceGenerator = mockk<SequenceGenerator>()
-
     val itemCategoryCreateService = ItemCategoryCreateService(itemCategoryRepository, sequenceGenerator)
-
     val testSequence = 1L
 
     beforeTest {
@@ -101,11 +99,11 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
 
         When("creating a category with a parent exceeding the maximum depth") {
-            Then("it should throw MaxDepthExceedException") {
-                val exception = shouldThrow<MaxDepthExceedException> {
-                    itemCategoryCreateService.createCategory(invalidRequest)
-                }
+            val exception = shouldThrow<MaxDepthExceedException> {
+                itemCategoryCreateService.createCategory(invalidRequest)
+            }
 
+            Then("it should throw MaxDepthExceedException") {
                 exception.message shouldBe "카테고리의 최대 깊이를 초과하였습니다."
                 exception.extensions["code"] shouldBe "MAX_DEPTH_EXCEED"
             }
@@ -118,11 +116,11 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         coEvery { itemCategoryRepository.findByPublicId(123L) } returns null
 
         When("creating a category with a non-existent parent") {
-            Then("it should throw CategoryNotFoundException") {
-                val exception = shouldThrow<CategoryNotFoundException> {
-                    itemCategoryCreateService.createCategory(invalidParentRequest)
-                }
+            val exception = shouldThrow<CategoryNotFoundException> {
+                itemCategoryCreateService.createCategory(invalidParentRequest)
+            }
 
+            Then("it should throw CategoryNotFoundException") {
                 exception.message shouldBe "상위 카테고리를 찾을 수 없습니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }

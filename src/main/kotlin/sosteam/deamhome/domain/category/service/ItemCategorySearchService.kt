@@ -17,8 +17,14 @@ class ItemCategorySearchService (
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
 
-    suspend fun getItemCategoryByPublicId(publicId: Long): ItemCategoryResponse {
+    suspend fun findItemCategoryByPublicId(publicId: Long): ItemCategoryResponse {
         val itemCategory = itemCategoryRepository.findByPublicId(publicId)
+            ?: throw CategoryNotFoundException()
+        return ItemCategoryResponse.fromItemCategory(itemCategory)
+    }
+
+    suspend fun findItemCategoryByTitle(title: String): ItemCategoryResponse {
+        val itemCategory = itemCategoryRepository.findByTitle(title)
             ?: throw CategoryNotFoundException()
         return ItemCategoryResponse.fromItemCategory(itemCategory)
     }
@@ -34,17 +40,17 @@ class ItemCategorySearchService (
     }
 
     suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
-        val itemCategories = itemCategoryRepository.findAllItemCategories()
+        val itemCategories = itemCategoryRepository.findAllItemCategories().toList()
 
         val map = mutableMapOf<Long, ItemCategoryTreeResponse>()
 
-        itemCategories.collect { itemCategory ->
+        itemCategories.forEach { itemCategory ->
             map[itemCategory.publicId] = ItemCategoryTreeResponse.fromItemCategory(itemCategory)
         }
 
-        itemCategories.collect { itemCategory ->
-            itemCategory.parentPublicId?.let {
-                val parent = map[it]
+        itemCategories.forEach { itemCategory ->
+            itemCategory.parentPublicId?.let { parentPublicId ->
+                val parent = map[parentPublicId]
                 val child = map[itemCategory.publicId]
                 //무지성 느낌표?
                 parent!!.children!!.add(child!!)

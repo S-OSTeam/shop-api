@@ -13,5 +13,6 @@ type Mutation {
     deleteItemCategoryByPublicId(publicId: Long!) : String
 
     createItem(request: ItemRequest!) : ItemResponse
+    deleteItemByPublicId(publicId: Long!): String
 
 }
