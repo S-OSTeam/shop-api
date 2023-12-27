@@ -10,6 +10,11 @@ input ItemRequestDTO {
     images: [Upload!]
 }
 
+input WishListRequestDTO{
+    userId: String!
+    itemId: String!
+}
+
 type ItemResponseDTO {
     title: String!
     content: String!

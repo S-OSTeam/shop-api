@@ -17,5 +17,5 @@ type Mutation {
     deleteCategory(id: String): Boolean
     deleteItem(id: String): Boolean
 
-    updateWishListItemInclude(userId: String,itemId: String ): [String]
+    updateWishListItemInclude(request: WishListRequestDTO ): [String]
 }
