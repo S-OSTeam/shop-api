@@ -7,7 +7,6 @@ type ItemCategoryResponse{
     title: String!
     publicId: Long!
     parentPublicId: Long
-    childrenPublicId: [Long]!
 }
 
 type ItemCategoryTreeResponse{

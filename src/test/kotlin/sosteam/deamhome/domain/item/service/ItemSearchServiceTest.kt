@@ -6,6 +6,7 @@ import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -75,19 +76,19 @@ class ItemSearchServiceTest : BehaviorSpec({
     }
 
     Given("a valid categories") {
-        val mockCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = null, childrenPublicId = mutableListOf(2L, 3L))
+        val mockCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = null)
         val mockCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L, parentPublicId = 1L)
         val mockCategory3 = ItemCategory(title = "Test Category 3", publicId = 3L, parentPublicId = 1L)
         val mockItem1 = Item(title = "Test Item 1", categoryPublicId = 2L, publicId = 1L, content = "", sellerId = "", summary = "")
         val mockItem2 = Item(title = "Test Item 2", categoryPublicId = 3L, publicId = 2L, content = "", sellerId = "", summary = "")
 
-        coEvery { itemCategoryRepository.findByPublicId(1L) } returns mockCategory1
-        coEvery { itemCategoryRepository.findByPublicId(2L) } returns mockCategory2
-        coEvery { itemCategoryRepository.findByPublicId(3L) } returns mockCategory3
-        coEvery { itemRepository.findByCategoryPublicId(2L) } returns flowOf(mockItem1)
-        coEvery { itemRepository.findByCategoryPublicId(3L) } returns flowOf(mockItem2)
+
+        coEvery { itemCategoryRepository.findByParentPublicId(1L) } returns flowOf(mockCategory2, mockCategory3)
+        coEvery { itemCategoryRepository.findByParentPublicIdIn(listOf(2L, 3L)) } returns emptyFlow()
+        coEvery { itemRepository.findByCategoryPublicIdIn(listOf(1L, 2L, 3L)) } returns flowOf(mockItem1, mockItem2)
 
         When("finding items by category publicId") {
+            coEvery { itemCategoryRepository.findByPublicId(1L) } returns mockCategory1
             val result = itemSearchService.findItemsByCategoryPublicId(1L)
 
             Then("it should return a list of corresponding ItemResponse") {

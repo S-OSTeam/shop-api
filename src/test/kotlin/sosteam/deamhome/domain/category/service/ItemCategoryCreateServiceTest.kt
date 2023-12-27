@@ -2,9 +2,7 @@ package sosteam.deamhome.domain.category.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.*
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
@@ -34,7 +32,6 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
             title = categoryTitle,
             publicId = testSequence,
             parentPublicId = null,
-            childrenPublicId = mutableListOf()
         )
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
@@ -61,12 +58,11 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
             title = categoryTitle,
             publicId = childCategoryPublicId,
             parentPublicId = parentCategoryPublicId,
-            childrenPublicId = mutableListOf()
         )
 
+        coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
+
         coEvery { itemCategoryRepository.findByPublicId(parentCategoryPublicId) } returns parentCategory
-        val parentCategorySlot = mutableListOf<ItemCategory>()
-        coEvery { itemCategoryRepository.save(capture(parentCategorySlot)) } returns Mono.just(mockItemCategory)
 
         When("creating a category with a parent") {
             val result = itemCategoryCreateService.createCategory(validRequest)
@@ -75,11 +71,6 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
                 result.title shouldBe validRequest.title
                 result.publicId shouldBe childCategoryPublicId
                 result.parentPublicId shouldBe parentCategoryPublicId
-
-                val capturedParentCategory = parentCategorySlot.find { it.title == "Parent Category" }
-                capturedParentCategory shouldNotBe null
-                capturedParentCategory!!.childrenPublicId shouldContain childCategoryPublicId
-
             }
         }
     }

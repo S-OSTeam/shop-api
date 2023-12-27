@@ -28,7 +28,7 @@ class ItemSearchService (
         val itemCategory = itemCategoryRepository.findByTitle(categoryTitle)
             ?: throw CategoryNotFoundException()
 
-        return findItemsRecursive(itemCategory)
+        return findItemsInCategoryAndDescendants(itemCategory)
             .map { ItemResponse.fromItem(it) }
     }
 
@@ -36,7 +36,7 @@ class ItemSearchService (
         val itemCategory = itemCategoryRepository.findByPublicId(categoryPublicId)
             ?: throw CategoryNotFoundException()
 
-        return findItemsRecursive(itemCategory)
+        return findItemsInCategoryAndDescendants(itemCategory)
             .map { ItemResponse.fromItem(it) }
     }
 
@@ -52,21 +52,14 @@ class ItemSearchService (
         return ItemResponse.fromItem(item)
     }
 
-    private suspend fun findItemsRecursive(category: ItemCategory): List<Item>{
-
-        if (category.childrenPublicId.isEmpty()) {
-            return itemRepository.findByCategoryPublicId(category.publicId).toList()
-        }
-
-        val itemList: MutableList<Item> = mutableListOf()
-
-        for (childPublicId in category.childrenPublicId) {
-            val childCategory = itemCategoryRepository.findByPublicId(childPublicId)
-                ?: throw CategoryNotFoundException()
-            itemList.addAll(findItemsRecursive(childCategory))
-        }
-
-        return itemList
+    private suspend fun findItemsInCategoryAndDescendants(category: ItemCategory): List<Item>{
+        val parentIds: MutableList<Long> = mutableListOf()
+        parentIds.add(category.publicId)
+        val childIds = itemCategoryRepository.findByParentPublicId(category.publicId).toList()
+            .onEach { parentIds.add(it.publicId) }
+            .map { it.publicId }
+        parentIds.addAll(itemCategoryRepository.findByParentPublicIdIn(childIds).toList().map { it.publicId })
+        return itemRepository.findByCategoryPublicIdIn(parentIds).toList()
     }
 
 
