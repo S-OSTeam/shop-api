@@ -78,7 +78,7 @@ data class Account(
 		return wishlist.size
 	}
 	
-	fun getWishlist(): List<String> {
+	fun getWishList(): List<String> {
 		return wishlist
 	}
 	

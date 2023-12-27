@@ -24,7 +24,7 @@ class WishListModifyService(
 		} else {
 			addItem(account, itemId)
 		}
-		return account.getWishlist()
+		return account.getWishList()
 	}
 	
 	suspend fun addItem(account: Account, itemId: String): Account {
@@ -42,11 +42,11 @@ class WishListModifyService(
 			
 		}
 		return account
-    }
+	}
 	
 	suspend fun deleteItem(account: Account, itemId: String): Account {
 		account.removeWishListItem(itemId)
-        val item = itemRepository.findItemById(itemId)?.let {
+		val item = itemRepository.findItemById(itemId)?.let {
 			it.wishCnt--
 			itemRepository.save(it).awaitSingle()
 		} ?: throw ItemNotFoundException()
