@@ -12,7 +12,6 @@ import sosteam.deamhome.domain.account.service.AccountValidService
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import java.time.LocalDateTime
 
-
 class WishListServiceTest : BehaviorSpec({
 	val accountRepository = mockk<AccountRepository>()
 	val itemRepository = mockk<ItemRepository>()

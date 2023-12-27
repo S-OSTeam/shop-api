@@ -11,46 +11,46 @@ import sosteam.deamhome.domain.item.repository.ItemRepository
 
 @Service
 class WishListModifyService(
-    private val accountRepository: AccountRepository,
-    private val itemRepository: ItemRepository,
-    private val accountValidService: AccountValidService,
+	private val accountRepository: AccountRepository,
+	private val itemRepository: ItemRepository,
+	private val accountValidService: AccountValidService,
 ) {
-
-
-    suspend fun addOrRemoveWishListItem(userId: String, itemId: String):List<String>{
-        val account = accountValidService.getAccountByUserId(userId)
-        if(account.isItemIdInWishlist(itemId)){ //이미 존재함
-            deleteItem(account, itemId);
-        }else{
-            addItem(account, itemId);
-        }
-        return account.getWishlist()
+	
+	
+	suspend fun addOrRemoveWishListItem(userId: String, itemId: String): List<String> {
+		val account = accountValidService.getAccountByUserId(userId)
+		if (account.isItemIdInWishlist(itemId)) { //이미 존재함
+			deleteItem(account, itemId)
+		} else {
+			addItem(account, itemId)
+		}
+		return account.getWishlist()
+	}
+	
+	suspend fun addItem(account: Account, itemId: String): Account {
+		
+		if (account.getWishListSize() > Account.maxWishListSize) {
+			throw WishListOverflowException()
+		} else {
+			account.addWishListItem(itemId)
+			accountRepository.save(account).awaitSingle()
+			
+			val item = itemRepository.findItemById(itemId)?.let {
+				it.wishCnt++
+				itemRepository.save(it).awaitSingle()
+			} ?: throw ItemNotFoundException()
+			
+		}
+		return account
     }
-
-    suspend fun addItem(account: Account, itemId: String ):Account{
-
-        if(account.getWishListSize()> Account.maxWishListSize){
-            throw WishListOverflowException()
-        }else{
-            account.addWishListItem(itemId)
-            accountRepository.save(account).awaitSingle()
-
-            val item = itemRepository.findItemById(itemId)?.let{
-                it.wishCnt++
-                itemRepository.save(it).awaitSingle()
-            }?: throw ItemNotFoundException()
-
-        }
-        return account;
-    }
-
-    suspend fun deleteItem(account: Account, itemId:String):Account{
-        account.removeWishListItem(itemId);
-        val item = itemRepository.findItemById(itemId)?.let{
-            it.wishCnt--
-            itemRepository.save(it).awaitSingle()
-        }?: throw ItemNotFoundException()
-        return accountRepository.save(account).awaitSingle()
-    }
-
+	
+	suspend fun deleteItem(account: Account, itemId: String): Account {
+		account.removeWishListItem(itemId)
+        val item = itemRepository.findItemById(itemId)?.let {
+			it.wishCnt--
+			itemRepository.save(it).awaitSingle()
+		} ?: throw ItemNotFoundException()
+		return accountRepository.save(account).awaitSingle()
+	}
+	
 }

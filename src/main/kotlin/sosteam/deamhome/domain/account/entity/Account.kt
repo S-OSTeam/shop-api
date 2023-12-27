@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -75,6 +76,10 @@ data class Account(
 	
 	fun getWishListSize(): Int {
 		return wishlist.size
+	}
+	
+	fun getWishlist(): List<String> {
+		return wishlist
 	}
 	
 	fun addFaq(faq: Faq): List<String> {
