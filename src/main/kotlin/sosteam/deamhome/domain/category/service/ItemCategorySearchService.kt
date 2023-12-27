@@ -29,6 +29,7 @@ class ItemCategorySearchService (
         return ItemCategoryResponse.fromItemCategory(itemCategory)
     }
 
+    // title 이 포함된 아이템카테고리 검색
     fun findItemCategoriesContainTitle(title: String): Flow<ItemCategoryResponse> {
         return itemCategoryRepository.findItemCategoriesContainTitle(title)
             .map { ItemCategoryResponse.fromItemCategory(it) }
@@ -39,24 +40,28 @@ class ItemCategorySearchService (
             .map { ItemCategoryResponse.fromItemCategory(it) }
     }
 
+    // 모든 아이템 카테고리를 tree 형식으로 반환
     suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
         val itemCategories = itemCategoryRepository.findAllItemCategories().toList()
 
         val map = mutableMapOf<Long, ItemCategoryTreeResponse>()
 
+        // key 는 publicId, value 는 ItemCategoryTreeResponse 로 하는 map
         itemCategories.forEach { itemCategory ->
             map[itemCategory.publicId] = ItemCategoryTreeResponse.fromItemCategory(itemCategory)
         }
 
+        // 부모 카테고리의 children 에 자식 카테고리 추가
         itemCategories.forEach { itemCategory ->
             itemCategory.parentPublicId?.let { parentPublicId ->
                 val parent = map[parentPublicId]
                 val child = map[itemCategory.publicId]
-                //무지성 느낌표?
                 parent!!.children!!.add(child!!)
             }
         }
 
+        // parentPublicId 가 null 이면 최상위 카테고리
+        // 최상위 카테고리만 모아서 list 로 반환
         val roots = itemCategories
             .filter { it.parentPublicId == null }
             .map { map[it.publicId]!! }.toList()

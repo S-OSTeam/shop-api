@@ -21,13 +21,15 @@ class ItemCreateService (
     private val sequenceGenerator: SequenceGenerator
 ){
     suspend fun createItem(request: ItemRequest): ItemResponse {
+        // 카테고리가 존재하는지 확인
         val itemCategory = itemCategoryRepository.findByPublicId(request.categoryPublicId)
             ?: throw CategoryNotFoundException()
 
-        //TODO sellerId 가 존재하는지 확인?
+        // TODO sellerId 가 존재하는지 확인?
 
         val item = request.asDomain().apply {
             publicId = sequenceGenerator.generateSequence(Item.SEQUENCE_NAME)
+            // 이미지 저장
             images = request.images.map {
                 imageProvider.saveImage(it, "item", id).awaitSingle()
             }.toMutableList()
