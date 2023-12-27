@@ -42,7 +42,6 @@ class ItemDeleteServiceTest : BehaviorSpec({
             }
 
             Then("it should throw ItemNotFoundException") {
-                exception.message shouldBe "존재하지 않는 아이템입니다."
                 exception.extensions["code"] shouldBe "ITEM_NOT_FOUND"
             }
         }

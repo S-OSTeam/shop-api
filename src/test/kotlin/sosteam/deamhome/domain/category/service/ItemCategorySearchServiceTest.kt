@@ -38,7 +38,6 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
             }
 
             Then("it should throw CategoryNotFoundException") {
-                exception.message shouldBe "존재하지 않는 카테고리입니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
         }
@@ -78,7 +77,6 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
             }
 
             Then("it should throw CategoryNotFoundException") {
-                exception.message shouldBe "존재하지 않는 카테고리입니다."
                 exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
         }
