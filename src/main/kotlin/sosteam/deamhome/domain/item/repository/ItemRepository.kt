@@ -13,5 +13,7 @@ interface ItemRepository :ReactiveMongoRepository<Item, String>, ItemRepositoryC
 
     suspend fun findByTitle(title: String): Item?
     suspend fun deleteByPublicId(publicId: Long): Item?
-    fun findByCategoryPublicId(publicId: Long): Flow<Item>
+//    fun findByCategoryPublicId(publicId: Long): Flow<Item>
+
+    fun findByCategoryPublicIdIn(publicIds: List<Long>): Flow<Item>
 }

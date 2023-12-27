@@ -7,8 +7,7 @@ import sosteam.deamhome.global.entity.BaseEntity
 data class ItemCategory(
     var title: String,
     var publicId: Long = 0L,
-    var parentPublicId: Long? = null,
-    var childrenPublicId: MutableList<Long> = mutableListOf()
+    var parentPublicId: Long? = null
 ) : BaseEntity() {
 
     companion object {

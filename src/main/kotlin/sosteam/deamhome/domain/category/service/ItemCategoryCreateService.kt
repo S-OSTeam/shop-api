@@ -27,8 +27,6 @@ class ItemCategoryCreateService(
             val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
 
-            updateParent(parentCategory, itemCategory.publicId)
-
             val depth = calcDepth(parentCategory) + 1
             if (depth > ItemCategory.MAX_DEPTH) {
                 throw MaxDepthExceedException()
@@ -50,8 +48,4 @@ class ItemCategoryCreateService(
         }
     }
 
-    private suspend fun updateParent(parentCategory: ItemCategory, childPublicId: Long) {
-        parentCategory.childrenPublicId.add(childPublicId)
-        itemCategoryRepository.save(parentCategory).awaitSingle()
-    }
 }
