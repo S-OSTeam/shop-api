@@ -46,11 +46,6 @@ class ItemResolver(
         return itemSearchService.findItemByPublicId(publicId)
     }
 
-    @QueryMapping
-    suspend fun findItemByTitle(@Argument @NotBlank itemTitle: String): ItemResponse {
-        return itemSearchService.findItemByTitle(itemTitle)
-    }
-
     @MutationMapping
     suspend fun deleteItemByPublicId(@Argument @Min(1L) publicId: Long): String{
         val deletedTitle =  itemDeleteService.deleteItemByPublicId(publicId)

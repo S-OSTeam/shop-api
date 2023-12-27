@@ -38,27 +38,6 @@ class ItemSearchServiceTest : BehaviorSpec({
                 toList.map { it.title } shouldContain "Test Item 2"
             }
         }
-
-        When("finding item by title") {
-            coEvery { itemRepository.findByTitle(title1) } returns mockItem1
-            val result = itemSearchService.findItemByTitle(title1)
-
-            Then("it should return the corresponding ItemResponse") {
-                result.title shouldBe mockItem1.title
-            }
-        }
-
-        When("finding non-existent item by title") {
-            coEvery { itemRepository.findByTitle("Test Item 3") } returns null
-            val exception = shouldThrow<ItemNotFoundException> {
-                itemSearchService.findItemByTitle("Test Item 3")
-            }
-
-            Then("it should throw ItemNotFoundException") {
-                exception.message shouldBe "존재하지 않는 아이템입니다."
-                exception.extensions["code"] shouldBe "ITEM_NOT_FOUND"
-            }
-        }
     }
 
     Given("a valid item publicId") {

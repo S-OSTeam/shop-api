@@ -51,12 +51,6 @@ class ItemSearchService (
         return ItemResponse.fromItem(item)
     }
 
-    suspend fun findItemByTitle(itemTitle: String): ItemResponse {
-        val item = itemRepository.findByTitle(itemTitle)
-            ?: throw ItemNotFoundException()
-        return ItemResponse.fromItem(item)
-    }
-
     // 하위의 카테고리에 있는 아이템을 반환하는 함수
     private suspend fun findItemsInCategoryAndDescendants(category: ItemCategory): List<Item>{
         val parentIds: MutableList<Long> = mutableListOf()

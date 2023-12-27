@@ -11,6 +11,5 @@ type Query {
     findItemsByCategoryTitle(categoryTitle: String): [ItemResponse]
     findItemsByCategoryPublicId(categoryPublicId: Long): [ItemResponse]
     findItemByPublicId(publicId: Long): ItemResponse
-    findItemByTitle(itemTitle: String): ItemResponse
 
 }
