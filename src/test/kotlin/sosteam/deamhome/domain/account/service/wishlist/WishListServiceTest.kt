@@ -3,14 +3,12 @@ package sosteam.deamhome.domain.account.service.wishlist
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
-import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.service.AccountValidService
-import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import java.time.LocalDateTime
 
@@ -20,7 +18,7 @@ class WishListServiceTest :BehaviorSpec({
     val itemRepository = mockk<ItemRepository>()
     val accountValidService = mockk<AccountValidService>()
 
-    val wishListService = WishListService(accountRepository,itemRepository, accountValidService)
+    val wishListModifyService = WishListModifyService(accountRepository,itemRepository, accountValidService)
     Given("addOrRemoveWishListItem 테스트"){
         val existingItemId = "existingItemId"
         val newItemId = "newItemId"
@@ -46,13 +44,13 @@ class WishListServiceTest :BehaviorSpec({
         coEvery { accountRepository.save(account) } returns Mono.just(account)
 
         When("이미 존재하는 itemId 라면"){
-            val result = wishListService.addOrRemoveWishListItem(account, existingItemId)
+            val result = wishListModifyService.addOrRemoveWishListItem(account.id, existingItemId)
             Then("삭제한다"){
                 result shouldNotContain existingItemId
             }
         }
         When("존재하지 않는 itemId라면"){
-            val result = wishListService.addOrRemoveWishListItem(account, newItemId)
+            val result = wishListModifyService.addOrRemoveWishListItem(account.id, newItemId)
             Then("추가한다"){
                 result shouldContain newItemId
             }
