@@ -26,9 +26,4 @@ class ItemCategoryRepositoryImpl (
         return repository.findAll().asFlow()
     }
 
-    override suspend fun findItemCategoryById(id: String): ItemCategory? {
-        return repository.findOne(itemCategory.id.eq(id)).awaitSingleOrNull()
-    }
-
-
 }

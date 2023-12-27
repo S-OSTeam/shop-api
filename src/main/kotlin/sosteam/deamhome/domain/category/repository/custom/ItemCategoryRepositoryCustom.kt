@@ -9,6 +9,4 @@ interface ItemCategoryRepositoryCustom {
 
     fun findAllItemCategories(): Flow<ItemCategory>
 
-    suspend fun findItemCategoryById(id: String) : ItemCategory?
-
 }
