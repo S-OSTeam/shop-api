@@ -35,11 +35,6 @@ class ItemCategorySearchService (
             .map { ItemCategoryResponse.fromItemCategory(it) }
     }
 
-    fun findAllItemCategories(): Flow<ItemCategoryResponse> {
-        return itemCategoryRepository.findAllItemCategories()
-            .map { ItemCategoryResponse.fromItemCategory(it) }
-    }
-
     // 모든 아이템 카테고리를 tree 형식으로 반환
     suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
         val itemCategories = itemCategoryRepository.findAllItemCategories().toList()

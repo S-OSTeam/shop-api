@@ -4,7 +4,6 @@ type Query {
     findItemCategoryByPublicId(publicId: Long) : ItemCategoryResponse
     findItemCategoryByTitle(title: String): ItemCategoryResponse
     findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]
-    findAllItemCategories : [ItemCategoryResponse]
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
 
     findItemsContainTitle(title: String): [ItemResponse]
