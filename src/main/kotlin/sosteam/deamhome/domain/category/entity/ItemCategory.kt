@@ -8,6 +8,9 @@ import sosteam.deamhome.global.entity.BaseEntity
 data class ItemCategory(
     var title: String,
     @Indexed(unique = true)
-    var publicId: Long = 0L,
-    var parentPublicId: Long? = null
-) : BaseEntity()
+    var publicId: Long,
+    var parentPublicId: Long
+) : BaseEntity() {
+    fun isTop(): Boolean = parentPublicId == publicId
+
+}

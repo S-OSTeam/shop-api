@@ -2,7 +2,6 @@ package sosteam.deamhome.domain.category.repository.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import lombok.RequiredArgsConstructor
 import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.category.entity.ItemCategory

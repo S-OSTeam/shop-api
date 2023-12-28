@@ -1,11 +1,11 @@
 package sosteam.deamhome.domain.category.service
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
@@ -52,18 +52,17 @@ class ItemCategorySearchService (
         }
 
         // 부모 카테고리의 children 에 자식 카테고리 추가
-        itemCategories.forEach { itemCategory ->
-            itemCategory.parentPublicId?.let { parentPublicId ->
-                val parent = map[parentPublicId]
+        itemCategories
+            .filterNot(ItemCategory::isTop)
+            .forEach { itemCategory ->
+                val parent = map[itemCategory.parentPublicId]
                 val child = map[itemCategory.publicId]
-                parent!!.children!!.add(child!!)
+                parent!!.children.add(child!!)
             }
-        }
 
-        // parentPublicId 가 null 이면 최상위 카테고리
         // 최상위 카테고리만 모아서 list 로 반환
         val roots = itemCategories
-            .filter { it.parentPublicId == null }
+            .filter { it.isTop() }
             .map { map[it.publicId]!! }.toList()
 
         return roots

@@ -16,8 +16,10 @@ data class ItemCategoryRequest (
 ): DTO {
     override fun asDomain(): ItemCategory {
         return ItemCategory(
+            // publicId 는 sequence 로 생성
+            publicId = 0L,
             title = this.title,
-            parentPublicId = this.parentPublicId
+            parentPublicId = this.parentPublicId ?: 0L
         )
     }
 }
