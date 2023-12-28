@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.category.service
 
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
