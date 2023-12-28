@@ -17,7 +17,8 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
     val sequenceGenerator = mockk<SequenceGenerator>()
-    val itemCategoryCreateService = ItemCategoryCreateService(itemCategoryRepository, sequenceGenerator)
+    val testMaxDepth: Int = 2
+    val itemCategoryCreateService = ItemCategoryCreateService(itemCategoryRepository, sequenceGenerator, "testSequence", testMaxDepth)
     val testSequence = 1L
 
     beforeTest {

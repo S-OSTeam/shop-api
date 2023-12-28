@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.category.service
 
 import kotlinx.coroutines.reactor.awaitSingle
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -15,13 +16,17 @@ import sosteam.deamhome.global.sequence.provider.SequenceGenerator
 @Transactional
 class ItemCategoryCreateService(
     private val itemCategoryRepository: ItemCategoryRepository,
-    private val sequenceGenerator: SequenceGenerator
+    private val sequenceGenerator: SequenceGenerator,
+    @Value("\${item.category.sequence.name}")
+    private val sequenceName: String,
+    @Value("\${item.category.max.depth}")
+    private val maxDepth: Int
 ) {
 
     suspend fun createCategory(request: ItemCategoryRequest): ItemCategoryResponse {
         val itemCategory = request.asDomain().apply {
             // 아이템 카테고리 sequence 생성
-            publicId = sequenceGenerator.generateSequence(ItemCategory.SEQUENCE_NAME)
+            publicId = sequenceGenerator.generateSequence(sequenceName)
         }
 
         // request 에 parentPublicId 가 있으면 데이터베이스에 부모 카테고리가 있는지 확인
@@ -30,7 +35,7 @@ class ItemCategoryCreateService(
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
             // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
             val depth = calcDepth(parentCategory) + 1
-            if (depth > ItemCategory.MAX_DEPTH) {
+            if (depth > maxDepth) {
                 throw MaxDepthExceedException()
             }
         }

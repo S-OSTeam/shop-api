@@ -21,7 +21,7 @@ class ItemCreateServiceTest : BehaviorSpec({
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
     val sequenceGenerator = mockk<SequenceGenerator>()
     val imageProvider = mockk<ImageProvider>()
-    val itemCreateService = ItemCreateService(itemRepository, itemCategoryRepository, imageProvider, sequenceGenerator)
+    val itemCreateService = ItemCreateService(itemRepository, itemCategoryRepository, imageProvider, sequenceGenerator, "testSequence")
     val testSequence = 1L
 
     beforeTest {
