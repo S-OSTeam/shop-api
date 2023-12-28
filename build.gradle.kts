@@ -49,7 +49,6 @@ dependencies {
 	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
 	implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
 	
-	
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")

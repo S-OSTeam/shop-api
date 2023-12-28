@@ -11,4 +11,7 @@ type Query {
     findItemsByCategoryPublicId(categoryPublicId: Long): [ItemResponse]
     findItemByPublicId(publicId: Long): ItemResponse
 
+    kakaoLoginUrl: String
+    kakaoUserInfo(token: String): KakaoUserInfo
+
 }

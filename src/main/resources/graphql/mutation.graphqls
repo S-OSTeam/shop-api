@@ -5,7 +5,9 @@ type Mutation {
     logout: String
     reIssue: tokenResponse
 
-    test: String
+    kakaoSignUp(code: String): KakaoTokenReturnResponse
+    kakaoUnlink(token: String): KakaoUnlinkResponse
+
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
 
