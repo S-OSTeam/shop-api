@@ -8,10 +8,4 @@ data class ItemCategory(
     var title: String,
     var publicId: Long = 0L,
     var parentPublicId: Long? = null
-) : BaseEntity() {
-
-    companion object {
-        const val SEQUENCE_NAME = "ITEM_CATEGORY_SEQUENCE"
-        const val MAX_DEPTH = 2
-    }
-}
+) : BaseEntity()

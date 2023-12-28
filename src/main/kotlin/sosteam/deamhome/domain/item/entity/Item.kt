@@ -31,8 +31,5 @@ data class Item(
 		this.images = images
 		return this.images
 	}
-	companion object {
-		const val SEQUENCE_NAME = "ITEM_SEQUENCE"
-	}
 
 }

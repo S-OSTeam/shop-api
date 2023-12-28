@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.item.service
 
 import kotlinx.coroutines.reactor.awaitSingle
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
@@ -18,7 +19,9 @@ class ItemCreateService (
     private val itemRepository: ItemRepository,
     private val itemCategoryRepository: ItemCategoryRepository,
     private val imageProvider: ImageProvider,
-    private val sequenceGenerator: SequenceGenerator
+    private val sequenceGenerator: SequenceGenerator,
+    @Value("\${item.sequence.name}")
+    private val sequenceName: String,
 ){
     suspend fun createItem(request: ItemRequest): ItemResponse {
         // 카테고리가 존재하는지 확인
@@ -28,7 +31,7 @@ class ItemCreateService (
         // TODO sellerId 가 존재하는지 확인?
 
         val item = request.asDomain().apply {
-            publicId = sequenceGenerator.generateSequence(Item.SEQUENCE_NAME)
+            publicId = sequenceGenerator.generateSequence(sequenceName)
             // 이미지 저장
             images = request.images.map {
                 imageProvider.saveImage(it, "item", id).awaitSingle()
