@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.item.service
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.toList
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 
 class ItemSearchServiceTest : BehaviorSpec({
@@ -55,7 +53,7 @@ class ItemSearchServiceTest : BehaviorSpec({
     }
 
     Given("a valid categories") {
-        val mockCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = null)
+        val mockCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = 1L)
         val mockCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L, parentPublicId = 1L)
         val mockCategory3 = ItemCategory(title = "Test Category 3", publicId = 3L, parentPublicId = 1L)
         val mockItem1 = Item(title = "Test Item 1", categoryPublicId = 2L, publicId = 1L, content = "", sellerId = "", summary = "")
