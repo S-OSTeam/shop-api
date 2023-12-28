@@ -20,7 +20,7 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
 
     Given("a valid category publicId") {
         val categoryPublicId = 1L
-        val mockItemCategory = ItemCategory(title = "Test Category", publicId = categoryPublicId)
+        val mockItemCategory = ItemCategory(title = "Test Category", publicId = categoryPublicId, parentPublicId = categoryPublicId)
 
         When("finding item category by publicId") {
             coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns mockItemCategory
@@ -46,8 +46,8 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
 
 
     Given("a valid category title") {
-        val mockItemCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L)
-        val mockItemCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L)
+        val mockItemCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = 1L)
+        val mockItemCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L, parentPublicId = 2L)
 
         When("finding item categories containing the title") {
             coEvery { itemCategoryRepository.findItemCategoriesContainTitle("Test") } returns flowOf(mockItemCategory1, mockItemCategory2)
@@ -84,7 +84,7 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
     }
 
     Given("a list of item categories") {
-        val category1 = ItemCategory(title = "Category 1", publicId = 1L, parentPublicId = null)
+        val category1 = ItemCategory(title = "Category 1", publicId = 1L, parentPublicId = 1L)
         val category2 = ItemCategory(title = "Category 2", publicId = 2L, parentPublicId = 1L)
         val category3 = ItemCategory(title = "Category 3", publicId = 3L, parentPublicId = 1L)
 
@@ -96,21 +96,10 @@ class ItemCategorySearchServiceTest : BehaviorSpec({
             Then("it should return a list of ItemCategoryTreeResponse with correct hierarchy") {
                 result.size shouldBe 1
                 result[0].title shouldBe "Category 1"
-                result[0].children?.size shouldBe 2
-                result[0].children?.map { it.title } shouldContainExactly listOf("Category 2", "Category 3")
+                result[0].children.size shouldBe 2
+                result[0].children.map { it.title } shouldContainExactly listOf("Category 2", "Category 3")
             }
         }
-
-        When("finding all item categories as a list") {
-            val flowResult = itemCategorySearchService.findAllItemCategories().toList()
-
-            Then("it should return a flow of ItemCategoryResponse") {
-                val listResult = flowResult.toList()
-                listResult.size shouldBe 3
-                listResult.map { it.title } shouldContainExactly listOf("Category 1", "Category 2", "Category 3")
-            }
-        }
-
 
     }
 

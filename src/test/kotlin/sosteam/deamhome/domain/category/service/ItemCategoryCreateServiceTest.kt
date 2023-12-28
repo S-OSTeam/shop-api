@@ -17,7 +17,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
     val sequenceGenerator = mockk<SequenceGenerator>()
-    val testMaxDepth: Int = 2
+    val testMaxDepth = 2
     val itemCategoryCreateService = ItemCategoryCreateService(itemCategoryRepository, sequenceGenerator, "testSequence", testMaxDepth)
     val testSequence = 1L
 
@@ -32,7 +32,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         val mockItemCategory = ItemCategory(
             title = categoryTitle,
             publicId = testSequence,
-            parentPublicId = null,
+            parentPublicId = testSequence,
         )
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
@@ -53,7 +53,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         val parentCategoryPublicId = 2L
 
         val validRequest = ItemCategoryRequest(title = categoryTitle, parentPublicId = parentCategoryPublicId)
-        val parentCategory = ItemCategory(title = "Parent Category", publicId = parentCategoryPublicId)
+        val parentCategory = ItemCategory(title = "Parent Category", publicId = parentCategoryPublicId, parentPublicId = parentCategoryPublicId)
 
         val mockItemCategory = ItemCategory(
             title = categoryTitle,
@@ -78,7 +78,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
     Given("an invalid CategoryRequest") {
         val categoryTitle = "Test Category"
-        val testCategory1 = ItemCategory(title = "Test Category1", publicId = 1L, parentPublicId = null)
+        val testCategory1 = ItemCategory(title = "Test Category1", publicId = 1L, parentPublicId = 1L)
         val testCategory2 = ItemCategory(title = "Test Category2", publicId = 2L, parentPublicId = 1L)
         val testCategory3 = ItemCategory(title = "Test Category3", publicId = 3L, parentPublicId = 2L)
         val invalidRequest = ItemCategoryRequest(title = categoryTitle, parentPublicId = 3L)
@@ -86,9 +86,6 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         coEvery { itemCategoryRepository.findByPublicId(1L) } returns testCategory1
         coEvery { itemCategoryRepository.findByPublicId(2L) } returns testCategory2
         coEvery { itemCategoryRepository.findByPublicId(3L) } returns testCategory3
-
-        val mockItemCategory = ItemCategory(title = categoryTitle, publicId = testSequence)
-        coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
 
         When("creating a category with a parent exceeding the maximum depth") {
             val exception = shouldThrow<MaxDepthExceedException> {

@@ -38,7 +38,7 @@ class ItemCreateServiceTest : BehaviorSpec({
             images = listOf()
         )
 
-        val mockCategory = ItemCategory(title = "Test Category", publicId = 1L)
+        val mockCategory = ItemCategory(title = "Test Category", publicId = 1L, parentPublicId = 1L)
         val mockSavedItem = Item(
             publicId = 1L,
             title = request.title,
