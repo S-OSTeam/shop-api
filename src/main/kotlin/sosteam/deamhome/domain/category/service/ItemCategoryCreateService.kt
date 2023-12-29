@@ -1,10 +1,12 @@
 package sosteam.deamhome.domain.category.service
 
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.domain.category.exception.AlreadyExistCategoryException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
@@ -31,16 +33,9 @@ class ItemCategoryCreateService(
             parentPublicId = if (parentPublicId == 0L) publicId else parentPublicId
         }
 
-        // request 에 parentPublicId 가 있으면 데이터베이스에 부모 카테고리가 있는지 확인
-        request.parentPublicId?.let { parentPublicId ->
-            val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
-                ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
-            // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
-            val depth = calcDepth(parentCategory) + 1
-            if (depth > maxDepth) {
-                throw MaxDepthExceedException()
-            }
-        }
+        // 같은 부모에 중복된 이름의 카테고리가 있거나 최대 깊이를 초과하는지 확인
+        request.parentPublicId?.let { validateParentCategory(it, request.title) }
+            ?: validateTopCategories(request.title)
 
         val saveCategory = itemCategoryRepository.save(itemCategory).awaitSingle()
 
@@ -58,6 +53,30 @@ class ItemCategoryCreateService(
                 ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
             calcDepth(parentCategory) + 1
         }
+    }
+
+    private suspend fun validateParentCategory(parentPublicId: Long, title: String) {
+        val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
+            ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
+        // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
+        val depth = calcDepth(parentCategory) + 1
+        if (depth > maxDepth) {
+            throw MaxDepthExceedException()
+        }
+        // 같은 부모를 가진 카테고리에 이름이 중복된 카테고리가 있으면 예외처리
+        val childrenTitles = itemCategoryRepository.findByParentPublicId(parentPublicId)
+            .toList()
+            .map { it.title }
+
+        if (title in childrenTitles) {
+            throw AlreadyExistCategoryException()
+        }
+    }
+
+    private suspend fun validateTopCategories(title: String) {
+        // 최상위 카테고리에 같은 이름의 카테고리가 있으면 예외처리
+        if (itemCategoryRepository.findAllItemCategoriesByTitle(title).toList().any { it.isTop() })
+            throw AlreadyExistCategoryException()
     }
 
 }

@@ -4,9 +4,12 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.domain.category.exception.AlreadyExistCategoryException
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
@@ -36,6 +39,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         )
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
+        coEvery { itemCategoryRepository.findAllItemCategoriesByTitle(categoryTitle) } returns emptyFlow()
 
         When("creating a category without a parent") {
             val result = itemCategoryCreateService.createCategory(validRequest)
@@ -62,8 +66,8 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         )
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
-
         coEvery { itemCategoryRepository.findByPublicId(parentCategoryPublicId) } returns parentCategory
+        coEvery { itemCategoryRepository.findByParentPublicId(parentCategoryPublicId) } returns emptyFlow()
 
         When("creating a category with a parent") {
             val result = itemCategoryCreateService.createCategory(validRequest)
@@ -72,6 +76,23 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
                 result.title shouldBe validRequest.title
                 result.publicId shouldBe childCategoryPublicId
                 result.parentPublicId shouldBe parentCategoryPublicId
+            }
+        }
+
+        When("creating a category with a already exist title category") {
+            val mockItemCategory2 = ItemCategory(
+                title = categoryTitle,
+                publicId = childCategoryPublicId + 1L,
+                parentPublicId = parentCategoryPublicId,
+            )
+            coEvery { itemCategoryRepository.findByParentPublicId(parentCategoryPublicId) } returns flowOf(mockItemCategory, mockItemCategory2)
+
+            val exception = shouldThrow<AlreadyExistCategoryException> {
+                itemCategoryCreateService.createCategory(validRequest)
+            }
+
+            Then("it should throw AlreadyExistCategoryException") {
+                exception.extensions["code"] shouldBe "ALREADY_EXIST_CATEGORY"
             }
         }
     }
