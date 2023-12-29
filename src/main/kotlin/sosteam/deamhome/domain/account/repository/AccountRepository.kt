@@ -9,6 +9,8 @@ import sosteam.deamhome.domain.account.repository.custom.AccountRepositoryCustom
 interface AccountRepository : ReactiveMongoRepository<Account, String>, AccountRepositoryCustom {
 	suspend fun findAccountByUserId(userId: String): Account?
 	
+	suspend fun findAccountBySnsId(snsId: String): Account?
+	
 	suspend fun findAccountById(id: String): Account?
 	
 	suspend fun deleteAccountById(id: String)

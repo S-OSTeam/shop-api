@@ -7,6 +7,8 @@ type Mutation {
 
     kakaoSignUp(code: String): KakaoTokenReturnResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse
+    naverSignUp(code: String, state: String): NaverTokenReturnResponse
+    naverUnlink(token: String): NaverUnlinkResponse
 
     uploadImage(image: Upload!): String
     deleteImage(path: String): String

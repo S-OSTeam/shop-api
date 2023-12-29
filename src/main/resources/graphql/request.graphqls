@@ -1,0 +1,4 @@
+input authorizationCode{
+    code: String
+    state: String
+}
