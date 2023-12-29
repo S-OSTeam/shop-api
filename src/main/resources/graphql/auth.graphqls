@@ -15,7 +15,7 @@ input signUpRequest{
     receiveMail: Boolean!
 
     snsId: String
-    sns: String
+    sns: SNS
 
     userName: String!
 }
@@ -25,5 +25,9 @@ input loginRequest{
     userId: String
     email: String
     snsId: String
-    sns: String!
+    sns: SNS!
+}
+
+enum SNS {
+    KAKAO, NORMAL, GOOGLE, NAVER
 }
