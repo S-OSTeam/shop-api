@@ -9,4 +9,6 @@ interface ItemCategoryRepositoryCustom {
 
     fun findAllItemCategories(): Flow<ItemCategory>
 
+    fun findAllItemCategoriesByTitle(title: String): Flow<ItemCategory>
+
 }
