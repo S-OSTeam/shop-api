@@ -1,11 +1,11 @@
 input ItemRequest {
-    categoryPublicId: Long!
-    title: String!
-    content: String!
-    summary: String!
+    categoryPublicId: Long! @Min(value : 1)
+    title: String! @NotBlank
+    content: String! @NotBlank
+    summary: String! @NotBlank
     price: Int!
     status: Boolean!
-    sellerId: String!
+    sellerId: String! @NotBlank
     freeDelivery: Boolean!
     images: [Upload!]!
 }

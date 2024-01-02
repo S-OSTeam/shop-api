@@ -1,15 +1,15 @@
 type Query {
     ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
 
-    findItemCategoryByPublicId(publicId: Long) : ItemCategoryResponse
-    findItemCategoryByTitle(title: String): ItemCategoryResponse
-    findItemCategoriesContainTitle(title: String) : [ItemCategoryResponse]
+    findItemCategoryByPublicId(publicId: Long @Min(value : 1)) : ItemCategoryResponse
+    findItemCategoryByTitle(title: String @NotBlank): ItemCategoryResponse
+    findItemCategoriesContainTitle(title: String @NotBlank) : [ItemCategoryResponse]
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
 
-    findItemsContainTitle(title: String): [ItemResponse]
-    findItemsByCategoryTitle(categoryTitle: String): [ItemResponse]
-    findItemsByCategoryPublicId(categoryPublicId: Long): [ItemResponse]
-    findItemByPublicId(publicId: Long): ItemResponse
+    findItemsContainTitle(title: String @NotBlank): [ItemResponse]
+    findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
+    findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
+    findItemByPublicId(publicId: Long @Min(value : 1)): ItemResponse
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo

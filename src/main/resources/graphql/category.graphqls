@@ -1,6 +1,10 @@
+directive @NotBlank(message : String = "graphql.validation.NotBlank.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @NotEmpty(message : String = "graphql.validation.NotEmpty.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @Min(value : Int! = 0, message : String = "graphql.validation.Min.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
 input ItemCategoryRequest {
-    title: String!
-    parentPublicId: Long
+    title: String! @NotBlank
+    parentPublicId: Long @Min(value : 1)
 }
 
 type ItemCategoryResponse{
