@@ -11,7 +11,6 @@ import sosteam.deamhome.domain.category.repository.querydsl.ItemCategoryQueryDsl
 
 @GraphQlRepository
 @RequiredArgsConstructor
-@OptIn(kotlinx.coroutines.FlowPreview::class)
 class ItemCategoryRepositoryImpl (
     private val repository: ItemCategoryQueryDslRepository
 ) : ItemCategoryRepositoryCustom{
