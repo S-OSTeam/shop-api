@@ -64,13 +64,8 @@ class ItemCategoryCreateService(
             throw MaxDepthExceedException()
         }
         // 같은 부모를 가진 카테고리에 이름이 중복된 카테고리가 있으면 예외처리
-        val childrenTitles = itemCategoryRepository.findByParentPublicId(parentPublicId)
-            .toList()
-            .map { it.title }
-
-        if (title in childrenTitles) {
-            throw AlreadyExistCategoryException()
-        }
+        itemCategoryRepository.findByParentPublicIdAndTitle(parentPublicId, title)
+            ?: throw AlreadyExistCategoryException()
     }
 
     private suspend fun validateTopCategories(title: String) {
