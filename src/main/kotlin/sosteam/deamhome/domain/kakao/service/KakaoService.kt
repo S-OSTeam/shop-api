@@ -35,7 +35,7 @@ class KakaoService(
     }
 
     suspend fun kakaoSign(code: String): KakaoTokenReturnResponse {
-        val token = getKakaoToken(code);
+        val token = getKakaoToken(code)
         getKakaoUserInfo(token.accessToken)
         return token
     }

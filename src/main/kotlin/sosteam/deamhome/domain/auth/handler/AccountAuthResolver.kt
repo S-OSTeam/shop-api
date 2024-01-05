@@ -3,13 +3,13 @@ package sosteam.deamhome.domain.auth.handler
 import jakarta.validation.Valid
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.account.service.AccountCreateService
-import sosteam.deamhome.domain.account.service.AccountStatusModifyService
-import sosteam.deamhome.domain.account.service.AccountStatusValidService
-import sosteam.deamhome.domain.account.service.AccountValidService
+import sosteam.deamhome.domain.account.service.*
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
+import sosteam.deamhome.domain.auth.service.AccountAuthCookieService
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.domain.order.service.OrderValidService
@@ -27,7 +27,9 @@ class AccountAuthResolver(
 	val accountValidService: AccountValidService,
 	val orderValidService: OrderValidService,
 	val accountStatusValidService: AccountStatusValidService,
-	val accountStatusModifyService: AccountStatusModifyService
+	val accountStatusModifyService: AccountStatusModifyService,
+	val accountAuthCookieService: AccountAuthCookieService,
+	val accountDeleteService: AccountDeleteService
 ) {
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
@@ -58,7 +60,13 @@ class AccountAuthResolver(
 	}
 	
 	@MutationMapping
-	suspend fun login(@Argument @Valid loginRequest: AccountLoginRequest): TokenResponse {
+	suspend fun login(
+		@Argument @Valid loginRequest: AccountLoginRequest,
+		request: ServerHttpRequest,
+		response: ServerHttpResponse
+	): TokenResponse? {
+		val userAgent = request.headers.get("user-agent")
+
 		val mac = getMac()
 		
 		val accountId =
@@ -70,8 +78,14 @@ class AccountAuthResolver(
 			)
 		
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, loginRequest.pwd)
-		
-		return accountAuthCreateService.createTokenResponse(loginDTO, mac)
+
+		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
+
+		if(userAgent == null && userAgent!!.contains("MOBILE"))
+			return tokenResponse
+
+		accountAuthCookieService.createCookieResponse(tokenResponse, response)
+		return null
 	}
 	
 	@MutationMapping
@@ -91,5 +105,17 @@ class AccountAuthResolver(
 		val mac = getMac()
 		
 		return accountAuthCreateService.reIssueTokenResponse(mac, token)
+	}
+
+	@MutationMapping
+	suspend fun signout(): String {
+		val accessToken = getToken()
+		val refreshToken = getRefreshToken()
+		val mac = getMac()
+
+		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, mac)
+		accountStatusModifyService.updateAccountStatus(userId, Status.SIGNOUT)
+
+		return userId
 	}
 }

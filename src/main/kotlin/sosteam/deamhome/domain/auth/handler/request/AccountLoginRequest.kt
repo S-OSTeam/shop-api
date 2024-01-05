@@ -11,7 +11,7 @@ data class AccountLoginRequest(
 	val userId: String = "",
 	
 	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
-	@Pattern(
+	@get:Pattern(
 		regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$",
 		message = "올바른 비밀번호 형식이 아닙니다."
 	)
