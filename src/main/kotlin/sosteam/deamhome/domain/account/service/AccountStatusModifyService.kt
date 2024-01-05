@@ -61,12 +61,14 @@ class AccountStatusModifyService(
 			
 			accountRepository.save(account).awaitSingle()
 			
-		} else if (status == Status.SIGNOUT) {
+		} else if (status == Status.SIGNOUT) { // 회원 탈퇴
 			val account: Account = accountRepository.findAccountByUserId(userId) ?: throw AccountNotFoundException()
-			
+
 			account.loginAt = LocalDateTime.now()
 			reactiveMongoOperations.save(account, "accounts_signout").awaitSingleOrNull()
-			accountRepository.delete(account).awaitSingle()
+			// signout시에 계정 삭제가 아닌 정지 상태로 처리
+			// accountRepository.delete(account).awaitSingle()
+
 		}
 		
 		accountStatus.status = status
