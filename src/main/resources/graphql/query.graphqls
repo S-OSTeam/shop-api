@@ -4,8 +4,8 @@ type Query {
     getItemCategoryBySequence(publicId: Long) : ItemCategoryResponse
     findItemCategoriesContainsTitle(title: String) : [ItemCategoryResponse]
 
-    getItemsContainsTitle(title: String): [ItemResponseDTO]
-    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponseDTO]
+    getItemsContainsTitle(title: String): [ItemResponse]
+    getItemsByOption(categoryTitle: String, detailTitle: String, itemTitle: String): [ItemResponse]
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
