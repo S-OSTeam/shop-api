@@ -18,7 +18,7 @@ type Query {
     findItemCategoryByTitle(title: String @NotBlank): ItemCategoryResponse
     findItemCategoriesContainTitle(title: String @NotBlank) : [ItemCategoryResponse]
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
-    
+
     findItemsContainTitle(title: String @NotBlank): [ItemResponse]
     findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
     findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
