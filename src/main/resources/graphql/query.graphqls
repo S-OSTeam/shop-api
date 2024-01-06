@@ -1,6 +1,6 @@
 type Query {
     ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
-    
+
     getItemCategoryBySequence(publicId: Long) : ItemCategoryResponse
     findItemCategoriesContainsTitle(title: String) : [ItemCategoryResponse]
 
@@ -23,5 +23,7 @@ type Query {
     findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
     findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
     findItemByPublicId(publicId: Long @Min(value : 1)): ItemResponse
+    
 
+    getWishList(request: WishListPageRequest): [ItemResponse]
 }

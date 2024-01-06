@@ -28,3 +28,19 @@ type ItemResponse {
     freeDelivery: Boolean!
     imageUrls: [String!]!
 }
+
+input WishListRequest{
+    # 사용자 ID
+    userId: String!
+    # 아이템 ID
+    itemId: String!
+}
+
+input WishListPageRequest{
+    # 사용자 ID
+    userId: String!
+    # 페이지 번호
+    page: Int
+    # 페이지 크기
+    pageSize: Int!
+}
