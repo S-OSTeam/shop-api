@@ -24,9 +24,7 @@ data class AccountLoginRequest(
 	val email: String = "",
 	
 	val snsId: String?,
-	
-	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
-	@get:Pattern(regexp = "^(NORMAL)|(KAKAO)|(GOOGLE)|(NAVER)", message = "sns 종류에 해당하지 않는 값이 입력 되었습니다.")
+
 	val sns: SNS = SNS.NORMAL,
 ) : DTO {
 	override fun asDomain(): AccountStatus {
