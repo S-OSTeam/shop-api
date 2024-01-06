@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.account.resolver
+package sosteam.deamhome.domain.account.handler
 
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
@@ -18,7 +18,7 @@ class WishListResolver (
     @QueryMapping
     suspend fun getWishList(@Argument request: WishListPageRequest): List<ItemResponse>{
         val (userId, page, pageSize) = request
-        return wishListReadService.getAllWishList(userId, page, pageSize);
+        return wishListReadService.getAllWishList(userId, page, pageSize)
     }
     @MutationMapping
     suspend fun updateWishListItemInclude(@Argument request: WishListRequest): List<String>{
