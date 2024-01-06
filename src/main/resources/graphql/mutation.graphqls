@@ -11,11 +11,16 @@ type Mutation {
     uploadImage(image: Upload!): String
     deleteImage(path: String): String
 
-    createCategory(request: CategoryRequestDTO): ItemCategoryResponseDTO
-    createDetailCategory(request: DetailCategoryRequestDTO): ItemCategoryResponseDTO
-    createItem(request: ItemRequestDTO): ItemResponseDTO
-    deleteCategory(id: String): Boolean
-    deleteItem(id: String): Boolean
+    # ItemCategory 생성
+    createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
+    # ItemCategory 삭제
+    deleteItemCategoryByPublicId(publicId: Long!) : String
 
-    updateWishListItemInclude(request: WishListRequestDTO ): [String]
+    # Item 생성
+    createItem(request: ItemRequest!) : ItemResponse
+    # Item 삭제
+    deleteItemByPublicId(publicId: Long!): String
+
+    updateWishListItemInclude(request: WishListRequest ): [String]
+
 }

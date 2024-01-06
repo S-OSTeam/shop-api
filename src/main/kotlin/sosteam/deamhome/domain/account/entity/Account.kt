@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -48,36 +47,37 @@ data class Account(
 	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
-	companion object{
-		const val maxWishListSize = 100
-	}
+    companion object{
+        const val maxWishListSize = 100
+    }
 
-	private var faqs: ArrayList<String> = ArrayList()
+    private var faqs: ArrayList<String> = ArrayList()
 
-	private var wishlist: ArrayList<String> = ArrayList()
+    private var wishlist: ArrayList<String> = ArrayList()
 
-	private var reviews: ArrayList<String> = ArrayList()
+    private var reviews: ArrayList<String> = ArrayList()
 
-	fun getWishlist(): List<String> {
-		return wishlist.toList()
-	}
+    fun getWishlist(): List<String> {
+        return wishlist.toList()
+    }
 
-	fun addWishListItem(itemId:String): List<String>{
-		wishlist.add(itemId)
-		return wishlist
-	}
+    fun addWishListItem(itemId:String): List<String>{
+        wishlist.add(itemId)
+        return wishlist
+    }
 
-	fun removeWishListItem(itemId:String): List<String>{
-		wishlist.remove(itemId)
-		return wishlist
-	}
-	fun isItemIdInWishlist(itemId: String): Boolean {
-		return wishlist.contains(itemId)
-	}
+    fun removeWishListItem(itemId:String): List<String>{
+        wishlist.remove(itemId)
+        return wishlist
+    }
+    fun isItemIdInWishlist(itemId: String): Boolean {
+        return wishlist.contains(itemId)
+    }
 
-	fun getWishListSize():Int{
-		return wishlist.size
-	}
+    fun getWishListSize():Int{
+        return wishlist.size
+    }
+
 	fun addFaq(faq: Faq): List<String> {
 		faqs.add(faq.id)
 		return faqs
