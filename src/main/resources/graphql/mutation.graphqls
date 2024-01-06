@@ -17,4 +17,6 @@ type Mutation {
     createItem(request: ItemRequest!) : ItemResponse
     deleteItemByPublicId(publicId: Long!): String
 
+    updateWishListItemInclude(request: WishListRequest ): [String]
+
 }
