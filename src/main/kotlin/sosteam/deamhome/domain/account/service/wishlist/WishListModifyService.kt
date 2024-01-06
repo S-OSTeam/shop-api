@@ -28,8 +28,8 @@ class WishListModifyService(
     }
 
     suspend fun addItem(account: Account, itemId: String ):Account{
-        val maxWishListSize = 100
-        if(account.getWishListSize()> maxWishListSize){
+
+        if(account.getWishListSize()> Account.maxWishListSize){
             throw WishListOverflowException()
         }else{
             account.addWishListItem(itemId)

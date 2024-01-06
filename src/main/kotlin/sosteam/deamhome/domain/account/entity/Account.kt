@@ -48,6 +48,9 @@ data class Account(
 	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
+	companion object{
+		const val maxWishListSize = 100
+	}
 
 	private var faqs: ArrayList<String> = ArrayList()
 
