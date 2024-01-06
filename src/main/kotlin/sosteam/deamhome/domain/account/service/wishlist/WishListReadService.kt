@@ -19,7 +19,6 @@ class WishListReadService (
         return itemRepository.findByIdIn(account.getWishlist(),pageRequest)
             .toList()
             .map { ItemResponse.fromItem(it) }
-
     }
 
 }

@@ -77,17 +77,17 @@ data class Account(
     fun getWishListSize():Int{
         return wishlist.size
     }
-	
+
 	fun addFaq(faq: Faq): List<String> {
 		faqs.add(faq.id)
 		return faqs
 	}
-	
+
 	fun addReview(review: String): List<String> {
 		reviews.add(review)
 		return reviews
 	}
-	
+
 	@JsonIgnore
 	fun getAuthorities(): List<SimpleGrantedAuthority> {
 		val simpleGrantedAuthorities = ArrayList<SimpleGrantedAuthority>()
