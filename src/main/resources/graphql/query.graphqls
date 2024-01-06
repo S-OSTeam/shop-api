@@ -10,4 +10,6 @@ type Query {
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
+
+    getWishList(request: WishListPageRequestDTO): [ItemResponseDTO]
 }

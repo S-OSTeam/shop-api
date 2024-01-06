@@ -10,6 +10,22 @@ input ItemRequestDTO {
     images: [Upload!]
 }
 
+input WishListRequestDTO{
+    # 사용자 ID
+    userId: String!
+    # 아이템 ID
+    itemId: String!
+}
+
+input WishListPageRequestDTO{
+    # 사용자 ID
+    userId: String!
+    # 페이지 번호
+    page: Int
+    # 페이지 크기
+    pageSize: Int!
+}
+
 type ItemResponseDTO {
     title: String!
     content: String!
