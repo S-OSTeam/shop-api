@@ -19,7 +19,8 @@ class Review(
 	var status: Boolean = false,
 	account: Account,
 	item: Item,
-	images: List<Image>
+	images: List<Image>,
+	likeUsers: List<String>
 ) : LogEntity() {
 	
 	@DocumentReference(lazy = true)
@@ -33,8 +34,26 @@ class Review(
 	@Setter
 	var account: Account = account
 	
+	@DocumentReference(lazy = true)
+	val likeUsers: ArrayList<String> = likeUsers as ArrayList<String>
+	
 	fun addImage(image: Image): List<Image> {
 		images.add(image)
 		return images
+	}
+	
+	fun remove(image: Image): List<Image> {
+		images.remove(image)
+		return images
+	}
+	
+	fun addLikeUser(userId: String): List<String> {
+		likeUsers.add(userId)
+		return likeUsers
+	}
+	
+	fun removeLikeUser(userId: String): List<String> {
+		likeUsers.remove(userId)
+		return likeUsers
 	}
 }
