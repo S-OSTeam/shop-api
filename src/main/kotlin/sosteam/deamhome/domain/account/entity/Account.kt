@@ -57,7 +57,7 @@ data class Account(
 	
 	private var reviews: ArrayList<String> = ArrayList()
 	
-	fun getWishlist(): List<String> {
+	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
 	

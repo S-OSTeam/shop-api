@@ -24,7 +24,7 @@ class WishListModifyService(
 		} else {
 			addItem(account, itemId)
 		}
-		return account.getWishlist()
+		return account.getWishList()
 	}
 	
 	suspend fun addItem(account: Account, itemId: String): Account {
