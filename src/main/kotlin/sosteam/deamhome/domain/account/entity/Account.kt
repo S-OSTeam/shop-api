@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -52,13 +51,15 @@ data class Account(
 		const val maxWishListSize = 100
 	}
 	
+	private var faqs: ArrayList<String> = ArrayList()
 	
-	private val faqs: ArrayList<String> = ArrayList()
+	private var wishlist: ArrayList<String> = ArrayList()
 	
-	@Setter
-	private val wishlist: ArrayList<String> = ArrayList()
+	private var reviews: ArrayList<String> = ArrayList()
 	
-	private val reviews: ArrayList<String> = ArrayList()
+	fun getWishlist(): List<String> {
+		return wishlist.toList()
+	}
 	
 	fun addWishListItem(itemId: String): List<String> {
 		wishlist.add(itemId)
@@ -76,10 +77,6 @@ data class Account(
 	
 	fun getWishListSize(): Int {
 		return wishlist.size
-	}
-	
-	fun getWishList(): List<String> {
-		return wishlist
 	}
 	
 	fun addFaq(faq: Faq): List<String> {

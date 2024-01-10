@@ -16,10 +16,8 @@ class WishListReadService(
 	suspend fun getAllWishList(userId: String, page: Int = 10, pageSize: Int): List<ItemResponse> {
 		val account = accountValidService.getAccountByUserId(userId)
 		val pageRequest: PageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("id")))
-		return itemRepository.findByIdIn(account.getWishList(), pageRequest)
+		return itemRepository.findByIdIn(account.getWishlist(), pageRequest)
 			.toList()
 			.map { ItemResponse.fromItem(it) }
-		
 	}
-	
 }

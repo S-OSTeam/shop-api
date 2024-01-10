@@ -15,6 +15,8 @@ class WishListModifyService(
 	private val itemRepository: ItemRepository,
 	private val accountValidService: AccountValidService,
 ) {
+	
+	
 	suspend fun addOrRemoveWishListItem(userId: String, itemId: String): List<String> {
 		val account = accountValidService.getAccountByUserId(userId)
 		if (account.isItemIdInWishlist(itemId)) { //이미 존재함
@@ -22,7 +24,7 @@ class WishListModifyService(
 		} else {
 			addItem(account, itemId)
 		}
-		return account.getWishList()
+		return account.getWishlist()
 	}
 	
 	suspend fun addItem(account: Account, itemId: String): Account {
@@ -50,4 +52,5 @@ class WishListModifyService(
 		} ?: throw ItemNotFoundException()
 		return accountRepository.save(account).awaitSingle()
 	}
+	
 }
