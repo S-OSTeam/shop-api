@@ -4,6 +4,7 @@ import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import sosteam.deamhome.domain.auth.exception.TokenNotFoundException
+import sosteam.deamhome.global.exception.AgentNotFoundException
 import sosteam.deamhome.global.exception.MacNotFoundException
 import sosteam.deamhome.global.log.ReactiveRequestContextHolder
 
@@ -44,6 +45,16 @@ class RequestProvider {
 			}
 			
 			return mac
+		}
+		// getUserAgent
+		suspend fun getAgent(): String {
+			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
+			val agent = headers.getFirst("User-Agent")
+
+			if(agent.isNullOrEmpty() || (agent!="Web" && agent!="Mobile")) {
+				throw AgentNotFoundException()
+			}
+			return agent
 		}
 	}
 }

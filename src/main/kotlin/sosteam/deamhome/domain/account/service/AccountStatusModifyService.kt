@@ -30,45 +30,21 @@ class AccountStatusModifyService(
 		val accountStatus: AccountStatus =
 			accountStatusRepository.findByUserId(userId) ?: throw AccountNotFoundException()
 		
-		if (status == Status.DORMANT) { // 휴면계정으로의 전환
+		if (status == Status.SIGNOUT) { // 회원 탈퇴 (휴먼 상태로 전환)
+			//TODO 변경 날짜를 저장하여 스케쥴러에서 2주가 지나면 자동 삭제
 			val account: Account = accountRepository.findAccountByUserId(userId) ?: throw AccountNotFoundException()
-			
-			reactiveMongoOperations.save(account, "accounts_dormant").awaitSingleOrNull()
-			accountRepository.delete(account).awaitSingle()
+			reactiveMongoOperations.save(account, "accounts_signout").awaitSingleOrNull()
 			
 		} else if (status == Status.LIVE) { // 계정 활성화
 			val query = Query().addCriteria(Criteria.where("userId").`is`(userId))
 			
-			var account: Account
-			
-			if (accountStatus.status == Status.DORMANT) {
-				account = reactiveMongoOperations
-					.findOne(query, Account::class.java, "accounts_dormant")
-					.awaitSingleOrNull() ?: throw AccountNotFoundException()
+			var account = reactiveMongoOperations
+				.findOne(query, Account::class.java, "accounts_signout")
+				.awaitSingleOrNull() ?: throw AccountNotFoundException()
 				
-				reactiveMongoOperations
-					.remove(query, Account::class.java, "accounts_dormant")
-					.awaitSingleOrNull()
-			} else {
-				account = reactiveMongoOperations
-					.findOne(query, Account::class.java, "accounts_signout")
-					.awaitSingleOrNull() ?: throw AccountNotFoundException()
-				
-				reactiveMongoOperations
-					.remove(query, Account::class.java, "accounts_signout")
-					.awaitSingleOrNull()
-			}
-			
-			accountRepository.save(account).awaitSingle()
-			
-		} else if (status == Status.SIGNOUT) { // 회원 탈퇴
-			val account: Account = accountRepository.findAccountByUserId(userId) ?: throw AccountNotFoundException()
-
-			account.loginAt = LocalDateTime.now()
-			reactiveMongoOperations.save(account, "accounts_signout").awaitSingleOrNull()
-			// signout시에 계정 삭제가 아닌 정지 상태로 처리
-			// accountRepository.delete(account).awaitSingle()
-
+			reactiveMongoOperations
+				.remove(query, Account::class.java, "accounts_signout")
+				.awaitSingleOrNull()
 		}
 		
 		accountStatus.status = status

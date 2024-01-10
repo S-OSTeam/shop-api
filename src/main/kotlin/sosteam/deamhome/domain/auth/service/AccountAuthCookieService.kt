@@ -24,12 +24,8 @@ class AccountAuthCookieService() {
         val userId = ResponseCookie.from("userId", tokenResponse.userId)
             .domain("http://localhost:8081/api/graphql")
             .build()
-        val issuedAt = ResponseCookie.from("issuedAt", tokenResponse.issuedAt.toString())
-            .domain("http://localhost:8081/api/graphql")
-            .build()
         response.addCookie(accessCookie)
         response.addCookie(refreshCookie)
         response.addCookie(userId)
-        response.addCookie(issuedAt)
     }
 }

@@ -9,6 +9,6 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 class AccountDeleteService(private val accountRepository: AccountRepository) {
 	suspend fun deleteAccount(account: Account) {
 		val deleteAccount = accountRepository.findAccountById(account.userId)
-		//accountRepository.delete(account).awaitSingle()
+		accountRepository.delete(account).awaitSingle()
 	}
 }

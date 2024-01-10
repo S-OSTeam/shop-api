@@ -44,6 +44,15 @@ class AccountValidService(
 		
 		return true
 	}
-	
-	
+
+	suspend fun issueJwtToken(accountLoginDTO: AccountLoginDTO): TokenResponse {
+		val mac = getMac()
+		val token = jwtProvider.generate(
+			accountLoginDTO.userId,
+			accountLoginDTO.authorities,
+			mac, Date(System.currentTimeMillis())
+		)
+		redisProvider.setDataExpire(accountLoginDTO.userId, token.refreshToken, Token.REFRESH.time)
+		return token
+	}
 }

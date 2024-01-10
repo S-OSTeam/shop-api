@@ -17,7 +17,6 @@ class AccountCreateService(
 	private val passwordEncoder: PasswordEncoder
 ) {
 	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
-		
 		val accountStatus = accountCreateRequest.asStatus()
 		val account = accountCreateRequest.asDomain()
 		accountStatus.accountId = account.id

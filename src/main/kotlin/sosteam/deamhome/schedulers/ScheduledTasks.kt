@@ -24,16 +24,12 @@ class ScheduledTasks(
 	@Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
 	fun manageDormantMembers() = runBlocking {
 		val currentDate = LocalDateTime.now()
-		
-		val dormantMembersFlux = accountRepository.getDormantAccount()
+
+		/*val dormantMembersFlux = accountRepository.getDormantAccount()
 			.collect { dormantAccount ->
 				CoroutineScope(Dispatchers.IO).launch {
 					setMemberToDormant(dormantAccount)
 				}
-			}
-	}
-	
-	suspend fun setMemberToDormant(account: Account) {
-		accountStatusModifyService.updateAccountStatus(account.userId, Status.DORMANT)
+			}*/
 	}
 }
