@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 import sosteam.deamhome.global.image.entity.Image
 import sosteam.deamhome.global.image.exception.NotImageException
+import sosteam.deamhome.global.provider.log
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -26,10 +27,12 @@ class ImageProvider(
 		
 		val (name, type) = image.filename().split('.')
 		
+		log().debug(name)
 		val imageUuid = UlidCreator.getMonotonicUlid().toString().replace("-", "") + "." + type
 		var filePath = "${imageDir}/${outer}/"
 		var url = "${imageUrl}/${outer}/"
 		
+		log().debug(url)
 		//inner 폴더가 필요한 경우 추가
 		if (inner.isNotBlank()) {
 			filePath += "${inner}/"
@@ -38,6 +41,7 @@ class ImageProvider(
 		url += "${imageUuid}"
 		File(filePath).mkdirs()
 		
+		log().debug(filePath)
 		val file = File(filePath, imageUuid)
 		
 		val ret = Image(
