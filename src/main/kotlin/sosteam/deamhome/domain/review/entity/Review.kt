@@ -24,7 +24,7 @@ class Review(
 ) : LogEntity() {
 	
 	@DocumentReference(lazy = true)
-	val images: ArrayList<Image> = images as ArrayList<Image>
+	var images: ArrayList<Image> = images as ArrayList<Image>
 	
 	@DocumentReference(lazy = true)
 	@Setter
