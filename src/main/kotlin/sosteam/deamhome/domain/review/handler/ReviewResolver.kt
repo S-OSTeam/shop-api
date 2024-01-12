@@ -1,8 +1,11 @@
 package sosteam.deamhome.domain.review.handler
 
 import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.review.handler.request.ReviewCreateRequest
+import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
 import sosteam.deamhome.domain.review.service.ReviewCreateService
 import sosteam.deamhome.domain.review.service.ReviewDeleteService
@@ -16,14 +19,14 @@ class ReviewResolver(
 	private val reviewUpdateService: ReviewUpdateService,
 	private val reviewDeleteService: ReviewDeleteService,
 ) {
-	@MutationMapping
+	@PostMapping("/review")
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
 		return reviewCreateService.createReview(request)
 	}
 	
 	// TODO: createReviewImages (이미지는 rest로)
-
-//	@QueryMapping
+	
+	//	@QueryMapping
 //	suspend fun searchReviewByUserId():{
 //		// TODO: 유저의 리뷰들 모아보기
 //	}
@@ -38,10 +41,10 @@ class ReviewResolver(
 //
 //	}
 //
-//	@MutationMapping
-//	suspend fun deleteReview():{
-//
-//	}
+	@MutationMapping
+	suspend fun deleteReview(request: ReviewDeleteRequest): ResponseEntity<String> {
+		return reviewDeleteService.deleteReview(request)
+	}
 //
 //	@MutationMapping
 //	suspend fun updateReviewLike():{
