@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
+import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.exception.LoginFailureException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.auth.entity.dto.AccountLoginDTO
@@ -18,8 +19,9 @@ class AccountValidService(
 ) {
 	
 	//userId로 account 가져오기
-	suspend fun getAccountByUserId(userId: String): Account? {
+	suspend fun getAccountByUserId(userId: String): Account {
 		return accountRepository.findAccountByUserId(userId)
+			?: throw AccountNotFoundException()
 	}
 	
 	suspend fun getAccountLoginDTO(id: String, pwd: String): AccountLoginDTO {

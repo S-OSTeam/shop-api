@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.item.entity
 
 import lombok.Builder
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.image.entity.Image
@@ -8,6 +9,9 @@ import sosteam.deamhome.global.image.entity.Image
 @Document
 @Builder
 data class Item(
+	@Indexed(unique = true)
+	var publicId: Long = 0L,
+	var categoryPublicId: Long = 0L,
 	var title: String,
 	var content: String,
 	var summary: String,
@@ -19,7 +23,9 @@ data class Item(
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
 	val status: Boolean = false,
-	val sellerId: String
+	//account 의 userId 는 절대로 안바뀌겠지???
+	val sellerId: String,
+	val freeDelivery: Boolean = false
 ) : BaseEntity(){
 	var images: MutableList<Image> = mutableListOf()
 

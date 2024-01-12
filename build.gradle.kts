@@ -95,6 +95,8 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
+
+	implementation ("com.graphql-java:graphql-java-extended-validation:21.0")
 }
 
 tasks.withType<Jar> {
