@@ -1,5 +1,5 @@
 FROM openjdk:17-alpine
-ARG JAR_FILE=build/libs/shop-api-0.1.0.jar
+ARG JAR_FILE=build/libs/deamhome-0.1.0.jar
 
 COPY ${JAR_FILE} app.jar
 
