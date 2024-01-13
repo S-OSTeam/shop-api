@@ -67,7 +67,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 
         coEvery { itemCategoryRepository.save(any()) } returns Mono.just(mockItemCategory)
         coEvery { itemCategoryRepository.findByPublicId(parentCategoryPublicId) } returns parentCategory
-        coEvery { itemCategoryRepository.findByParentPublicId(parentCategoryPublicId) } returns emptyFlow()
+        coEvery { itemCategoryRepository.findByParentPublicIdAndTitle(parentCategoryPublicId, categoryTitle)} returns null
 
         When("creating a category with a parent") {
             val result = itemCategoryCreateService.createCategory(validRequest)
@@ -80,12 +80,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
         }
 
         When("creating a category with a already exist title category") {
-            val mockItemCategory2 = ItemCategory(
-                title = categoryTitle,
-                publicId = childCategoryPublicId + 1L,
-                parentPublicId = parentCategoryPublicId,
-            )
-            coEvery { itemCategoryRepository.findByParentPublicId(parentCategoryPublicId) } returns flowOf(mockItemCategory, mockItemCategory2)
+            coEvery { itemCategoryRepository.findByParentPublicIdAndTitle(parentCategoryPublicId, categoryTitle)} returns mockItemCategory
 
             val exception = shouldThrow<AlreadyExistCategoryException> {
                 itemCategoryCreateService.createCategory(validRequest)
