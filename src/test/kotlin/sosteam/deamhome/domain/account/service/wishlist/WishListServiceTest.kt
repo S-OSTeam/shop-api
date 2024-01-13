@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.service.AccountValidService
+import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import java.time.LocalDateTime
 
@@ -39,17 +40,32 @@ class WishListServiceTest : BehaviorSpec({
 			userName = "user123",
 			loginAt = LocalDateTime.now()
 		)
+		val item = Item(
+			publicId = 1L,
+			title = "test",
+			categoryPublicId = 1L,
+			sellerId = "test",
+			content = "",
+			summary = ""
+		).apply { images = mutableListOf() }
+
 		account.addWishListItem(existingItemId)
 		coEvery { accountRepository.save(account) } returns Mono.just(account)
+		coEvery { accountValidService.getAccountByUserId("userId")} returns account
+		coEvery { itemRepository.save(item) } returns Mono.just(item)
 		
 		When("이미 존재하는 itemId 라면") {
-			val result = wishListModifyService.addOrRemoveWishListItem(account.id, existingItemId)
+			coEvery { itemRepository.findItemById(existingItemId) } returns item
+
+			val result = wishListModifyService.addOrRemoveWishListItem(account.userId, existingItemId)
 			Then("삭제한다") {
 				result shouldNotContain existingItemId
 			}
 		}
-		When("존재하지 않는 itemId라면") {
-			val result = wishListModifyService.addOrRemoveWishListItem(account.id, newItemId)
+		When("존재하지 않는 itemId 라면") {
+			coEvery { itemRepository.findItemById(newItemId) } returns item
+
+			val result = wishListModifyService.addOrRemoveWishListItem(account.userId, newItemId)
 			Then("추가한다") {
 				result shouldContain newItemId
 			}
