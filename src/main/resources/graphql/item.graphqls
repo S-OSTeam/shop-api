@@ -6,6 +6,7 @@ input ItemRequest {
     price: Int!
     status: Boolean!
     sellerId: String! @NotBlank
+    stockCnt: Int!
     freeDelivery: Boolean!
     images: [Upload!]!
 }
@@ -19,6 +20,7 @@ type ItemResponse {
     price: Int!
     sellCnt: Int!
     wishCnt: Int!
+    stockCnt: Int!
     clickCnt: Int!
     avgReview: Float!
     reviewCnt: Int!
