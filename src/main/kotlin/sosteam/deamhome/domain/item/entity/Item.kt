@@ -19,6 +19,7 @@ data class Item(
 	var sellCnt: Int = 0,
 	var wishCnt: Int = 0,
 	var clickCnt: Int = 0,
+	var stockCnt:Int = 0,
 	val avgReview: Double = 0.0,
 	val reviewCnt: Int = 0,
 	val qnaCnt: Int = 0,
@@ -26,6 +27,7 @@ data class Item(
 	//account 의 userId 는 절대로 안바뀌겠지???
 	val sellerId: String,
 	val freeDelivery: Boolean = false
+
 ) : BaseEntity(){
 	var images: MutableList<Image> = mutableListOf()
 

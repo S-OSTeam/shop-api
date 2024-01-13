@@ -19,7 +19,8 @@ class ItemResponse (
     val status: Boolean,
     val sellerId: String,
     val freeDelivery: Boolean,
-    val imageUrls: List<String>
+    val imageUrls: List<String>,
+    val stockCnt: Int,
 ) {
     companion object {
         fun fromItem(item: Item): ItemResponse {
@@ -39,6 +40,7 @@ class ItemResponse (
                 status = item.status,
                 sellerId = item.sellerId,
                 freeDelivery = item.freeDelivery,
+                stockCnt = item.stockCnt,
                 imageUrls = item.images.map { it.fileUrl }
             )
         }
