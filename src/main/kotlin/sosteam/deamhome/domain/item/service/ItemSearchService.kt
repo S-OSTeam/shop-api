@@ -3,6 +3,9 @@ package sosteam.deamhome.domain.item.service
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.reactive.asFlow
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -10,6 +13,8 @@ import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
+import sosteam.deamhome.domain.item.handler.request.ItemPageRequest
+import sosteam.deamhome.domain.item.handler.request.OrderBy
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.repository.ItemRepository
 
@@ -65,5 +70,17 @@ class ItemSearchService (
         return itemRepository.findByCategoryPublicIdIn(parentIds).toList()
     }
 
+    suspend fun findItemsWithPage(itemPageRequest: ItemPageRequest): List<ItemResponse> {
+        val sortProperty = when (itemPageRequest.orderBy) {
+            OrderBy.SELL_CNT -> "sellCnt"
+            OrderBy.CLICK_CNT -> "clickCnt"
+        }
+
+        val pageRequest = PageRequest.of(itemPageRequest.page, itemPageRequest.size, Sort.by(Sort.Order.desc(sortProperty)))
+
+        return itemRepository.findAllBy(pageRequest)
+            .map { ItemResponse.fromItem(it) }
+            .toList()
+    }
 
 }

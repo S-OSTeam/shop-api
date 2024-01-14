@@ -18,4 +18,6 @@ interface ItemRepository : ReactiveMongoRepository<Item, String>, ItemRepository
 	
 	fun findByIdIn(ids: List<String>, pageRequest: PageRequest): Flow<Item>
 	suspend fun findItemById(id: String): Item?
+
+	fun findAllBy(pageRequest: PageRequest): Flow<Item>
 }

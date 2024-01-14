@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
+import sosteam.deamhome.domain.item.handler.request.ItemPageRequest
 import sosteam.deamhome.domain.item.handler.request.ItemRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.service.ItemCreateService
@@ -44,6 +45,11 @@ class ItemResolver(
     @QueryMapping
     suspend fun findItemByPublicId(@Argument @Min(1L) publicId: Long): ItemResponse{
         return itemSearchService.findItemByPublicId(publicId)
+    }
+
+    @QueryMapping
+    suspend fun findItemsWithPage(@Argument @Valid itemPageRequest: ItemPageRequest): List<ItemResponse>{
+        return itemSearchService.findItemsWithPage(itemPageRequest)
     }
 
     @MutationMapping

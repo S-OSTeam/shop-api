@@ -16,6 +16,7 @@ data class Item(
 	var content: String,
 	var summary: String,
 	var price: Int = 0,
+	// 누적 판매 수량
 	var sellCnt: Int = 0,
 	var wishCnt: Int = 0,
 	var clickCnt: Int = 0,

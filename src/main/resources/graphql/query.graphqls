@@ -18,6 +18,8 @@ type Query {
     findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
     # CategoryPublicId 로 카테고리 하위의 모든 Item 검색
     findItemByPublicId(publicId: Long @Min(value : 1)): ItemResponse
+    # Item Pagination
+    findItemsWithPage(itemPageRequest: ItemPageRequest): [ItemResponse]
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
