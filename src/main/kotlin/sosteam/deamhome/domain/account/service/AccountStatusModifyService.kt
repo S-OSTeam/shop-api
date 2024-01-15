@@ -31,7 +31,6 @@ class AccountStatusModifyService(
 			accountStatusRepository.findByUserId(userId) ?: throw AccountNotFoundException()
 		
 		if (status == Status.SIGNOUT) { // 회원 탈퇴 (휴먼 상태로 전환)
-			//TODO 변경 날짜를 저장하여 스케쥴러에서 2주가 지나면 자동 삭제
 			val account: Account = accountRepository.findAccountByUserId(userId) ?: throw AccountNotFoundException()
 			reactiveMongoOperations.save(account, "accounts_signout").awaitSingleOrNull()
 			
@@ -41,13 +40,10 @@ class AccountStatusModifyService(
 			var account = reactiveMongoOperations
 				.findOne(query, Account::class.java, "accounts_signout")
 				.awaitSingleOrNull() ?: throw AccountNotFoundException()
-				
-			reactiveMongoOperations
-				.remove(query, Account::class.java, "accounts_signout")
-				.awaitSingleOrNull()
 		}
 		
 		accountStatus.status = status
+		accountStatus.updateTime=LocalDateTime.now()
 		accountStatusRepository.save(accountStatus).awaitSingle() // accountStatus 상태 바꿔줌
 		
 		return accountStatus

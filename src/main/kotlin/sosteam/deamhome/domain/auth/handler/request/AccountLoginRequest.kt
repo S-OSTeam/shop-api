@@ -6,6 +6,7 @@ import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.DTO
+import java.time.LocalDateTime
 
 data class AccountLoginRequest(
 	val userId: String = "",
@@ -25,7 +26,7 @@ data class AccountLoginRequest(
 ) : DTO {
 	override fun asDomain(): AccountStatus {
 		return AccountStatus(
-			userId, snsId, sns, email, Status.LIVE
+			userId, snsId, sns, email, LocalDateTime.now(), Status.LIVE
 		)
 	}
 }

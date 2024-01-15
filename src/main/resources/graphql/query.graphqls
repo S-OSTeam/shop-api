@@ -22,12 +22,6 @@ type Query {
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
 
-    #장바구니 전체 리스트 가져오기
-    getAllCartList: [CartResponse]
-    # 장바구니 총액 계산
-    calculateCartTotal: Int
-
     getWishList(request: WishListPageRequest): [ItemResponse]
-
-
+    
 }
