@@ -71,50 +71,5 @@ class WishListServiceTest : BehaviorSpec({
 			}
 		}
 	}
-
-//    Given("getAllWishList 테스트"){
-//        val itemId1 = "item1"
-//        val itemId2 = "item2"
-//        val itemId3 = "item3"
-//
-//        val account = Account(
-//            userId = "userId",
-//            pwd = "password",
-//            sex = true,
-//            birtyday = LocalDateTime.now(),
-//            zipcode = "12345",
-//            address1 = "Address 1",
-//            address2 = "Address 1",
-//            address3 = "Address 1",
-//            address4 = "Address 1",
-//            email = "test@example.com",
-//            receiveMail = true,
-//            createdIp = "127.0.0.1",
-//            phone = "123456789",
-//            userName = "user123",
-//            loginAt = LocalDateTime.now()
-//        )
-//        account.addWishListItem(itemId1)
-//        account.addWishListItem(itemId2)
-//        account.addWishListItem(itemId3)
-//
-//        val item1 = Item("item1","content","summary",0,0,0,0,0.1,0,0,false,"123")
-//        val item2 = Item("item1","content","summary",0,0,0,0,0.1,0,0,false,"123")
-//        val item3 = Item("item1","content","summary",0,0,0,0,0.1,0,0,false,"123")
-//
-//        coEvery { accountRepository.save(account) } returns Mono.just(account)
-//        coEvery { itemRepository.findByIdIn(any()) } returns listOf(item1, item2,item3)
-//        When("위시리스트에 아이템 ID 들어있다면"){
-//            val result = wishListService.getAllWishList(account)
-//            Then("아이템 리스트 반환한다"){
-//                result shouldBe listOf<Item>(
-//                    item1,
-//                    item2,
-//                    item3
-//                )
-//            }
-//        }
-//    }
-//
-
+	
 })
