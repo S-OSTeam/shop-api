@@ -29,6 +29,5 @@ type Query {
 
     getWishList(request: WishListPageRequest): [ItemResponse]
 
-    getAllCartList(userId: String): [CartResponse]
 
 }
