@@ -35,7 +35,7 @@ data class Account(
 	val sns: SNS = SNS.NORMAL,
 	
 	@Indexed(unique = true)
-	var phone: String,
+	var phone: String?,
 	
 	@Indexed(unique = true)
 	var userName: String,

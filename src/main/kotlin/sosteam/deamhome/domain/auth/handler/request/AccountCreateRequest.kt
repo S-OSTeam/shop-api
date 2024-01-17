@@ -49,11 +49,10 @@ data class AccountCreateRequest(
 	val createdIp: String = "127.0.0.1",
 	
 	val snsId: String?,
-
+	
 	val sns: SNS = SNS.NORMAL,
 	
-	
-	val phone: String,
+	val phone: String?,
 	
 	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
 	@get:Pattern(regexp = "^[a-zA-Z가-힣]*$", message = "이름은 영어, 한글만 허용됩니다.")

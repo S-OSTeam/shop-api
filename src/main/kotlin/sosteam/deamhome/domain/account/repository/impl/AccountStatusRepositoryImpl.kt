@@ -30,7 +30,7 @@ class AccountStatusRepositoryImpl(
 		email: String?
 	): AccountStatus? {
 		return querydsl.findOne(
-			accountStatus.userId.eq(userId).or(accountStatus.sns.eq(sns).and(accountStatus.snsId.eq(snsId)))
+			eqLoginData(sns, snsId, userId, email)
 		).awaitFirstOrNull()
 	}
 	
@@ -43,10 +43,10 @@ class AccountStatusRepositoryImpl(
 		
 		expr.and(accountStatus.sns.eq(sns))
 		if (sns == SNS.NORMAL) {
-			if (userId!!.isNotBlank()) {
+			if (!userId.isNullOrBlank()) {
 				expr.and(eqUserId(userId))
 			}
-			if (email!!.isNotBlank()) {
+			if (!email.isNullOrBlank()) {
 				expr.and(eqEmail(email))
 			}
 		} else {
