@@ -10,13 +10,15 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter
 import reactor.core.publisher.Mono
 import sosteam.deamhome.global.security.filter.TokenAuthFilter
+import sosteam.deamhome.global.security.xss.XssFilter
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
+class SecurityConfig(val tokenAuthFilter: TokenAuthFilter, val xssFilter: XssFilter) {
 	
 	@Bean
 	fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
@@ -37,6 +39,16 @@ class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
 			.csrf { it.disable() }
 			.cors { it.disable() }
 			.httpBasic { it.disable() }
+			.headers { headers ->
+				headers.xssProtection { xss ->
+					// Disabled?
+					xss.headerValue(XXssProtectionServerHttpHeadersWriter.HeaderValue.DISABLED)
+						.contentSecurityPolicy { csp ->
+							csp.policyDirectives("default-src 'self'; script-src 'self'; img-src 'self';")
+						}
+				}
+			}
+			.addFilterAt(xssFilter, SecurityWebFiltersOrder.CSRF)
 			//.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 		
 		return http.build()
