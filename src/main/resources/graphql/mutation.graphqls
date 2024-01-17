@@ -1,9 +1,9 @@
 type Mutation {
-    signUp(request: signUpRequest!): String
+    signUp(request: SignUpRequest!): String
     signOut: String
-    login(request: loginRequest!): tokenResponse
+    login(request: LoginRequest!): TokenResponse
     logout: String
-    reIssue: tokenResponse
+    reIssue: TokenResponse
 
     kakaoSignUp(code: String): KakaoTokenReturnResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse

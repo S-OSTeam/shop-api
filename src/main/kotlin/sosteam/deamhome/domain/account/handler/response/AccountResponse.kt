@@ -18,7 +18,7 @@ data class AccountResponse(
 	val receiveMail: Boolean,
 	val snsId: String?,
 	val sns: SNS = SNS.NORMAL,
-	val phone: String,
+	val phone: String?,
 	val userName: String,
 	val point: Int,
 ) {
