@@ -13,12 +13,11 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter
 import reactor.core.publisher.Mono
 import sosteam.deamhome.global.security.filter.TokenAuthFilter
-import sosteam.deamhome.global.security.xss.XssFilter
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-class SecurityConfig(val tokenAuthFilter: TokenAuthFilter, val xssFilter: XssFilter) {
+class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
 	
 	@Bean
 	fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
@@ -48,7 +47,6 @@ class SecurityConfig(val tokenAuthFilter: TokenAuthFilter, val xssFilter: XssFil
 						}
 				}
 			}
-			.addFilterAt(xssFilter, SecurityWebFiltersOrder.CSRF)
 			//.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 		
 		return http.build()
