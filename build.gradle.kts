@@ -38,12 +38,17 @@ repositories {
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	
+	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("org.postgresql:r2dbc-postgresql")
+	
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")
@@ -83,6 +88,7 @@ dependencies {
 	testImplementation("org.springframework.graphql:spring-graphql-test:1.2.3")
 	
 	testImplementation("it.ozimov:embedded-redis:0.7.2")
+	testImplementation("ru.yandex.qatools.embed:postgresql-embedded:2.10")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.3")
 	testImplementation("io.kotest:kotest-runner-junit5:5.4.2")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
@@ -95,8 +101,8 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
-
-	implementation ("com.graphql-java:graphql-java-extended-validation:21.0")
+	
+	implementation("com.graphql-java:graphql-java-extended-validation:21.0")
 }
 
 tasks.withType<Jar> {

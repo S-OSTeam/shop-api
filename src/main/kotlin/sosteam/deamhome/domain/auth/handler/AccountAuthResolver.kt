@@ -58,18 +58,18 @@ class AccountAuthResolver(
 	}
 	
 	@MutationMapping
-	suspend fun login(@Argument @Valid loginRequest: AccountLoginRequest): TokenResponse {
+	suspend fun login(@Argument @Valid request: AccountLoginRequest): TokenResponse {
 		val mac = getMac()
 		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
-				loginRequest.userId,
-				loginRequest.sns,
-				loginRequest.snsId,
-				loginRequest.email
+				request.userId,
+				request.sns,
+				request.snsId,
+				request.email
 			)
 		
-		val loginDTO = accountValidService.getAccountLoginDTO(accountId, loginRequest.pwd)
+		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
 		
 		return accountAuthCreateService.createTokenResponse(loginDTO, mac)
 	}

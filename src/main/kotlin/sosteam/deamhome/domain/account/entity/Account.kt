@@ -1,6 +1,9 @@
 package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+
+import lombok.Getter
+import lombok.Setter
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -9,6 +12,7 @@ import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
+import javax.print.DocFlavor.STRING
 
 
 @Document(collection = "accounts")
@@ -35,7 +39,7 @@ data class Account(
 	val sns: SNS = SNS.NORMAL,
 	
 	@Indexed(unique = true)
-	var phone: String,
+	var phone: String?,
 	
 	@Indexed(unique = true)
 	var userName: String,
@@ -50,13 +54,16 @@ data class Account(
 	companion object {
 		const val maxWishListSize = 100
 	}
-	
+
+
+	var cart: ArrayList<CartItem> = ArrayList()
+
 	private var faqs: ArrayList<String> = ArrayList()
 	
 	private var wishlist: ArrayList<String> = ArrayList()
 	
 	private var reviews: ArrayList<String> = ArrayList()
-	
+
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}

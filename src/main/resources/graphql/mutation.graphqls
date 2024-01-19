@@ -1,9 +1,9 @@
 type Mutation {
-    signUp(request: signUpRequest!): String
+    signUp(request: SignUpRequest!): String
     signOut: String
-    login(request: loginRequest!): tokenResponse
+    login(request: LoginRequest!): TokenResponse
     logout: String
-    reIssue: tokenResponse
+    reIssue: TokenResponse
 
     kakaoSignUp(code: String): KakaoTokenReturnResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse
@@ -22,4 +22,13 @@ type Mutation {
     deleteItemByPublicId(publicId: Long!): String
 
     updateWishListItemInclude(request: WishListRequest ): [String]
+
+    # 장바구니 아이템 추가
+    addCartItem(request: CartRequest): [CartItemResponse]
+    # 장바구니 아이템 삭제
+    deleteCartItem(request: CartDeleteRequest): [CartItemResponse]
+    # 장바구니 아이템 수 변경
+    updateCartItemCnt(request: CartRequest): [CartItemResponse]
+    # 장바구니 체크리스트 변환
+    updateCartCheckStatus(request: CartCheckListRequest): [CartItemResponse]
 }
