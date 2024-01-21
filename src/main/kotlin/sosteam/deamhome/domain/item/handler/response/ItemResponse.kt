@@ -1,11 +1,10 @@
 package sosteam.deamhome.domain.item.handler.response
 
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.global.image.entity.Image
 
 class ItemResponse (
-    val publicId: Long,
-    val categoryPublicId: Long,
+    val publicId: String,
+    val categoryPublicId: String,
     val title: String,
     val content: String,
     val summary: String,
@@ -41,7 +40,7 @@ class ItemResponse (
                 sellerId = item.sellerId,
                 freeDelivery = item.freeDelivery,
                 stockCnt = item.stockCnt,
-                imageUrls = item.images.map { it.fileUrl }
+                imageUrls = item.imageUrls
             )
         }
     }

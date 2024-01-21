@@ -2,18 +2,14 @@ package sosteam.deamhome.domain.category.repository.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
-import lombok.RequiredArgsConstructor
-import org.springframework.beans.factory.annotation.Autowired
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.graphql.data.GraphQlRepository
-import reactor.core.publisher.Flux
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.domain.category.entity.QItemCategory
-//import sosteam.deamhome.domain.category.entity.QItemCategory
 import sosteam.deamhome.domain.category.repository.custom.ItemCategoryRepositoryCustom
 import sosteam.deamhome.domain.category.repository.querydsl.ItemCategoryQueryDslRepository
 
 @GraphQlRepository
-@RequiredArgsConstructor
 class ItemCategoryRepositoryImpl (
     private val repository: ItemCategoryQueryDslRepository
 ) : ItemCategoryRepositoryCustom{
@@ -30,6 +26,10 @@ class ItemCategoryRepositoryImpl (
 
     override fun findAllItemCategoriesByTitle(title: String): Flow<ItemCategory> {
         return repository.findAll(itemCategory.title.eq(title)).asFlow()
+    }
+
+    override suspend fun findEqualsTitle(title: String): ItemCategory? {
+        return repository.findOne(itemCategory.title.eq(title)).awaitSingleOrNull()
     }
 
 }

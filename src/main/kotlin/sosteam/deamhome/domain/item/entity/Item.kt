@@ -1,17 +1,15 @@
 package sosteam.deamhome.domain.item.entity
 
-import lombok.Builder
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.BaseEntity
-import sosteam.deamhome.global.image.entity.Image
 
-//@Document
-//@Builder
+@Table("item")
 data class Item(
-//	@Indexed(unique = true)
-	var publicId: Long = 0L,
-	var categoryPublicId: Long = 0L,
+	@Id
+	var id: Long?,
+	var publicId: String,
+	var categoryPublicId: String,
 	var title: String,
 	var content: String,
 	var summary: String,
@@ -29,11 +27,6 @@ data class Item(
 	val freeDelivery: Boolean = false
 
 ) : BaseEntity(){
-	var images: MutableList<Image> = mutableListOf()
-
-	fun modifyImage(images: MutableList<Image>): MutableList<Image>{
-		this.images = images
-		return this.images
-	}
+	var imageUrls: MutableList<String> = mutableListOf()
 
 }
