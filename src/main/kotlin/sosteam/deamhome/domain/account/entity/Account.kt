@@ -87,7 +87,7 @@ data class Account(
 	}
 	
 	fun addFaq(faq: Faq): List<String> {
-		faqs.add(faq.id)
+//		faqs.add(faq.id)
 		return faqs
 	}
 	

@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.image.entity.Image
 
-@Document
-@Builder
+//@Document
+//@Builder
 data class Item(
-	@Indexed(unique = true)
+//	@Indexed(unique = true)
 	var publicId: Long = 0L,
 	var categoryPublicId: Long = 0L,
 	var title: String,

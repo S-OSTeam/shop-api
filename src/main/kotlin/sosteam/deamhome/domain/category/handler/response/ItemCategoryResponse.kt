@@ -4,8 +4,8 @@ import sosteam.deamhome.domain.category.entity.ItemCategory
 
 class ItemCategoryResponse (
     val title: String,
-    val publicId: Long,
-    val parentPublicId: Long?
+    val publicId: String,
+    val parentPublicId: String
 ) {
     companion object {
         fun fromItemCategory(itemCategory: ItemCategory): ItemCategoryResponse {

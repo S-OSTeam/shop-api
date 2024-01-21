@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.category.service
 
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,32 +11,23 @@ import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
-import sosteam.deamhome.global.sequence.provider.SequenceGenerator
 
 @Service
 @Transactional
 class ItemCategoryCreateService(
     private val itemCategoryRepository: ItemCategoryRepository,
-    private val sequenceGenerator: SequenceGenerator,
-    @Value("\${item.category.sequence.name}")
-    private val sequenceName: String,
     @Value("\${item.category.max.depth}")
     private val maxDepth: Int
 ) {
 
     suspend fun createCategory(request: ItemCategoryRequest): ItemCategoryResponse {
-        val itemCategory = request.asDomain().apply {
-            // 아이템 카테고리 sequence 생성
-            publicId = sequenceGenerator.generateSequence(sequenceName)
-            // parentPublicId가 0L이면 자기 자신으로 설정
-            parentPublicId = if (parentPublicId == 0L) publicId else parentPublicId
-        }
+
+        val itemCategory = request.asDomain()
 
         // 같은 부모에 중복된 이름의 카테고리가 있거나 최대 깊이를 초과하는지 확인
-        request.parentPublicId?.let { validateParentCategory(it, request.title) }
-            ?: validateTopCategories(request.title)
+        validateCategory(itemCategory)
 
-        val saveCategory = itemCategoryRepository.save(itemCategory).awaitSingle()
+        val saveCategory = itemCategoryRepository.save(itemCategory)
 
         return ItemCategoryResponse.fromItemCategory(saveCategory)
     }
@@ -55,7 +45,17 @@ class ItemCategoryCreateService(
         }
     }
 
-    private suspend fun validateParentCategory(parentPublicId: Long, title: String) {
+    private suspend fun validateCategory(itemCategory: ItemCategory) {
+        if (itemCategory.isTop()) {
+            // 최상위 카테고리이면 title 로만 검증함
+            validateTopCategory(itemCategory.title)
+        } else {
+            // 최상위 카테고리가 아니라면 depth 와 title 로 검증함
+            validateParentCategory(itemCategory.parentPublicId, itemCategory.title)
+        }
+    }
+
+    private suspend fun validateParentCategory(parentPublicId: String, title: String) {
         val parentCategory = itemCategoryRepository.findByPublicId(parentPublicId)
             ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
         // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
@@ -68,9 +68,9 @@ class ItemCategoryCreateService(
             throw AlreadyExistCategoryException()
     }
 
-    private suspend fun validateTopCategories(title: String) {
+    private suspend fun validateTopCategory(title: String) {
         // 최상위 카테고리에 같은 이름의 카테고리가 있으면 예외처리
-        if (itemCategoryRepository.findAllItemCategoriesByTitle(title).toList().any { it.isTop() })
+        if (itemCategoryRepository.findByTitle(title).toList().any { it.isTop() })
             throw AlreadyExistCategoryException()
     }
 
