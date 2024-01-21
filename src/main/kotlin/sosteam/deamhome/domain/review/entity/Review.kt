@@ -10,7 +10,8 @@ class Review(
 	var like: Int = 0,
 	var score: Double = 0.0,
 	var status: Boolean = false,
-	account: Account,
-	item: Item,
-	images: List<String>
+	var account: Account,
+	var item: Item,
+	var images: List<String>,
+	var likeUsers: List<String>,
 ) : LogEntity()
