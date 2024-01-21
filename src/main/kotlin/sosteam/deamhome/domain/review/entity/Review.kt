@@ -7,7 +7,6 @@ import lombok.Setter
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.LogEntity
-import sosteam.deamhome.global.image.entity.Image
 
  // TODO postgreSQL 로 바꾸기
 //@Document
