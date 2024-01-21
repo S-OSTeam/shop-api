@@ -1,0 +1,41 @@
+input ReviewCreateRequest{
+    title: String,
+    content: String,
+    score: Float,
+    status: Boolean,
+    userId: String,
+    itemId: String,
+    images: [String],
+}
+
+input ReviewDeleteRequest{
+    reviewId: String
+}
+
+input ReviewSearchRequest{
+    id: String
+}
+
+input ReviewUpdateRequest{
+    reviewId: String,
+    title: String,
+    content: String,
+    score: Float,
+    status: Boolean,
+    userId: String,
+    itemId: String,
+    images: [String],
+    likeUsers: [String]
+}
+
+type ReviewResponse{
+    reviewId: String,
+    title: String,
+    content: String,
+    score: Float,
+    status: Boolean,
+    userId: String,
+    itemId: String,
+    images: [String],
+    likeUsers: [String]
+}

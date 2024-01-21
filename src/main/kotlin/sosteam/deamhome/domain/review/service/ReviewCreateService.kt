@@ -18,8 +18,8 @@ class ReviewCreateService(
 	private val itemRepository: ItemRepository
 ) {
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
-		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		val item = itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
+		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
+		itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
 		val review = Review(
 			title = request.title,
 			content = request.content,

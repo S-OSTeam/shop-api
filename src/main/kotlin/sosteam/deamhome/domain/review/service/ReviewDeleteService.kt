@@ -1,6 +1,6 @@
 package sosteam.deamhome.domain.review.service
 
-import kotlinx.coroutines.reactor.awaitSingle
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
@@ -11,7 +11,7 @@ class ReviewDeleteService(
 	private val reviewRepository: ReviewRepository
 ) {
 	suspend fun deleteReview(request: ReviewDeleteRequest): ResponseEntity<String> {
-		reviewRepository.deleteById(request.reviewId).awaitSingle()
+		reviewRepository.deleteById(request.reviewId).awaitSingleOrNull()
 		return ResponseEntity.ok("Review 제거 성공 : `${request.reviewId}` ")
 	}
 }
