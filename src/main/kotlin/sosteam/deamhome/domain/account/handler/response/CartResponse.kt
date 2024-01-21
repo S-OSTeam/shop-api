@@ -20,7 +20,8 @@ data class CartResponse(
                 content = item.content,
                 price = item.price,
                 image = item.images[0].fileUrl,
-                itemId = item.id,
+//                itemId = item.id,
+                itemId = "item.id",
                 cnt = cartCnt,
                 check = check,
             )

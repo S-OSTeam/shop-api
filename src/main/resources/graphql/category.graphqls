@@ -1,16 +1,18 @@
 directive @NotBlank(message : String = "graphql.validation.NotBlank.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 directive @NotEmpty(message : String = "graphql.validation.NotEmpty.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 directive @Min(value : Int! = 0, message : String = "graphql.validation.Min.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @Range(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.Range.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @Size(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.Size.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 
 input ItemCategoryRequest {
-    title: String! @NotBlank
-    parentPublicId: Long @Min(value : 1)
+    title: String! @NotBlank(message: "제목은 필수 입력 항목입니다.") @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    parentPublicId: String
 }
 
 type ItemCategoryResponse{
     title: String!
-    publicId: Long!
-    parentPublicId: Long
+    publicId: String!
+    parentPublicId: String
 }
 
 type ItemCategoryTreeResponse{

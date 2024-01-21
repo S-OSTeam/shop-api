@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
+import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 
@@ -17,19 +17,13 @@ class ItemCategorySearchService (
     private val itemCategoryRepository: ItemCategoryRepository
 ) {
 
-    suspend fun findItemCategoryByPublicId(publicId: Long): ItemCategoryResponse {
+    suspend fun findItemCategoryByPublicId(publicId: String): ItemCategoryResponse {
         val itemCategory = itemCategoryRepository.findByPublicId(publicId)
             ?: throw CategoryNotFoundException()
         return ItemCategoryResponse.fromItemCategory(itemCategory)
     }
 
-    suspend fun findItemCategoryByTitle(title: String): ItemCategoryResponse {
-        val itemCategory = itemCategoryRepository.findByTitle(title)
-            ?: throw CategoryNotFoundException()
-        return ItemCategoryResponse.fromItemCategory(itemCategory)
-    }
-
-    // title 이 포함된 아이템카테고리 검색
+    //   title 이 포함된 아이템카테고리 검색
     fun findItemCategoriesContainTitle(title: String): Flow<ItemCategoryResponse> {
         return itemCategoryRepository.findItemCategoriesContainTitle(title)
             .map { ItemCategoryResponse.fromItemCategory(it) }
@@ -39,7 +33,7 @@ class ItemCategorySearchService (
     suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
         val itemCategories = itemCategoryRepository.findAllItemCategories().toList()
 
-        val map = mutableMapOf<Long, ItemCategoryTreeResponse>()
+        val map = mutableMapOf<String, ItemCategoryTreeResponse>()
 
         // key 는 publicId, value 는 ItemCategoryTreeResponse 로 하는 map
         itemCategories.forEach { itemCategory ->

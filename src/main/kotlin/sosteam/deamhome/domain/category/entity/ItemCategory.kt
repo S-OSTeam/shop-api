@@ -1,16 +1,22 @@
 package sosteam.deamhome.domain.category.entity
 
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.BaseEntity
+import java.time.LocalDateTime
 
-@Document
+@Table(value = "item_category")
 data class ItemCategory(
+    @Id
+    var id: Long? = null,
     var title: String,
-    @Indexed(unique = true)
-    var publicId: Long,
-    var parentPublicId: Long
-) : BaseEntity() {
+    var publicId: String,
+    var parentPublicId: String,
+
+) : BaseEntity()
+{
     fun isTop(): Boolean = parentPublicId == publicId
 
 }

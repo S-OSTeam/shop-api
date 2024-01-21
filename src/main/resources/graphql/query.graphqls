@@ -2,7 +2,7 @@ type Query {
     ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
 
     # PublicId 로 ItemCategory 검색
-    findItemCategoryByPublicId(publicId: Long @Min(value : 1)) : ItemCategoryResponse
+    findItemCategoryByPublicId(publicId: String @NotBlank) : ItemCategoryResponse
     # title 로 ItemCategory 검색
     findItemCategoryByTitle(title: String @NotBlank): ItemCategoryResponse
     # title 을 포함하는 ItemCategory 검색
@@ -15,9 +15,9 @@ type Query {
     # CategoryTitle 로 Item 검색
     findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
     # PublicId 로 Item 검색
-    findItemsByCategoryPublicId(categoryPublicId: Long @Min(value : 1)): [ItemResponse]
+    findItemsByCategoryPublicId(categoryPublicId: String @NotBlank): [ItemResponse]
     # CategoryPublicId 로 카테고리 하위의 모든 Item 검색
-    findItemByPublicId(publicId: Long @Min(value : 1)): ItemResponse
+    findItemByPublicId(publicId: Long @NotBlank): ItemResponse
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo
