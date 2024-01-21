@@ -17,24 +17,8 @@ class Review(
 	var like: Int = 0,
 	var score: Double = 0.0,
 	var status: Boolean = false,
-	account: Account,
-	item: Item,
-	images: List<Image>
-) : LogEntity() {
-
-//	@DocumentReference(lazy = true)
-	val images: ArrayList<Image> = images as ArrayList<Image>
-
-//	@DocumentReference(lazy = true)
-	@Setter
-	var item: Item = item
-
-//	@DocumentReference(lazy = true)
-	@Setter
-	var account: Account = account
-
-	fun addImage(image: Image): List<Image> {
-		images.add(image)
-		return images
-	}
-}
+	var account: Account,
+	var item: Item,
+	var images: List<String>,
+	var likeUsers: List<String>,
+) : LogEntity()
