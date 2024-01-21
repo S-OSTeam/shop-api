@@ -14,11 +14,10 @@ import sosteam.deamhome.global.entity.LogEntity
 class Review(
 	var title: String,
 	var content: String,
-	var like: Int = 0,
 	var score: Double = 0.0,
 	var status: Boolean = false,
-	var account: Account,
-	var item: Item,
+	val userId: String,
+	val itemId: String,
 	var images: List<String>,
 	var likeUsers: List<String>,
 ) : LogEntity()
