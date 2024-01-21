@@ -2,7 +2,6 @@ package sosteam.deamhome.domain.category.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 
 @Service
@@ -15,7 +14,6 @@ class ItemCategoryDeleteService (
     suspend fun deleteItemCategoryByPublicId(publicId: String): Long {
         // 삭제할 카테고리가 있는지 확인
         return itemCategoryRepository.deleteByPublicId(publicId)
-            ?: throw CategoryNotFoundException()
     }
 
 }

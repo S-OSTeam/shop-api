@@ -12,12 +12,12 @@ type Query {
 
     # title 을 포함하는 Item 검색
     findItemsContainTitle(title: String @NotBlank): [ItemResponse]
-    # CategoryTitle 로 Item 검색
+    # CategoryTitle 로 카테고리 하위의 모든 Item 검색
     findItemsByCategoryTitle(categoryTitle: String @NotBlank): [ItemResponse]
-    # PublicId 로 Item 검색
+    # categoryPublicId 로 카테고리 하위의 모든 Item 검색
     findItemsByCategoryPublicId(categoryPublicId: String @NotBlank): [ItemResponse]
-    # CategoryPublicId 로 카테고리 하위의 모든 Item 검색
-    findItemByPublicId(publicId: Long @NotBlank): ItemResponse
+    # PublicId 로 Item 검색
+    findItemByPublicId(publicId: String @NotBlank): ItemResponse
 
     kakaoLoginUrl: String
     kakaoUserInfo(token: String): KakaoUserInfo

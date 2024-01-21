@@ -11,4 +11,6 @@ interface ItemCategoryRepositoryCustom {
 
     fun findAllItemCategoriesByTitle(title: String): Flow<ItemCategory>
 
+    suspend fun findEqualsTitle(title: String): ItemCategory?
+
 }
