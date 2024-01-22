@@ -1,35 +1,31 @@
 package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-
-import lombok.Getter
-import lombok.Setter
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import sosteam.deamhome.domain.faq.entity.Faq
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
-import javax.print.DocFlavor.STRING
 
-
-@Document(collection = "accounts")
+@Table("account")
 data class Account(
-	
-	@Indexed(unique = true)
+	@Id
+	var id: Long?,
+	// unique column
 	val userId: String,
 	var pwd: String,
 	val sex: Boolean,
-	var birtyday: LocalDateTime,
+	var birthday: LocalDateTime,
 	var zipcode: String,
 	var address1: String,
 	var address2: String?,
 	var address3: String?,
 	var address4: String?,
-	
-	@Indexed(unique = true)
+
+	// unique column
 	var email: String,
 	var receiveMail: Boolean,
 	
@@ -37,11 +33,11 @@ data class Account(
 	var adminTxt: String = "",
 	val snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
-	
-	@Indexed(unique = true)
+
+	// unique column
 	var phone: String?,
-	
-	@Indexed(unique = true)
+
+	// unique column? 사람 이름이 아닌가?
 	var userName: String,
 	
 	var point: Int = 0,
@@ -59,38 +55,38 @@ data class Account(
 	var cart: ArrayList<CartItem> = ArrayList()
 
 	private var faqs: ArrayList<String> = ArrayList()
-	
+
 	private var wishlist: ArrayList<String> = ArrayList()
-	
+
 	private var reviews: ArrayList<String> = ArrayList()
 
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
-	
+
 	fun addWishListItem(itemId: String): List<String> {
 		wishlist.add(itemId)
 		return wishlist
 	}
-	
+
 	fun removeWishListItem(itemId: String): List<String> {
 		wishlist.remove(itemId)
 		return wishlist
 	}
-	
+
 	fun isItemIdInWishlist(itemId: String): Boolean {
 		return wishlist.contains(itemId)
 	}
-	
+
 	fun getWishListSize(): Int {
 		return wishlist.size
 	}
-	
+
 	fun addFaq(faq: Faq): List<String> {
 //		faqs.add(faq.id)
 		return faqs
 	}
-	
+
 	fun addReview(review: String): List<String> {
 		reviews.add(review)
 		return reviews

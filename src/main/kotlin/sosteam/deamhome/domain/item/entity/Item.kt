@@ -8,6 +8,7 @@ import sosteam.deamhome.global.entity.BaseEntity
 data class Item(
 	@Id
 	var id: Long?,
+	// unique column
 	var publicId: String,
 	var categoryPublicId: String,
 	var title: String,

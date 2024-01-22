@@ -25,7 +25,8 @@ data class AccountLoginRequest(
 ) : DTO {
 	override fun asDomain(): AccountStatus {
 		return AccountStatus(
-			userId, snsId, sns, email, Status.LIVE
+			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
+			null, userId, snsId, sns, email, Status.LIVE
 		)
 	}
 }

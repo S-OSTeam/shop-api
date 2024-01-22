@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.account.handler.response
 
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.global.image.entity.Image
 
 // Todo: 추가할 정보 있다면 추가
 data class CartResponse(
@@ -19,10 +18,8 @@ data class CartResponse(
                 title = item.title,
                 content = item.content,
                 price = item.price,
-//                image = item.images[0].fileUrl,
                 image = item.imageUrls[0],
-//                itemId = item.id,
-                itemId = "item.id",
+                itemId = item.publicId,
                 cnt = cartCnt,
                 check = check,
             )
