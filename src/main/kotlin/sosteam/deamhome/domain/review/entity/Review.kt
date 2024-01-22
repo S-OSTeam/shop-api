@@ -7,6 +7,7 @@ import lombok.Setter
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.LogEntity
+import sosteam.deamhome.global.image.entity.Image
 
  // TODO postgreSQL 로 바꾸기
 //@Document
@@ -18,6 +19,6 @@ class Review(
 	var status: Boolean = false,
 	val userId: String,
 	val itemId: String,
-	var images: List<String>,
+	var images: MutableList<Image>,
 	var likeUsers: List<String>,
 ) : LogEntity()

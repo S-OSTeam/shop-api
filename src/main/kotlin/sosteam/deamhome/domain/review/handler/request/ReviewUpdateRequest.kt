@@ -4,6 +4,7 @@ import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
+import org.springframework.http.codec.multipart.FilePart
 
 data class ReviewUpdateRequest(
 	@field: NotBlank(message = "Review ID는 필수 입력 항목입니다.")
@@ -21,6 +22,7 @@ data class ReviewUpdateRequest(
 	val userId: String,
 	@field: NotBlank(message = "아이템 ID는 필수 입력 항목입니다.")
 	val itemId: String,
-	val images: List<String>,
+	val originImages: List<String>,
+	val addImages: List<FilePart>,
 	val likeUsers: List<String>
 )

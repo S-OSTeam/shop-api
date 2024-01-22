@@ -1,30 +1,31 @@
 input ReviewCreateRequest{
-    title: String @NotBlank
-    content: String @NotBlank
-    score: Float
-    status: Boolean
-    userId: String @NotBlank
-    itemId: String @NotBlank
-    images: [String]
+    title: String! @NotBlank
+    content: String! @NotBlank
+    score: Float!
+    status: Boolean!
+    userId: String! @NotBlank
+    itemId: String! @NotBlank
+    images: [Upload!]!
 }
 
 input ReviewDeleteRequest{
-    reviewId: String @NotBlank
+    reviewId: String! @NotBlank
 }
 
 input ReviewSearchRequest{
-    id: [String] @NotBlank
+    id: [String!]! @NotBlank
 }
 
 input ReviewUpdateRequest{
-    reviewId: String @NotBlank
-    title: String @NotBlank
-    content: String @NotBlank
-    score: Float
-    status: Boolean
-    userId: String @NotBlank
-    itemId: String @NotBlank
-    images: [String]
+    reviewId: String! @NotBlank
+    title: String! @NotBlank
+    content: String! @NotBlank
+    score: Float!
+    status: Boolean!
+    userId: String! @NotBlank
+    itemId: String! @NotBlank
+    originImages: [String]
+    addImages: [Upload!]
     likeUsers: [String]
 }
 
