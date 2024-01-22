@@ -23,7 +23,7 @@ data class ReviewResponse(
 				status = review.status,
 				userId = review.userId,
 				itemId = review.itemId,
-				images = review.images,
+				images = review.images.map { it.fileUrl },
 				likeUsers = review.likeUsers,
 			)
 		}

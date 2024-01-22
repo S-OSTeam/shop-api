@@ -2,6 +2,7 @@ package sosteam.deamhome.domain.review.entity
 
 import org.springframework.data.mongodb.core.mapping.Document
 import sosteam.deamhome.global.entity.LogEntity
+import sosteam.deamhome.global.image.entity.Image
 
 @Document
 class Review(
@@ -11,6 +12,6 @@ class Review(
 	var status: Boolean = false,
 	val userId: String,
 	val itemId: String,
-	var images: List<String>,
+	var images: MutableList<Image>,
 	var likeUsers: List<String>,
 ) : LogEntity()
