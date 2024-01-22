@@ -9,6 +9,6 @@ class ReviewIllegalArgumentIdException(
 	@JvmField
 	@Suppress("INAPPLICABLE_JVM_FIELD")
 	override val message: String = "ID의 개수가 조건에 맞지 않습니다."
-) : CustomGraphQLException(errorCode, ErrorType.NOT_FOUND, message) {
+) : CustomGraphQLException(errorCode, ErrorType.BAD_REQUEST, message) {
 	override fun getMessage(): String = super.message
 }

@@ -15,7 +15,7 @@ import sosteam.deamhome.global.image.entity.Image
 class Review(
 	var title: String,
 	var content: String,
-	var score: Double = 0.0,
+	var score: Int = 0,
 	var status: Boolean = false,
 	val userId: String,
 	val itemId: String,
