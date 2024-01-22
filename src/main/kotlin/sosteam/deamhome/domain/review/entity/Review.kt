@@ -3,6 +3,7 @@ package sosteam.deamhome.domain.review.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.LogEntity
+import sosteam.deamhome.global.image.entity.Image
 
 @Table("review")
 class Review(
