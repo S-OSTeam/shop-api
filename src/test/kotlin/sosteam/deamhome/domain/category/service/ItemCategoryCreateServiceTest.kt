@@ -5,13 +5,12 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOf
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.exception.AlreadyExistCategoryException
-import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
-import sosteam.deamhome.domain.category.exception.MaxDepthExceedException
+import sosteam.deamhome.global.category.exception.AlreadyExistCategoryException
+import sosteam.deamhome.global.category.exception.CategoryNotFoundException
+import sosteam.deamhome.global.category.exception.MaxDepthExceedException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.global.sequence.provider.SequenceGenerator
 

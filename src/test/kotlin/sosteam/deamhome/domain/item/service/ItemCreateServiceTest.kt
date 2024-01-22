@@ -7,7 +7,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import reactor.core.publisher.Mono
 import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
+import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.handler.request.ItemRequest
