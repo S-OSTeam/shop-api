@@ -6,7 +6,7 @@ data class ReviewResponse(
 	val reviewId: String,
 	val title: String,
 	val content: String,
-	val score: Double,
+	val score: Int,
 	val status: Boolean,
 	val userId: String,
 	val itemId: String,
