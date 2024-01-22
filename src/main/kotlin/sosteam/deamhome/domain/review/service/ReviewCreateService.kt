@@ -2,9 +2,7 @@ package sosteam.deamhome.domain.review.service
 
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
-import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.handler.request.ReviewCreateRequest
@@ -18,8 +16,8 @@ class ReviewCreateService(
 	private val itemRepository: ItemRepository
 ) {
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
-		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
+//		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
+//		itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
 		val review = Review(
 			title = request.title,
 			content = request.content,
