@@ -44,4 +44,11 @@ class ReviewRepositoryImpl(
 		}
 		return predicate
 	}
+	
+	override fun findAllByUserAndItemId(userId: String, itemId: String): Flow<Review> {
+		val userCondition = review.userId.eq(userId)
+		val itemCondition = review.itemId.eq(itemId)
+		val combinedCondition = userCondition.and(itemCondition)
+		return reviewQueryDslRepository.findAll(combinedCondition).asFlow()
+	}
 }

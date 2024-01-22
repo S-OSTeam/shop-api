@@ -48,6 +48,13 @@ input ReviewReportRequest{
     reportContent: String! @NotBlank
 }
 
+enum ReviewSearchType{
+    REVIEW_ID
+    USER_ID
+    ITEM_ID
+    USER_AND_ITEM_ID
+}
+
 type ReviewResponse{
     reviewId: Long
     title: String
