@@ -9,6 +9,7 @@ data class ItemCategory(
     @Id
     var id: Long?,
     var title: String,
+    // unique column
     var publicId: String,
     var parentPublicId: String,
 

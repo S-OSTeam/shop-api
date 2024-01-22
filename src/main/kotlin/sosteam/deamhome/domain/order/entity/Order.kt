@@ -1,12 +1,15 @@
 package sosteam.deamhome.domain.order.entity
 
-import lombok.Builder
-import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.OrderStatus
 
-@Document
-@Builder
+// order 로 해도 괜찮으려나?
+@Table("order")
 class Order(
+	// id 가 왜 없었지? 내가 맘대로 만들어도 되나?
+	@Id
+	var id: Long?,
 	val address: String,
 	val userName: String,
 	val email: String,

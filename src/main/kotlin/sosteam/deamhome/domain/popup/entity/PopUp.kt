@@ -1,18 +1,18 @@
 package sosteam.deamhome.domain.popup.entity
 
 import jakarta.validation.constraints.NotNull
-import lombok.Builder
 import lombok.Setter
-import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.DocumentReference
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.global.entity.BaseEntity
 import sosteam.deamhome.global.image.entity.Image
 import java.time.LocalDateTime
 
-@Document
-@Builder
+@Table("pop_up")
 class PopUp(
+	@Id
+	var id: Long?,
 	var title: String,
 	var createdIp: String,
 	
@@ -25,11 +25,11 @@ class PopUp(
 	account: Account
 ) : BaseEntity() {
 	
-	@DocumentReference
-	@Setter
-	var image: Image = image
-	
-	@DocumentReference
-	@Setter
-	val account: Account = account
+//	@DocumentReference
+//	@Setter
+//	var image: Image = image
+//
+//	@DocumentReference
+//	@Setter
+//	val account: Account = account
 }

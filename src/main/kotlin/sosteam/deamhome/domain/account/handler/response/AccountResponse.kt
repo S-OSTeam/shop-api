@@ -8,7 +8,7 @@ data class AccountResponse(
 	//일단 response랑 똑같음.. 추가하려면 추가하기
 	val userId: String,
 	val sex: Boolean,
-	val birtyday: LocalDateTime,
+	val birthday: LocalDateTime,
 	val zipcode: String,
 	val address1: String,
 	val address2: String?,
@@ -27,7 +27,7 @@ data class AccountResponse(
 			return AccountResponse(
 				userId = account.userId,
 				sex = account.sex,
-				birtyday = account.birtyday,
+				birthday = account.birthday,
 				zipcode = account.zipcode,
 				address1 = account.address1,
 				address2 = account.address2,

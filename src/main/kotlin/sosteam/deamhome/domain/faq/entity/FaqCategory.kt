@@ -1,18 +1,15 @@
 package sosteam.deamhome.domain.faq.entity
 
-import lombok.Builder
-import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.DocumentReference
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.LogEntity
 
-@Document
-@Builder
+@Table("faq_category")
 class FaqCategory(
 	var title: String,
 	
 	) : LogEntity() {
 	
-	@DocumentReference(lazy = true)
+//	@DocumentReference(lazy = true)
 	val faqs: ArrayList<Faq> = ArrayList()
 	
 	fun addFaq(faq: Faq): List<Faq> {

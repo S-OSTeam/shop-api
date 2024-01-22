@@ -50,10 +50,6 @@ dependencies {
 	implementation("com.infobip:infobip-spring-data-r2dbc-querydsl-boot-starter:8.1.2")
 	kapt("com.infobip:infobip-spring-data-jdbc-annotation-processor:8.1.2")
 
-//	runtimeOnly("io.r2dbc:r2dbc-pool")
-//	runtimeOnly("com.github.jasync-sql:jasync-r2dbc-mysql:2.0.8")
-
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	
 	implementation("org.springframework.boot:spring-boot-starter-graphql")

@@ -1,7 +1,7 @@
 package sosteam.deamhome.domain.log.repository
 
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import sosteam.deamhome.domain.log.entity.LoginLog
 
-interface LoginLogRepository: ReactiveMongoRepository<LoginLog,String> {
+interface LoginLogRepository: CoroutineCrudRepository<LoginLog, Long> {
 }

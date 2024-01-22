@@ -2,10 +2,13 @@ package sosteam.deamhome.global.config
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration
 import io.r2dbc.postgresql.PostgresqlConnectionFactory
+import io.r2dbc.postgresql.codec.EnumCodec
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
+import sosteam.deamhome.global.attribute.SNS
+import sosteam.deamhome.global.attribute.Status
 
 @Configuration
 @EnableR2dbcRepositories
