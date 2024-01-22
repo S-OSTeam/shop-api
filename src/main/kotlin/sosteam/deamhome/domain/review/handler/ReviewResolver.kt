@@ -6,6 +6,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import sosteam.deamhome.domain.review.handler.ReviewSearchType.*
 import sosteam.deamhome.domain.review.handler.request.ReviewCreateRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewSearchRequest
@@ -29,18 +30,16 @@ class ReviewResolver(
 	}
 	
 	@QueryMapping
-	suspend fun findReviewsByReviewId(@Argument @Valid request: ReviewSearchRequest): ReviewResponse {
-		return reviewSearchService.searchReviewByReviewId(request)
-	}
-	
-	@QueryMapping
-	suspend fun findReviewsByUserId(@Argument @Valid request: ReviewSearchRequest): List<ReviewResponse> {
-		return reviewSearchService.searchReviewsByUserId(request)
-	}
-	
-	@QueryMapping
-	suspend fun findReviewsByItemId(@Argument @Valid request: ReviewSearchRequest): List<ReviewResponse> {
-		return reviewSearchService.searchReviewsByItemId(request)
+	suspend fun findReviews(
+		@Argument @Valid request: ReviewSearchRequest,
+		@Argument searchType: ReviewSearchType
+	): List<ReviewResponse> {
+		return when (searchType) {
+			USER_AND_ITEM_ID -> reviewSearchService.searchReviewByUserAndItemId(request)
+			REVIEW_ID -> listOf(reviewSearchService.searchReviewByReviewId(request))
+			USER_ID -> reviewSearchService.searchReviewsByUserId(request)
+			ITEM_ID -> reviewSearchService.searchReviewsByItemId(request)
+		}
 	}
 	
 	@MutationMapping
