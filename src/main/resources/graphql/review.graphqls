@@ -1,41 +1,48 @@
 input ReviewCreateRequest{
-    title: String,
-    content: String,
-    score: Float,
-    status: Boolean,
-    userId: String,
-    itemId: String,
-    images: [String],
+    title: String @NotBlank
+    content: String @NotBlank
+    score: Float
+    status: Boolean
+    userId: String @NotBlank
+    itemId: String @NotBlank
+    images: [String]
 }
 
 input ReviewDeleteRequest{
-    reviewId: String
+    reviewId: String @NotBlank
 }
 
 input ReviewSearchRequest{
-    id: String
+    id: [String] @NotBlank
 }
 
 input ReviewUpdateRequest{
-    reviewId: String,
-    title: String,
-    content: String,
-    score: Float,
-    status: Boolean,
-    userId: String,
-    itemId: String,
-    images: [String],
+    reviewId: String @NotBlank
+    title: String @NotBlank
+    content: String @NotBlank
+    score: Float
+    status: Boolean
+    userId: String @NotBlank
+    itemId: String @NotBlank
+    images: [String]
     likeUsers: [String]
 }
 
+enum ReviewSearchType{
+    REVIEW_ID
+    USER_ID
+    ITEM_ID
+    USER_AND_ITEM_ID
+}
+
 type ReviewResponse{
-    reviewId: String,
-    title: String,
-    content: String,
-    score: Float,
-    status: Boolean,
-    userId: String,
-    itemId: String,
-    images: [String],
+    reviewId: String
+    title: String
+    content: String
+    score: Float
+    status: Boolean
+    userId: String
+    itemId: String
+    images: [String]
     likeUsers: [String]
 }
