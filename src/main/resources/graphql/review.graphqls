@@ -48,17 +48,6 @@ input ReviewReportRequest{
     reportContent: String! @NotBlank
 }
 
-enum ReviewSearchType{
-    # Review Id로 찾기
-    REVIEW_ID
-    # User Id로 찾기
-    USER_ID
-    # Item Id로 찾기
-    ITEM_ID
-    # User Id와 Item Id 두개로 찾기
-    USER_AND_ITEM_ID
-}
-
 type ReviewResponse{
     reviewId: Long
     title: String
