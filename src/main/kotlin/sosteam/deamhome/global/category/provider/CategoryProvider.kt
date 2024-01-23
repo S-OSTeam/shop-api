@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component
 import sosteam.deamhome.global.category.exception.AlreadyExistCategoryException
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.exception.MaxDepthExceedException
-import sosteam.deamhome.global.category.entity.Category
+import sosteam.deamhome.global.category.entity.CategoryEntity
 import sosteam.deamhome.global.category.respository.CategoryRepository
 
 @Component
-class CategoryProvider<T: Category> (
+class CategoryProvider<T: CategoryEntity> (
     private val repository: CategoryRepository<T>
 ) {
 

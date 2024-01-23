@@ -2,9 +2,9 @@ package sosteam.deamhome.global.category.respository
 
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
-import sosteam.deamhome.global.category.entity.Category
+import sosteam.deamhome.global.category.entity.CategoryEntity
 
-interface CategoryRepository<T: Category>: CoroutineCrudRepository<T, Long> {
+interface CategoryRepository<T: CategoryEntity>: CoroutineCrudRepository<T, Long> {
 
     suspend fun findByPublicId(publicId: String): T?
 
