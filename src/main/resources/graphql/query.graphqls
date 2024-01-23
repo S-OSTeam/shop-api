@@ -30,5 +30,5 @@ type Query {
     getWishList(request: WishListPageRequest): [ItemResponse]
 
     # Review
-    findReviews(request: ReviewSearchRequest, searchType: ReviewSearchType): [ReviewResponse]
+    findReviews(request: ReviewSearchRequest): [ReviewResponse]
 }
