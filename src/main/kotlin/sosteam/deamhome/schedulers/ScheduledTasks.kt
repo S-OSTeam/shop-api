@@ -34,6 +34,7 @@ class ScheduledTasks(
 	}
 
 	suspend fun setMemberToDormant(account: Account) {
+		// TODO AccountStatusModifyService.updateAccountStatus 를 MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제
 //		accountStatusModifyService.updateAccountStatus(account.userId, Status.DORMANT)
 	}
 }

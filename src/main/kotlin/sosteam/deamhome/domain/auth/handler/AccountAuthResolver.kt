@@ -42,6 +42,7 @@ class AccountAuthResolver(
 		return createAccount.userId
 	}
 
+	// TODO AccountStatusModifyService.updateAccountStatus 를 MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제
 //	@MutationMapping
 //	suspend fun signOut(): String {
 //		val accessToken = getToken()
