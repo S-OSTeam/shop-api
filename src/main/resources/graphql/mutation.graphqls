@@ -31,9 +31,10 @@ type Mutation {
     updateCartItemCnt(request: CartRequest): [CartItemResponse]
     # 장바구니 체크리스트 변환
     updateCartCheckStatus(request: CartCheckListRequest): [CartItemResponse]
-    
+
     # Review
     createReview(request: ReviewCreateRequest): ReviewResponse
     updateReview(request: ReviewUpdateRequest): ReviewResponse
     deleteReview(request: ReviewDeleteRequest): String
+    updateReviewLike(request: ReviewLikeRequest): ReviewResponse
 }
