@@ -24,5 +24,6 @@ data class ReviewUpdateRequest(
 	val itemId: String,
 	val originImages: List<String>,
 	val addImages: List<FilePart>,
-	val likeUsers: List<String>
+	val likeUsers: List<String>,
+	val purchaseOptions: List<String>
 )
