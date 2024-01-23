@@ -18,10 +18,6 @@ data class ReviewUpdateRequest(
 	@field: DecimalMax(value = "5")
 	val score: Int,
 	val status: Boolean,
-	@field: NotBlank(message = "유저 ID는 필수 입력 항목입니다.")
-	val userId: String,
-	@field: NotBlank(message = "아이템 ID는 필수 입력 항목입니다.")
-	val itemId: String,
 	val originImages: List<String>,
 	val addImages: List<FilePart>,
 	val likeUsers: List<String>,
