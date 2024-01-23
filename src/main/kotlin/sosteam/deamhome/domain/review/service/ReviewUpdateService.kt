@@ -37,6 +37,7 @@ class ReviewUpdateService(
 			status = request.status
 			images = updatedImage
 			likeUsers = request.likeUsers.toMutableList()
+			purchaseOptions = request.purchaseOptions.toMutableList()
 		}
 		reviewRepository.save(updatedReview).awaitSingle()
 		return ReviewResponse.fromReview(updatedReview)
