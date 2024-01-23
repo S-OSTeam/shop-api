@@ -11,7 +11,7 @@ data class ReviewResponse(
 	val userId: String,
 	val itemId: String,
 	val images: List<String>,
-	val likeUsers: List<String>
+	val likeUsers: Int
 ) {
 	companion object {
 		fun fromReview(review: Review): ReviewResponse {
@@ -24,7 +24,7 @@ data class ReviewResponse(
 				userId = review.userId,
 				itemId = review.itemId,
 				images = review.images.map { it.fileUrl },
-				likeUsers = review.likeUsers,
+				likeUsers = review.likeUsers.size,
 			)
 		}
 	}

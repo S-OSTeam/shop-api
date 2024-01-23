@@ -40,5 +40,5 @@ type ReviewResponse{
     userId: String
     itemId: String
     images: [String]
-    likeUsers: [String]
+    likeUsers: Int
 }
