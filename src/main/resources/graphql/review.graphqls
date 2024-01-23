@@ -6,6 +6,7 @@ input ReviewCreateRequest{
     userId: String! @NotBlank
     itemId: String! @NotBlank
     images: [Upload!]!
+    purchaseOptions: [String]
 }
 
 input ReviewDeleteRequest{
@@ -29,6 +30,7 @@ input ReviewUpdateRequest{
     originImages: [String]
     addImages: [Upload!]
     likeUsers: [String]
+    purchaseOptions: [String]
 }
 
 input ReviewLikeRequest{
@@ -47,4 +49,5 @@ type ReviewResponse{
     itemId: String
     images: [String]
     likeUsers: Int
+    purchaseOptions: [String]
 }

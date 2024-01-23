@@ -14,4 +14,5 @@ class Review(
 	val itemId: String,
 	var images: MutableList<Image>,
 	var likeUsers: MutableList<String>,
+	var purchaseOptions: MutableList<String>
 ) : LogEntity()

@@ -21,4 +21,5 @@ data class ReviewCreateRequest(
 	@field: NotBlank(message = "아이템 ID는 필수 입력 항목입니다.")
 	val itemId: String,
 	val images: List<FilePart>,
+	val purchaseOptions: List<String>
 )
