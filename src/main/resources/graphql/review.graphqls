@@ -31,6 +31,12 @@ input ReviewUpdateRequest{
     likeUsers: [String]
 }
 
+input ReviewLikeRequest{
+    reviewId: String! @NotBlank
+    userId: String! @NotBlank
+    like: Boolean!
+}
+
 type ReviewResponse{
     reviewId: String
     title: String
