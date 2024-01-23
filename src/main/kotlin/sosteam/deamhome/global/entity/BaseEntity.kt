@@ -10,4 +10,8 @@ abstract class BaseEntity : Domain {
 	
 	@LastModifiedDate
 	private var updatedAt = LocalDateTime.now()
+	
+	fun getCreatedAt(): LocalDateTime {
+		return createdAt
+	}
 }
