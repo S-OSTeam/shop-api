@@ -22,6 +22,7 @@ class AccountStatusModifyService(
 //	private val reactiveMongoOperations: ReactiveMongoOperations,
 ) {
 
+	// TODO MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제
 //	suspend fun updateAccountStatus(
 //		userId: String,
 //		status: Status,
