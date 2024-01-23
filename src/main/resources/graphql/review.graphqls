@@ -13,7 +13,9 @@ input ReviewDeleteRequest{
 }
 
 input ReviewSearchRequest{
-    id: [String!]! @NotBlank
+    reviewId: [String!]!
+    userId:[String!]!
+    itemId:[String!]!
 }
 
 input ReviewUpdateRequest{
@@ -27,17 +29,6 @@ input ReviewUpdateRequest{
     originImages: [String]
     addImages: [Upload!]
     likeUsers: [String]
-}
-
-enum ReviewSearchType{
-    # Review Id로 찾기
-    REVIEW_ID
-    # User Id로 찾기
-    USER_ID
-    # Item Id로 찾기
-    ITEM_ID
-    # User Id와 Item Id 두개로 찾기
-    USER_AND_ITEM_ID
 }
 
 type ReviewResponse{

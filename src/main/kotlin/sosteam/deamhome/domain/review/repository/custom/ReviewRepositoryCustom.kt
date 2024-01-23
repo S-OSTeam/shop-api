@@ -4,8 +4,5 @@ import kotlinx.coroutines.flow.Flow
 import sosteam.deamhome.domain.review.entity.Review
 
 interface ReviewRepositoryCustom {
-	fun findAllByUserId(userId: String): Flow<Review>
-	fun findAllByItemId(itemId: String): Flow<Review>
-	
-	fun findAllByUserAndItemId(userId: String, itemId: String): Flow<Review>
+	fun findReviews(reviewId: String?, userId: String?, itemId: String?): Flow<Review>
 }
