@@ -48,6 +48,12 @@ input ReviewReportRequest{
     reportContent: String! @NotBlank
 }
 
+input ReviewLikeRequest{
+    reviewId: String! @NotBlank
+    userId: String! @NotBlank
+    like: Boolean!
+}
+
 type ReviewResponse{
     reviewId: Long
     title: String
