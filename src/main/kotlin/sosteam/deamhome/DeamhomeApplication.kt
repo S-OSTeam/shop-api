@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
 @EnableScheduling
-@EnableR2dbcRepositories
+//@EnableR2dbcRepositories
 @EnableAsync
 class DeamhomeApplication
 
