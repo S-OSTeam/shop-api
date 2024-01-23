@@ -37,4 +37,5 @@ type Mutation {
     updateReview(request: ReviewUpdateRequest): ReviewResponse
     deleteReview(request: ReviewDeleteRequest): String
     updateReviewLike(request: ReviewLikeRequest): ReviewResponse
+    updateMonthReview(request: ReviewMonthRequest): ReviewResponse
 }

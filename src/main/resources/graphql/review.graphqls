@@ -39,10 +39,16 @@ input ReviewLikeRequest{
     like: Boolean!
 }
 
+input ReviewMonthRequest{
+    reviewId: String! @NotBlank
+    monthReview: String! @NotBlank
+}
+
 type ReviewResponse{
     reviewId: String
     title: String
     content: String
+    monthReview: String
     score: Int
     status: Boolean
     userId: String
