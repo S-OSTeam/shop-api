@@ -66,4 +66,9 @@ class ReviewResolver(
 	suspend fun updateReviewLike(@Argument @Valid request: ReviewLikeRequest): ReviewResponse {
 		return reviewLikeService.updateReviewLike(request)
 	}
+	
+	@MutationMapping
+	suspend fun updateMonthReview(@Argument @Valid request: ReviewMonthRequest): ReviewResponse {
+		return reviewMonthService.updateMonthReview(request)
+	}
 }

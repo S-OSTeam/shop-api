@@ -54,6 +54,11 @@ input ReviewLikeRequest{
     like: Boolean!
 }
 
+input ReviewMonthRequest{
+    reviewId: String! @NotBlank
+    monthReview: String! @NotBlank
+}
+
 type ReviewResponse{
     reviewId: Long
     title: String
