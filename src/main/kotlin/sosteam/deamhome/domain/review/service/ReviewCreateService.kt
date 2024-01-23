@@ -31,6 +31,7 @@ class ReviewCreateService(
 		val review = Review(
 			title = request.title,
 			content = request.content,
+			monthReview = "",
 			score = request.score,
 			status = false,
 			userId = request.userId,
