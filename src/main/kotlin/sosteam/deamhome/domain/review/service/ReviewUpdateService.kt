@@ -2,6 +2,8 @@ package sosteam.deamhome.domain.review.service
 
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
+import sosteam.deamhome.domain.item.exception.ItemNotFoundException
+import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.review.exception.ReviewNotFoundException
 import sosteam.deamhome.domain.review.exception.ReviewUpdateExpiredException
 import sosteam.deamhome.domain.review.handler.request.ReviewUpdateRequest
@@ -14,6 +16,7 @@ import java.time.temporal.ChronoUnit
 @Service
 class ReviewUpdateService(
 	private val reviewRepository: ReviewRepository,
+	private val itemRepository: ItemRepository,
 	private val imageProvider: ImageProvider
 ) {
 	suspend fun updateReview(request: ReviewUpdateRequest): ReviewResponse {
@@ -50,7 +53,15 @@ class ReviewUpdateService(
 			likeUsers = request.likeUsers.toMutableList()
 			purchaseOptions = request.purchaseOptions.toMutableList()
 		}
+		
+		val item = itemRepository.findItemById(updatedReview.itemId) ?: throw ItemNotFoundException()
+		if (request.score != originReview.score) {
+			item.avgReview = (item.avgReview * item.reviewCnt - originReview.score + request.score) / item.reviewCnt
+			itemRepository.save(item).awaitSingle()
+		}
+		
 		reviewRepository.save(updatedReview).awaitSingle()
+		
 		return ReviewResponse.fromReview(updatedReview)
 	}
 }

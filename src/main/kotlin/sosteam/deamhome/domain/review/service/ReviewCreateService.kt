@@ -18,11 +18,14 @@ class ReviewCreateService(
 	private val reviewRepository: ReviewRepository,
 	private val accountRepository: AccountRepository,
 	private val itemRepository: ItemRepository,
-	private val imageProvider: ImageProvider
+	private val imageProvider: ImageProvider,
 ) {
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
-		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
+		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
+		val item = itemRepository.findItemById(request.itemId) ?: throw ItemNotFoundException()
+		item.avgReview = (item.avgReview * item.reviewCnt + request.score) / item.reviewCnt
+		item.reviewCnt++
+		itemRepository.save(item).awaitSingle()
 		
 		val images: MutableList<Image> = request.images.map {
 			imageProvider.saveImage(it, "review", "").awaitSingle()
@@ -42,8 +45,9 @@ class ReviewCreateService(
 			reportUsers = mutableListOf(),
 			reportContent = mutableListOf()
 		)
-		
 		val savedReview = reviewRepository.save(review).awaitSingle()
+		account.addReview(savedReview.id)
+		accountRepository.save(account).awaitSingle()
 		return ReviewResponse.fromReview(savedReview)
 	}
 }
