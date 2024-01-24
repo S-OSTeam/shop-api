@@ -42,6 +42,12 @@ input ReviewMonthRequest{
     monthReview: String! @NotBlank
 }
 
+input ReviewReportRequest{
+    reviewId: String! @NotBlank
+    userId: String! @NotBlank
+    reportContent: String! @NotBlank
+}
+
 type ReviewResponse{
     reviewId: String
     title: String
