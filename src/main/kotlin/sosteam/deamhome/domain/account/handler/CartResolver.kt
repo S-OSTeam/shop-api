@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.account.resolver
+package sosteam.deamhome.domain.account.handler
 
 import sosteam.deamhome.domain.account.handler.request.CartCheckListRequest
 import sosteam.deamhome.domain.account.handler.request.CartDeleteRequest
@@ -34,26 +34,26 @@ class CartResolver (
     }
 
     @MutationMapping
-    suspend fun addCartItem(@Argument request: sosteam.deamhome.domain.account.handler.request.CartRequest): List<CartItemResponse>{
+    suspend fun addCartItem(@Argument request: CartRequest): List<CartItemResponse>{
         val (itemId, cnt) = request
         return cartCreateService.addCartItem(authenticationService.getUserIdFromToken(), itemId, cnt)
     }
 
     @MutationMapping
     // 담은 수 상관없이 무조건 지우기
-    suspend fun deleteCartItem(@Argument request: sosteam.deamhome.domain.account.handler.request.CartDeleteRequest):List<CartItemResponse>{
+    suspend fun deleteCartItem(@Argument request: CartDeleteRequest):List<CartItemResponse>{
         val (itemId) = request
         return cartDeleteService.deleteCartItem(authenticationService.getUserIdFromToken(), itemId)
     }
 
     @MutationMapping
-    suspend fun updateCartCheckStatus(@Argument request: sosteam.deamhome.domain.account.handler.request.CartCheckListRequest):List<CartItemResponse>{
+    suspend fun updateCartCheckStatus(@Argument request: CartCheckListRequest):List<CartItemResponse>{
         val (checkList) = request
         return cartUpdateService.updateCartCheckStatus(authenticationService.getUserIdFromToken(), checkList)
     }
 
     @MutationMapping
-    suspend fun updateCartItemCnt(@Argument request: sosteam.deamhome.domain.account.handler.request.CartRequest): List<CartItemResponse>{
+    suspend fun updateCartItemCnt(@Argument request: CartRequest): List<CartItemResponse>{
         val (itemId, cnt) = request
         return cartUpdateService.changeCartItemCnt(authenticationService.getUserIdFromToken(), itemId, cnt)
     }
