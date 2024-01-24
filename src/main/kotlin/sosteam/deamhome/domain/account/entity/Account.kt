@@ -50,16 +50,16 @@ data class Account(
 	companion object {
 		const val maxWishListSize = 100
 	}
-
-
+	
+	
 	var cart: ArrayList<CartItem> = ArrayList()
-
+	
 	private var faqs: ArrayList<String> = ArrayList()
 
 	private var wishlist: ArrayList<String> = ArrayList()
 
 	private var reviews: ArrayList<String> = ArrayList()
-
+	
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
@@ -89,6 +89,11 @@ data class Account(
 
 	fun addReview(review: String): List<String> {
 		reviews.add(review)
+		return reviews
+	}
+	
+	fun removeReview(review: String): List<String> {
+		reviews.remove(review)
 		return reviews
 	}
 	
