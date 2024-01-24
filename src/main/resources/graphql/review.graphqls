@@ -14,9 +14,9 @@ input ReviewDeleteRequest{
 }
 
 input ReviewSearchRequest{
-    reviewId: [String!]!
-    userId:[String!]!
-    itemId:[String!]!
+    reviewId: [String]
+    userId:[String]
+    itemId:[String]
 }
 
 input ReviewUpdateRequest{

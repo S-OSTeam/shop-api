@@ -1,8 +1,6 @@
 package sosteam.deamhome.domain.review.repository.impl
 
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.types.Predicate
-import com.querydsl.core.types.dsl.BooleanExpression
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import sosteam.deamhome.domain.review.entity.QReview
@@ -16,36 +14,32 @@ class ReviewRepositoryImpl(
 ) : ReviewRepositoryCustom {
 	private val review = QReview.review
 	
-	override fun findReviews(reviewId: String?, userId: String?, itemId: String?): Flow<Review> {
-		val predicate = BooleanBuilder()
-		
-		eqReviewId(reviewId)?.let { predicate.and(it) }
-		eqUserId(userId)?.let { predicate.and(it) }
-		eqItemId(itemId)?.let { predicate.and(it) }
-		
-		val finalPredicate: Predicate = predicate.value ?: throw ReviewIllegalArgumentIdException()
-		
+	override fun findReviews(
+		reviewIds: List<String?>?,
+		userIds: List<String?>?,
+		itemIds: List<String?>?
+	): Flow<Review> {
+		val predicate = booleanBuilder(reviewIds, userIds, itemIds)
+		val finalPredicate = predicate.value ?: throw ReviewIllegalArgumentIdException()
 		return reviewQueryDslRepository.findAll(finalPredicate).asFlow()
 	}
 	
-	private fun eqReviewId(reviewId: String?): BooleanExpression? {
-		if (reviewId.isNullOrEmpty()) {
-			return null
+	private fun booleanBuilder(
+		reviewIds: List<String?>?,
+		userIds: List<String?>?,
+		itemIds: List<String?>?
+	): BooleanBuilder {
+		val predicate = BooleanBuilder()
+		
+		reviewIds?.let {
+			predicate.or(review.id.`in`(it))
 		}
-		return review.id.eq(reviewId)
-	}
-	
-	private fun eqUserId(userId: String?): BooleanExpression? {
-		if (userId.isNullOrEmpty()) {
-			return null
+		userIds?.let {
+			predicate.or(review.userId.`in`(it))
 		}
-		return review.userId.eq(userId)
-	}
-	
-	private fun eqItemId(itemId: String?): BooleanExpression? {
-		if (itemId.isNullOrEmpty()) {
-			return null
+		itemIds?.let {
+			predicate.or(review.itemId.`in`(it))
 		}
-		return review.itemId.eq(itemId)
+		return predicate
 	}
 }

@@ -18,6 +18,7 @@ class ReviewResolver(
 	private val reviewDeleteService: ReviewDeleteService,
 	private val reviewLikeService: ReviewLikeService,
 	private val reviewMonthService: ReviewMonthService,
+	private val reviewValidService: ReviewValidService,
 	private val reviewReportService: ReviewReportService
 ) {
 	@MutationMapping
@@ -39,7 +40,8 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun deleteReview(@Argument @Valid request: ReviewDeleteRequest): ResponseEntity<String> {
-		return reviewDeleteService.deleteReview(request)
+		val review = reviewValidService.validateDeleteReview(request)
+		return reviewDeleteService.deleteReview(request, review)
 	}
 	
 	@MutationMapping
@@ -49,7 +51,8 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun updateMonthReview(@Argument @Valid request: ReviewMonthRequest): ReviewResponse {
-		return reviewMonthService.updateMonthReview(request)
+		val review = reviewValidService.validateMonthReview(request)
+		return reviewMonthService.updateMonthReview(request, review)
 	}
 	
 	@MutationMapping

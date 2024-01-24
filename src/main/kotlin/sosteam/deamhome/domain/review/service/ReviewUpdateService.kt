@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.review.exception.ReviewNotFoundException
-import sosteam.deamhome.domain.review.exception.ReviewUpdateExpiredException
 import sosteam.deamhome.domain.review.handler.request.ReviewUpdateRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
 import sosteam.deamhome.domain.review.repository.ReviewRepository
 import sosteam.deamhome.global.image.provider.ImageProvider
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 @Service
 class ReviewUpdateService(
@@ -21,14 +18,6 @@ class ReviewUpdateService(
 ) {
 	suspend fun updateReview(request: ReviewUpdateRequest): ReviewResponse {
 		val originReview = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
-		
-		val createdAt = originReview.getCreatedAt()
-		val now = LocalDateTime.now()
-		
-		// 리뷰 생성 후 한달이 지났는지 확인
-		if (ChronoUnit.MONTHS.between(createdAt, now) >= 1) {
-			throw ReviewUpdateExpiredException()
-		}
 		
 		val updatedImage = originReview.images
 		// DB에 있는 Images와 비교해서 없으면 제거

@@ -2,7 +2,7 @@ package sosteam.deamhome.domain.review.service
 
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
-import sosteam.deamhome.domain.review.exception.ReviewNotFoundException
+import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.handler.request.ReviewMonthRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
 import sosteam.deamhome.domain.review.repository.ReviewRepository
@@ -11,8 +11,7 @@ import sosteam.deamhome.domain.review.repository.ReviewRepository
 class ReviewMonthService(
 	private val reviewRepository: ReviewRepository
 ) {
-	suspend fun updateMonthReview(request: ReviewMonthRequest): ReviewResponse {
-		val review = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
+	suspend fun updateMonthReview(request: ReviewMonthRequest, review: Review): ReviewResponse {
 		if (review.monthReview == request.monthReview) {
 			return ReviewResponse.fromReview(review)
 		}
