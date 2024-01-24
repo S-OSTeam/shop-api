@@ -37,7 +37,7 @@ data class Account(
 	// unique column
 	var phone: String?,
 
-	// unique column? 사람 이름이 아닌가?
+	// unique column
 	var userName: String,
 	
 	var point: Int = 0,

@@ -12,14 +12,10 @@ class Faq(
 	user: Account,
 	category: FaqCategory
 ) : LogEntity() {
-	
-	
-//	@DocumentReference(lazy = true)
+
 	val user: Account = user
-	
-//	@DocumentReference(lazy = true)
+
 	lateinit var admin: Account
-	
-//	@DocumentReference(lazy = true)
+
 	var category: FaqCategory = category
 }
