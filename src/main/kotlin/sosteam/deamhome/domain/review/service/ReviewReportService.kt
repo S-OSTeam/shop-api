@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.review.service
 
 import kotlinx.coroutines.reactor.awaitSingle
+import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.review.exception.ReviewNotFoundException
@@ -9,6 +10,7 @@ import sosteam.deamhome.domain.review.handler.request.ReviewReportRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
 import sosteam.deamhome.domain.review.repository.ReviewRepository
 
+@Service
 class ReviewReportService(
 	private val reviewRepository: ReviewRepository,
 	private val accountRepository: AccountRepository,
