@@ -60,6 +60,10 @@ data class Account(
 	
 	private var reviewReportLogs: ArrayList<LocalDateTime> = ArrayList()
 	
+	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
+	
+	private var reviewReportLogs: ArrayList<LocalDateTime> = ArrayList()
+	
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
