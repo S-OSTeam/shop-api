@@ -38,7 +38,9 @@ class ReviewCreateService(
 			itemId = request.itemId,
 			images = images,
 			likeUsers = mutableListOf(),
-			purchaseOptions = request.purchaseOptions.toMutableList()
+			purchaseOptions = request.purchaseOptions.toMutableList(),
+			reportUsers = mutableListOf(),
+			reportContent = mutableListOf()
 		)
 		
 		val savedReview = reviewRepository.save(review).awaitSingle()
