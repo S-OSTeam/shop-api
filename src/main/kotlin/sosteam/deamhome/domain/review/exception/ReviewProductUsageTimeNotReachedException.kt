@@ -3,7 +3,7 @@ package sosteam.deamhome.domain.review.exception
 import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
 
-class ProductUsageTimeNotReachedException(
+class ReviewProductUsageTimeNotReachedException(
 	errorCode: String = "PRODUCT_USAGE_TIME_NOT_REACHED",
 	
 	@JvmField

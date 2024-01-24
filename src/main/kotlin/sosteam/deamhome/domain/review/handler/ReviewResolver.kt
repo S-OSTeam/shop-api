@@ -35,7 +35,8 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun updateReview(@Argument @Valid request: ReviewUpdateRequest): ReviewResponse {
-		return reviewUpdateService.updateReview(request)
+		val review = reviewValidService.validateUpdateReview(request)
+		return reviewUpdateService.updateReview(request, review)
 	}
 	
 	@MutationMapping
@@ -57,6 +58,7 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun updateReviewReport(@Argument @Valid request: ReviewReportRequest): ReviewResponse {
-		return reviewReportService.updateReviewReport(request)
+		val account = reviewValidService.validateReportUser(request)
+		return reviewReportService.updateReviewReport(request, account)
 	}
 }

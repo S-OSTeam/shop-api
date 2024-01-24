@@ -60,6 +60,10 @@ data class Account(
 	
 	private var reviews: ArrayList<String> = ArrayList()
 	
+	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
+	
+	private var reviewReportLogs: ArrayList<LocalDateTime> = ArrayList()
+	
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
@@ -95,6 +99,24 @@ data class Account(
 	fun removeReview(review: String): List<String> {
 		reviews.remove(review)
 		return reviews
+	}
+	
+	fun addReviewReportLog(report: LocalDateTime): List<LocalDateTime> {
+		reviewReportLogs.add(report)
+		return reviewReportLogs
+	}
+	
+	fun getReviewReportLogs(): List<LocalDateTime> {
+		return reviewReportLogs
+	}
+	
+	fun addReviewReportBanLog(report: LocalDateTime): List<LocalDateTime> {
+		reviewReportBanLogs.add(report)
+		return reviewReportBanLogs
+	}
+	
+	fun getReviewReportBanLogs(): List<LocalDateTime> {
+		return reviewReportBanLogs
 	}
 	
 	@JsonIgnore
