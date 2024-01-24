@@ -10,8 +10,6 @@ import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
 import sosteam.deamhome.domain.review.repository.ReviewRepository
 import sosteam.deamhome.global.image.provider.ImageProvider
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 @Service
 class ReviewDeleteService(

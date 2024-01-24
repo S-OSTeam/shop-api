@@ -69,7 +69,8 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun updateMonthReview(@Argument @Valid request: ReviewMonthRequest): ReviewResponse {
-		return reviewMonthService.updateMonthReview(request)
+		val review = reviewValidService.validateMonthReview(request)
+		return reviewMonthService.updateMonthReview(request, review)
 	}
 	
 	@MutationMapping
