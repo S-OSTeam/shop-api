@@ -1,7 +1,5 @@
 package sosteam.deamhome.domain.review.service
 
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
@@ -23,7 +21,7 @@ class ReviewValidService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun validateUpdateReview(request: ReviewUpdateRequest): Review {
-		val review = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
@@ -37,7 +35,7 @@ class ReviewValidService(
 	
 	suspend fun validateMonthReview(request: ReviewMonthRequest): Review {
 		// TODO: 우선 리뷰 작성 한달 뒤로 했는데, 제품이 배달되고 1달 뒤로 바꿔야 할 거 같음. order쪽이 완성 되야 할 수 있을듯?
-		val review = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
@@ -50,7 +48,7 @@ class ReviewValidService(
 	}
 	
 	suspend fun validateDeleteReview(request: ReviewDeleteRequest): Review {
-		val review = reviewRepository.findById(request.reviewId).awaitSingleOrNull() ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
@@ -68,7 +66,7 @@ class ReviewValidService(
 		// 리뷰 신고 정지가 7번 이상이면 계정 정지
 		if (account.getReviewReportBanLogs().size > 7) {
 			// TODO: 정지 코드
-			accountRepository.save(account).awaitSingle()
+			accountRepository.save(account)
 			throw ReviewPolicyViolationException()
 		}
 		
@@ -82,7 +80,7 @@ class ReviewValidService(
 		
 		if (recentReports.size > reportThreshold) {
 			account.addReviewReportBanLog(LocalDateTime.now())
-			accountRepository.save(account).awaitSingle()
+			accountRepository.save(account)
 			throw ReviewReportAbuseBlockedException()
 		}
 		

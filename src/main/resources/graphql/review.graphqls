@@ -5,51 +5,51 @@ input ReviewCreateRequest{
     status: Boolean!
     userId: String! @NotBlank
     itemId: String! @NotBlank
-    images: [Upload!]!
+    images: [Upload]
     purchaseOptions: [String]
 }
 
 input ReviewDeleteRequest{
-    reviewId: String! @NotBlank
+    reviewId: Long! @NotBlank
 }
 
 input ReviewSearchRequest{
-    reviewId: [String]
+    reviewId: [Long]
     userId:[String]
     itemId:[String]
 }
 
 input ReviewUpdateRequest{
-    reviewId: String! @NotBlank
+    reviewId: Long! @NotBlank
     title: String! @NotBlank
     content: String! @NotBlank
     score: Int!
     status: Boolean!
-    originImages: [String]
-    addImages: [Upload!]
+    originImageUrls: [String]
+    addImages: [Upload]
     likeUsers: [String]
     purchaseOptions: [String]
 }
 
 input ReviewLikeRequest{
-    reviewId: String! @NotBlank
+    reviewId: Long! @NotBlank
     userId: String! @NotBlank
     like: Boolean!
 }
 
 input ReviewMonthRequest{
-    reviewId: String! @NotBlank
+    reviewId: Long! @NotBlank
     monthReview: String! @NotBlank
 }
 
 input ReviewReportRequest{
-    reviewId: String! @NotBlank
+    reviewId: Long! @NotBlank
     userId: String! @NotBlank
     reportContent: String! @NotBlank
 }
 
 type ReviewResponse{
-    reviewId: String
+    reviewId: Long
     title: String
     content: String
     monthReview: String
@@ -57,7 +57,7 @@ type ReviewResponse{
     status: Boolean
     userId: String
     itemId: String
-    images: [String]
+    imageUrls: [String]
     likeUsers: Int
     purchaseOptions: [String]
 }

@@ -17,26 +17,27 @@ class ReviewUpdateService(
 	private val imageProvider: ImageProvider
 ) {
 	suspend fun updateReview(request: ReviewUpdateRequest, originReview: Review): ReviewResponse {
-		val updatedImage = originReview.images
+		val updatedImage = originReview.imageUrls
 		// DB에 있는 Images와 비교해서 없으면 제거
 		updatedImage.filter { image ->
-			!request.originImages.contains(image.fileUrl)
+			!request.originImageUrls.contains(image)
 		}.forEach { image ->
-			imageProvider.deleteImage(image.fileUrl)
+			imageProvider.deleteImage(image)
 		}
 		updatedImage.removeIf { image ->
-			!request.originImages.contains(image.fileUrl)
+			!request.originImageUrls.contains(image)
 		}
 		// 추가된 Images
-		val addImages = request.addImages.map { imageProvider.saveImage(it, "review", "").awaitSingle() }
-		updatedImage.addAll(addImages)
+		val addImageUrls =
+			request.addImages.map { imageProvider.saveImage(it, "review", "").awaitSingle().fileUrl }
+		updatedImage.addAll(addImageUrls)
 		
 		val updatedReview = originReview.apply {
 			title = request.title
 			content = request.content
 			score = request.score
 			status = request.status
-			images = updatedImage
+			imageUrls = updatedImage
 			likeUsers = request.likeUsers.toMutableList()
 			purchaseOptions = request.purchaseOptions.toMutableList()
 		}
@@ -44,10 +45,10 @@ class ReviewUpdateService(
 		val item = itemRepository.findItemById(updatedReview.itemId) ?: throw ItemNotFoundException()
 		if (request.score != originReview.score) {
 			item.avgReview = (item.avgReview * item.reviewCnt - originReview.score + request.score) / item.reviewCnt
-			itemRepository.save(item).awaitSingle()
+			itemRepository.save(item)
 		}
 		
-		reviewRepository.save(updatedReview).awaitSingle()
+		reviewRepository.save(updatedReview)
 		
 		return ReviewResponse.fromReview(updatedReview)
 	}

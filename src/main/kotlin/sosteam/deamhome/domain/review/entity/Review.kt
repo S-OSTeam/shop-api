@@ -1,18 +1,13 @@
- package sosteam.deamhome.domain.review.entity
+package sosteam.deamhome.domain.review.entity
 
-import lombok.Builder
-import lombok.Setter
-//import org.springframework.data.mongodb.core.mapping.Document
-//import org.springframework.data.mongodb.core.mapping.DocumentReference
-import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.item.entity.Item
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.LogEntity
-import sosteam.deamhome.global.image.entity.Image
 
- // TODO postgreSQL 로 바꾸기
-//@Document
-//@Builder
+@Table("review")
 class Review(
+	@Id
+	var id: Long?,
 	var title: String,
 	var content: String,
 	var monthReview: String,
@@ -20,7 +15,7 @@ class Review(
 	var status: Boolean = false,
 	val userId: String,
 	val itemId: String,
-	var images: MutableList<Image>,
+	var imageUrls: MutableList<String>,
 	var likeUsers: MutableList<String>,
 	var purchaseOptions: MutableList<String>,
 	var reportUsers: MutableList<String>,

@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.review.service
 
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
@@ -19,7 +18,7 @@ class ReviewLikeService(
 ) {
 	suspend fun updateReviewLike(request: ReviewLikeRequest): ReviewResponse {
 		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		val review = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
 		val userLiked = review.likeUsers.contains(request.userId)
 		
 		if (request.like && !userLiked) {
@@ -27,15 +26,16 @@ class ReviewLikeService(
 		} else if (!request.like && userLiked) {
 			review.likeUsers.remove(request.userId)
 		}
-		reviewRepository.save(review).awaitSingle()
+		reviewRepository.save(review)
 		
 		val reviewLikeLog = ReviewLikeLog(
+			id = null,
 			reviewId = request.reviewId,
 			userId = request.userId,
 			itemId = review.itemId,
 			like = request.like
 		)
-		reviewLikeLogRepository.save(reviewLikeLog).awaitSingle()
+		reviewLikeLogRepository.save(reviewLikeLog)
 		
 		return ReviewResponse.fromReview(review)
 	}

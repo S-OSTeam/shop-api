@@ -1,7 +1,5 @@
 package sosteam.deamhome.domain.review.service
 
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
@@ -21,20 +19,20 @@ class ReviewDeleteService(
 	private val imageProvider: ImageProvider
 ) {
 	suspend fun deleteReview(request: ReviewDeleteRequest, review: Review): ResponseEntity<String> {
-		review.images.forEach {
-			imageProvider.deleteImage(it.fileUrl)
+		review.imageUrls.forEach {
+			imageProvider.deleteImage(it)
 		}
 		
 		val account = accountRepository.findAccountByUserId(review.userId) ?: throw AccountNotFoundException()
 		account.removeReview(review.id)
-		accountRepository.save(account).awaitSingle()
+		accountRepository.save(account)
 		
 		val item = itemRepository.findItemById(review.itemId) ?: throw ItemNotFoundException()
 		item.avgReview = (item.avgReview * item.reviewCnt - review.score) / (item.reviewCnt - 1)
 		item.reviewCnt--
-		itemRepository.save(item).awaitSingle()
+		itemRepository.save(item)
 		
-		reviewRepository.deleteById(request.reviewId).awaitSingleOrNull()
+		reviewRepository.deleteById(request.reviewId)
 		return ResponseEntity.ok("Review 제거 성공 : `${request.reviewId}` ")
 	}
 }

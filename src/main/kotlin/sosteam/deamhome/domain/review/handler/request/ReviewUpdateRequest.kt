@@ -8,7 +8,7 @@ import org.springframework.http.codec.multipart.FilePart
 
 data class ReviewUpdateRequest(
 	@field: NotBlank(message = "Review ID는 필수 입력 항목입니다.")
-	val reviewId: String,
+	val reviewId: Long,
 	@field: NotBlank(message = "제목은 필수 입력 항목입니다.")
 	@field: Size(max = 30, message = "제목 최대 길이는 30 입니다.")
 	val title: String,
@@ -18,7 +18,7 @@ data class ReviewUpdateRequest(
 	@field: DecimalMax(value = "5")
 	val score: Int,
 	val status: Boolean,
-	val originImages: List<String>,
+	val originImageUrls: List<String>,
 	val addImages: List<FilePart>,
 	val likeUsers: List<String>,
 	val purchaseOptions: List<String>

@@ -24,7 +24,7 @@ data class Account(
 	var address2: String?,
 	var address3: String?,
 	var address4: String?,
-
+	
 	// unique column
 	var email: String,
 	var receiveMail: Boolean,
@@ -33,10 +33,10 @@ data class Account(
 	var adminTxt: String = "",
 	val snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
-
+	
 	// unique column
 	var phone: String?,
-
+	
 	// unique column
 	var userName: String,
 	
@@ -51,10 +51,10 @@ data class Account(
 		const val maxWishListSize = 100
 	}
 	private var faqs: ArrayList<String> = ArrayList()
-
+	
 	private var wishlist: ArrayList<String> = ArrayList()
-
-	private var reviews: ArrayList<String> = ArrayList()
+	
+	private var reviews: ArrayList<Long?> = ArrayList()
 	
 	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
 	
@@ -63,36 +63,36 @@ data class Account(
 	fun getWishList(): List<String> {
 		return wishlist.toList()
 	}
-
+	
 	fun addWishListItem(itemId: String): List<String> {
 		wishlist.add(itemId)
 		return wishlist
 	}
-
+	
 	fun removeWishListItem(itemId: String): List<String> {
 		wishlist.remove(itemId)
 		return wishlist
 	}
-
+	
 	fun isItemIdInWishlist(itemId: String): Boolean {
 		return wishlist.contains(itemId)
 	}
-
+	
 	fun getWishListSize(): Int {
 		return wishlist.size
 	}
-
+	
 	fun addFaq(faq: Faq): List<String> {
 //		faqs.add(faq.id)
 		return faqs
 	}
-
-	fun addReview(review: String): List<String> {
+	
+	fun addReview(review: Long?): List<Long?> {
 		reviews.add(review)
 		return reviews
 	}
 	
-	fun removeReview(review: String): List<String> {
+	fun removeReview(review: Long?): List<Long?> {
 		reviews.remove(review)
 		return reviews
 	}
