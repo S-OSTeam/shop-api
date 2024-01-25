@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.review.service
 
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
@@ -17,12 +16,12 @@ class ReviewReportService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun updateReviewReport(request: ReviewReportRequest, account: Account): ReviewResponse {
-		val review = reviewRepository.findById(request.reviewId).awaitSingle() ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
 		val userReport = review.reportUsers.contains(request.userId)
 		
 		val now = LocalDateTime.now()
 		account.addReviewReportLog(now)
-		accountRepository.save(account).awaitSingle()
+		accountRepository.save(account)
 		
 		if (userReport) {
 			throw ReviewReportAlreadyExistException()
@@ -35,7 +34,7 @@ class ReviewReportService(
 			review.status = false
 		}
 		
-		reviewRepository.save(review).awaitSingle()
+		reviewRepository.save(review)
 		return ReviewResponse.fromReview(review)
 	}
 }

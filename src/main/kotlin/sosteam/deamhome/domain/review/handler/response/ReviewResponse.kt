@@ -3,7 +3,7 @@ package sosteam.deamhome.domain.review.handler.response
 import sosteam.deamhome.domain.review.entity.Review
 
 data class ReviewResponse(
-	val reviewId: String,
+	val reviewId: Long?,
 	val title: String,
 	val content: String,
 	val monthReview: String,
@@ -11,7 +11,7 @@ data class ReviewResponse(
 	val status: Boolean,
 	val userId: String,
 	val itemId: String,
-	val images: List<String>,
+	val imageUrls: List<String>,
 	val likeUsers: Int,
 	val purchaseOptions: List<String>
 ) {
@@ -26,7 +26,7 @@ data class ReviewResponse(
 				status = review.status,
 				userId = review.userId,
 				itemId = review.itemId,
-				images = review.images.map { it.fileUrl },
+				imageUrls = review.imageUrls,
 				likeUsers = review.likeUsers.size,
 				purchaseOptions = review.purchaseOptions
 			)
