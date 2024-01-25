@@ -28,8 +28,8 @@ class ReviewValidService(
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
 		
-		// 리뷰 생성 후 한달이 지났는지 확인
-		if (ChronoUnit.MONTHS.between(createdAt, now) >= 1) {
+		// 리뷰 생성 후 일주일이 지났는지 확인
+		if (ChronoUnit.DAYS.between(createdAt, now) > 7) {
 			throw ReviewUpdateExpiredException()
 		}
 		return review
