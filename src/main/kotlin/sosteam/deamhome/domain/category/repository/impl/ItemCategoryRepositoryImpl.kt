@@ -20,10 +20,6 @@ class ItemCategoryRepositoryImpl (
         return repository.findAll(itemCategory.title.contains(title)).asFlow()
     }
 
-    override fun findAllItemCategories(): Flow<ItemCategory> {
-        return repository.findAll().asFlow()
-    }
-
     override fun findAllItemCategoriesByTitle(title: String): Flow<ItemCategory> {
         return repository.findAll(itemCategory.title.eq(title)).asFlow()
     }

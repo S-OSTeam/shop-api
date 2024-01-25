@@ -7,8 +7,6 @@ interface ItemCategoryRepositoryCustom {
 
     fun findItemCategoriesContainTitle(title: String) : Flow<ItemCategory>
 
-    fun findAllItemCategories(): Flow<ItemCategory>
-
     fun findAllItemCategoriesByTitle(title: String): Flow<ItemCategory>
 
     suspend fun findEqualsTitle(title: String): ItemCategory?
