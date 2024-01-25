@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
+import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 
