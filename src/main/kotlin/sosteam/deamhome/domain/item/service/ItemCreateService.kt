@@ -3,7 +3,7 @@ package sosteam.deamhome.domain.item.service
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import sosteam.deamhome.domain.category.exception.CategoryNotFoundException
+import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.handler.request.ItemRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse

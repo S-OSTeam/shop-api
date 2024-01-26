@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.category.exception
+package sosteam.deamhome.global.category.exception
 
 import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
