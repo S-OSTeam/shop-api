@@ -1,12 +1,13 @@
 package sosteam.deamhome.domain.category.handler.response
 
 import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 
 class ItemCategoryTreeResponse (
-    val publicId: String,
-    val title: String,
-    val children: MutableList<ItemCategoryTreeResponse> = mutableListOf()
-) {
+    override val publicId: String,
+    override val title: String,
+    override val children: MutableList<CategoryTreeResponse<ItemCategory>> = mutableListOf()
+): CategoryTreeResponse<ItemCategory>() {
     companion object {
         fun fromItemCategory(itemCategory: ItemCategory): ItemCategoryTreeResponse {
             return ItemCategoryTreeResponse(

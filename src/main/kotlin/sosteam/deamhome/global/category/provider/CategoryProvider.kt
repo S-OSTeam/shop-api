@@ -6,6 +6,7 @@ import sosteam.deamhome.global.category.exception.AlreadyExistCategoryException
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.exception.MaxDepthExceedException
 import sosteam.deamhome.global.category.entity.CategoryEntity
+import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 import sosteam.deamhome.global.category.respository.CategoryRepository
 
 @Component
@@ -58,4 +59,36 @@ class CategoryProvider<T: CategoryEntity> (
         if (repository.findByTitle(title).toList().any { it.isTop() })
             throw AlreadyExistCategoryException()
     }
+
+    // 모든 아이템 카테고리를 tree 형식으로 반환
+    suspend fun findAllCategoriesTree(fromCategory: (T) -> (CategoryTreeResponse<T>)): List<CategoryTreeResponse<T>> {
+        val categories = repository.findAll().toList()
+
+        val map = mutableMapOf<String, CategoryTreeResponse<T>>()
+
+        // key 는 publicId, value 는 CategoryTreeResponse 로 하는 map
+        categories.forEach { category ->
+            map[category.publicId] = fromCategory(category)
+        }
+
+        // 부모 카테고리의 children 에 자식 카테고리 추가
+        categories
+            .filterNot(CategoryEntity::isTop)
+            .forEach { category ->
+                val parent = map[category.parentPublicId]
+                val child = map[category.publicId]
+                parent!!.children.add(child!!)
+            }
+
+        // 최상위 카테고리만 모아서 list 로 반환
+        val roots = categories
+            .filter { it.isTop() }
+            .map { map[it.publicId]!! }.toList()
+
+        return roots
+    }
+
+
+
+
 }
