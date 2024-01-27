@@ -1,0 +1,12 @@
+extend type Mutation {
+    # Item 생성
+    createItem(request: ItemRequest!) : ItemResponse
+    # Item 삭제
+    deleteItemByPublicId(publicId: Long!): String
+
+    ##카테고리
+    # ItemCategory 생성
+    createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
+    # ItemCategory 삭제
+    deleteItemCategoryByPublicId(publicId: Long!) : String
+}

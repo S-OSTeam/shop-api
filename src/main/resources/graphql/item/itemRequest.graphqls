@@ -1,0 +1,17 @@
+input ItemRequest {
+    categoryPublicId: Long! @Min(value : 1)
+    title: String! @NotBlank
+    content: String! @NotBlank
+    summary: String! @NotBlank
+    price: Int!
+    status: Boolean!
+    sellerId: String! @NotBlank
+    stockCnt: Int!
+    freeDelivery: Boolean!
+    images: [Upload!]!
+}
+
+input ItemCategoryRequest {
+    title: String! @NotBlank
+    parentPublicId: Long @Min(value : 1)
+}
