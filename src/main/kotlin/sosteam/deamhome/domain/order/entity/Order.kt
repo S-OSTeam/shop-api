@@ -27,8 +27,7 @@ class Order(
 	val paymentDateTime: LocalDateTime,
 	val refundDateTime: LocalDateTime,
 	val approveDatetime: LocalDateTime,
-	val couponName: String,
-	val couponPrice: Int,
+	val couponId: String,
 	val pointPrice: Int,
 	val downloadDays: LocalDateTime
 ) : LogEntity() {
