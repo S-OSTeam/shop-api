@@ -1,0 +1,12 @@
+type FaqResponse {
+    id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+
+#TODO ㅁㅁㅁ
+type FaqCategory {
+    title: String!
+    faqIds: [String]
+}

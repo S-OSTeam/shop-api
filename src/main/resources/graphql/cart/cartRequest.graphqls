@@ -1,0 +1,19 @@
+input CartRequest {
+    # 아이템 id
+    itemId: String!
+    # 장바구니 담은 수
+    cnt: Int! @Min(value : 0)
+}
+
+input CartDeleteRequest{
+
+    # userID
+    itemId: String!
+}
+
+input CartCheckListRequest{
+
+    # 장바구니 체크여부 리스트
+    checkList: [Boolean]!
+}
+

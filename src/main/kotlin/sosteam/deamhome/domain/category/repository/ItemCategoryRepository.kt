@@ -12,5 +12,4 @@ interface ItemCategoryRepository : CategoryRepository<ItemCategory>, ItemCategor
 
     fun findByParentPublicId(publicId: String): Flow<ItemCategory>
     fun findByParentPublicIdIn(publicIds: List<String>): Flow<ItemCategory>
-
 }

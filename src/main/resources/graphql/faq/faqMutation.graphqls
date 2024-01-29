@@ -1,0 +1,13 @@
+extend type Mutation {
+    #faq 등록하는 함수
+    createFaq(request: Faq!): String
+    #faq 수정 함수
+    updateFaq(request: Faq!): String
+    #faq 삭제 함수
+    deleteFaq(request: String): String
+
+    #faq 카테고리 수정 함수
+    updateFaqCategories(request: FaqCategoryRequest!): String
+    #faq 카테고리 삭제 함수
+    deleteFaqCategory(publicId: String!): String
+}

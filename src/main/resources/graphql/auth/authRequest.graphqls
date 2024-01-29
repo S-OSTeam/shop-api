@@ -27,7 +27,3 @@ input LoginRequest{
     snsId: String
     sns: SNS!
 }
-
-enum SNS {
-    KAKAO, NORMAL, GOOGLE, NAVER
-}

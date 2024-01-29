@@ -1,0 +1,14 @@
+input FaqCategoryRequest {
+    faqCategories: [FaqsRequest!]
+}
+
+input FaqsRequest {
+    faq: [Faq]
+}
+
+input Faq {
+    id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
