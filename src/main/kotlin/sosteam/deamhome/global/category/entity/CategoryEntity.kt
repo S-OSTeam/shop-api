@@ -1,14 +1,13 @@
 package sosteam.deamhome.global.category.entity
 
+import com.github.f4b6a3.ulid.UlidCreator
 import org.springframework.data.annotation.Transient
 import sosteam.deamhome.global.entity.BaseEntity
 
-abstract class CategoryEntity(maxDepth: Int): BaseEntity() {
-    abstract var publicId: String
+abstract class CategoryEntity(@Transient var maxDepth: Int): BaseEntity() {
+    open var publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
     abstract var parentPublicId: String
     abstract var title: String
-    @Transient
-    var maxDepth: Int = maxDepth
 
     fun isTop(): Boolean = parentPublicId == publicId
 }

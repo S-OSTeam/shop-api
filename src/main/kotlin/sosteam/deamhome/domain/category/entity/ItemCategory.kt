@@ -9,7 +9,7 @@ data class ItemCategory(
     @Id
     var id: Long?,
     override var title: String,
-    // unique column
-    override var publicId: String,
-    override var parentPublicId: String
-) : CategoryEntity(2)
+) : CategoryEntity(2){
+    override var publicId: String = super.publicId
+    override var parentPublicId: String = ""
+}
