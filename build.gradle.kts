@@ -47,6 +47,8 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("org.postgresql:r2dbc-postgresql")
 
+	implementation("org.flywaydb:flyway-core")
+
 	implementation("com.infobip:infobip-spring-data-r2dbc-querydsl-boot-starter:8.1.2")
 	kapt("com.infobip:infobip-spring-data-jdbc-annotation-processor:8.1.2")
 
