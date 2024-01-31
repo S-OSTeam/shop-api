@@ -28,6 +28,10 @@ input loginRequest{
     sns: SNS!
 }
 
+input signupVerifyCodeRequest {
+    email: String!
+}
+
 enum SNS {
     KAKAO, NORMAL, GOOGLE, NAVER
 }

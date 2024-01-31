@@ -51,7 +51,6 @@ class RequestProvider {
         suspend fun getAgent(): String {
             val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
             val agent = headers.getFirst("User-Agent")
-            println("agent = " + agent)
 
             if (agent.isNullOrEmpty()) {
                 throw AgentNotFoundException()

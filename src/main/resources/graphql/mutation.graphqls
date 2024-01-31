@@ -22,4 +22,5 @@ type Mutation {
     deleteItemByPublicId(publicId: Long!): String
 
     updateWishListItemInclude(request: WishListRequest ): [String]
+    sendEmailSignupCode(request: signupVerifyCodeRequest): String
 }

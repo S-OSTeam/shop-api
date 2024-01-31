@@ -14,6 +14,7 @@ import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 class AccountCreateService(
 	private val accountRepository: AccountRepository,
 	private val accountStatusRepository: AccountStatusRepository,
+	private val accountSendEmailService: AccountSendEmailService,
 	private val passwordEncoder: PasswordEncoder
 ) {
 	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {

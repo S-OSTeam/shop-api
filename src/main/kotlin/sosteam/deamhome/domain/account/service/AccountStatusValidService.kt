@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
+import sosteam.deamhome.domain.account.exception.AccountNotLiveException
 import sosteam.deamhome.domain.account.exception.AlreadyExistAccountException
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.SNS
@@ -23,7 +24,7 @@ class AccountStatusValidService(
 		
 		//휴면 상태인지 확인
 		if (accountStatus.status != Status.LIVE)
-			throw AccountNotFoundException()
+			throw AccountNotLiveException()
 		
 		return accountStatus.accountId
 	}
@@ -33,7 +34,7 @@ class AccountStatusValidService(
 		
 		if (accountStatus != null)
 			throw AlreadyExistAccountException()
-		
+
 		return true
 	}
 }

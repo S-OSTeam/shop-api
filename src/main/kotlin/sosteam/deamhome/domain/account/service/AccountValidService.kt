@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
+import sosteam.deamhome.domain.account.entity.AccountVerifyCode
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
+import sosteam.deamhome.domain.account.exception.EmailAndPasswordNotMachedException
 import sosteam.deamhome.domain.account.exception.LoginFailureException
+import sosteam.deamhome.domain.account.exception.VerifyCodeNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.auth.entity.dto.AccountLoginDTO
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
@@ -36,7 +39,7 @@ class AccountValidService(
         val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
 
         if (!passwordEncoder.matches(pwd, account.pwd)) {
-            throw LoginFailureException()
+            throw EmailAndPasswordNotMachedException()
         }
 
         return AccountLoginDTO.fromDomain(account)

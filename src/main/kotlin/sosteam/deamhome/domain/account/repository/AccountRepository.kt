@@ -14,6 +14,8 @@ interface AccountRepository : ReactiveMongoRepository<Account, String>, AccountR
 	suspend fun deleteAccountById(id: String)
 	
 	suspend fun findAccountByUserName(userName: String): Account?
+
+	suspend fun findAccountByEmail(email: String): Account?
 }
 
 

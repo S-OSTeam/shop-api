@@ -1,19 +1,20 @@
 package sosteam.deamhome.domain.auth.handler
 
+import graphql.GraphQLContext
 import jakarta.validation.Valid
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.account.service.AccountCreateService
-import sosteam.deamhome.domain.account.service.AccountStatusModifyService
-import sosteam.deamhome.domain.account.service.AccountStatusValidService
-import sosteam.deamhome.domain.account.service.AccountValidService
+import sosteam.deamhome.domain.account.exception.PwdAndConfirmPwdNotMachedException
+import sosteam.deamhome.domain.account.service.*
+import sosteam.deamhome.domain.auth.handler.request.AccountChangePwdRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.domain.order.service.OrderValidService
 import sosteam.deamhome.global.attribute.Status
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
@@ -27,10 +28,12 @@ class AccountAuthResolver(
 	val accountValidService: AccountValidService,
 	val orderValidService: OrderValidService,
 	val accountStatusValidService: AccountStatusValidService,
-	val accountStatusModifyService: AccountStatusModifyService
+	val accountStatusModifyService: AccountStatusModifyService,
+	val accountChangePwdService: AccountChangePwdService
 ) {
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
+		if(request.pwd != request.confirmPwd) throw PwdAndConfirmPwdNotMachedException()
 		accountStatusValidService.isNotExistAccount(
 			request.userId,
 			request.sns,
@@ -47,8 +50,7 @@ class AccountAuthResolver(
 		val accessToken = getToken()
 		val refreshToken = getRefreshToken()
 		val mac = getMac()
-		
-		//TODO 남은 주문 처리 전부 환불 OR 배송 대기 정책 정하기
+
 		orderValidService.isNotExistLiveOrder(accessToken)
 		
 		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, mac)
@@ -58,8 +60,12 @@ class AccountAuthResolver(
 	}
 	
 	@MutationMapping
-	suspend fun login(@Argument @Valid request: AccountLoginRequest): TokenResponse {
+	suspend fun login(
+		@Argument @Valid request: AccountLoginRequest,
+		context: GraphQLContext
+	): TokenResponse? {
 		val mac = getMac()
+		val agent = getAgent()
 		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
@@ -70,8 +76,15 @@ class AccountAuthResolver(
 			)
 		
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
-		
-		return accountAuthCreateService.createTokenResponse(loginDTO, mac)
+		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
+
+		if(agent.contains("Mobile")) {
+			return tokenResponse
+		}
+		context.put("accessToken", tokenResponse.accessToken)
+		context.put("refreshToken", tokenResponse.refreshToken)
+
+		return null
 	}
 	
 	@MutationMapping
@@ -79,7 +92,7 @@ class AccountAuthResolver(
 		val accessToken = getToken()
 		val refreshToken = getRefreshToken()
 		val mac = getMac()
-		
+
 		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, mac)
 		
 		return userId
@@ -91,5 +104,14 @@ class AccountAuthResolver(
 		val mac = getMac()
 		
 		return accountAuthCreateService.reIssueTokenResponse(mac, token)
+	}
+
+	@MutationMapping
+	suspend fun changePassword(request: AccountChangePwdRequest): String {
+		return accountChangePwdService.changePwd(
+			request.email,
+			request.pwd,
+			request.confirmPwd
+		)
 	}
 }
