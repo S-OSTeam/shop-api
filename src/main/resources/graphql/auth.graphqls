@@ -28,8 +28,28 @@ input loginRequest{
     sns: SNS!
 }
 
+input accountChangePwdRequest {
+    email: String!
+    pwd: String!
+    confirmPwd: String!
+}
+
 input signupVerifyCodeRequest {
     email: String!
+}
+
+input changePwdSendVerifyCodeRequest {
+    userId: String!
+}
+
+input checkChangePwdVerifyCodeRequest {
+    userId: String!
+    verifyCode: String!
+}
+
+input checkSignupVerifyCodeRequest {
+    email: String!
+    verifyCode: String!
 }
 
 enum SNS {

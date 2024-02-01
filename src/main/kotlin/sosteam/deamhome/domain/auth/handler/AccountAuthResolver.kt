@@ -33,6 +33,7 @@ class AccountAuthResolver(
 ) {
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
+		val mac = getMac()
 		if(request.pwd != request.confirmPwd) throw PwdAndConfirmPwdNotMachedException()
 		accountStatusValidService.isNotExistAccount(
 			request.userId,

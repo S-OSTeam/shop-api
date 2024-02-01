@@ -22,7 +22,6 @@ import java.time.Period
 class ScheduledTasks(
         private val accountRepository: AccountRepository,
         private val accountStatusRepository: AccountStatusRepository,
-        private val accountStatusModifyService: AccountStatusModifyService,
         private val sendMailService: SendMailService
 ) {
     @Async
@@ -45,13 +44,13 @@ class ScheduledTasks(
         if (duration.days == 7) {
             signoutAccount?.let {
                 runBlocking {
-                    sendMailService.sendTestEmail(it.email, "계정 삭제 예정 메일", "귀하의 계정이 1주일 후에 삭제 될 예정입니다.")
+                    sendMailService.sendTestEmail(it.email, "deamhome 계정 삭제 예정 메일", "귀하의 계정이 1주일 후에 삭제 될 예정입니다.")
                 }
             }
         } else if (duration.days == 14) {
             signoutAccount?.let {
                 runBlocking {
-                    sendMailService.sendTestEmail(it.email, "계정 삭제 메일", "귀하의 계정이 삭제 되었습니다.")
+                    sendMailService.sendTestEmail(it.email, "deamhome 계정 삭제 메일", "귀하의 계정이 삭제 되었습니다.")
                 }
             }
         }

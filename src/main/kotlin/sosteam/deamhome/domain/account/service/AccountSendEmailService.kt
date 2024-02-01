@@ -19,24 +19,19 @@ import sosteam.deamhome.global.mail.SendMailService
 class AccountSendEmailService(
     private val sendMailService: SendMailService,
     private val randomStringService: RandomStringService,
-    //private val accountVerifyCodeRepository: AccountVerifyCodeRepository,
     private val accountRepository: AccountRepository,
     private val verifyCodeRedisRepository: VerifyCodeRedisRepository
 ) {
     suspend fun saveVerifyCodeByType(email: String, type: VerifyType): String {
         val verifyCode = randomStringService.generateKey(6)
-        val accountVerifyCode = AccountVerifyCode(verifyCode, email, type, 300)
+        val accountVerifyCode = AccountVerifyCode(email+verifyCode, type, 300)
         withContext(Dispatchers.IO) {
-            if (verifyCodeRedisRepository.findById(email).isPresent) {
+            if(verifyCodeRedisRepository.findById(email).isPresent) {
                 verifyCodeRedisRepository.deleteById(email)
             }
             verifyCodeRedisRepository.save(accountVerifyCode)
         }
 
-        /*if(accountVerifyCodeRepository.findAccountVerifyCodeByEmailAndType(email, type) != null) {
-            accountVerifyCodeRepository.deleteAccountVerifyCodesByEmailAndType(email, type)
-        }
-        accountVerifyCodeRepository.save(accountVerifyCode).awaitSingle()*/
         return verifyCode
     }
 
@@ -60,15 +55,14 @@ class AccountSendEmailService(
     }
 
     suspend fun checkCodeByType(code: String, email: String, verifyType: VerifyType): String {
-        val foundCodeDeferred = CompletableDeferred<AccountVerifyCode?>()
-        withContext(Dispatchers.IO) {
-            val foundCode = verifyCodeRedisRepository.findById(email)
-            if(foundCode.isEmpty || foundCode.get().verifyCode != code)
-                throw VerifyCodeNotFoundException()
-            verifyCodeRedisRepository.deleteById(email)
+        val foundCode = withContext(Dispatchers.IO) {
+            verifyCodeRedisRepository.findById(email+code)
         }
-        val foundCode = foundCodeDeferred.await() ?: throw VerifyCodeNotFoundException()
-        return foundCode.email
+        if (foundCode.isEmpty) {
+            throw VerifyCodeNotFoundException()
+        }
+        verifyCodeRedisRepository.deleteById(email+code)
+        return email
     }
 
 

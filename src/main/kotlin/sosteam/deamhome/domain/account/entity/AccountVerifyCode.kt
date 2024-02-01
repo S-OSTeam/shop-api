@@ -9,17 +9,15 @@ import sosteam.deamhome.global.attribute.VerifyType
 import java.io.Serializable
 import java.time.LocalDateTime
 
-//@Document(collation = "verify")
 @RedisHash(value = "accountVerifyCode", timeToLive = 300)
 data class AccountVerifyCode (
-    @Id
-    val email: String,
 
+    @Id
     @Indexed(unique = true)
-    val verifyCode: String,
+    val emailAndVerifyCode: String,
 
     val type: VerifyType = VerifyType.SIGNUP,
 
     @TimeToLive
     val expiration : Long
-)
+): Serializable
