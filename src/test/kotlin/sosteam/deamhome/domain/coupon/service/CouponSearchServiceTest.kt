@@ -6,7 +6,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flowOf
 import sosteam.deamhome.domain.coupon.entity.Coupon
+import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.coupon.handler.request.CouponSearchRequest
 import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
@@ -20,69 +22,125 @@ class CouponSearchServiceTest : BehaviorSpec({
 	val couponRepository = mockk<CouponRepository>()
 	val itemRepository = mockk<ItemRepository>()
 	val couponSearchService = CouponSearchService(couponRepository, itemRepository)
+	lateinit var coupon1: Coupon
+	lateinit var coupon2: Coupon
+	lateinit var coupon3: Coupon
+	lateinit var item1: Item
+	lateinit var item2: Item
+	lateinit var item3: Item
+	lateinit var searchRequest: CouponSearchRequest
 	
-	Given("만원 짜리 아이템 할인에 대해 쿠폰 적용에 따른 리스트 반환") {
-		val request = CouponSearchRequest(userId = "user123", itemId = "item123")
-		val mockItem = Item(
+	Given("상품과 쿠폰이 주어진다") {
+		val coupons = listOf(coupon1, coupon2, coupon3)
+		val items = listOf(item1, item2, item3)
+		val request = searchRequest
+		
+		coEvery { couponRepository.findCoupons(any(), any()) } returns coupons.asFlow()
+		coEvery { itemRepository.findByPublicId(any()) } returnsMany items
+		coEvery { itemRepository.findByCategoryPublicIdIn(any()) } returns flowOf()
+		
+		When("최적의 쿠폰을 추천받는다") {
+			val result = couponSearchService.searchCoupons(request)
+			println(result)
+			
+			Then("결과를 확인한다") {
+				val expectedResults = listOf(
+					mapOf("item2" to CouponResponse.fromCoupon(coupon1)),
+					mapOf("item3" to CouponResponse.fromCoupon(coupon2)),
+					mapOf("item1" to CouponResponse.fromCoupon(coupon3))
+				)
+				println(expectedResults)
+				result[0]["item2"]?.publicId shouldBe expectedResults[0]["item2"]?.publicId
+			}
+		}
+	}
+	
+	beforeTest {
+		coupon1 = Coupon(
 			id = 1L,
-			publicId = "item123",
-			categoryPublicId = "cat123",
-			title = "Test Item",
-			content = "Test Content",
-			summary = "Test Summary",
-			price = 10000,
-			sellCnt = 0,
-			wishCnt = 0,
-			clickCnt = 0,
-			stockCnt = 5,
-			avgReview = 4.5,
-			reviewCnt = 10,
-			qnaCnt = 5,
-			status = true,
-			sellerId = "seller123",
-			freeDelivery = true
-		)
-		val coupon1 = Coupon(
-			id = 1L,
-			publicId = "coupon123",
-			title = "user 10%",
-			content = "10% 할인",
-			couponType = CouponType.PERCENTAGE_DISCOUNT,
-			userId = "user123",
-			itemId = null,
+			publicId = "coupon1",
+			title = "10% Off",
+			couponNumber = null,
+			content = "10% off",
+			couponType = CouponType.PRODUCT_SPECIFIC,
+			couponDiscountType = CouponDiscountType.PERCENTAGE_DISCOUNT,
+			userId = null,
+			itemIds = listOf("item1", "item2"),
+			categoryIds = listOf(),
 			status = true,
 			startDate = LocalDateTime.now(),
 			endDate = LocalDateTime.now().plusDays(10),
-			discount = 10
+			discount = 10,
+			minPurchaseAmount = null
 		)
-		val coupon2 = Coupon(
+		coupon2 = Coupon(
 			id = 2L,
-			publicId = "coupon456",
-			title = "2000원",
-			content = "첫 구매시 2000원 할인",
-			couponType = CouponType.FIXED_AMOUNT_DISCOUNT,
+			publicId = "coupon2",
+			title = "20% Off",
+			couponNumber = null,
+			content = "20% off",
+			couponType = CouponType.PRODUCT_SPECIFIC,
+			couponDiscountType = CouponDiscountType.PERCENTAGE_DISCOUNT,
 			userId = null,
-			itemId = "item123",
+			itemIds = listOf("item2", "item3"),
+			categoryIds = listOf(),
 			status = true,
 			startDate = LocalDateTime.now(),
-			endDate = LocalDateTime.now().plusDays(5),
-			discount = 2000
+			endDate = LocalDateTime.now().plusDays(10),
+			discount = 20,
+			minPurchaseAmount = null
 		)
-		
-		val mockCoupons = listOf(coupon1, coupon2)
-		
-		val expectedSortedCoupons = listOf(coupon2, coupon1).map { CouponResponse.fromCoupon(it) }
-		
-		coEvery { couponRepository.findCoupons(any(), any()) } returns mockCoupons.asFlow()
-		coEvery { itemRepository.findByPublicId(any()) } returns mockItem
-		
-		When("쿠폰 검색") {
-			val result = couponSearchService.searchCoupons(request)
-			
-			Then("2000원 할인 쿠폰이 먼저") {
-				result.get(0).itemId shouldBe expectedSortedCoupons.get(0).itemId
-				result.get(1).itemId shouldBe expectedSortedCoupons.get(1).itemId
-			}
-		}
+		coupon3 = Coupon(
+			id = 3L,
+			publicId = "coupon3",
+			title = "1500 discount",
+			couponNumber = null,
+			content = "1500 discount",
+			couponType = CouponType.PRODUCT_SPECIFIC,
+			couponDiscountType = CouponDiscountType.FIXED_AMOUNT_DISCOUNT,
+			userId = null,
+			itemIds = listOf("item1"),
+			categoryIds = listOf(),
+			status = true,
+			startDate = LocalDateTime.now(),
+			endDate = LocalDateTime.now().plusDays(10),
+			discount = 1500,
+			minPurchaseAmount = null
+		)
+		item1 = Item(
+			id = 1L,
+			publicId = "item1",
+			categoryPublicId = "cat1",
+			title = "Item1",
+			content = "item",
+			summary = "item",
+			price = 1000,
+			sellerId = "seller123"
+		)
+		item2 = Item(
+			id = 2L,
+			publicId = "item2",
+			categoryPublicId = "cat1",
+			title = "Item2",
+			content = "item",
+			summary = "item",
+			price = 1000,
+			sellerId = "seller123"
+		)
+		item3 = Item(
+			id = 3L,
+			publicId = "item3",
+			categoryPublicId = "cat1",
+			title = "Item3",
+			content = "item",
+			summary = "item",
+			price = 1000,
+			sellerId = "seller123"
+		)
+		searchRequest = CouponSearchRequest(
+			userId = "user123",
+			categoryIds = listOf("cat1", "cat2"),
+			itemIds = listOf("item1", "item2", "item3")
+		)
 	}
 })
