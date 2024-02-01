@@ -13,8 +13,10 @@ class Order(
 	var publicId: String,
 	val address: String,
 	val mainDoorPassWord: String,
+	val deliveryRequest: String,
 	val userName: String,
 	var userNickname: String,
+	var addressee: String,
 	val email: String,
 	val phone: String,
 	var memo: String,
@@ -23,13 +25,18 @@ class Order(
 	val content: String,
 	var payType: String,
 	val appNo: String,
-	val bankInfo: String,
-	val paymentDateTime: LocalDateTime,
-	val refundDateTime: LocalDateTime,
-	val approveDatetime: LocalDateTime,
-	val couponId: String,
+	val bankId: String,
+	val orderDateTime: LocalDateTime,
+	val paymentDateTime: LocalDateTime?,
+	val releaseDateTime: LocalDateTime?,
+	val refundDateTime: LocalDateTime?,
+	val deliveryDateTime: LocalDateTime?,
+	val approveDatetime: LocalDateTime?,
+	val couponIds: List<String?>,
 	val pointPrice: Int,
-	val downloadDays: LocalDateTime
+	var shippingCompany: String,
+	val downloadDays: LocalDateTime,
+	val reasonRefund: String
 ) : LogEntity() {
 	
 	var orderStatus: OrderStatus = OrderStatus.PENDING
