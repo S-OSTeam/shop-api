@@ -16,20 +16,23 @@ class CouponRepositoryImpl(
 ) : CouponRepositoryCustom {
 	private val coupon = QCoupon.coupon
 	
-	override fun findCoupons(userId: String?, itemId: String?): Flow<Coupon> {
-		val predicate = booleanBuilder(userId, itemId)
+	override fun findCoupons(userId: String?, itemIds: List<String?>): Flow<Coupon> {
+		// TODO: CouponType에 따라 더 찾아야 함
+		val predicate = booleanBuilder(userId, itemIds)
 		val finalPredicate = predicate.value ?: throw CouponIllegalArgumentIdException()
 		return couponQueryDslRepository.findAll(finalPredicate).asFlow()
 	}
 	
-	private fun booleanBuilder(userId: String?, itemId: String?): BooleanBuilder {
+	private fun booleanBuilder(userId: String?, itemIds: List<String?>): BooleanBuilder {
 		val predicate = BooleanBuilder()
 		
 		userId?.let {
-			predicate.and(coupon.userId.eq(it))
+			predicate.or(coupon.userId.eq(it))
 		}
-		itemId?.let {
-			predicate.and(coupon.itemId.eq(it))
+		itemIds.let { ids ->
+			ids.forEach { itemId ->
+				predicate.or(coupon.itemIds.contains(itemId))
+			}
 		}
 		return predicate
 	}
