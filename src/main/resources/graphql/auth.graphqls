@@ -38,6 +38,10 @@ input AccountChangePwdRequest {
     confirmPwd: String!
 }
 
+input SignupVerifyCodeRequest{
+    email: String!
+}
+
 input ChangePwdSendVerifyCodeRequest {
     userId: String!
 }
@@ -52,6 +56,17 @@ input CheckSignupVerifyCodeRequest {
     verifyCode: String!
 }
 
-input SignupVerifyCodeRequest{
+input CheckChangeUserInfoVerifyCodeRequest {
+    userId: String!
+    verifyCode: String!
+}
+
+input CheckGetUserIdVerifyCodeRequest {
     email: String!
+    verifyCode: String!
+}
+
+input CheckRestoreUserRequest {
+    userId: String!
+    verifyCode: String!
 }

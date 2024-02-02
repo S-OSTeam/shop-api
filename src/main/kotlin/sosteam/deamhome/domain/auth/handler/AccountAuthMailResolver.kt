@@ -44,4 +44,28 @@ class AccountAuthMailResolver(
         val mac = getMac()
         return accountSendEmailService.checkChangePwdVerifyCode(request.userId, request.verifyCode)
     }
+
+    @MutationMapping
+    suspend fun checkGetUserIdVerifyCode(
+        request: CheckGetUserIdVerifyCodeRequest
+    ): String {
+        val mac = getMac()
+        return accountSendEmailService.checkGetUserIdVerifyCode(request.email, request.verifyCode)
+    }
+
+    @MutationMapping
+    suspend fun checkChangeUserInfoVerifyCode(
+        request: CheckChangeUserInfoVerifyCodeRequest
+    ): String {
+        val mac = getMac()
+        return accountSendEmailService.checkChangeUserInfoVerifyCode(request.userId, request.verifyCode)
+    }
+
+    @MutationMapping
+    suspend fun checkRestoreUser(
+        request: CheckRestoreUserRequest
+    ): String {
+        val mac = getMac()
+        return accountSendEmailService.checkRestoreUser(request.userId, request.verifyCode)
+    }
 }

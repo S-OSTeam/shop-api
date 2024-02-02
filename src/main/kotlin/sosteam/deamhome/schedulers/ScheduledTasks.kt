@@ -40,17 +40,17 @@ class ScheduledTasks(
 
 	suspend fun sendDeleteMail(signoutAccountStatus: AccountStatus, currentTime: LocalDateTime) {
 		val signoutAccount = accountRepository.findAccountByUserId(signoutAccountStatus.userId)
-		val duration = Period.between(signoutAccountStatus.updateTime.toLocalDate(), currentTime.toLocalDate())
+		val duration = Period.between(signoutAccountStatus.deletedAT.toLocalDate(), currentTime.toLocalDate())
 		if (duration.days == 7) {
 			signoutAccount?.let {
 				runBlocking {
-					sendMailService.sendTestEmail(it.email, "deamhome 계정 삭제 예정 메일", "귀하의 계정이 1주일 후에 삭제 될 예정입니다.")
+					sendMailService.sendEmail(it.email, "deamhome 계정 삭제 예정 메일", "귀하의 계정이 1주일 후에 삭제 될 예정입니다.")
 				}
 			}
 		} else if (duration.days == 14) {
 			signoutAccount?.let {
 				runBlocking {
-					sendMailService.sendTestEmail(it.email, "deamhome 계정 삭제 메일", "귀하의 계정이 삭제 되었습니다.")
+					sendMailService.sendEmail(it.email, "deamhome 계정 삭제 메일", "귀하의 계정이 삭제 되었습니다.")
 				}
 			}
 		}

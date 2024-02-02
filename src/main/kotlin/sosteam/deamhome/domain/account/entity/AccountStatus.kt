@@ -21,7 +21,7 @@ data class AccountStatus(
 
 	val email: String,
 
-	var updateTime: LocalDateTime = LocalDateTime.now(),
+	var deletedAT: LocalDateTime? = LocalDateTime.now(),
 
 	var status: Status = Status.LIVE,
 

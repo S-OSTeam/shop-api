@@ -23,7 +23,7 @@ class AccountSendEmailService(
 ) {
     suspend fun saveVerifyCodeByType(email: String, type: VerifyType): String {
         val verifyCode = randomStringService.generateKey(6)
-        val accountVerifyCode = AccountVerifyCode(email+verifyCode, type, 300)
+        val accountVerifyCode = AccountVerifyCode(email, verifyCode, type, 300)
         withContext(Dispatchers.IO) {
             if(verifyCodeRedisRepository.findById(email).isPresent) {
                 verifyCodeRedisRepository.deleteById(email)
@@ -36,9 +36,9 @@ class AccountSendEmailService(
 
     suspend fun sendSignupVerifyCode(email: String): String {
         val verifyCode = saveVerifyCodeByType(email, VerifyType.SIGNUP)
-        sendMailService.sendTestEmail(email, "deamhome 이메일 인증 코드", "$verifyCode\n" +
+        /*sendMailService.sendEmail(email, "deamhome 이메일 인증 코드", "$verifyCode\n" +
                 "deamhome 회원가입 인증 코드입니다.\n" +
-                "5분 이내에 인증 코드를 입력해 주세요") // 프론트 이메일 인증 변경 링크
+                "5분 이내에 인증 코드를 입력해 주세요") // 프론트 이메일 인증 변경 링크*/
         return verifyCode
     }
 
@@ -47,17 +47,17 @@ class AccountSendEmailService(
             ?: throw AccountNotFoundException()
 
         val verifyCode = saveVerifyCodeByType(user.email, VerifyType.CHANGEPWD)
-        sendMailService.sendTestEmail(user.email, "deamhome 비밀번호 변경 코드", "$verifyCode\n" +
+        /*sendMailService.sendEmail(user.email, "deamhome 비밀번호 변경 코드", "$verifyCode\n" +
                 "deamhome 비밀번호 번경 인증 코드입니다.\n" +
-                "본인이 맞다면 5분 이내에 인증 코드를 입력해 주세요") // 프론트 바말번호 변경 링크
+                "본인이 맞다면 5분 이내에 인증 코드를 입력해 주세요") // 프론트 바말번호 변경 링크*/
         return verifyCode
     }
 
     suspend fun checkCodeByType(code: String, email: String, verifyType: VerifyType): String {
         val foundCode = withContext(Dispatchers.IO) {
-            verifyCodeRedisRepository.findById(email+code)
+            verifyCodeRedisRepository.findById(email)
         }
-        if (foundCode.isEmpty) {
+        if (foundCode.isEmpty || foundCode.get().email != email || foundCode.get().type != verifyType) {
             throw VerifyCodeNotFoundException()
         }
         withContext(Dispatchers.IO) {
@@ -66,10 +66,31 @@ class AccountSendEmailService(
         return email
     }
 
-
     suspend fun checkChangePwdVerifyCode(userId: String, code: String): String {
         val user = accountRepository.findAccountByUserId(userId)
             ?: throw AccountNotFoundException()
-        return checkCodeByType(code, user.email, VerifyType.CHANGEPWD)
+        checkCodeByType(code, user.email, VerifyType.CHANGEPWD)
+        return user.userId
+    }
+
+    suspend fun checkGetUserIdVerifyCode(email: String, code: String): String {
+        val user = accountRepository.findAccountByEmail(email)
+            ?: throw AccountNotFoundException()
+        checkCodeByType(code, user.email, VerifyType.FINDUSERID)
+        return user.userId
+    }
+
+    suspend fun checkChangeUserInfoVerifyCode(userId: String, code: String): String {
+        val user = accountRepository.findAccountByUserId(userId)
+            ?: throw AccountNotFoundException()
+        checkCodeByType(code, user.email, VerifyType.CHANGEUSERINFO)
+        return user.userId
+    }
+
+    suspend fun checkRestoreUser(userId: String, code: String): String {
+        val user = accountRepository.findAccountByUserId(userId)
+            ?: throw AccountNotFoundException()
+        checkCodeByType(code, user.email, VerifyType.RESTOREUSER)
+        return user.userId
     }
 }

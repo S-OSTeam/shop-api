@@ -39,4 +39,7 @@ type Mutation {
 
     checkSignupVerifyCode(request: CheckSignupVerifyCodeRequest!): String
     checkChangePwdVerifyCode(request: CheckChangePwdVerifyCodeRequest!): String
+    checkGetUserIdVerifyCode(request: CheckGetUserIdVerifyCodeRequest!): String
+    checkChangeUserInfoVerifyCode(request: CheckChangeUserInfoVerifyCodeRequest!): String
+    checkRestoreUser(request: CheckRestoreUserRequest!): String
 }
