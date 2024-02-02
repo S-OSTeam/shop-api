@@ -1,3 +1,0 @@
-enum SNS {
-    KAKAO, NORMAL, GOOGLE, NAVER
-}
