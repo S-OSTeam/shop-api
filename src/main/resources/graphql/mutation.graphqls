@@ -1,6 +1,42 @@
 type Mutation {
-    #이미지 업로드 테스트 함수
+    signUp(request: SignUpRequest!): String
+    signOut: String
+    login(request: LoginRequest!): TokenResponse
+    logout: String
+    reIssue: TokenResponse
+
+    kakaoSignUp(code: String): KakaoTokenReturnResponse
+    kakaoUnlink(token: String): KakaoUnlinkResponse
+
     uploadImage(image: Upload!): String
-    #이미지 삭제 테스트 함수
     deleteImage(path: String): String
+
+    # ItemCategory 생성
+    createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
+    # ItemCategory 삭제
+    deleteItemCategoryByPublicId(publicId: Long!) : String
+
+    # Item 생성
+    createItem(request: ItemRequest!) : ItemResponse
+    # Item 삭제
+    deleteItemByPublicId(publicId: Long!): String
+
+    updateWishListItemInclude(request: WishListRequest ): [String]
+
+    # 장바구니 아이템 추가
+    addCartItem(request: CartRequest): [CartItemResponse]
+    # 장바구니 아이템 삭제
+    deleteCartItem(request: CartDeleteRequest): [CartItemResponse]
+    # 장바구니 아이템 수 변경
+    updateCartItemCnt(request: CartRequest): [CartItemResponse]
+    # 장바구니 체크리스트 변환
+    updateCartCheckStatus(request: CartCheckListRequest): [CartItemResponse]
+
+    changePassword(request: AccountChangePwdRequest!): String
+
+    sendEmailSignupCode(request: SignupVerifyCodeRequest!): String
+    sendEmailChangePwdCode(request: ChangePwdSendVerifyCodeRequest!): String
+
+    checkSignupVerifyCode(request: CheckSignupVerifyCodeRequest!): String
+    checkChangePwdVerifyCode(request: CheckChangePwdVerifyCodeRequest!): String
 }
