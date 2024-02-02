@@ -12,7 +12,7 @@ class SendMailService(
     private val mailSender: JavaMailSender,
     @Value("\${spring.mail.username}") private val username: String
 ) {
-    suspend fun sendTestEmail(to: String, subject: String, text: String) {
+    suspend fun sendEmail(to: String, subject: String, text: String) {
         val mimeMessage = mailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
 
