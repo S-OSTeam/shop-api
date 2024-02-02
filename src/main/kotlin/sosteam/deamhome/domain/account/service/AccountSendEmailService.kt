@@ -25,8 +25,8 @@ class AccountSendEmailService(
         val verifyCode = randomStringService.generateKey(6)
         val accountVerifyCode = AccountVerifyCode(email, verifyCode, type, 300)
         withContext(Dispatchers.IO) {
-            if(verifyCodeRedisRepository.findById(email).isPresent) {
-                verifyCodeRedisRepository.deleteById(email)
+            if(verifyCodeRedisRepository.findById(verifyCode).isPresent) {
+                verifyCodeRedisRepository.deleteById(verifyCode)
             }
             verifyCodeRedisRepository.save(accountVerifyCode)
         }
@@ -55,13 +55,13 @@ class AccountSendEmailService(
 
     suspend fun checkCodeByType(code: String, email: String, verifyType: VerifyType): String {
         val foundCode = withContext(Dispatchers.IO) {
-            verifyCodeRedisRepository.findById(email)
+            verifyCodeRedisRepository.findById(code)
         }
         if (foundCode.isEmpty || foundCode.get().email != email || foundCode.get().type != verifyType) {
             throw VerifyCodeNotFoundException()
         }
         withContext(Dispatchers.IO) {
-            verifyCodeRedisRepository.deleteById(email + code)
+            verifyCodeRedisRepository.deleteById(code)
         }
         return email
     }

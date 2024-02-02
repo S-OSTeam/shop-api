@@ -10,11 +10,11 @@ import java.io.Serializable
 @RedisHash(value = "accountVerifyCode", timeToLive = 300)
 data class AccountVerifyCode (
 
-    @Id
-    val VerifyCode: String,
-
     @Indexed
     val email: String,
+
+    @Id
+    val VerifyCode: String,
 
     val type: VerifyType = VerifyType.SIGNUP,
 
