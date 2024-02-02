@@ -97,6 +97,7 @@ dependencies {
 	implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 	
 	implementation("com.graphql-java:graphql-java-extended-validation:21.0")
+	implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
 tasks.withType<Jar> {

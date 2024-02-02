@@ -14,6 +14,8 @@ interface AccountRepository : CoroutineCrudRepository<Account, Long>, AccountRep
 	suspend fun deleteAccountById(id: Long)
 
 	suspend fun findAccountByUserName(userName: String): Account?
+
+	suspend fun findAccountByEmail(email: String): Account?
 }
 
 
