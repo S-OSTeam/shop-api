@@ -26,7 +26,7 @@ class ScheduledTasks(
 ) {
 	@Async
 	@Scheduled(cron = "0 0 2 * * *") // 매일 새벽 2시에 실행
-	fun manageDormantMembers() = runBlocking {
+	fun manageSignoutMembers() = runBlocking {
 		val currentDate = LocalDateTime.now()
 
 		// TODO 삭제 된 회원 1주일 후 삭제 예정 메일 2주일 후 삭제 메일 및 삭제
@@ -40,7 +40,8 @@ class ScheduledTasks(
 
 	suspend fun sendDeleteMail(signoutAccountStatus: AccountStatus, currentTime: LocalDateTime) {
 		val signoutAccount = accountRepository.findAccountByUserId(signoutAccountStatus.userId)
-		val duration = Period.between(signoutAccountStatus.deletedAT.toLocalDate(), currentTime.toLocalDate())
+		if(signoutAccountStatus.deletedAT == null) return
+		val duration = Period.between(signoutAccountStatus.deletedAT!!.toLocalDate(), currentTime.toLocalDate())
 		if (duration.days == 7) {
 			signoutAccount?.let {
 				runBlocking {
