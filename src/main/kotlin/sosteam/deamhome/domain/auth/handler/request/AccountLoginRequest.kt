@@ -6,6 +6,7 @@ import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.DTO
+import java.time.LocalDateTime
 
 data class AccountLoginRequest(
 	val userId: String = "",
@@ -26,7 +27,7 @@ data class AccountLoginRequest(
 	override fun asDomain(): AccountStatus {
 		return AccountStatus(
 			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
-			null, userId, snsId, sns, email, Status.LIVE
+			null, userId, snsId, sns, email, LocalDateTime.now() ,Status.LIVE
 		)
 	}
 }

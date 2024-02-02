@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.BaseEntity
+import java.time.LocalDateTime
 
 @Table("account_status")
 data class AccountStatus(
@@ -15,13 +16,15 @@ data class AccountStatus(
 
 	// unique column
 	val snsId: String? = null,
-	
+
 	val sns: SNS,
-	
+
 	val email: String,
-	
+
+	var updateTime: LocalDateTime = LocalDateTime.now(),
+
 	var status: Status = Status.LIVE,
-	
+
 	) : BaseEntity() {
 	var accountId: Long? = null
 }
