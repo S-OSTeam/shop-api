@@ -40,7 +40,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 		coEvery { itemRepository.findByCategoryPublicIdIn(any()) } returns flowOf()
 		
 		When("최적의 쿠폰을 추천받는다") {
-			val result = couponSearchService.searchCoupons(request)
+			val itemIds = items.map { it.publicId }
+			val result = couponSearchService.searchCoupons(request, coupons, itemIds)
 			println(result)
 			
 			Then("결과를 확인한다") {

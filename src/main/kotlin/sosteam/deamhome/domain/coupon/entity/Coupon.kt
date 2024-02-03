@@ -22,5 +22,6 @@ class Coupon(
 	var startDate: LocalDateTime,
 	var endDate: LocalDateTime,
 	var discount: Int,
-	var minPurchaseAmount: Int? = null
+	var minPurchaseAmount: Int? = null,
+	var linkHistory: Boolean = false
 ) : LogEntity()
