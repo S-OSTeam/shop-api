@@ -43,13 +43,17 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	
 	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-
+	
+	implementation("org.imgscalr:imgscalr-lib:4.2")
+	implementation("com.twelvemonkeys.imageio:imageio-jpeg:3.10.1")
+	implementation("com.twelvemonkeys.imageio:imageio-tiff:3.10.1")
+	
 	implementation("org.postgresql:postgresql")
 	implementation("org.postgresql:r2dbc-postgresql")
-
+	
 	implementation("com.infobip:infobip-spring-data-r2dbc-querydsl-boot-starter:8.1.2")
 	kapt("com.infobip:infobip-spring-data-jdbc-annotation-processor:8.1.2")
-
+	
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
