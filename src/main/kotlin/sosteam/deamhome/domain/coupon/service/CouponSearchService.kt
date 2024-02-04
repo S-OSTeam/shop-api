@@ -8,15 +8,10 @@ import sosteam.deamhome.domain.coupon.handler.request.CouponSearchRequest
 import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
 import sosteam.deamhome.domain.coupon.provider.CouponJunkProvider
 import sosteam.deamhome.domain.coupon.provider.CouponRecommendProvider
-import sosteam.deamhome.domain.coupon.repository.CouponRepository
-import sosteam.deamhome.domain.item.exception.ItemNotFoundException
-import sosteam.deamhome.domain.item.repository.ItemRepository
+import sosteam.deamhome.domain.item.entity.Item
 
 @Service
-class CouponSearchService(
-	private val couponRepository: CouponRepository,
-	private val itemRepository: ItemRepository
-) {
+class CouponSearchService {
 	private val parent = mutableMapOf<Coupon, Coupon>()
 	private val rank = mutableMapOf<Coupon, Int>()
 	private var itemsSize: Int = 0
@@ -25,31 +20,49 @@ class CouponSearchService(
 	suspend fun searchCoupons(
 		request: CouponSearchRequest,
 		ableCoupons: List<Coupon>,
-		itemIds: List<String>
+		items: List<Item>
 	): List<Map<String, CouponResponse>> {
-		itemsSize = itemIds.size
+		itemsSize = items.size
 		couponsSize = ableCoupons.size
 		
-		val dividedCoupons = divideCoupon(ableCoupons)
+		val dividedCoupons = divideCoupon(ableCoupons, items)
 		
-		return dividedCoupons.map { group ->
-			optimizeCoupons(group.key, group.value).map { (itemPublicId, coupon) ->
+		return dividedCoupons.flatMap { group ->
+			val filteredItems = items.filter { it.publicId in group.value }
+			optimizeCoupons(group.key, filteredItems).map { (itemPublicId, coupon) ->
 				mapOf(itemPublicId to CouponResponse.fromCoupon(coupon))
 			}
-		}.flatten()
+		}
 	}
 	
-	private fun divideCoupon(coupons: List<Coupon>): Map<List<Coupon>, List<String>> {
+	private fun divideCoupon(coupons: List<Coupon>, items: List<Item>): Map<List<Coupon>, List<String>> {
 		initializeUnionFind(coupons)
 		
-		coupons.forEach { coupon1 ->
-			coupons.forEach { coupon2 ->
-				if (coupon1 != coupon2
-					&& (coupon1.itemIds.any { coupon2.itemIds.contains(it) }
-							|| coupon1.couponType == CouponType.USER_SPECIFIC
-							|| coupon2.couponType == CouponType.USER_SPECIFIC)
-				) {
-					unionRoot(coupon1, coupon2)
+		if (coupons.any {
+				it.couponType == CouponType.USER_SPECIFIC
+						|| it.couponType == CouponType.MIN_PURCHASE_AMOUNT
+						|| it.couponType == CouponType.BUNDLE_DISCOUNT
+						|| it.couponType == CouponType.SPECIFIC_LINK
+			}) {
+			coupons.forEach { coupon -> parent[coupon] = coupons.first() }
+		} else {
+			coupons.forEach { coupon1 ->
+				coupons.forEach { coupon2 ->
+					if (coupon1 != coupon2
+						&& ((coupon1.couponType == CouponType.PRODUCT_SPECIFIC
+								&& coupon2.couponType == CouponType.PRODUCT_SPECIFIC
+								&& coupon1.itemIds.any { coupon2.itemIds.contains(it) })
+								|| (coupon1.couponType == CouponType.CATEGORY_SPECIFIC
+								&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
+								&& coupon1.categoryIds.any { coupon2.categoryIds.contains(it) })
+								|| (coupon1.couponType == CouponType.PRODUCT_SPECIFIC
+								&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
+								&& coupon1.itemIds.any { itemId ->
+							items.any { item -> item.publicId == itemId && coupon2.categoryIds.contains(item.categoryPublicId) }
+						}))
+					) {
+						unionRoot(coupon1, coupon2)
+					}
 				}
 			}
 		}
@@ -60,8 +73,7 @@ class CouponSearchService(
 			}.toMap()
 	}
 	
-	private suspend fun optimizeCoupons(coupons: List<Coupon>, itemIds: List<String>): Map<String, Coupon> {
-		val items = itemIds.map { itemRepository.findByPublicId(it) ?: throw ItemNotFoundException() }
+	private suspend fun optimizeCoupons(coupons: List<Coupon>, items: List<Item>): Map<String, Coupon> {
 		val itemsColumn = items.toMutableList()
 		val couponsRow = coupons.toMutableList()
 		
@@ -79,7 +91,12 @@ class CouponSearchService(
 				val coupon = couponsRow[i]
 				val item = itemsColumn[j]
 				
-				if (coupon.couponType == CouponType.PRODUCT_SPECIFIC && !coupon.itemIds.contains(item.publicId)) {
+				if (
+					((coupon.couponType == CouponType.PRODUCT_SPECIFIC
+							|| coupon.couponType == CouponType.BUNDLE_DISCOUNT)
+							&& !coupon.itemIds.contains(item.publicId))
+					|| (coupon.couponType == CouponType.CATEGORY_SPECIFIC && !coupon.categoryIds.contains(item.categoryPublicId))
+				) {
 					costMatrix[i][j] = 112345678
 					continue
 				}

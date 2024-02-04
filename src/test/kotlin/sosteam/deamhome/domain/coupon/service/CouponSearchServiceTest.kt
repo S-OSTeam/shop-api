@@ -21,7 +21,7 @@ class CouponSearchServiceTest : BehaviorSpec({
 	isolationMode = IsolationMode.InstancePerLeaf
 	val couponRepository = mockk<CouponRepository>()
 	val itemRepository = mockk<ItemRepository>()
-	val couponSearchService = CouponSearchService(couponRepository, itemRepository)
+	val couponSearchService = CouponSearchService()
 	lateinit var coupon1: Coupon
 	lateinit var coupon2: Coupon
 	lateinit var coupon3: Coupon
@@ -35,13 +35,13 @@ class CouponSearchServiceTest : BehaviorSpec({
 		val items = listOf(item1, item2, item3)
 		val request = searchRequest
 		
-		coEvery { couponRepository.findCoupons(any(), any()) } returns coupons.asFlow()
+		coEvery { couponRepository.findCoupons(any(), any(), any(), any(), any()) } returns coupons.asFlow()
 		coEvery { itemRepository.findByPublicId(any()) } returnsMany items
 		coEvery { itemRepository.findByCategoryPublicIdIn(any()) } returns flowOf()
 		
 		When("최적의 쿠폰을 추천받는다") {
 			val itemIds = items.map { it.publicId }
-			val result = couponSearchService.searchCoupons(request, coupons, itemIds)
+			val result = couponSearchService.searchCoupons(request, coupons, items)
 			println(result)
 			
 			Then("결과를 확인한다") {
@@ -61,7 +61,6 @@ class CouponSearchServiceTest : BehaviorSpec({
 			id = 1L,
 			publicId = "coupon1",
 			title = "10% Off",
-			couponNumber = null,
 			content = "10% off",
 			couponType = CouponType.PRODUCT_SPECIFIC,
 			couponDiscountType = CouponDiscountType.PERCENTAGE_DISCOUNT,
@@ -72,13 +71,13 @@ class CouponSearchServiceTest : BehaviorSpec({
 			startDate = LocalDateTime.now(),
 			endDate = LocalDateTime.now().plusDays(10),
 			discount = 10,
-			minPurchaseAmount = null
+			minPurchaseAmount = null,
+			links = listOf()
 		)
 		coupon2 = Coupon(
 			id = 2L,
 			publicId = "coupon2",
 			title = "20% Off",
-			couponNumber = null,
 			content = "20% off",
 			couponType = CouponType.PRODUCT_SPECIFIC,
 			couponDiscountType = CouponDiscountType.PERCENTAGE_DISCOUNT,
@@ -89,13 +88,13 @@ class CouponSearchServiceTest : BehaviorSpec({
 			startDate = LocalDateTime.now(),
 			endDate = LocalDateTime.now().plusDays(10),
 			discount = 20,
-			minPurchaseAmount = null
+			minPurchaseAmount = null,
+			links = listOf()
 		)
 		coupon3 = Coupon(
 			id = 3L,
 			publicId = "coupon3",
 			title = "1500 discount",
-			couponNumber = null,
 			content = "1500 discount",
 			couponType = CouponType.PRODUCT_SPECIFIC,
 			couponDiscountType = CouponDiscountType.FIXED_AMOUNT_DISCOUNT,
@@ -106,7 +105,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 			startDate = LocalDateTime.now(),
 			endDate = LocalDateTime.now().plusDays(10),
 			discount = 1500,
-			minPurchaseAmount = null
+			minPurchaseAmount = null,
+			links = listOf()
 		)
 		item1 = Item(
 			id = 1L,
@@ -140,8 +140,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 		)
 		searchRequest = CouponSearchRequest(
 			userId = "user123",
-			categoryIds = listOf("cat1", "cat2"),
-			itemIds = listOf("item1", "item2", "item3")
+			itemIds = listOf("item1", "item2", "item3"),
+			links = listOf()
 		)
 	}
 })

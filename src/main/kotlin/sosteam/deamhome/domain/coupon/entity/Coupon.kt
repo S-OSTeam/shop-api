@@ -10,7 +10,6 @@ class Coupon(
 	@Id
 	var id: Long?,
 	var publicId: String,
-	var couponNumber: String?,
 	var title: String,
 	var content: String,
 	var couponType: CouponType,
@@ -23,5 +22,5 @@ class Coupon(
 	var endDate: LocalDateTime,
 	var discount: Int,
 	var minPurchaseAmount: Int? = null,
-	var linkHistory: Boolean = false
+	var links: List<String?>
 ) : LogEntity()

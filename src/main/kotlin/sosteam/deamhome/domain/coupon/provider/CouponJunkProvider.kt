@@ -36,7 +36,6 @@ class CouponJunkProvider {
 			return Coupon(
 				id = null,
 				publicId = "",
-				couponNumber = "",
 				title = "",
 				content = "",
 				couponType = CouponType.USER_SPECIFIC,
@@ -49,6 +48,7 @@ class CouponJunkProvider {
 				endDate = LocalDateTime.now(),
 				discount = DISCOUNT,
 				minPurchaseAmount = 0,
+				links = listOf()
 			)
 		}
 	}
