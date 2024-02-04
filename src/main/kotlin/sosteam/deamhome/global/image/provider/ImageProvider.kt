@@ -114,6 +114,7 @@ class ImageProvider(
 	suspend fun deleteImage(filePath: String): Boolean {
 		val path = Paths.get(filePath)
 		Files.deleteIfExists(path)
+		imageRepository.deleteByPath(filePath)
 		
 		return imageRepository.deleteByPath(filePath) > 0L
 	}
