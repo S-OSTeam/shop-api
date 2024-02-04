@@ -1,0 +1,21 @@
+extend type Mutation {
+    signUp(request: SignUpRequest!): String
+    signOut: String
+    login(request: LoginRequest!): TokenResponse
+    logout: String
+    reIssue: TokenResponse
+
+    kakaoSignUp(code: String): KakaoTokenReturnResponse
+    kakaoUnlink(token: String): KakaoUnlinkResponse
+
+    changePassword(request: AccountChangePwdRequest!): String
+
+    sendEmailSignupCode(request: SignupVerifyCodeRequest!): String
+    sendEmailChangePwdCode(request: ChangePwdSendVerifyCodeRequest!): String
+
+    checkSignupVerifyCode(request: CheckSignupVerifyCodeRequest!): String
+    checkChangePwdVerifyCode(request: CheckChangePwdVerifyCodeRequest!): String
+    checkGetUserIdVerifyCode(request: CheckGetUserIdVerifyCodeRequest!): String
+    checkChangeUserInfoVerifyCode(request: CheckChangeUserInfoVerifyCodeRequest!): String
+    checkRestoreUser(request: CheckRestoreUserRequest!): String
+}
