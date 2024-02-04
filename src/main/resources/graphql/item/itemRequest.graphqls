@@ -8,7 +8,7 @@ input ItemRequest {
     sellerId: String! @NotBlank
     stockCnt: Int!
     freeDelivery: Boolean!
-    images: [Upload!]!
+    images: [ImageRequest]!
 }
 
 input ItemCategoryRequest {
