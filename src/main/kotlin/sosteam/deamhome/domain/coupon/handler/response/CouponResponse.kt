@@ -15,8 +15,8 @@ class CouponResponse(
 	val itemIds: List<String?>,
 	val categoryIds: List<String?>,
 	val status: Boolean,
-	val startDate: LocalDateTime,
-	val endDate: LocalDateTime,
+	val startDate: LocalDateTime?,
+	val endDate: LocalDateTime?,
 	val discount: Int,
 	val minPurchaseAmount: Int?
 ) {

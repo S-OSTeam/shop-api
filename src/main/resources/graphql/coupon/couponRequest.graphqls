@@ -1,27 +1,20 @@
-enum CouponType{
-    USER_SPECIFIC,
-    PRODUCT_SPECIFIC,
-    MIN_PURCHASE_AMOUNT,
-    CATEGORY_SPECIFIC,
-    BUNDLE_DISCOUNT,
-    SPECIFIC_LINK
-}
-
-enum CouponDiscountType{
-    PERCENTAGE_DISCOUNT, FIXED_AMOUNT_DISCOUNT
-}
-
 input CouponCreateRequest{
     title:  String!
     content:  String!
-    couponType:  CouponType
-    couponDiscountType:  CouponDiscountType
+    couponType:  CouponType!
+    couponDiscountType:  CouponDiscountType!
     userId: String
     itemIds: [String]
     categoryIds: [String]
-    startDate: DateTime!
-    endDate: DateTime!
+    startDate: DateTime
+    endDate: DateTime
     discount:  Int!
     minPurchaseAmount: Int
+    links: [String]
+}
+
+input CouponSearchRequest{
+    userId: String!
+    itemIds: [String!]
     links: [String]
 }

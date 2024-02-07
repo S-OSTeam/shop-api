@@ -14,8 +14,8 @@ data class CouponCreateRequest(
 	val userId: String?,
 	val itemIds: List<String?> = emptyList(),
 	val categoryIds: List<String?> = emptyList(),
-	val startDate: LocalDateTime,
-	val endDate: LocalDateTime,
+	val startDate: LocalDateTime?,
+	val endDate: LocalDateTime?,
 	val discount: @DecimalMin(value = "0") Int,
 	val minPurchaseAmount: Int? = null,
 	val links: List<String?> = emptyList()
