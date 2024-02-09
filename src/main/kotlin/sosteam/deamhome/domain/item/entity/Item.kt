@@ -3,14 +3,15 @@ package sosteam.deamhome.domain.item.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.BaseEntity
+import java.util.*
 
 @Table("item")
 data class Item(
 	@Id
 	var id: Long?,
 	// unique column
-	var publicId: String,
-	var categoryPublicId: String,
+	var publicId: UUID,
+	var categoryPublicId: UUID,
 	var title: String,
 	var content: String,
 	var summary: String,

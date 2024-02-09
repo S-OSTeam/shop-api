@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.image.provider.ImageProvider
+import java.util.*
 
 @Service
 @Transactional
@@ -12,7 +13,7 @@ class ItemDeleteService(
     private val itemRepository: ItemRepository,
     private val imageProvider: ImageProvider
 ) {
-    suspend fun deleteItemByPublicId(publicId: String): Long {
+    suspend fun deleteItemByPublicId(publicId: UUID): Long {
         // 존재하는 아이템인지 확인
         val item = itemRepository.findByPublicId(publicId)
             ?: throw ItemNotFoundException()

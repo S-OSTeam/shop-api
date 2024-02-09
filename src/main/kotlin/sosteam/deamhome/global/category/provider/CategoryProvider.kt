@@ -8,6 +8,7 @@ import sosteam.deamhome.global.category.exception.MaxDepthExceedException
 import sosteam.deamhome.global.category.entity.CategoryEntity
 import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 import sosteam.deamhome.global.category.respository.CategoryRepository
+import java.util.UUID
 
 @Component
 //abstract ??
@@ -42,7 +43,7 @@ class CategoryProvider<T: CategoryEntity> (
         }
     }
 
-    private suspend fun validateParentCategory(parentPublicId: String, title: String, maxDepth: Int) {
+    private suspend fun validateParentCategory(parentPublicId: UUID, title: String, maxDepth: Int) {
         val parentCategory = repository.findByPublicId(parentPublicId)
             ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
         // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
@@ -65,7 +66,7 @@ class CategoryProvider<T: CategoryEntity> (
     suspend fun findAllCategoriesTree(fromCategory: (T) -> (CategoryTreeResponse<T>)): List<CategoryTreeResponse<T>> {
         val categories = repository.findAll().toList()
 
-        val map = mutableMapOf<String, CategoryTreeResponse<T>>()
+        val map = mutableMapOf<UUID, CategoryTreeResponse<T>>()
 
         // key 는 publicId, value 는 CategoryTreeResponse 로 하는 map
         categories.forEach { category ->

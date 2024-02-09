@@ -4,10 +4,10 @@ import com.github.f4b6a3.ulid.UlidCreator
 import org.springframework.http.codec.multipart.FilePart
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.DTO
+import java.util.UUID
 
 data class ItemRequest(
-
-    val categoryPublicId: String,
+    val categoryPublicId: UUID,
     val title: String,
     val content: String,
     val summary: String,
@@ -19,7 +19,7 @@ data class ItemRequest(
 
 ) : DTO {
     override fun asDomain(): Item {
-        val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+        val publicId = UUID.randomUUID()
         return Item(
             // id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
             id = null,

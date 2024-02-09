@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.repository.ItemRepository
+import java.util.*
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ class ItemSearchService (
     }
 
     // categoryPublicId 로 하위 카테고리들의 아이템을 반환하는 함수
-    suspend fun findItemsByCategoryPublicId(categoryPublicId: String): List<ItemResponse> {
+    suspend fun findItemsByCategoryPublicId(categoryPublicId: UUID): List<ItemResponse> {
         // 카테고리가 있는지 확인
         val itemCategory = itemCategoryRepository.findByPublicId(categoryPublicId)
             ?: throw CategoryNotFoundException()
@@ -45,7 +46,7 @@ class ItemSearchService (
             .map { ItemResponse.fromItem(it) }
     }
 
-    suspend fun findItemByPublicId(publicId: String): ItemResponse {
+    suspend fun findItemByPublicId(publicId: UUID): ItemResponse {
         val item = itemRepository.findByPublicId(publicId)
             ?: throw ItemNotFoundException()
         return ItemResponse.fromItem(item)
@@ -53,7 +54,7 @@ class ItemSearchService (
 
     // 하위의 카테고리에 있는 아이템을 반환하는 함수
     private suspend fun findItemsInCategoryAndDescendants(category: ItemCategory): List<Item>{
-        val parentIds: MutableList<String> = mutableListOf()
+        val parentIds: MutableList<UUID> = mutableListOf()
         parentIds.add(category.publicId)
         // category.publicId 로 하위 카테고리를 찾고 parentIds 에 추가
         val childIds = itemCategoryRepository.findByParentPublicId(category.publicId).toList()

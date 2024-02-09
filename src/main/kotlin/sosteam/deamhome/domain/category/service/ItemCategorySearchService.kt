@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeRespons
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 import sosteam.deamhome.global.category.provider.CategoryProvider
+import java.util.*
 
 @Service
 @Transactional
@@ -20,7 +21,7 @@ class ItemCategorySearchService (
     private val categoryProvider: CategoryProvider<ItemCategory>
 ) {
 
-    suspend fun findItemCategoryByPublicId(publicId: String): ItemCategoryResponse {
+    suspend fun findItemCategoryByPublicId(publicId: UUID): ItemCategoryResponse {
         val itemCategory = itemCategoryRepository.findByPublicId(publicId)
             ?: throw CategoryNotFoundException()
         return ItemCategoryResponse.fromItemCategory(itemCategory)

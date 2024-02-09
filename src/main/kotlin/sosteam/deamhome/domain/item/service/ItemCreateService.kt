@@ -27,7 +27,7 @@ class ItemCreateService (
         val item = request.asDomain().apply {
             // 이미지 저장
             imageUrls = request.images.map {
-                imageProvider.saveImage(it, "item", publicId).awaitSingle().fileUrl
+                imageProvider.saveImage(it, "item", "").awaitSingle().fileUrl
             }.toMutableList()
         }
 

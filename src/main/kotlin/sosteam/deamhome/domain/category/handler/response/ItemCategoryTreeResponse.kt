@@ -2,9 +2,10 @@ package sosteam.deamhome.domain.category.handler.response
 
 import sosteam.deamhome.domain.category.entity.ItemCategory
 import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
+import java.util.*
 
 class ItemCategoryTreeResponse (
-    override val publicId: String,
+    override val publicId: UUID,
     override val title: String,
     override val children: MutableList<CategoryTreeResponse<ItemCategory>> = mutableListOf()
 ): CategoryTreeResponse<ItemCategory>() {

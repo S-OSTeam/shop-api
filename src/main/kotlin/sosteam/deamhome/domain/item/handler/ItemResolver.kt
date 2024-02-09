@@ -13,6 +13,7 @@ import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.service.ItemCreateService
 import sosteam.deamhome.domain.item.service.ItemDeleteService
 import sosteam.deamhome.domain.item.service.ItemSearchService
+import java.util.*
 
 
 @RestController
@@ -37,17 +38,17 @@ class ItemResolver(
     }
 
     @QueryMapping
-    suspend fun findItemsByCategoryPublicId(@Argument categoryPublicId: String): List<ItemResponse> {
+    suspend fun findItemsByCategoryPublicId(@Argument categoryPublicId: UUID): List<ItemResponse> {
         return itemSearchService.findItemsByCategoryPublicId(categoryPublicId)
     }
 
     @QueryMapping
-    suspend fun findItemByPublicId(@Argument publicId: String): ItemResponse{
+    suspend fun findItemByPublicId(@Argument publicId: UUID): ItemResponse{
         return itemSearchService.findItemByPublicId(publicId)
     }
 
     @MutationMapping
-    suspend fun deleteItemByPublicId(@Argument publicId: String): String{
+    suspend fun deleteItemByPublicId(@Argument publicId: UUID): String{
         val deletedTitle =  itemDeleteService.deleteItemByPublicId(publicId)
         return "deleted"
     }

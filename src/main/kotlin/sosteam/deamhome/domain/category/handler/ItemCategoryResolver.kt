@@ -15,6 +15,7 @@ import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
 import sosteam.deamhome.domain.category.service.ItemCategoryDeleteService
 import sosteam.deamhome.domain.category.service.ItemCategorySearchService
 import sosteam.deamhome.domain.category.service.ItemCategoryUpdateService
+import java.util.*
 
 @RestController
 class ItemCategoryResolver(
@@ -29,7 +30,7 @@ class ItemCategoryResolver(
     }
 
     @QueryMapping
-    suspend fun findItemCategoryByPublicId(@Argument publicId: String) : ItemCategoryResponse {
+    suspend fun findItemCategoryByPublicId(@Argument publicId: UUID) : ItemCategoryResponse {
         return itemCategorySearchService.findItemCategoryByPublicId(publicId)
     }
 
@@ -44,7 +45,7 @@ class ItemCategoryResolver(
     }
 
     @MutationMapping
-    suspend fun deleteItemCategoryByPublicId(@Argument publicId: String) : String{
+    suspend fun deleteItemCategoryByPublicId(@Argument publicId: UUID) : String{
         itemCategoryDeleteService.deleteItemCategoryByPublicId(publicId)
         return "deleted"
     }

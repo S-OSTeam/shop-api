@@ -1,10 +1,11 @@
 package sosteam.deamhome.domain.item.handler.response
 
 import sosteam.deamhome.domain.item.entity.Item
+import java.util.UUID
 
 class ItemResponse (
-    val publicId: String,
-    val categoryPublicId: String,
+    val publicId: UUID,
+    val categoryPublicId: UUID,
     val title: String,
     val content: String,
     val summary: String,
