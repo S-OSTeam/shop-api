@@ -51,11 +51,11 @@ data class Account(
 		const val maxWishListSize = 100
 	}
 
-	private var faqs: ArrayList<String> = ArrayList()
+//	private var faqs: ArrayList<String> = ArrayList()
 
 	private var wishlist: ArrayList<String> = ArrayList()
 
-	private var reviews: ArrayList<String> = ArrayList()
+//	private var reviews: ArrayList<String> = ArrayList()
 
 	fun getWishList(): List<String> {
 		return wishlist.toList()
@@ -79,15 +79,15 @@ data class Account(
 		return wishlist.size
 	}
 
-	fun addFaq(faq: Faq): List<String> {
-//		faqs.add(faq.id)
-		return faqs
-	}
-
-	fun addReview(review: String): List<String> {
-		reviews.add(review)
-		return reviews
-	}
+//	fun addFaq(faq: Faq): List<String> {
+////		faqs.add(faq.id)
+//		return faqs
+//	}
+//
+//	fun addReview(review: String): List<String> {
+//		reviews.add(review)
+//		return reviews
+//	}
 	
 	@JsonIgnore
 	fun getAuthorities(): List<SimpleGrantedAuthority> {

@@ -1,7 +1,7 @@
-package sosteam.deamhome.domain.account.service.cart
+package sosteam.deamhome.domain.cart.service
 
 import org.springframework.stereotype.Service
-import sosteam.deamhome.domain.account.exception.CartItemExceedsStockException
+import sosteam.deamhome.domain.cart.exception.CartItemExceedsStockException
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 
@@ -20,6 +20,5 @@ class CartValidService (
             true
          }
     }
-
 
 }
