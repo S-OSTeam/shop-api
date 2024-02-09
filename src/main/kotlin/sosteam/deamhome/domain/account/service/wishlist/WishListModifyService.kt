@@ -35,7 +35,7 @@ class WishListModifyService(
 			account.addWishListItem(itemId)
 			accountRepository.save(account)
 
-			val item = itemRepository.findItemById(itemId)?.let {
+			val item = itemRepository.findByPublicId(itemId)?.let {
 				it.wishCnt++
 				itemRepository.save(it)
 			} ?: throw ItemNotFoundException()
@@ -46,7 +46,7 @@ class WishListModifyService(
 
 	suspend fun deleteItem(account: Account, itemId: String): Account {
 		account.removeWishListItem(itemId)
-		val item = itemRepository.findItemById(itemId)?.let {
+		val item = itemRepository.findByPublicId(itemId)?.let {
 			it.wishCnt--
 			itemRepository.save(it)
 		} ?: throw ItemNotFoundException()
