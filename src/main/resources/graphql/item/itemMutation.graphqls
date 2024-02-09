@@ -8,5 +8,7 @@ extend type Mutation {
     # ItemCategory 생성
     createItemCategory(request: ItemCategoryRequest!): ItemCategoryResponse
     # ItemCategory 삭제
-    deleteItemCategoryByPublicId(publicId: String!) : String
+    deleteItemCategoryByPublicId(publicId: String!): String
+    # ItemCategory 수정
+    updateItemCategory(request: ItemCategoryUpdateRequest!): ItemCategoryResponse
 }

@@ -21,7 +21,7 @@ class CategoryProvider<T: CategoryEntity> (
     }
 
     // 상위 카테고리를 탐색해서 depth 를 반환하는 함수
-    private suspend fun calcDepth(category: T): Int {
+    suspend fun calcDepth(category: T): Int {
         // 최상위 카테고리라면 0 을 반환
         return if (category.isTop()) {
             0
@@ -43,7 +43,7 @@ class CategoryProvider<T: CategoryEntity> (
         }
     }
 
-    private suspend fun validateParentCategory(parentPublicId: UUID, title: String, maxDepth: Int) {
+    suspend fun validateParentCategory(parentPublicId: UUID, title: String, maxDepth: Int) {
         val parentCategory = repository.findByPublicId(parentPublicId)
             ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
         // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
@@ -56,7 +56,7 @@ class CategoryProvider<T: CategoryEntity> (
             throw AlreadyExistCategoryException()
     }
 
-    private suspend fun validateTopCategory(title: String) {
+    suspend fun validateTopCategory(title: String) {
         // 최상위 카테고리에 같은 이름의 카테고리가 있으면 예외처리
         if (repository.findByTitle(title).toList().any { it.isTop() })
             throw AlreadyExistCategoryException()
