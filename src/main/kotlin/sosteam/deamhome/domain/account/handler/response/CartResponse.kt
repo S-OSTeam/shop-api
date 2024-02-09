@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.account.handler.response
 
 import sosteam.deamhome.domain.item.entity.Item
+import java.util.*
 
 // Todo: 추가할 정보 있다면 추가
 data class CartResponse(
@@ -8,7 +9,7 @@ data class CartResponse(
     val content: String,
     val price: Int = 0,
     val image: String,
-    val itemId: String,
+    val itemId: UUID,
     val cnt: Int,
     val check: Boolean,
 ) {
