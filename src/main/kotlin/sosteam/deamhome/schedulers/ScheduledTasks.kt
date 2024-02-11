@@ -40,8 +40,8 @@ class ScheduledTasks(
 
 	suspend fun sendDeleteMail(signoutAccountStatus: AccountStatus, currentTime: LocalDateTime) {
 		val signoutAccount = accountRepository.findAccountByUserId(signoutAccountStatus.userId)
-		if(signoutAccountStatus.deletedAT == null) return
-		val duration = Period.between(signoutAccountStatus.deletedAT!!.toLocalDate(), currentTime.toLocalDate())
+		if(signoutAccountStatus.deletedAt == null) return
+		val duration = Period.between(signoutAccountStatus.deletedAt!!.toLocalDate(), currentTime.toLocalDate())
 		if (duration.days == 7) {
 			signoutAccount?.let {
 				runBlocking {

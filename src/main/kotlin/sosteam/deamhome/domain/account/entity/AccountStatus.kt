@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.account.entity
 
+import jakarta.validation.constraints.Null
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.SNS
@@ -21,7 +22,7 @@ data class AccountStatus(
 
 	val email: String,
 
-	var deletedAT: LocalDateTime? = LocalDateTime.now(),
+	var deletedAt: LocalDateTime? = null,
 
 	var status: Status = Status.LIVE,
 
