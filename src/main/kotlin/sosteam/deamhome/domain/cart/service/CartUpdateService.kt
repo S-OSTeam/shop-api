@@ -3,34 +3,36 @@ package sosteam.deamhome.domain.cart.service
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.service.AccountValidService
+import sosteam.deamhome.domain.cart.exception.CartCheckListInvalidException
+import sosteam.deamhome.domain.cart.exception.CartItemNotFoundException
+import sosteam.deamhome.domain.cart.handler.response.CartItemResponse
+import sosteam.deamhome.domain.cart.repository.CartRepository
 
 @Service
 class CartUpdateService (
     private val accountRepository: AccountRepository,
-    private val accountValidService: AccountValidService,
+    private val cartRepository: CartRepository,
     private val cartValidService: CartValidService,
 ){
 
-    // itemId에 해당하는 아이템 개수를 cnt로 바꾼다
-//    suspend fun changeCartItemCnt(userId: String,itemId:String, cnt:Int): List<CartItemResponse>{
-//        val account = accountValidService.getAccountByUserId(userId)
-//
-//        val cartItem = account.cart.find { it.itemId == itemId }
-//
-//        if(cartItem != null){
-//
-//            // 장바구니는 음수이거나 재고수량 초과면 안됨
-//            if(cartValidService.isCntWithinStockLimit(cartItem.itemId,cnt)){
-//                account.cart[account.cart.indexOf(cartItem)].cnt = cnt
-//                accountRepository.save(account)
-//            }
-//            return account.cart.map {
-//                CartItemResponse(it.itemId, it.cnt, it.check)
-//            }
-//        }else{ // itemId에 해당하는 아이템 존재하지 않음
-//            throw CartItemNotFoundException()
-//        }
-//    }
+    // userId, itemId에 해당하는 장바구니 아이템 개수, 체크여부 변경 함수
+    suspend fun changeCartItem(userId: String,itemId:String, cnt:Int, checked: Boolean): CartItemResponse {
+
+        val changedItem = cartRepository.findByUserIdAndItemId(userId, itemId)
+
+        if(changedItem == null){
+            throw CartItemNotFoundException()
+        }
+
+        if(cartValidService.isCntWithinStockLimit(itemId, cnt)){ // 재고수량 안의 변경임
+            changedItem.checked = checked
+            changedItem.cnt = cnt
+            cartRepository.save(changedItem)
+            return CartItemResponse.fromCartItem(changedItem)
+        }else{
+            throw CartCheckListInvalidException()
+        }
+    }
 //
 //    suspend fun updateCartCheckStatus(userId: String, checkList: List<Boolean>):List<CartItemResponse>{
 //        val account = accountValidService.getAccountByUserId(userId)

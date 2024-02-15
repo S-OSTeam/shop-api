@@ -10,11 +10,9 @@ import sosteam.deamhome.domain.cart.repository.CartRepository
 
 @Service
 class CartDeleteService (
-    private val accountValidService: AccountValidService,
     private val cartRepository: CartRepository,
 ){
     suspend fun deleteCartItem(userId: String, itemId: String): String{
-        val account = accountValidService.getAccountByUserId(userId)
 
         val removedCartItem = cartRepository.findByUserIdAndItemId(userId, itemId)
 

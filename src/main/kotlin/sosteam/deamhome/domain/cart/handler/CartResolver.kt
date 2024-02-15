@@ -44,17 +44,14 @@ class CartResolver (
         return cartDeleteService.deleteCartItem(authenticationService.getUserIdFromToken(), itemId)
     }
 
-//    @MutationMappinggit s
-//    suspend fun updateCartCheckStatus(@Argument request: CartCheckListRequest):List<CartItemResponse>{
-//        val (checkList) = request
-//        return cartUpdateService.updateCartCheckStatus(authenticationService.getUserIdFromToken(), checkList)
-//    }
-//
-//    @MutationMapping
-//    suspend fun updateCartItemCnt(@Argument request: CartRequest): List<CartItemResponse>{
-//        val (itemId, cnt) = request
-//        return cartUpdateService.changeCartItemCnt(authenticationService.getUserIdFromToken(), itemId, cnt)
-//    }
+
+
+    @MutationMapping
+    // userId, itemId 이용해서 장바구니 담은수, 체크여부 변경
+    suspend fun updateCartItem(@Argument request: CartRequest): CartItemResponse{
+        val (itemId, cnt, checked) = request
+        return cartUpdateService.changeCartItem(authenticationService.getUserIdFromToken(),itemId, cnt, checked)
+    }
 
 
 }

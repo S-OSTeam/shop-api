@@ -3,8 +3,7 @@ extend type Mutation {
     addCartItem(request: CartRequest): CartItemResponse
     # 장바구니 아이템 삭제
     deleteCartItem(request: CartDeleteRequest): String
-    # 장바구니 아이템 수 변경
-    updateCartItemCnt(request: CartRequest): [CartItemResponse]
-    # 장바구니 체크리스트 변환
-    updateCartCheckStatus(request: CartCheckListRequest): [CartItemResponse]
+    # 장바구니 아이템 수, 체크여부 변경
+    updateCartItem(request: CartRequest): CartItemResponse
+
 }
