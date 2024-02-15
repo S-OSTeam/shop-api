@@ -1,3 +1,4 @@
 extend type Query {
+    # 위시리스트 전체 가져오기
     getWishList(request: WishListPageRequest): [ItemResponse]
 }
