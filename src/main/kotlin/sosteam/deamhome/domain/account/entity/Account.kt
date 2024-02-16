@@ -51,9 +51,6 @@ data class Account(
 		const val maxWishListSize = 100
 	}
 
-
-	var cart: ArrayList<CartItem> = ArrayList()
-
 	private var faqs: ArrayList<String> = ArrayList()
 
 	private var wishlist: ArrayList<String> = ArrayList()
