@@ -7,6 +7,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.coupon.handler.request.CouponCreateRequest
 import sosteam.deamhome.domain.coupon.handler.request.CouponSearchRequest
+import sosteam.deamhome.domain.coupon.handler.response.CouponEntryResponse
 import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
 import sosteam.deamhome.domain.coupon.service.CouponCreateService
 import sosteam.deamhome.domain.coupon.service.CouponSearchService
@@ -24,7 +25,7 @@ class CouponResolver(
 	}
 	
 	@QueryMapping
-	suspend fun searchCoupons(@Argument @Valid request: CouponSearchRequest): List<Map<String, CouponResponse>> {
+	suspend fun searchCoupons(@Argument @Valid request: CouponSearchRequest): List<CouponEntryResponse> {
 		val couponAndItem = couponValidService.validateCoupon(request)
 		return couponSearchService.searchCoupons(request, couponAndItem.first, couponAndItem.second)
 	}

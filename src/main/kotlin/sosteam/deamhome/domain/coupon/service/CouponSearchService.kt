@@ -5,10 +5,12 @@ import sosteam.deamhome.domain.coupon.entity.Coupon
 import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.coupon.handler.request.CouponSearchRequest
+import sosteam.deamhome.domain.coupon.handler.response.CouponEntryResponse
 import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
 import sosteam.deamhome.domain.coupon.provider.CouponJunkProvider
 import sosteam.deamhome.domain.coupon.provider.CouponRecommendProvider
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.global.provider.log
 
 @Service
 class CouponSearchService {
@@ -21,16 +23,19 @@ class CouponSearchService {
 		request: CouponSearchRequest,
 		ableCoupons: List<Coupon>,
 		items: List<Item>
-	): List<Map<String, CouponResponse>> {
+	): List<CouponEntryResponse> {
 		itemsSize = items.size
 		couponsSize = ableCoupons.size
+		log().debug("itemsSize: " + items.size.toString())
+		log().debug("couponsSize: " + ableCoupons.size.toString())
 		
 		val dividedCoupons = divideCoupon(ableCoupons, items)
+		log().debug(dividedCoupons.toString())
 		
 		return dividedCoupons.flatMap { group ->
 			val filteredItems = items.filter { it.publicId in group.value }
 			optimizeCoupons(group.key, filteredItems).map { (itemPublicId, coupon) ->
-				mapOf(itemPublicId to CouponResponse.fromCoupon(coupon))
+				CouponEntryResponse(itemPublicId, CouponResponse.fromCoupon(coupon))
 			}
 		}
 	}
@@ -44,28 +49,28 @@ class CouponSearchService {
 						|| it.couponType == CouponType.BUNDLE_DISCOUNT
 						|| it.couponType == CouponType.SPECIFIC_LINK
 			}) {
-			coupons.forEach { coupon -> parent[coupon] = coupons.first() }
-		} else {
-			coupons.forEach { coupon1 ->
-				coupons.forEach { coupon2 ->
-					if (coupon1 != coupon2
-						&& ((coupon1.couponType == CouponType.PRODUCT_SPECIFIC
-								&& coupon2.couponType == CouponType.PRODUCT_SPECIFIC
-								&& coupon1.itemIds.any { coupon2.itemIds.contains(it) })
-								|| (coupon1.couponType == CouponType.CATEGORY_SPECIFIC
-								&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
-								&& coupon1.categoryIds.any { coupon2.categoryIds.contains(it) })
-								|| (coupon1.couponType == CouponType.PRODUCT_SPECIFIC
-								&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
-								&& coupon1.itemIds.any { itemId ->
-							items.any { item -> item.publicId == itemId && coupon2.categoryIds.contains(item.categoryPublicId) }
-						}))
-					) {
-						unionRoot(coupon1, coupon2)
-					}
+			return mapOf(coupons to items.map { it.publicId }.distinct())
+		}
+		coupons.forEach { coupon1 ->
+			coupons.forEach { coupon2 ->
+				if (coupon1 != coupon2
+					&& ((coupon1.couponType == CouponType.PRODUCT_SPECIFIC
+							&& coupon2.couponType == CouponType.PRODUCT_SPECIFIC
+							&& coupon1.itemIds.any { coupon2.itemIds.contains(it) })
+							|| (coupon1.couponType == CouponType.CATEGORY_SPECIFIC
+							&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
+							&& coupon1.categoryIds.any { coupon2.categoryIds.contains(it) })
+							|| (coupon1.couponType == CouponType.PRODUCT_SPECIFIC
+							&& coupon2.couponType == CouponType.CATEGORY_SPECIFIC
+							&& coupon1.itemIds.any { itemId ->
+						items.any { item -> item.publicId == itemId && coupon2.categoryIds.contains(item.categoryPublicId) }
+					}))
+				) {
+					unionRoot(coupon1, coupon2)
 				}
 			}
 		}
+		
 		
 		return coupons.groupBy { findRoot(it) }
 			.map { entry ->
@@ -76,6 +81,8 @@ class CouponSearchService {
 	private suspend fun optimizeCoupons(coupons: List<Coupon>, items: List<Item>): Map<String, Coupon> {
 		val itemsColumn = items.toMutableList()
 		val couponsRow = coupons.toMutableList()
+		log().debug("itemsColumn :" + itemsColumn)
+		log().debug("couponsRow :" + couponsRow)
 		
 		// 1:1로 대응되는 행렬 생성
 		while (couponsRow.size > itemsColumn.size) {
@@ -106,32 +113,57 @@ class CouponSearchService {
 				}
 			}
 		}
+		log().debug("costMatrix size: ${costMatrix.size}X${costMatrix[0].size}")
+		for (i in couponsRow.indices) {
+			for (j in itemsColumn.indices) {
+				log().debug("costMatrix :" + costMatrix[i][j].toString())
+			}
+		}
 		
 		// 헝가리안 알고리즘
 		val result = CouponRecommendProvider.apply(costMatrix)
+		log().debug("Assignment result: ${result.joinToString(separator = ", ")}")
 		
 		val optimizedAssignments = mutableMapOf<String, Coupon>()
 		result.forEachIndexed { index, assignedIndex ->
 			val coupon = couponsRow[index]
 			val item = itemsColumn[assignedIndex]
+			log().debug("coupon:${coupon}")
+			log().debug("item:${item}")
 			
 			if (coupon.id != null && item.id != null) {
 				when {
 					itemsSize <= couponsSize -> optimizedAssignments[item.publicId] = coupon
 					itemsSize > couponsSize -> {
-						if (isAbleCoupon(coupon, item.publicId)) {
+						if (isAbleCoupon(coupon, items, item.publicId)) {
 							optimizedAssignments[item.publicId] = coupon
 						}
 					}
 				}
 			}
 		}
+		log().debug("optimizedAssignments: ${optimizedAssignments}")
 		
 		return optimizedAssignments
 	}
 	
-	private fun isAbleCoupon(coupon: Coupon, itemId: String): Boolean {
+	private fun isAbleCoupon(coupon: Coupon, items: List<Item>, itemId: String): Boolean {
+		log().debug("couponType:${coupon.couponType}")
 		if (coupon.couponType == CouponType.USER_SPECIFIC) {
+			return true
+		}
+		if (coupon.couponType == CouponType.PRODUCT_SPECIFIC) {
+			coupon.itemIds.contains(itemId)
+			return true
+		}
+		if (coupon.couponType == CouponType.CATEGORY_SPECIFIC) {
+			val itemCategory = items.find { it.publicId == itemId }?.categoryPublicId
+			return itemCategory?.let { coupon.categoryIds.contains(it) } ?: false
+		}
+		if (coupon.couponType == CouponType.MIN_PURCHASE_AMOUNT) {
+			return true
+		}
+		if (coupon.couponType == CouponType.SPECIFIC_LINK) {
 			return true
 		}
 		return false

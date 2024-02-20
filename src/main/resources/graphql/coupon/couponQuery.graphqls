@@ -1,3 +1,3 @@
 extend type Query {
-    searchCoupons(request: CouponSearchRequest) : [CouponResponse]
+    searchCoupons(request: CouponSearchRequest) : [CouponEntryResponse]
 }

@@ -2,7 +2,7 @@ package sosteam.deamhome.domain.coupon.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
-import sosteam.deamhome.global.entity.BaseEntity
+import sosteam.deamhome.global.entity.LogEntity
 import java.time.LocalDateTime
 
 @Table("coupon")
@@ -23,4 +23,4 @@ class Coupon(
 	var discount: Int,
 	var minPurchaseAmount: Int? = null,
 	var links: List<String?>
-) : BaseEntity()
+) : LogEntity()

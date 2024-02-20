@@ -13,3 +13,8 @@ type CouponResponse{
     discount: Int!,
     minPurchaseAmount: Int
 }
+
+type CouponEntryResponse {
+    itemId: String
+    coupon: CouponResponse
+}

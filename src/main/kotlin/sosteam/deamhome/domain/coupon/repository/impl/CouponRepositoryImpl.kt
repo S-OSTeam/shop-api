@@ -1,11 +1,12 @@
 package sosteam.deamhome.domain.coupon.repository.impl
 
 import com.querydsl.core.BooleanBuilder
+import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.core.types.dsl.Expressions
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.coupon.entity.Coupon
-import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.coupon.entity.QCoupon
 import sosteam.deamhome.domain.coupon.exception.CouponIllegalArgumentIdException
 import sosteam.deamhome.domain.coupon.repository.custom.CouponRepositoryCustom
@@ -39,34 +40,43 @@ class CouponRepositoryImpl(
 		val predicate = BooleanBuilder()
 		
 		userId?.let {
-			predicate.or(coupon.couponType.eq(CouponType.USER_SPECIFIC).and(coupon.userId.eq(it)))
+			predicate.or(compareCouponTypeAsString("USER_SPECIFIC").and(coupon.userId.eq(it)))
 		}
-		itemIds.let { ids ->
-			ids.forEach { itemId ->
+		if (!itemIds.filterNotNull().isEmpty()) {
+			itemIds.filterNotNull().forEach { itemId ->
 				predicate.or(
-					coupon.couponType.eq(CouponType.BUNDLE_DISCOUNT)
-						.or(coupon.couponType.eq(CouponType.PRODUCT_SPECIFIC))
-						.and(coupon.itemIds.contains(itemId))
-				)
-				predicate.or(
-					coupon.couponType.eq(CouponType.MIN_PURCHASE_AMOUNT).and(coupon.minPurchaseAmount.loe(orderPrice))
+					compareCouponTypeAsString("BUNDLE_DISCOUNT")
+						.or(compareCouponTypeAsString("PRODUCT_SPECIFIC"))
+						.and(Expressions.stringTemplate("array_to_string({0}, ',')", coupon.itemIds).contains(itemId))
 				)
 			}
 		}
-		categoryIds.let { ids ->
-			ids.forEach { categoryId ->
+		predicate.or(
+			compareCouponTypeAsString("MIN_PURCHASE_AMOUNT")
+				.and(coupon.minPurchaseAmount.loe(orderPrice))
+		)
+		if (!categoryIds.filterNotNull().isEmpty()) {
+			categoryIds.filterNotNull().forEach { categoryId ->
 				predicate.or(
-					coupon.couponType.eq(CouponType.CATEGORY_SPECIFIC).and(coupon.categoryIds.contains(categoryId))
+					compareCouponTypeAsString("CATEGORY_SPECIFIC")
+						.and(
+							Expressions.stringTemplate("array_to_string({0}, ',')", coupon.categoryIds)
+								.contains(categoryId)
+						)
 				)
 			}
-			
 		}
-		links.let { links ->
-			links.forEach {
-				predicate.or(coupon.couponType.eq(CouponType.SPECIFIC_LINK).and(coupon.links.contains(it)))
-			}
+		links.filterNotNull().forEach { link ->
+			predicate.or(
+				compareCouponTypeAsString("SPECIFIC_LINK")
+					.and(Expressions.stringTemplate("array_to_string({0}, ',')", coupon.links).contains(link))
+			)
 		}
 		
 		return predicate
+	}
+	
+	fun compareCouponTypeAsString(couponTypeValue: String): BooleanExpression {
+		return Expressions.booleanTemplate("{0} = {1}", coupon.couponType, couponTypeValue)
 	}
 }
