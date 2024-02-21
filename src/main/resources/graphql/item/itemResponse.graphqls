@@ -28,5 +28,3 @@ type ItemCategoryTreeResponse{
     title: String!
     children: [ItemCategoryTreeResponse]!
 }
-
-
