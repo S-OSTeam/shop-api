@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
+import sosteam.deamhome.domain.category.handler.request.ItemCategoryUpdateRequest
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
 import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
@@ -49,10 +50,9 @@ class ItemCategoryResolver(
         return "deleted"
     }
 
-//    @MutationMapping
-//    suspend fun updateItemCategory(@Argument itemCategoryListRequest: ItemCategoryListRequest) : String {
-//        return itemCategoryUpdateService.updateItemCategory(itemCategoryListRequest)
-//        return "updateItemCategory"
-//    }
+    @MutationMapping
+    suspend fun updateItemCategory(@Argument request: ItemCategoryUpdateRequest) : ItemCategoryResponse {
+        return itemCategoryUpdateService.updateItemCategory(request)
+    }
 
 }

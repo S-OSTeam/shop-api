@@ -25,6 +25,7 @@ type ItemCategoryResponse{
 }
 
 type ItemCategoryTreeResponse{
+    publicId: String!
     title: String!
     children: [ItemCategoryTreeResponse]!
 }
