@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.BaseEntity
 import java.time.LocalDate
+import java.time.OffsetDateTime
 
 @Table("item")
 data class Item(
@@ -55,7 +56,7 @@ data class Item(
 	val productNumber: String,
 	// 마감일
 	@Column("deadline")
-	val deadline: LocalDate,
+	val deadline: OffsetDateTime,
 	// 원작
 	@Column("original_work")
 	val originalWork: String,
