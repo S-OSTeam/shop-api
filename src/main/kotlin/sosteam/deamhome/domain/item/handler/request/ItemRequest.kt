@@ -4,9 +4,10 @@ import com.github.f4b6a3.ulid.UlidCreator
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.entity.DTO
 import sosteam.deamhome.global.image.handler.request.ImageRequest
+import java.time.OffsetDateTime
 
 data class ItemRequest(
-	
+
 	val categoryPublicId: String,
 	val title: String,
 	val content: String,
@@ -15,6 +16,14 @@ data class ItemRequest(
 	val status: Boolean = false,
 	val sellerId: String,
 	val freeDelivery: Boolean = false,
+	val option: ArrayList<String> = arrayListOf(),
+	val productNumber: String,
+	val deadline: OffsetDateTime,
+	val originalWork: String,
+	val material: String,
+	val size: String,
+	val weight: String,
+	val shippingCost: Int,
 	val images: List<ImageRequest>
 
 ) : DTO {
@@ -32,12 +41,21 @@ data class ItemRequest(
 			status = this.status,
 			sellerId = this.sellerId,
 			freeDelivery = this.freeDelivery,
+			option = this.option,
+			productNumber = this.productNumber,
+			deadline = this.deadline,
+			originalWork = this.originalWork,
+			material = this.material,
+			size = this.size,
+			weight = this.weight,
+			shippingCost = this.shippingCost,
 			sellCnt = 0,
 			wishCnt = 0,
 			clickCnt = 0,
 			avgReview = 0.0,
 			reviewCnt = 0,
-			qnaCnt = 0
+			qnaCnt = 0,
+			reviewScore = arrayListOf(0, 0, 0, 0, 0),
 			//imageUrls 는 .apply 로 할당
 		)
 	}

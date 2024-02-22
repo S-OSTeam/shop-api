@@ -60,6 +60,9 @@ data class Item(
 	// 원작
 	@Column("original_work")
 	val originalWork: String,
+	// 재질
+	@Column("material")
+	val material: String,
 	// 크기
 	@Column("size")
 	val size: String,
@@ -70,5 +73,6 @@ data class Item(
 	@Column("shipping_cost")
 	val shippingCost: Int,
 ) : BaseEntity(){
+	@Column("image_urls")
 	var imageUrls: MutableList<String> = mutableListOf()
 }

@@ -8,7 +8,15 @@ input ItemRequest {
     sellerId: String! @NotBlank(message: "판매자는 필수 입력 항목입니다.")
     stockCnt: Int!
     freeDelivery: Boolean!
-    images: [Upload!]!
+    option: [String]!
+    productNumber: String!
+    deadline: DateTime!
+    originalWork: String!
+    material: String!
+    size: String!
+    weight: String!
+    shippingCost: Int!
+    images: [ImageRequest!]!
 }
 
 input ItemCategoryRequest {
