@@ -12,10 +12,18 @@ type ItemResponse {
     avgReview: Float!
     reviewCnt: Int!
     qnaCnt: Int!
-    status: Boolean!
+    status: ItemStatus!
     sellerId: String!
     freeDelivery: Boolean!
     imageUrls: [String!]!
+    option: [String]!
+    productNumber: String!
+    deadline: DateTime!
+    originalWork: String!
+    material: String!
+    size: String!
+    weight: String!
+    shippingCost: Int!
 }
 
 type ItemCategoryResponse{

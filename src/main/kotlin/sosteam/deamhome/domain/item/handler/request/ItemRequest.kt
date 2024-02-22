@@ -2,6 +2,7 @@ package sosteam.deamhome.domain.item.handler.request
 
 import com.github.f4b6a3.ulid.UlidCreator
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.entity.DTO
 import sosteam.deamhome.global.image.handler.request.ImageRequest
 import java.time.OffsetDateTime
@@ -13,7 +14,7 @@ data class ItemRequest(
 	val content: String,
 	val summary: String,
 	val price: Int = 0,
-	val status: Boolean = false,
+	val status: ItemStatus,
 	val sellerId: String,
 	val freeDelivery: Boolean = false,
 	val option: ArrayList<String> = arrayListOf(),

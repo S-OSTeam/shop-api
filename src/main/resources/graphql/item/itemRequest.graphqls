@@ -4,7 +4,7 @@ input ItemRequest {
     content: String! @NotBlank(message: "상품 정보는 필수 입력 항목입니다.")
     summary: String! @NotBlank(message: "상품 요약은 필수 입력 항목입니다.")
     price: Int!
-    status: Boolean!
+    status: ItemStatus!
     sellerId: String! @NotBlank(message: "판매자는 필수 입력 항목입니다.")
     stockCnt: Int!
     freeDelivery: Boolean!
@@ -28,4 +28,8 @@ input ItemCategoryUpdateRequest {
     publicId: String! @NotBlank(message: "publicId 는 필수 입력 항목입니다.")
     parentPublicId: String
     title: String
+}
+
+enum ItemStatus {
+    RESERVED, SUSPENDED, DELETED, SOLDOUT, AVAILABLE
 }

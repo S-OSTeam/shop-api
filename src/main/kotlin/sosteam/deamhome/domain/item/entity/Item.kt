@@ -3,8 +3,8 @@ package sosteam.deamhome.domain.item.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
+import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.entity.BaseEntity
-import java.time.LocalDate
 import java.time.OffsetDateTime
 
 @Table("item")
@@ -43,7 +43,7 @@ data class Item(
 	@Column("qna_cnt")
 	val qnaCnt: Int = 0,
 	@Column("status")
-	val status: Boolean = false,
+	val status: ItemStatus,
 	@Column("seller_id")
 	val sellerId: String,
 	@Column("free_delivery")
