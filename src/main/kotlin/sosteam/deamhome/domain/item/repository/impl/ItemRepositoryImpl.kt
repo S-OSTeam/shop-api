@@ -5,7 +5,11 @@ import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.graphql.data.GraphQlRepository
+import org.springframework.r2dbc.core.flow
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.QItem
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
@@ -27,13 +31,14 @@ class ItemRepositoryImpl (
 
     override fun searchItem(itemSearchRequest: ItemSearchRequest): Flow<Item> {
         val orderSpecifiers = createOrderSpecifier(itemSearchRequest.sort)
-        return repository.query { query ->
-            query
+        return repository.query { query -> query
                 .select(repository.entityProjection())
                 .from(item)
                 .where(containsTitle(itemSearchRequest.title), eqCategoryPublicId(itemSearchRequest.categoryPublicId))
                 .orderBy(orderSpecifiers)
-        }.all().asFlow()
+                .limit(itemSearchRequest.pageSize)
+                .offset((itemSearchRequest.pageNumber - 1L) * itemSearchRequest.pageSize)
+        }.flow()
     }
 
     private fun containsTitle(title: String?): BooleanExpression? {

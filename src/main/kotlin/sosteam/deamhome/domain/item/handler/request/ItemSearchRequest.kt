@@ -10,6 +10,10 @@ data class ItemSearchRequest(
     // 제목 포함된 상품 검색
     val title: String?,
     // 정렬 기준
-    val sort: ItemSortCriteria?
+    val sort: ItemSortCriteria?,
+    // 페이지 번호
+    val pageNumber: Long,
+    // 페이지 크기
+    val pageSize: Long
 ) {
 }

@@ -36,6 +36,8 @@ input ItemSearchRequest {
     categoryPublicId: String
     title: String
     sort: ItemSortCriteria
+    pageNumber: Long
+    pageSize: Long
 }
 
 enum ItemStatus {
