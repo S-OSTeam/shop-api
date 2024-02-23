@@ -36,8 +36,8 @@ input ItemSearchRequest {
     categoryPublicId: String
     title: String
     sort: ItemSortCriteria
-    pageNumber: Long
-    pageSize: Long
+    pageNumber: Long @Min(value: 1, message: "페이지 번호는 1 이상이어야 합니다.")
+    pageSize: Long @Min(value: 1, message: "페이지 크기는 1 이상이어야 합니다.")
 }
 
 enum ItemStatus {
