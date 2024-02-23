@@ -1,4 +1,4 @@
-package sosteam.deamhome.global
+package sosteam.deamhome.global.test
 
 import lombok.RequiredArgsConstructor
 import org.junit.jupiter.api.extension.ExtendWith

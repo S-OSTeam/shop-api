@@ -1,4 +1,4 @@
-package sosteam.deamhome.global
+package sosteam.deamhome.global.test
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester
