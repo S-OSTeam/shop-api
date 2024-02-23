@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.item.handler.request.ItemRequest
+import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.service.ItemCreateService
 import sosteam.deamhome.domain.item.service.ItemDeleteService
@@ -24,6 +25,13 @@ class ItemResolver(
     @MutationMapping
     suspend fun createItem(@Argument request: ItemRequest) : ItemResponse {
         return itemCreateService.createItem(request)
+    }
+
+    @QueryMapping
+    suspend fun searchItem(@Argument itemSearchRequest: ItemSearchRequest): List<ItemResponse> {
+        return itemSearchRequest.publicId?.let {
+            listOf(itemSearchService.findItemByPublicId(it))
+        } ?: itemSearchService.searchItem(itemSearchRequest).toList()
     }
 
     @QueryMapping

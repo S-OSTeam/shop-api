@@ -10,11 +10,13 @@ extend type Query {
 
     ##카테고리
     # PublicId 로 ItemCategory 검색
-    findItemCategoryByPublicId(publicId: String @NotBlank) : ItemCategoryResponse
+    findItemCategoryByPublicId(publicId: String @NotBlank): ItemCategoryResponse
     # title 로 ItemCategory 검색
     findItemCategoryByTitle(title: String @NotBlank): ItemCategoryResponse
     # title 을 포함하는 ItemCategory 검색
-    findItemCategoriesContainTitle(title: String @NotBlank) : [ItemCategoryResponse]
+    findItemCategoriesContainTitle(title: String @NotBlank): [ItemCategoryResponse]
     # 모든 ItemCategory 를 tree 형태로 검색
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
+    # 필터로 검색
+    searchItem(itemSearchRequest: ItemSearchRequest!): [ItemResponse]
 }

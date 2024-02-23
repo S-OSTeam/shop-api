@@ -30,6 +30,18 @@ input ItemCategoryUpdateRequest {
     title: String
 }
 
+
+input ItemSearchRequest {
+    publicId: String
+    categoryPublicId: String
+    title: String
+    sort: ItemSortCriteria
+}
+
 enum ItemStatus {
     RESERVED, SUSPENDED, DELETED, SOLDOUT, AVAILABLE
+}
+
+enum ItemSortCriteria {
+    SELL, WISHLIST, RATING, REVIEW, CLICK
 }

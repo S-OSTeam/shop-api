@@ -12,6 +12,7 @@ import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
+import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.repository.ItemRepository
 
@@ -73,6 +74,11 @@ class ItemSearchService (
         parentIds.addAll(itemCategoryRepository.findByParentPublicIdIn(childIds).toList().map { it.publicId })
         // parentIds 로 Item 을 찾음
         return itemRepository.findByCategoryPublicIdIn(parentIds).toList()
+    }
+
+    suspend fun searchItem(itemSearchRequest: ItemSearchRequest): Flow<ItemResponse> {
+        return itemRepository.searchItem(itemSearchRequest)
+            .map { ItemResponse.fromItem(it) }
     }
 
 
