@@ -53,6 +53,7 @@ dependencies {
 	
 	implementation("com.infobip:infobip-spring-data-r2dbc-querydsl-boot-starter:8.1.2")
 	kapt("com.infobip:infobip-spring-data-jdbc-annotation-processor:8.1.2")
+	implementation("org.flywaydb:flyway-core")
 	
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	
@@ -87,7 +88,6 @@ dependencies {
 	testImplementation("org.springframework.graphql:spring-graphql-test:1.2.3")
 	
 	testImplementation("it.ozimov:embedded-redis:0.7.2")
-	testImplementation("ru.yandex.qatools.embed:postgresql-embedded:2.10")
 	testImplementation("io.kotest:kotest-runner-junit5:5.4.2")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 	testImplementation("io.kotest:kotest-assertions-core:5.4.2")

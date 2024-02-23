@@ -1,15 +1,8 @@
 package sosteam.deamhome.domain.account.repository
 
-import kotlinx.coroutines.runBlocking
 import lombok.RequiredArgsConstructor
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import sosteam.deamhome.domain.account.service.AccountCreateService
-import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
-import sosteam.deamhome.global.RepositoryBaseTest
-import sosteam.deamhome.global.attribute.SNS
-import java.time.LocalDateTime
+import sosteam.deamhome.global.test.RepositoryBaseTest
 
 
 @RequiredArgsConstructor
@@ -17,7 +10,7 @@ class AccountServiceTest(
 	private val accountCreateService: AccountCreateService,
 	private val accountStatusRepository: AccountStatusRepository,
 ) : RepositoryBaseTest() {
-
+	
 	/*@Test
 	@DisplayName("Account 생성 테스트")
 	fun createAccount() = runBlocking {
