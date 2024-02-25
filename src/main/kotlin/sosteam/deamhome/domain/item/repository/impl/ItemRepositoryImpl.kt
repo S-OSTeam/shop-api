@@ -5,9 +5,6 @@ import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.graphql.data.GraphQlRepository
 import org.springframework.r2dbc.core.flow
 import sosteam.deamhome.domain.item.entity.Item
@@ -25,16 +22,12 @@ class ItemRepositoryImpl (
 {
     private val item = QItem.item
 
-    override fun findItemsContainTitle(title: String): Flow<Item> {
-         return repository.findAll(item.title.contains(title)).asFlow()
-    }
-
     override fun searchItem(request: ItemSearchRequest): Flow<Item> {
         val orderSpecifiers = createOrderSpecifier(request.sort)
         return repository.query { query -> query
                 .select(repository.entityProjection())
                 .from(item)
-                .where(containsTitle(request.title), eqCategoryPublicId(request.categoryPublicId))
+                .where(containsTitle(request.title))
                 .orderBy(orderSpecifiers)
                 .limit(request.pageSize)
                 .offset((request.pageNumber - 1L) * request.pageSize)
@@ -43,10 +36,6 @@ class ItemRepositoryImpl (
 
     private fun containsTitle(title: String?): BooleanExpression? {
         return title?.let { item.title.contains(it) }
-    }
-
-    private fun eqCategoryPublicId(categoryPublicId: String?): BooleanExpression? {
-        return categoryPublicId?.let { item.categoryPublicId.eq(categoryPublicId) }
     }
 
     private fun createOrderSpecifier(itemSortCriteria: ItemSortCriteria?): OrderSpecifier<*> {

@@ -22,21 +22,6 @@ class ItemSearchService (
     private val itemRepository: ItemRepository,
     private val itemCategoryRepository: ItemCategoryRepository
 ){
-    // title 이 포함된 아이템 검색
-    fun findItemsContainTitle(title: String): Flow<ItemResponse> {
-        return itemRepository.findItemsContainTitle(title)
-            .map { ItemResponse.fromItem(it) }
-    }
-
-    // categoryTitle 로 하위 카테고리들의 아이템을 반환하는 함수
-    suspend fun findItemsByCategoryTitle(categoryTitle: String): List<ItemResponse> {
-        // 카테고리가 있는지 확인
-        val itemCategory = itemCategoryRepository.findEqualsTitle(categoryTitle)
-            ?: throw CategoryNotFoundException()
-        // 하위 카테고리들의 아이템들 찾음
-        return findItemsInCategoryAndDescendants(itemCategory)
-            .map { ItemResponse.fromItem(it) }
-    }
 
     // categoryPublicId 로 하위 카테고리들의 아이템을 반환하는 함수
     suspend fun findItemsByCategoryPublicId(categoryPublicId: String): List<ItemResponse> {

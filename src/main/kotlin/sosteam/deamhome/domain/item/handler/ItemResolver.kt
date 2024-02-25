@@ -27,28 +27,15 @@ class ItemResolver(
     @QueryMapping
     suspend fun searchItem(@Argument request: ItemSearchRequest): List<ItemResponse> {
         return request.publicId?.let {
+            // publicId 가 있으면 publicId 로 검색
             listOf(itemSearchService.findItemByPublicId(it))
-        } ?: itemSearchService.searchItem(request).toList()
-    }
-
-    @QueryMapping
-    suspend fun findItemsContainTitle(@Argument title: String): List<ItemResponse>{
-        return itemSearchService.findItemsContainTitle(title).toList()
-    }
-
-    @QueryMapping
-    suspend fun findItemsByCategoryTitle(@Argument categoryTitle: String): List<ItemResponse> {
-        return itemSearchService.findItemsByCategoryTitle(categoryTitle)
-    }
-
-    @QueryMapping
-    suspend fun findItemsByCategoryPublicId(@Argument categoryPublicId: String): List<ItemResponse> {
-        return itemSearchService.findItemsByCategoryPublicId(categoryPublicId)
-    }
-
-    @QueryMapping
-    suspend fun findItemByPublicId(@Argument publicId: String): ItemResponse{
-        return itemSearchService.findItemByPublicId(publicId)
+        } ?: request.categoryPublicId?.let {
+            // categoryPublicId 가 있으면 categoryPublicId 로 카테고리 하위 모든 아이템들을 검색
+            // 검색 창에 검색하는 경우가 아니라 카테고리를 클릭하였을 경우 검색임
+            itemSearchService.findItemsByCategoryPublicId(it)
+        } ?:
+            //검색창에 검색
+            itemSearchService.searchItem(request).toList()
     }
 
     @MutationMapping
