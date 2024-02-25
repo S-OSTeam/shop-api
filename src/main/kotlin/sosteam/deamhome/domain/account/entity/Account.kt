@@ -50,15 +50,12 @@ data class Account(
 	companion object {
 		const val maxWishListSize = 100
 	}
+	
 	private var faqs: ArrayList<String> = ArrayList()
 	
 	private var wishlist: ArrayList<String> = ArrayList()
 	
 	private var reviews: ArrayList<Long?> = ArrayList()
-	
-	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
-	
-	private var reviewReportLogs: ArrayList<LocalDateTime> = ArrayList()
 	
 	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
 	

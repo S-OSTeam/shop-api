@@ -44,14 +44,4 @@ class ReviewRepositoryImpl(
 		}
 		return predicate
 	}
-	
-	private fun eqUserId(userId: String?): BooleanExpression? {
-		if (userId.isNullOrEmpty()) {
-			return null
-		}
-		itemIds?.let {
-			predicate.or(review.itemId.`in`(it))
-		}
-		return predicate
-	}
 }

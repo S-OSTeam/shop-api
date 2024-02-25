@@ -1,0 +1,15 @@
+extend type Mutation {
+    # review 생성
+    createReview(request: ReviewCreateRequest): ReviewResponse
+    # review 업데이트
+    updateReview(request: ReviewUpdateRequest): ReviewResponse
+    # review 삭제
+    deleteReview(request: ReviewDeleteRequest): String
+
+    # review 좋아요 업데이트
+    updateReviewLike(request: ReviewLikeRequest): ReviewResponse
+    # review 한달사용 후기 업데이트
+    updateMonthReview(request: ReviewMonthRequest): ReviewResponse
+    # review 신고 업데이트
+    updateReviewReport(request: ReviewReportRequest): ReviewResponse
+}

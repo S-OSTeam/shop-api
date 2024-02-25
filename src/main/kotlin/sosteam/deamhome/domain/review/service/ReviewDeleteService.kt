@@ -27,7 +27,7 @@ class ReviewDeleteService(
 		account.removeReview(review.id)
 		accountRepository.save(account)
 		
-		val item = itemRepository.findItemById(review.itemId) ?: throw ItemNotFoundException()
+		val item = itemRepository.findByPublicId(review.itemId) ?: throw ItemNotFoundException()
 		item.avgReview = (item.avgReview * item.reviewCnt - review.score) / (item.reviewCnt - 1)
 		item.reviewCnt--
 		itemRepository.save(item)

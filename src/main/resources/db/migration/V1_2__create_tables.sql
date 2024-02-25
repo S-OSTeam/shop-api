@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS public.account
 (
-    id bigint NOT NULL DEFAULT nextval('account_id_seq'::regclass),
+    id bigserial NOT NULL,
     userid character varying COLLATE pg_catalog."default",
     pwd character varying COLLATE pg_catalog."default",
     sex boolean,
@@ -27,6 +27,10 @@ CREATE TABLE IF NOT EXISTS public.account
                            sns character varying COLLATE pg_catalog."default",
                            role character varying COLLATE pg_catalog."default",
                            wishlist character varying[] COLLATE pg_catalog."default",
+                           faqs character varying[] COLLATE pg_catalog."default",
+                           reviews character varying[] COLLATE pg_catalog."default",
+                           reviewreportbanlogs character varying[] COLLATE pg_catalog."default",
+                           reviewreportlogs character varying[] COLLATE pg_catalog."default",
                            CONSTRAINT account_pkey PRIMARY KEY (id)
     )
 
@@ -41,7 +45,7 @@ ALTER TABLE IF EXISTS public.account
 
 CREATE TABLE IF NOT EXISTS public.account_status
 (
-    id bigint NOT NULL DEFAULT nextval('account_status_id_seq'::regclass),
+    id bigserial NOT NULL,
     userid character varying COLLATE pg_catalog."default",
     snsid character varying COLLATE pg_catalog."default",
     email character varying COLLATE pg_catalog."default",
@@ -64,7 +68,7 @@ ALTER TABLE IF EXISTS public.account_status
 
 CREATE TABLE IF NOT EXISTS public.cart_item
 (
-    id bigint NOT NULL DEFAULT nextval('account_id_seq'::regclass),
+    id bigserial NOT NULL,
     itemid character varying COLLATE pg_catalog."default",
     userid character varying COLLATE pg_catalog."default",
     cnt integer,
@@ -85,7 +89,7 @@ ALTER TABLE IF EXISTS public.cart_item
 
 CREATE TABLE IF NOT EXISTS public.content_save
 (
-    id bigint NOT NULL DEFAULT nextval('content_save_id_seq'::regclass),
+    id bigserial NOT NULL,
     user_id character varying(36) COLLATE pg_catalog."default" NOT NULL,
     relation_id character varying(36) COLLATE pg_catalog."default",
     outer_path character varying(10) COLLATE pg_catalog."default",
@@ -164,7 +168,7 @@ CREATE TABLE IF NOT EXISTS public.image
     inner_path character varying(10) COLLATE pg_catalog."default",
     width integer NOT NULL,
     height integer NOT NULL,
-    id bigint NOT NULL DEFAULT nextval('image_id_seq'::regclass),
+    id bigserial NOT NULL,
     created_at date,
     updated_at date,
     CONSTRAINT image_pkey PRIMARY KEY (id)
@@ -197,7 +201,7 @@ CREATE TABLE IF NOT EXISTS public.item
     seller_id character varying COLLATE pg_catalog."default",
     free_delivery character varying COLLATE pg_catalog."default",
     image_urls character varying[] COLLATE pg_catalog."default",
-    id bigint NOT NULL DEFAULT nextval('item_id_seq'::regclass),
+    id bigserial NOT NULL,
     review_score integer[],
     option character varying[] COLLATE pg_catalog."default",
     product_number character varying COLLATE pg_catalog."default",
@@ -218,34 +222,11 @@ CREATE TABLE IF NOT EXISTS public.item
 ALTER TABLE IF EXISTS public.item
     OWNER to postgres;
 
--- Trigger: insert_timestamp_trigger
-
--- DROP TRIGGER IF EXISTS insert_timestamp_trigger ON public.item;
-
-CREATE OR REPLACE TRIGGER insert_timestamp_trigger
-    BEFORE INSERT
-    ON public.item
-    FOR EACH ROW
-    EXECUTE FUNCTION public.insert_timestamp();
-
--- Trigger: update_timestamp_trigger
-
--- DROP TRIGGER IF EXISTS update_timestamp_trigger ON public.item;
-
-CREATE OR REPLACE TRIGGER update_timestamp_trigger
-    BEFORE UPDATE
-                             ON public.item
-                             FOR EACH ROW
-                             EXECUTE FUNCTION public.update_timestamp();
-
--- Table: public.item_category
-
--- DROP TABLE IF EXISTS public.item_category;
 
 CREATE TABLE IF NOT EXISTS public.item_category
 (
     title character varying COLLATE pg_catalog."default",
-    id bigint NOT NULL DEFAULT nextval('item_category_id_seq'::regclass),
+    id bigserial NOT NULL,
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
                              public_id character varying COLLATE pg_catalog."default",
@@ -258,22 +239,31 @@ CREATE TABLE IF NOT EXISTS public.item_category
 ALTER TABLE IF EXISTS public.item_category
     OWNER to postgres;
 
--- Trigger: insert_timestamp_trigger
 
--- DROP TRIGGER IF EXISTS insert_timestamp_trigger ON public.item_category;
+CREATE TABLE IF NOT EXISTS public.review
+(
+    id bigserial NOT NULL,
+    title character varying COLLATE pg_catalog."default",
+    content text COLLATE pg_catalog."default",
+    month_review character varying COLLATE pg_catalog."default",
+    score integer,
+    status boolean,
+    user_id character varying COLLATE pg_catalog."default",
+    item_id character varying COLLATE pg_catalog."default",
+    image_urls character varying[] COLLATE pg_catalog."default",
+    like_users character varying[] COLLATE pg_catalog."default",
+    purchase_options character varying[] COLLATE pg_catalog."default",
+    report_users character varying[] COLLATE pg_catalog."default",
+    report_content character varying[] COLLATE pg_catalog."default",
+    ip character varying COLLATE pg_catalog."default",
+    useragent character varying COLLATE pg_catalog."default",
+    referer character varying COLLATE pg_catalog."default",
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT review_pkey PRIMARY KEY (id)
+    )
 
-CREATE OR REPLACE TRIGGER insert_timestamp_trigger
-    BEFORE INSERT
-    ON public.item_category
-    FOR EACH ROW
-    EXECUTE FUNCTION public.insert_timestamp();
+    TABLESPACE pg_default;
 
--- Trigger: update_timestamp_trigger
-
--- DROP TRIGGER IF EXISTS update_timestamp_trigger ON public.item_category;
-
-CREATE OR REPLACE TRIGGER update_timestamp_trigger
-    BEFORE UPDATE
-                             ON public.item_category
-                             FOR EACH ROW
-                             EXECUTE FUNCTION public.update_timestamp();
+ALTER TABLE IF EXISTS public.review
+    OWNER to postgres;

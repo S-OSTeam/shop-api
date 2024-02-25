@@ -61,20 +61,4 @@ class ReviewResolver(
 		val account = reviewValidService.validateReportUser(request)
 		return reviewReportService.updateReviewReport(request, account)
 	}
-	
-	@MutationMapping
-	suspend fun updateReviewLike(@Argument @Valid request: ReviewLikeRequest): ReviewResponse {
-		return reviewLikeService.updateReviewLike(request)
-	}
-	
-	@MutationMapping
-	suspend fun updateMonthReview(@Argument @Valid request: ReviewMonthRequest): ReviewResponse {
-		val review = reviewValidService.validateMonthReview(request)
-		return reviewMonthService.updateMonthReview(request, review)
-	}
-	
-	@MutationMapping
-	suspend fun updateReviewReport(@Argument @Valid request: ReviewReportRequest): ReviewResponse {
-		return reviewReportService.updateReviewReport(request)
-	}
 }
