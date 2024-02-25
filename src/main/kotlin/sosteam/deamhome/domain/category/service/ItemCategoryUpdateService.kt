@@ -19,7 +19,6 @@ class ItemCategoryUpdateService (
     private val categoryProvider: CategoryProvider<ItemCategory>
 ) {
     suspend fun updateItemCategory(request: ItemCategoryUpdateRequest): ItemCategoryResponse {
-        println(request)
         val itemCategory = itemCategoryRepository.findByPublicId(request.publicId)
             ?: throw CategoryNotFoundException()
 

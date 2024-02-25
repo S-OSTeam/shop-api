@@ -34,44 +34,44 @@ data class Item(
 	@Column("stock_cnt")
 	var stockCnt:Int = 0,
 	@Column("avg_review")
-	val avgReview: Double = 0.0,
+	var avgReview: Double = 0.0,
 	@Column("review_cnt")
-	val reviewCnt: Int = 0,
+	var reviewCnt: Int = 0,
 	// 리뷰 점수 1점 ~ 5점
 	@Column("review_score")
-	val reviewScore: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0),
+	var reviewScore: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0),
 	@Column("qna_cnt")
-	val qnaCnt: Int = 0,
+	var qnaCnt: Int = 0,
 	@Column("status")
-	val status: ItemStatus,
+	var status: ItemStatus,
 	@Column("seller_id")
-	val sellerId: String,
+	var sellerId: String,
 	@Column("free_delivery")
-	val freeDelivery: Boolean = false,
+	var freeDelivery: Boolean = false,
 	// 옵션 선택
 	@Column("option")
-	val option: ArrayList<String> = arrayListOf(),
+	var option: ArrayList<String> = arrayListOf(),
 	// 상품번호
 	@Column("product_number")
-	val productNumber: String,
+	var productNumber: String,
 	// 마감일
 	@Column("deadline")
-	val deadline: OffsetDateTime,
+	var deadline: OffsetDateTime,
 	// 원작
 	@Column("original_work")
-	val originalWork: String,
+	var originalWork: String,
 	// 재질
 	@Column("material")
-	val material: String,
+	var material: String,
 	// 크기
 	@Column("size")
-	val size: String,
+	var size: String,
 	// 무게
 	@Column("weight")
-	val weight: String,
+	var weight: String,
 	// 배송비
 	@Column("shipping_cost")
-	val shippingCost: Int,
+	var shippingCost: Int,
 ) : BaseEntity(){
 	@Column("image_urls")
 	var imageUrls: MutableList<String> = mutableListOf()

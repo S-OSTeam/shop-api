@@ -76,8 +76,8 @@ class ItemSearchService (
         return itemRepository.findByCategoryPublicIdIn(parentIds).toList()
     }
 
-    suspend fun searchItem(itemSearchRequest: ItemSearchRequest): Flow<ItemResponse> {
-        return itemRepository.searchItem(itemSearchRequest)
+    suspend fun searchItem(request: ItemSearchRequest): Flow<ItemResponse> {
+        return itemRepository.searchItem(request)
             .map { ItemResponse.fromItem(it) }
     }
 

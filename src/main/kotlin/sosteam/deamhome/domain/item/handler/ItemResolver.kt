@@ -1,8 +1,5 @@
 package sosteam.deamhome.domain.item.handler
 
-import jakarta.validation.Valid
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
 import kotlinx.coroutines.flow.toList
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
@@ -28,10 +25,10 @@ class ItemResolver(
     }
 
     @QueryMapping
-    suspend fun searchItem(@Argument itemSearchRequest: ItemSearchRequest): List<ItemResponse> {
-        return itemSearchRequest.publicId?.let {
+    suspend fun searchItem(@Argument request: ItemSearchRequest): List<ItemResponse> {
+        return request.publicId?.let {
             listOf(itemSearchService.findItemByPublicId(it))
-        } ?: itemSearchService.searchItem(itemSearchRequest).toList()
+        } ?: itemSearchService.searchItem(request).toList()
     }
 
     @QueryMapping

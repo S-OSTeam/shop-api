@@ -18,5 +18,5 @@ extend type Query {
     # 모든 ItemCategory 를 tree 형태로 검색
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
     # 필터로 검색
-    searchItem(itemSearchRequest: ItemSearchRequest!): [ItemResponse]
+    searchItem(request: ItemSearchRequest!): [ItemResponse]
 }

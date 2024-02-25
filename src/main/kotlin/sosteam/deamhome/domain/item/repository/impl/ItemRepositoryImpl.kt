@@ -29,15 +29,15 @@ class ItemRepositoryImpl (
          return repository.findAll(item.title.contains(title)).asFlow()
     }
 
-    override fun searchItem(itemSearchRequest: ItemSearchRequest): Flow<Item> {
-        val orderSpecifiers = createOrderSpecifier(itemSearchRequest.sort)
+    override fun searchItem(request: ItemSearchRequest): Flow<Item> {
+        val orderSpecifiers = createOrderSpecifier(request.sort)
         return repository.query { query -> query
                 .select(repository.entityProjection())
                 .from(item)
-                .where(containsTitle(itemSearchRequest.title), eqCategoryPublicId(itemSearchRequest.categoryPublicId))
+                .where(containsTitle(request.title), eqCategoryPublicId(request.categoryPublicId))
                 .orderBy(orderSpecifiers)
-                .limit(itemSearchRequest.pageSize)
-                .offset((itemSearchRequest.pageNumber - 1L) * itemSearchRequest.pageSize)
+                .limit(request.pageSize)
+                .offset((request.pageNumber - 1L) * request.pageSize)
         }.flow()
     }
 

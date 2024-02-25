@@ -6,5 +6,5 @@ import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 
 interface ItemRepositoryCustom {
     fun findItemsContainTitle(title: String): Flow<Item>
-    fun searchItem(itemSearchRequest: ItemSearchRequest): Flow<Item>
+    fun searchItem(request: ItemSearchRequest): Flow<Item>
 }
