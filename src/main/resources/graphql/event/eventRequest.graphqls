@@ -7,3 +7,12 @@ input EventRequest {
     items: [String]
     images: [ImageRequest]
 }
+
+input EventPageRequest {
+    # 이벤트 id
+    eventId: Long
+    # 페이지 번호
+    page: Int
+    # 페이지 크기
+    pageSize: Int!
+}
