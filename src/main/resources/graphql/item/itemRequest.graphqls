@@ -1,22 +1,22 @@
 input ItemRequest {
-    categoryPublicId: String! @NotBlank(message: "카테고리는 필수 입력 항목입니다.")
-    title: String! @NotBlank(message: "제목은 필수 입력 항목입니다.") @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
-    content: String! @NotBlank(message: "상품 정보는 필수 입력 항목입니다.")
-    summary: String! @NotBlank(message: "상품 요약은 필수 입력 항목입니다.")
-    price: Int!
+    categoryPublicId: String! @NotBlank(message: "카테고리가 입력되지 않았습니다.")
+    title: String! @NotBlank(message: "제목이 입력되지 않았습니다.") @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    content: String! @NotBlank(message: "상품 정보가 입력되지 않았습니다.")
+    summary: String! @NotBlank(message: "상품 요약이 입력되지 않았습니다.")
+    price: Int! @Positive(message: "가격은 양수 입니다.")
     status: ItemStatus!
     sellerId: String! @NotBlank(message: "판매자는 필수 입력 항목입니다.")
     stockCnt: Int!
     freeDelivery: Boolean!
     option: [String]!
-    productNumber: String!
+    productNumber: String! @NotBlank(message: "상품번호가 입력되지 않았습니다.")
     deadline: DateTime!
-    originalWork: String!
-    material: String!
-    size: String!
-    weight: String!
+    originalWork: String! @NotBlank(message: "원작이 입력되지 않았습니다.")
+    material: String! @NotBlank(message: "재질 입력되지 않았습니다.")
+    size: String! @NotBlank(message: "크기가 입력되지 않았습니다.")
+    weight: String! @NotBlank(message: "무게가 입력되지 않았습니다.")
     shippingCost: Int!
-    images: [ImageRequest!]!
+    images: [ImageRequest!]! @ContainerSize(min: 1, max: 10, message: "이미지는 1~10개 까지 동시 업로드 가능합니다.")
 }
 
 input ItemCategoryRequest {
@@ -27,17 +27,37 @@ input ItemCategoryRequest {
 input ItemCategoryUpdateRequest {
     publicId: String! @NotBlank(message: "publicId 는 필수 입력 항목입니다.")
     parentPublicId: String
-    title: String
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
 }
-
 
 input ItemSearchRequest {
     publicId: String
     categoryPublicId: String
-    title: String
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
     sort: ItemSortCriteria
     pageNumber: Long @Min(value: 1, message: "페이지 번호는 1 이상이어야 합니다.")
     pageSize: Long @Min(value: 1, message: "페이지 크기는 1 이상이어야 합니다.")
+}
+
+input ItemUpdateRequest {
+    publicId: String! @NotBlank(message: "publicId 는 필수 입력 항목입니다.")
+    categoryPublicId: String
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    content: String
+    summary: String
+    price: Int @Positive(message: "가격은 양수 입니다.")
+    status: ItemStatus
+    sellerId: String
+    freeDelivery: Boolean
+    option: [String]
+    productNumber: String
+    deadline: DateTime
+    originalWork: String
+    material: String
+    size: String
+    weight: String
+    shippingCost: Int
+    images: [ImageRequest] @ContainerSize(max: 10, message: "이미지는 10개 까지 동시 업로드 가능합니다.")
 }
 
 enum ItemStatus {

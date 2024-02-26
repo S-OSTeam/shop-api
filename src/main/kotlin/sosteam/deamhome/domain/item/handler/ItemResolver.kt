@@ -7,16 +7,19 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.item.handler.request.ItemRequest
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
+import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.service.ItemCreateService
 import sosteam.deamhome.domain.item.service.ItemDeleteService
 import sosteam.deamhome.domain.item.service.ItemSearchService
+import sosteam.deamhome.domain.item.service.ItemUpdateService
 
 
 @RestController
 class ItemResolver(
     private val itemCreateService: ItemCreateService,
     private val itemSearchService: ItemSearchService,
+    private val itemUpdateService: ItemUpdateService,
     private val itemDeleteService: ItemDeleteService
     ) {
     @MutationMapping
@@ -39,7 +42,12 @@ class ItemResolver(
     }
 
     @MutationMapping
-    suspend fun deleteItemByPublicId(@Argument publicId: String): String{
+    suspend fun updateItem(@Argument request: ItemUpdateRequest): ItemResponse {
+        return itemUpdateService.updateItem(request)
+    }
+
+    @MutationMapping
+    suspend fun deleteItemByPublicId(@Argument publicId: String): String {
         val deletedTitle =  itemDeleteService.deleteItemByPublicId(publicId)
         return "deleted"
     }

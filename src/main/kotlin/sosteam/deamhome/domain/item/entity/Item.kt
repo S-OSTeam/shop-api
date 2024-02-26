@@ -39,7 +39,7 @@ data class Item(
 	var reviewCnt: Int = 0,
 	// 리뷰 점수 1점 ~ 5점
 	@Column("review_score")
-	var reviewScore: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0),
+	var reviewScore: List<Int> = listOf(0, 0, 0, 0, 0),
 	@Column("qna_cnt")
 	var qnaCnt: Int = 0,
 	@Column("status")
@@ -50,7 +50,7 @@ data class Item(
 	var freeDelivery: Boolean = false,
 	// 옵션 선택
 	@Column("option")
-	var option: ArrayList<String> = arrayListOf(),
+	var option: List<String> = listOf(),
 	// 상품번호
 	@Column("product_number")
 	var productNumber: String,
@@ -74,5 +74,5 @@ data class Item(
 	var shippingCost: Int,
 ) : BaseEntity(){
 	@Column("image_urls")
-	var imageUrls: MutableList<String> = mutableListOf()
+	var imageUrls: List<String> = listOf()
 }
