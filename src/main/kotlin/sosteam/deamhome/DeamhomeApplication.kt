@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 @EnableScheduling
 //@EnableR2dbcRepositories
-@EnableR2dbcAuditing
+@EnableR2dbcAuditing(dateTimeProviderRef = "offSetDateTimeProvider")
 @EnableAsync
 class DeamhomeApplication
 
