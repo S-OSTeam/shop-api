@@ -1,0 +1,49 @@
+input ReviewCreateRequest{
+    title: String! @NotBlank
+    content: String! @NotBlank
+    score: Int!
+    status: Boolean!
+    userId: String! @NotBlank
+    itemId: String! @NotBlank
+    images: [ImageRequest]
+    purchaseOptions: [String]
+}
+
+input ReviewDeleteRequest{
+    reviewId: Long!
+}
+
+input ReviewSearchRequest{
+    reviewId: [Long]
+    userId:[String]
+    itemId:[String]
+}
+
+input ReviewUpdateRequest{
+    reviewId: Long!
+    title: String! @NotBlank
+    content: String! @NotBlank
+    score: Int!
+    status: Boolean!
+    originImageUrls: [String]
+    addImages: [ImageRequest]
+    likeUsers: [String]
+    purchaseOptions: [String]
+}
+
+input ReviewLikeRequest{
+    reviewId: String! @NotBlank
+    userId: String! @NotBlank
+    like: Boolean!
+}
+
+input ReviewMonthRequest{
+    reviewId: String! @NotBlank
+    monthReview: String! @NotBlank
+}
+
+input ReviewReportRequest{
+    reviewId: String! @NotBlank
+    userId: String! @NotBlank
+    reportContent: String! @NotBlank
+}

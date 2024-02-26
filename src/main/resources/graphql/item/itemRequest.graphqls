@@ -1,5 +1,5 @@
 input ItemRequest {
-    categoryPublicId: Long! @Min(value : 1)
+    categoryPublicId: String! @NotBlank
     title: String! @NotBlank
     content: String! @NotBlank
     summary: String! @NotBlank
@@ -13,5 +13,5 @@ input ItemRequest {
 
 input ItemCategoryRequest {
     title: String! @NotBlank
-    parentPublicId: Long @Min(value : 1)
+    parentPublicId: String @NotBlank
 }

@@ -1,0 +1,13 @@
+type ReviewResponse{
+    reviewId: Long
+    title: String
+    content: String
+    monthReview: String
+    score: Int
+    status: Boolean
+    userId: String
+    itemId: String
+    imageUrls: [String]
+    likeUsers: Int
+    purchaseOptions: [String]
+}

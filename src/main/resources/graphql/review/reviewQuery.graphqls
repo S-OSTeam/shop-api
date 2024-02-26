@@ -1,0 +1,4 @@
+extend type Query {
+    # review 검색
+    findReviews(request: ReviewSearchRequest): [ReviewResponse]
+}

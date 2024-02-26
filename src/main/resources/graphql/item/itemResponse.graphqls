@@ -1,6 +1,6 @@
 type ItemResponse {
-    publicId: Long!
-    categoryPublicId: Long!
+    publicId: String!
+    categoryPublicId: String!
     title: String!
     content: String!
     summary: String!
@@ -20,8 +20,8 @@ type ItemResponse {
 
 type ItemCategoryResponse{
     title: String!
-    publicId: Long!
-    parentPublicId: Long
+    publicId: String!
+    parentPublicId: String
 }
 
 type ItemCategoryTreeResponse{
