@@ -3,6 +3,8 @@ package sosteam.deamhome.domain.item.service
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.category.entity.ItemCategory
@@ -49,6 +51,14 @@ class ItemSearchService (
         val item = itemRepository.findByPublicId(publicId)
             ?: throw ItemNotFoundException()
         return ItemResponse.fromItem(item)
+    }
+
+    // publicId 리스트를 받아 각 아이템 정보 찾아서 ItemResponse 리스트를 반환하는 함수
+    suspend fun findItemByPublicIdIn(publicIdList: List<String>, page: Int, pageSize: Int = 10): List<ItemResponse>{
+        val pageRequest: PageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("created_at")))
+        return itemRepository.findByPublicIdIn(publicIdList, pageRequest)
+            .toList()
+            .map { ItemResponse.fromItem(it) }
     }
 
     // 하위의 카테고리에 있는 아이템을 반환하는 함수
