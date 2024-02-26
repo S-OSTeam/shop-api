@@ -17,7 +17,7 @@ class ReviewRepositoryImpl(
 	private val review = QReview.review
 	
 	override fun findReviews(
-		reviewIds: List<Long?>?,
+		reviewIds: List<String?>?,
 		userIds: List<String?>?,
 		itemIds: List<String?>?
 	): Flow<Review> {
@@ -27,14 +27,14 @@ class ReviewRepositoryImpl(
 	}
 	
 	private fun booleanBuilder(
-		reviewIds: List<Long?>?,
+		reviewIds: List<String?>?,
 		userIds: List<String?>?,
 		itemIds: List<String?>?
 	): BooleanBuilder {
 		val predicate = BooleanBuilder()
 		
 		reviewIds?.let {
-			predicate.or(review.id.`in`(it))
+			predicate.or(review.publicId.`in`(it))
 		}
 		userIds?.let {
 			predicate.or(review.userId.`in`(it))

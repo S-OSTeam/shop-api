@@ -9,6 +9,8 @@ import sosteam.deamhome.global.entity.LogEntity
 class Review(
 	@Id
 	var id: Long?,
+	@Column("public_id")
+	var publicId: String,
 	var title: String,
 	var content: String,
 	@Column("month_review")

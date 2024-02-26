@@ -1,5 +1,5 @@
 type ReviewResponse{
-    reviewId: Long
+    reviewId: String
     title: String
     content: String
     monthReview: String

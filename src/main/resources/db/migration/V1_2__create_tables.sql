@@ -243,6 +243,7 @@ ALTER TABLE IF EXISTS public.item_category
 CREATE TABLE IF NOT EXISTS public.review
 (
     id bigserial NOT NULL,
+    public_id character varying COLLATE pg_catalog."default",
     title character varying COLLATE pg_catalog."default",
     content text COLLATE pg_catalog."default",
     month_review character varying COLLATE pg_catalog."default",
@@ -266,4 +267,26 @@ CREATE TABLE IF NOT EXISTS public.review
     TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.review
+    OWNER to postgres;
+
+
+CREATE TABLE IF NOT EXISTS public.review_like_log
+(
+    id bigserial NOT NULL,
+    review_id character varying COLLATE pg_catalog."default",
+    user_id character varying COLLATE pg_catalog."default",
+    item_id character varying COLLATE pg_catalog."default",
+    title character varying COLLATE pg_catalog."default",
+    like_dislike boolean,
+    ip character varying COLLATE pg_catalog."default",
+    useragent character varying COLLATE pg_catalog."default",
+    referer character varying COLLATE pg_catalog."default",
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT review_like_log_pkey PRIMARY KEY (id)
+    )
+
+    TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.review_like_log
     OWNER to postgres;

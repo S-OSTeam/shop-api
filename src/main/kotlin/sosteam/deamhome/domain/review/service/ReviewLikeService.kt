@@ -5,7 +5,6 @@ import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.log.entity.ReviewLikeLog
 import sosteam.deamhome.domain.log.repository.ReviewLikeLogRepository
-import sosteam.deamhome.domain.review.exception.ReviewNotFoundException
 import sosteam.deamhome.domain.review.handler.request.ReviewLikeRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
 import sosteam.deamhome.domain.review.repository.ReviewRepository
@@ -18,7 +17,7 @@ class ReviewLikeService(
 ) {
 	suspend fun updateReviewLike(request: ReviewLikeRequest): ReviewResponse {
 		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findByPublicId(request.reviewId)
 		val userLiked = review.likeUsers.contains(request.userId)
 		
 		if (request.like && !userLiked) {

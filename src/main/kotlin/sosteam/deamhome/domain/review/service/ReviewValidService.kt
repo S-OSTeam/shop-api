@@ -21,7 +21,7 @@ class ReviewValidService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun validateUpdateReview(request: ReviewUpdateRequest): Review {
-		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
@@ -35,7 +35,7 @@ class ReviewValidService(
 	
 	suspend fun validateMonthReview(request: ReviewMonthRequest): Review {
 		// TODO: 우선 리뷰 작성 한달 뒤로 했는데, 제품이 배달되고 1달 뒤로 바꿔야 할 거 같음. order쪽이 완성 되야 할 수 있을듯?
-		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()
@@ -48,7 +48,7 @@ class ReviewValidService(
 	}
 	
 	suspend fun validateDeleteReview(request: ReviewDeleteRequest): Review {
-		val review = reviewRepository.findById(request.reviewId) ?: throw ReviewNotFoundException()
+		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
 		val now = LocalDateTime.now()

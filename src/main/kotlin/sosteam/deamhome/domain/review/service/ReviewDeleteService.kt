@@ -32,7 +32,7 @@ class ReviewDeleteService(
 		item.reviewCnt--
 		itemRepository.save(item)
 		
-		reviewRepository.deleteById(request.reviewId)
+		reviewRepository.deleteByPublicId(request.reviewId)
 		return ResponseEntity.ok("Review 제거 성공 : `${request.reviewId}` ")
 	}
 }

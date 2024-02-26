@@ -10,17 +10,17 @@ input ReviewCreateRequest{
 }
 
 input ReviewDeleteRequest{
-    reviewId: Long!
+    reviewId: String!
 }
 
 input ReviewSearchRequest{
-    reviewId: [Long]
+    reviewId: [String]
     userId:[String]
     itemId:[String]
 }
 
 input ReviewUpdateRequest{
-    reviewId: Long!
+    reviewId: String!
     title: String! @NotBlank
     content: String! @NotBlank
     score: Int!

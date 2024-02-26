@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.review.service
 
+import com.github.f4b6a3.ulid.UlidCreator
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
@@ -25,12 +26,15 @@ class ReviewCreateService(
 		item.reviewCnt++
 		itemRepository.save(item)
 		
+		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+		
 		val imageUrls: MutableList<String> = request.images.map {
 			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
 		}.toMutableList()
 		
 		val review = Review(
 			id = null,
+			publicId = publicId,
 			title = request.title,
 			content = request.content,
 			monthReview = "",

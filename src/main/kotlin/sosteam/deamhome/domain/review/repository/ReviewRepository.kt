@@ -6,4 +6,8 @@ import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.repository.custom.ReviewRepositoryCustom
 
 @GraphQlRepository
-interface ReviewRepository : CoroutineCrudRepository<Review, Long>, ReviewRepositoryCustom
+interface ReviewRepository : CoroutineCrudRepository<Review, Long>, ReviewRepositoryCustom {
+	suspend fun findByPublicId(publicId: String): Review
+	
+	suspend fun deleteByPublicId(publicId: String): Long
+}
