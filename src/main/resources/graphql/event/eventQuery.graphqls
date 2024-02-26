@@ -4,4 +4,7 @@ extend type Query {
 
     # eventId 이용해서 클릭 시 상세정보 조회
     getEventInfo (eventId: Long): EventInfoResponse
+
+    # 이벤트 관련 item publicId로 아이템 정보 페이지네이션으로 가져오기
+    getEventItems (request: EventPageRequest): [ItemResponse]
 }
