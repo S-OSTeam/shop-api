@@ -1,0 +1,19 @@
+type EventInfoResponse {
+    id: Long!
+    started: String!
+    ended: String!
+    title: String!
+    contents: String
+    thumbnail: String
+    items: [String]
+    images: [String]
+}
+
+type EventItemResponse {
+    id: Long!
+    started: String!
+    ended: String!
+    title: String!
+    contents: String
+    thumbnail: String
+}

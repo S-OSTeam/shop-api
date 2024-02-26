@@ -1,0 +1,9 @@
+input EventRequest {
+    started: DateTime!
+    ended: DateTime!
+    title: String! @NotBlank
+    contents: String
+    thumbnail: String
+    items: [String]
+    images: [ImageRequest]
+}

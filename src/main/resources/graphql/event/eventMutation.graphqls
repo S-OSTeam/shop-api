@@ -1,0 +1,4 @@
+extend type Mutation {
+    # 이벤트 생성
+    createEvent(request: EventRequest!): EventInfoResponse
+}
