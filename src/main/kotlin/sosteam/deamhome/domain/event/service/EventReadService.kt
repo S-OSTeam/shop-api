@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.event.service
 
 import org.springframework.stereotype.Service
-import sosteam.deamhome.domain.event.exception.EventNotFoundException
 import sosteam.deamhome.domain.event.handler.request.EventPageRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
 import sosteam.deamhome.domain.event.handler.response.EventItemResponse
@@ -14,6 +13,7 @@ import java.time.LocalDateTime
 class EventReadService (
     private val eventRepository: EventRepository,
     private val itemSearchService: ItemSearchService,
+    private val eventValidService: EventValidService,
 ){
     // 현재 진행중인 이벤트 간략 리스트 리턴
     suspend fun getEventList():List<EventItemResponse>{
@@ -23,8 +23,7 @@ class EventReadService (
 
     // id 기반으로 이벤트 전체 정보 리턴
     suspend fun getEventInfo(eventId: Long): EventInfoResponse{
-        val event = eventRepository.findById(eventId)
-            ?: throw EventNotFoundException()
+        val event = eventValidService.getEventById(eventId)
         return EventInfoResponse.fromEvent(event)
     }
 
@@ -32,8 +31,7 @@ class EventReadService (
     suspend fun getEventItems(request: EventPageRequest): List<ItemResponse>{
         val (eventId, page, pageSize) = request
         // 해당 이벤트 찾기
-        val event = eventRepository.findById(eventId)
-            ?: throw EventNotFoundException()
+        val event = eventValidService.getEventById(eventId)
 
         return itemSearchService.findItemByPublicIdIn(
             event.items,page, pageSize)
