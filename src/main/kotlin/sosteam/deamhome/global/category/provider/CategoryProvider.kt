@@ -44,7 +44,7 @@ class CategoryProvider<T: CategoryEntity> (
     suspend fun validateParentCategory(parentPublicId: String, title: String, maxDepth: Int): Int {
         val parentCategory = repository.findByPublicId(parentPublicId)
             ?: throw CategoryNotFoundException(message = "상위 카테고리를 찾을 수 없습니다.")
-        // 부모 카테고리의 최대 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
+        // 부모 카테고리의 깊이 + 1 이 MAX_DEPTH 를 초과하면 예외 처리
         val depth = calcDepth(parentCategory) + 1
         if (depth > maxDepth) {
             throw MaxDepthExceedException()

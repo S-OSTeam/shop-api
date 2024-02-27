@@ -61,6 +61,7 @@ class ItemSearchService (
         return itemRepository.findByCategoryPublicIdIn(parentIds).toList()
     }
 
+    // title, sort 로 검색하는 경우 (검색창에서 검색)
     suspend fun searchItem(request: ItemSearchRequest): Flow<ItemResponse> {
         return itemRepository.searchItem(request)
             .map { ItemResponse.fromItem(it) }
