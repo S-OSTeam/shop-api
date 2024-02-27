@@ -4,7 +4,7 @@ import org.springframework.graphql.execution.ErrorType
 import sosteam.deamhome.global.exception.CustomGraphQLException
 
 class ReviewUpdateExpiredException(
-	errorCode: String = "UPDATE_EXPIRED",
+	errorCode: String = "REVIEW_UPDATE_EXPIRED",
 	
 	@JvmField
 	@Suppress("INAPPLICABLE_JVM_FIELD")

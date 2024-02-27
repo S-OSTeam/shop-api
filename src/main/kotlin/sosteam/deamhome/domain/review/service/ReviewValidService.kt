@@ -5,13 +5,15 @@ import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.review.entity.Review
-import sosteam.deamhome.domain.review.exception.*
+import sosteam.deamhome.domain.review.exception.ReviewDeletionTimeLimitExceededException
+import sosteam.deamhome.domain.review.exception.ReviewPolicyViolationException
+import sosteam.deamhome.domain.review.exception.ReviewProductUsageTimeNotReachedException
+import sosteam.deamhome.domain.review.exception.ReviewUpdateExpiredException
 import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewMonthRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewReportRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewUpdateRequest
 import sosteam.deamhome.domain.review.repository.ReviewRepository
-import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
@@ -68,20 +70,6 @@ class ReviewValidService(
 			// TODO: 정지 코드
 			accountRepository.save(account)
 			throw ReviewPolicyViolationException()
-		}
-		
-		// 7일 동안 최대 5회 신고
-		val reportThreshold = 5
-		val evaluationPeriod = Duration.ofDays(7)
-		
-		val recentReports = reportLogs.filter {
-			it.isAfter(LocalDateTime.now().minus(evaluationPeriod))
-		}
-		
-		if (recentReports.size > reportThreshold) {
-			account.addReviewReportBanLog(LocalDateTime.now())
-			accountRepository.save(account)
-			throw ReviewReportAbuseBlockedException()
 		}
 		
 		return account

@@ -3,6 +3,7 @@ package sosteam.deamhome.domain.review.service
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.exception.ReviewReportAlreadyExistException
 import sosteam.deamhome.domain.review.handler.request.ReviewReportRequest
 import sosteam.deamhome.domain.review.handler.response.ReviewResponse
@@ -15,7 +16,7 @@ class ReviewReportService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun updateReviewReport(request: ReviewReportRequest, account: Account): ReviewResponse {
-		val review = reviewRepository.findByPublicId(request.reviewId)
+		val review: Review = reviewRepository.findByPublicId(request.reviewId)
 		val userReport = review.reportUsers.contains(request.userId)
 		
 		val now = LocalDateTime.now()
@@ -28,8 +29,8 @@ class ReviewReportService(
 		review.reportUsers.add(request.userId)
 		review.reportContent.add(request.reportContent)
 		
-		// 신고 개수가 100개 이상이면 리뷰 제한
-		if (review.reportUsers.size >= 100) {
+		// 신고 개수가 10개 이상이면 리뷰 제한
+		if (review.reportUsers.size >= 10) {
 			review.status = false
 		}
 		
