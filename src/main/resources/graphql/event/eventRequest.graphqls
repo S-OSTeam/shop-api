@@ -1,6 +1,6 @@
 input EventRequest {
-    started: DateTime!
-    ended: DateTime!
+    startedAt: DateTime!
+    endedAt: DateTime!
     title: String! @NotBlank
     contents: String
     thumbnail: String

@@ -15,7 +15,7 @@ class EventCreateService (
     suspend fun createEvent(request: EventRequest): EventInfoResponse{
 
         // 이벤트 시작 날짜가 종료 날짜보다 앞인지 확인
-        if (request.started.isAfter(request.ended)) {
+        if (request.startedAt.isAfter(request.endedAt)) {
             throw InvalidEventTimeException()
         }
 

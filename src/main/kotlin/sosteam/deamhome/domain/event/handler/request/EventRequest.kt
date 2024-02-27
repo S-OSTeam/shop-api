@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 // 이벤트 생성 요청 Request
 data class EventRequest (
 
-    val started: LocalDateTime,
-    val ended: LocalDateTime,
+    val startedAt: LocalDateTime,
+    val endedAt: LocalDateTime,
     val title: String,
     val contents: String?,
     val thumbnail: String?,
@@ -19,8 +19,8 @@ data class EventRequest (
     override fun asDomain(): Event {
        return Event(
            id = null,
-           started = started,
-           ended = ended,
+           startedAt = startedAt,
+           endedAt = endedAt,
            title = title,
            contents = contents,
            thumbnail = thumbnail,
