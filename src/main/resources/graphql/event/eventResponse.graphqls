@@ -1,7 +1,7 @@
 type EventInfoResponse {
     id: Long!
-    started: String!
-    ended: String!
+    startedAt: String!
+    endedAt: String!
     title: String!
     contents: String
     thumbnail: String
@@ -11,8 +11,8 @@ type EventInfoResponse {
 
 type EventItemResponse {
     id: Long!
-    started: String!
-    ended: String!
+    startedAt: String!
+    endedAt: String!
     title: String!
     contents: String
     thumbnail: String

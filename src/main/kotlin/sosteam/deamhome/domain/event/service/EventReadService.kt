@@ -17,7 +17,7 @@ class EventReadService (
 ){
     // 현재 진행중인 이벤트 간략 리스트 리턴
     suspend fun getEventList():List<EventItemResponse>{
-        val eventList = eventRepository.findByEndedAfter(LocalDateTime.now())
+        val eventList = eventRepository.findByEndedAtAfter(LocalDateTime.now())
         return eventList.map{EventItemResponse.fromEvent(it) }
     }
 

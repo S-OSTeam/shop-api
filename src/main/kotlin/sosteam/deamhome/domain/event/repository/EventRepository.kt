@@ -8,5 +8,5 @@ import java.time.LocalDateTime
 
 @GraphQlRepository
 interface EventRepository: CoroutineCrudRepository<Event, Long> {
-    suspend fun findByEndedAfter(@Param("endDate") endDate: LocalDateTime): List<Event>
+    suspend fun findByEndedAtAfter(@Param("endDate") endDate: LocalDateTime): List<Event>
 }

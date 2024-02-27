@@ -6,8 +6,8 @@ import java.time.LocalDateTime
 // 전체 정보 response
 class EventInfoResponse (
     val id: Long?,
-    val started: LocalDateTime,
-    val ended: LocalDateTime,
+    val startedAt: LocalDateTime,
+    val endedAt: LocalDateTime,
     val title: String,
     val contents: String?,
     val thumbnail: String?,
@@ -18,8 +18,8 @@ class EventInfoResponse (
         fun fromEvent(event: Event): EventInfoResponse{
             return EventInfoResponse(
                 id= event.id,
-                started = event.started,
-                ended = event.ended,
+                startedAt = event.startedAt,
+                endedAt = event.endedAt,
                 title = event.title,
                 contents = event.contents,
                 thumbnail = event.thumbnail,
