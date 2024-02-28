@@ -22,7 +22,7 @@ class ReviewResolver(
 	private val reviewReportService: ReviewReportService
 ) {
 	@MutationMapping
-	suspend fun createReview(@Argument @Valid request: ReviewCreateRequest): ReviewResponse {
+	suspend fun createReview(@Argument request: ReviewCreateRequest): ReviewResponse {
 		return reviewCreateService.createReview(request)
 	}
 	
@@ -34,30 +34,30 @@ class ReviewResolver(
 	}
 	
 	@MutationMapping
-	suspend fun updateReview(@Argument @Valid request: ReviewUpdateRequest): ReviewResponse {
+	suspend fun updateReview(@Argument request: ReviewUpdateRequest): ReviewResponse {
 		val review = reviewValidService.validateUpdateReview(request)
 		return reviewUpdateService.updateReview(request, review)
 	}
 	
 	@MutationMapping
-	suspend fun deleteReview(@Argument @Valid request: ReviewDeleteRequest): ResponseEntity<String> {
+	suspend fun deleteReview(@Argument request: ReviewDeleteRequest): ResponseEntity<String> {
 		val review = reviewValidService.validateDeleteReview(request)
 		return reviewDeleteService.deleteReview(request, review)
 	}
 	
 	@MutationMapping
-	suspend fun updateReviewLike(@Argument @Valid request: ReviewLikeRequest): ReviewResponse {
+	suspend fun updateReviewLike(@Argument request: ReviewLikeRequest): ReviewResponse {
 		return reviewLikeService.updateReviewLike(request)
 	}
 	
 	@MutationMapping
-	suspend fun updateMonthReview(@Argument @Valid request: ReviewMonthRequest): ReviewResponse {
+	suspend fun updateMonthReview(@Argument request: ReviewMonthRequest): ReviewResponse {
 		val review = reviewValidService.validateMonthReview(request)
 		return reviewMonthService.updateMonthReview(request, review)
 	}
 	
 	@MutationMapping
-	suspend fun updateReviewReport(@Argument @Valid request: ReviewReportRequest): ReviewResponse {
+	suspend fun updateReviewReport(@Argument request: ReviewReportRequest): ReviewResponse {
 		val account = reviewValidService.validateReportUser(request)
 		return reviewReportService.updateReviewReport(request, account)
 	}

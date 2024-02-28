@@ -37,3 +37,4 @@ out/
 .vscode/
 
 *.properties
+*__create_tables.sql
