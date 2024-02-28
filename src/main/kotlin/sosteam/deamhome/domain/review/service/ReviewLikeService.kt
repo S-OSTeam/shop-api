@@ -20,9 +20,9 @@ class ReviewLikeService(
 		val review = reviewRepository.findByPublicId(request.reviewId)
 		val userLiked = review.likeUsers.contains(request.userId)
 		
-		if (request.like && !userLiked) {
+		if (request.favor && !userLiked) {
 			review.likeUsers.add(request.userId)
-		} else if (!request.like && userLiked) {
+		} else if (!request.favor && userLiked) {
 			review.likeUsers.remove(request.userId)
 		}
 		reviewRepository.save(review)
@@ -32,7 +32,7 @@ class ReviewLikeService(
 			reviewId = request.reviewId,
 			userId = request.userId,
 			itemId = review.itemId,
-			like = request.like
+			favor = request.favor
 		)
 		reviewLikeLogRepository.save(reviewLikeLog)
 		
