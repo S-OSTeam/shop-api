@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.kakao.service
 
 import kotlinx.coroutines.reactive.awaitSingle
+import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
@@ -10,19 +11,26 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
+import sosteam.deamhome.domain.account.entity.Account
+import sosteam.deamhome.domain.account.exception.SnsIdNotFoundException
+import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
 import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
+import sosteam.deamhome.global.attribute.SNS
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 class KakaoService(
     @Value("\${spring.security.oauth2.client.kakao.client_id}")
     private val kakaoRestApiToken: String,
     @Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
     private val kakaoRedirectUri: String,
+    private val accountRepository: AccountRepository
+
 ) {
     suspend fun getKakaoLoginPage(): String {
         val reqUrl = "https://kauth.kakao.com/oauth/authorize"
@@ -34,10 +42,12 @@ class KakaoService(
         return uriBuilder.toUriString()
     }
 
-    suspend fun kakaoSign(code: String): KakaoTokenReturnResponse {
-        val token = getKakaoToken(code);
-        getKakaoUserInfo(token.accessToken)
-        return token
+    suspend fun kakaoSign(code: String): Account {
+        val token = getKakaoToken(code)
+        val kakaoInfo = getKakaoUserInfo(token.accessToken)
+        val user = accountRepository.findAccountBySnsIdAndSns(kakaoInfo.id.toString(), SNS.KAKAO)
+            ?: throw SnsIdNotFoundException()
+        return user
     }
 
     suspend fun getKakaoToken(code: String): KakaoTokenReturnResponse {

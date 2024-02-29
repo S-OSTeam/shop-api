@@ -1,4 +1,4 @@
-package sosteam.deamhome.global.mail
+package sosteam.deamhome.global.provider
 
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 @RequiredArgsConstructor
-class SendMailService(
+class SendMailProvider(
     private val mailSender: JavaMailSender,
     @Value("\${spring.mail.username}") private val username: String
 ) {
