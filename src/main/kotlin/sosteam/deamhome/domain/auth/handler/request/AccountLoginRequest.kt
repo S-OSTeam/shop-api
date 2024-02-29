@@ -19,15 +19,11 @@ data class AccountLoginRequest(
 	val pwd: String,
 	
 	val email: String = "",
-
-	val snsId: String?,
-
-	val sns: SNS = SNS.NORMAL,
 ) : DTO {
 	override fun asDomain(): AccountStatus {
 		return AccountStatus(
 			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
-			null, userId, snsId, sns, email, Status.LIVE
+			null, userId, null, SNS.NORMAL, email, Status.LIVE
 		)
 	}
 }

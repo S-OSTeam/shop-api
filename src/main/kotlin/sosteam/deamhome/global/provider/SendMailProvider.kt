@@ -12,6 +12,7 @@ class SendMailProvider(
     private val mailSender: JavaMailSender,
     @Value("\${spring.mail.username}") private val username: String
 ) {
+    private val logger = log<SendMailProvider>()
     suspend fun sendEmail(to: String, subject: String, text: String) {
         val mimeMessage = mailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
@@ -24,7 +25,7 @@ class SendMailProvider(
 
             mailSender.send(mimeMessage)
         } catch (e: Exception) {
-            println(e.message)
+            logger.error("Failed to send email: ${e.message}")
         }
     }
 }

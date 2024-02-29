@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.domain.order.service.OrderValidService
+import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
@@ -72,8 +73,8 @@ class AccountAuthResolver(
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
 				request.userId,
-				request.sns,
-				request.snsId,
+				SNS.NORMAL,
+				null,
 				request.email
 			)
 

@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder
 import sosteam.deamhome.domain.account.entity.Account
 import sosteam.deamhome.domain.account.exception.SnsIdNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
+import sosteam.deamhome.domain.account.service.AccountStatusValidService
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
@@ -29,8 +30,8 @@ class KakaoService(
     private val kakaoRestApiToken: String,
     @Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
     private val kakaoRedirectUri: String,
-    private val accountRepository: AccountRepository
-
+    private val accountRepository: AccountRepository,
+    private val accountStatusValidService: AccountStatusValidService
 ) {
     suspend fun getKakaoLoginPage(): String {
         val reqUrl = "https://kauth.kakao.com/oauth/authorize"
@@ -47,6 +48,7 @@ class KakaoService(
         val kakaoInfo = getKakaoUserInfo(token.accessToken)
         val user = accountRepository.findAccountBySnsIdAndSns(kakaoInfo.id.toString(), SNS.KAKAO)
             ?: throw SnsIdNotFoundException()
+        accountStatusValidService.getLiveAccountIdByStatus(user.userId, user.sns, user.snsId, user.email)
         return user
     }
 

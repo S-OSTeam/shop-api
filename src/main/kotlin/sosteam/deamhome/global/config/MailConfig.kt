@@ -21,8 +21,7 @@ class MailConfig(
     @Value("\${spring.mail.password}")
     private val password: String
 ) {
-
-    /*@Bean
+    @Bean
     fun getJavaMailSender(): JavaMailSender {
         val mailSender = JavaMailSenderImpl()
         mailSender.host = host
@@ -39,5 +38,5 @@ class MailConfig(
         props["mail.debug"] = "true"
 
         return mailSender
-    }*/
+    }
 }

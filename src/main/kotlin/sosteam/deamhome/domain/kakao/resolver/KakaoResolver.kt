@@ -32,7 +32,7 @@ class KakaoResolver(
     }
 
     @MutationMapping
-    suspend fun kakaoSignUp(
+    suspend fun kakaoLogin(
         @Argument @Valid code: String,
         context: GraphQLContext
     ): TokenResponse? {
