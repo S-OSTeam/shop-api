@@ -1,41 +1,41 @@
 input CouponCreateRequest{
-    title:  String!
-    content:  String!
-    couponType:  CouponType!
-    couponDiscountType:  CouponDiscountType!
+    title:  String! @NotBlank(message : "쿠폰 제목은 필수 입력 사항입니다.")
+    content:  String! @NotBlank(message : "쿠폰 내용은 필수 입력 사항입니다.")
+    couponType:  CouponType! @NotBlank(message : "쿠폰 타입은 필수 입력 사항입니다.")
+    couponDiscountType:  CouponDiscountType! @NotBlank(message : "쿠폰 할인 타입은 필수 입력 사항입니다.")
     userId: String
     itemIds: [String]
     categoryIds: [String]
     startDate: DateTime
     endDate: DateTime
-    discount:  Int!
+    discount: Int! @Min(value : 0, message: "0 이상이어야 합니다.")
     minPurchaseAmount: Int
     links: [String]
 }
 
 input CouponSearchRequest{
-    userId: String!
-    itemIds: [String!]
+    userId: String! @NotBlank(message : "User ID는 필수 입력 사항입니다.")
+    itemIds: [String!] @NotBlank(message : "Item ID는 필수 입력 사항입니다.")
     links: [String]
 }
 
-input CouponDeleteRequest{
-    publicId: String!
-    title:  String!
-    content:  String!
-    couponType:  CouponType!
-    couponDiscountType:  CouponDiscountType!
+input CouponUpdateRequest{
+    publicId: String! @NotBlank(message : "쿠폰 publicId는 필수 입력 사항입니다.")
+    title:  String! @NotBlank(message : "쿠폰 제목은 필수 입력 사항입니다.")
+    content:  String! @NotBlank(message : "쿠폰 내용은 필수 입력 사항입니다.")
+    couponType:  CouponType! @NotBlank(message : "쿠폰 타입은 필수 입력 사항입니다.")
+    couponDiscountType:  CouponDiscountType! @NotBlank(message : "쿠폰 할인 타입은 필수 입력 사항입니다.")
     userId: String
     itemIds: [String]
     categoryIds: [String]
     status: Boolean
     startDate: DateTime
     endDate: DateTime
-    discount:  Int!
+    discount:  Int! @Min(value: 0, message: "0 이상이어야 합니다.")
     minPurchaseAmount: Int
     links: [String]
 }
 
-input CouponUpdateRequest{
-    publicId: String!
+input CouponDeleteRequest{
+    publicId: String! @NotBlank(message : "쿠폰 publicId는 필수 입력 사항입니다.")
 }

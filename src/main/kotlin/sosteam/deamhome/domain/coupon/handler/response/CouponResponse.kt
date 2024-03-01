@@ -3,7 +3,7 @@ package sosteam.deamhome.domain.coupon.handler.response
 import sosteam.deamhome.domain.coupon.entity.Coupon
 import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 class CouponResponse(
 	val publicId: String,
@@ -15,8 +15,8 @@ class CouponResponse(
 	val itemIds: List<String?>,
 	val categoryIds: List<String?>,
 	val status: Boolean,
-	val startDate: LocalDateTime?,
-	val endDate: LocalDateTime?,
+	val startDate: OffsetDateTime?,
+	val endDate: OffsetDateTime?,
 	val discount: Int,
 	val minPurchaseAmount: Int?
 ) {

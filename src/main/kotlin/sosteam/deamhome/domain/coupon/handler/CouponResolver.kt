@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.coupon.handler
 
-import jakarta.validation.Valid
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -22,23 +21,23 @@ class CouponResolver(
 	private val couponDeleteService: CouponDeleteService
 ) {
 	@MutationMapping
-	suspend fun createCoupon(@Argument @Valid request: CouponCreateRequest): CouponResponse {
+	suspend fun createCoupon(@Argument request: CouponCreateRequest): CouponResponse {
 		return couponCreateService.createCoupon(request)
 	}
 	
 	@QueryMapping
-	suspend fun searchCoupons(@Argument @Valid request: CouponSearchRequest): List<CouponEntryResponse> {
+	suspend fun searchCoupons(@Argument request: CouponSearchRequest): List<CouponEntryResponse> {
 		val couponAndItem = couponValidService.validateCoupon(request)
 		return couponSearchService.searchCoupons(request, couponAndItem.first, couponAndItem.second)
 	}
 	
 	@MutationMapping
-	suspend fun updateCoupon(@Argument @Valid request: CouponUpdateRequest): CouponResponse {
+	suspend fun updateCoupon(@Argument request: CouponUpdateRequest): CouponResponse {
 		return couponUpdateService.updateCoupon(request)
 	}
 	
 	@MutationMapping
-	suspend fun deleteCoupon(@Argument @Valid request: CouponDeleteRequest): Long {
+	suspend fun deleteCoupon(@Argument request: CouponDeleteRequest): Long {
 		return couponDeleteService.deleteCoupon(request)
 	}
 }

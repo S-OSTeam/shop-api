@@ -4,7 +4,7 @@ import sosteam.deamhome.domain.coupon.entity.Coupon
 import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.item.entity.Item
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 class CouponJunkProvider {
 	companion object {
@@ -44,8 +44,8 @@ class CouponJunkProvider {
 				itemIds = listOf(),
 				categoryIds = listOf(),
 				status = false,
-				startDate = LocalDateTime.now(),
-				endDate = LocalDateTime.now(),
+				startDate = OffsetDateTime.now(),
+				endDate = OffsetDateTime.now(),
 				discount = DISCOUNT,
 				minPurchaseAmount = 0,
 				links = listOf()
