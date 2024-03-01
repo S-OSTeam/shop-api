@@ -25,7 +25,7 @@ class AccountCreateService(
 		account.pwd = passwordEncoder.encode(account.pwd)
 
 		accountStatusRepository.save(accountStatus)
-		//val result = accountRepository.save(account)
+		val result = accountRepository.save(account)
 
 		return AccountResponse.fromAccount(account)
 	}

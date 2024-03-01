@@ -1,6 +1,8 @@
 package sosteam.deamhome.domain.auth.handler
 
+import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
+import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.account.service.AccountSendEmailService
@@ -14,7 +16,7 @@ class AccountAuthMailResolver(
 ) {
     @MutationMapping
     suspend fun sendVerifyCode(
-        request: SendVerifyCodeRequest
+        @Argument @Valid request: SendVerifyCodeRequest
     ): String {
         val mac = getMac()
         return accountSendEmailService.sendVerifyCode(request.email, request.verifyType)
@@ -22,7 +24,7 @@ class AccountAuthMailResolver(
 
     @MutationMapping
     suspend fun checkVerifyCodeBy(
-        request: CheckVerifyCodeRequest
+        @Argument @Valid request: CheckVerifyCodeRequest
     ): String {
         val mac = getMac()
         return accountSendEmailService.checkCodeByType(request.email, request.verifyCode, request.verifyType)

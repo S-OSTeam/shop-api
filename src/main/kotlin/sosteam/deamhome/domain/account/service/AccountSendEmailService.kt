@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.entity.AccountVerifyCode
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
+import sosteam.deamhome.domain.account.exception.AlreadyExistAccountException
 import sosteam.deamhome.domain.account.exception.VerifyCodeNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.repository.VerifyCodeRedisRepository
@@ -68,9 +69,12 @@ class AccountSendEmailService(
 
     suspend fun sendVerifyCode(email: String, verifyType: VerifyType): String {
         val user = accountRepository.findAccountByUserId(email)
-            ?: throw AccountNotFoundException()
+        if(verifyType != VerifyType.SIGNUP && user == null)
+            throw AccountNotFoundException()
+        if(verifyType == VerifyType.SIGNUP && user != null)
+            throw AlreadyExistAccountException()
 
-        val verifyCode = saveVerifyCodeByType(user.email, verifyType)
+        val verifyCode = saveVerifyCodeByType(email, verifyType)
         val message = generateMessageContent(verifyType, verifyCode)
 
         sendMailProvider.sendEmail(email, message.first, message.second)

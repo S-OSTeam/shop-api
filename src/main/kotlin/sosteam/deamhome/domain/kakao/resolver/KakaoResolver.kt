@@ -52,9 +52,10 @@ class KakaoResolver(
         return null
     }
 
+
     @QueryMapping
-    suspend fun kakaoUserInfo(@Argument @Valid token: String): KakaoUserInfo {
-        return kakaoService.getKakaoUserInfo(token)
+    suspend fun kakaoUserInfo(@Argument @Valid code: String): KakaoUserInfo {
+        return kakaoService.getKakaoUserInfo(kakaoService.getKakaoToken(code).accessToken)
     }
 
     @MutationMapping

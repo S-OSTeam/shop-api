@@ -5,7 +5,7 @@ extend type Mutation {
     logout: String
     reIssue: TokenResponse
 
-    kakaoSignUp(code: String): TokenResponse
+    kakaoLogin(code: String): TokenResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse
 
     changePassword(request: AccountChangePwdRequest!): String
