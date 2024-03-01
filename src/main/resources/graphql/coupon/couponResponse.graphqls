@@ -1,0 +1,20 @@
+type CouponResponse{
+    publicId: String!,
+    title: String!,
+    content: String!,
+    couponType: CouponType!,
+    couponDiscountType: CouponDiscountType!,
+    userId: String,
+    itemIds: [String],
+    categoryIds: [String],
+    status: Boolean!,
+    startDate: DateTime,
+    endDate: DateTime,
+    discount: Int!,
+    minPurchaseAmount: Int
+}
+
+type CouponEntryResponse {
+    itemId: String
+    coupon: CouponResponse
+}

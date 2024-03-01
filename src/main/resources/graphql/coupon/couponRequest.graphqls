@@ -1,0 +1,41 @@
+input CouponCreateRequest{
+    title:  String!
+    content:  String!
+    couponType:  CouponType!
+    couponDiscountType:  CouponDiscountType!
+    userId: String
+    itemIds: [String]
+    categoryIds: [String]
+    startDate: DateTime
+    endDate: DateTime
+    discount:  Int!
+    minPurchaseAmount: Int
+    links: [String]
+}
+
+input CouponSearchRequest{
+    userId: String!
+    itemIds: [String!]
+    links: [String]
+}
+
+input CouponDeleteRequest{
+    publicId: String!
+    title:  String!
+    content:  String!
+    couponType:  CouponType!
+    couponDiscountType:  CouponDiscountType!
+    userId: String
+    itemIds: [String]
+    categoryIds: [String]
+    status: Boolean
+    startDate: DateTime
+    endDate: DateTime
+    discount:  Int!
+    minPurchaseAmount: Int
+    links: [String]
+}
+
+input CouponUpdateRequest{
+    publicId: String!
+}
