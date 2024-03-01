@@ -3,10 +3,10 @@ package sosteam.deamhome.domain.order.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.OrderStatus
-import sosteam.deamhome.global.entity.LogEntity
-import java.time.LocalDateTime
+import sosteam.deamhome.global.entity.BaseEntity
+import java.time.OffsetDateTime
 
-@Table("order-shop")
+@Table("order_shop")
 class Order(
 	@Id
 	var id: Long?,
@@ -26,18 +26,18 @@ class Order(
 	var payType: String,
 	val appNo: String,
 	val bankId: String,
-	val orderDateTime: LocalDateTime,
-	val paymentDateTime: LocalDateTime?,
-	val releaseDateTime: LocalDateTime?,
-	val refundDateTime: LocalDateTime?,
-	val deliveryDateTime: LocalDateTime?,
-	val approveDatetime: LocalDateTime?,
+	val orderDateTime: OffsetDateTime,
+	val paymentDateTime: OffsetDateTime?,
+	val releaseDateTime: OffsetDateTime?,
+	val refundDateTime: OffsetDateTime?,
+	val deliveryDateTime: OffsetDateTime?,
+	val approveDatetime: OffsetDateTime?,
 	val couponIds: List<String?>,
 	val pointPrice: Int,
 	var shippingCompany: String,
-	val downloadDays: LocalDateTime,
+	val downloadDays: OffsetDateTime,
 	val reasonRefund: String
-) : LogEntity() {
+) : BaseEntity() {
 	
 	var orderStatus: OrderStatus = OrderStatus.PENDING
 	
