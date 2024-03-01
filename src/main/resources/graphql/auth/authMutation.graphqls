@@ -5,17 +5,11 @@ extend type Mutation {
     logout: String
     reIssue: TokenResponse
 
-    kakaoSignUp(code: String): KakaoTokenReturnResponse
+    kakaoSignUp(code: String): TokenResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse
 
     changePassword(request: AccountChangePwdRequest!): String
 
-    sendEmailSignupCode(request: SignupVerifyCodeRequest!): String
-    sendEmailChangePwdCode(request: ChangePwdSendVerifyCodeRequest!): String
-
-    checkSignupVerifyCode(request: CheckSignupVerifyCodeRequest!): String
-    checkChangePwdVerifyCode(request: CheckChangePwdVerifyCodeRequest!): String
-    checkGetUserIdVerifyCode(request: CheckGetUserIdVerifyCodeRequest!): String
-    checkChangeUserInfoVerifyCode(request: CheckChangeUserInfoVerifyCodeRequest!): String
-    checkRestoreUser(request: CheckRestoreUserRequest!): String
+    sendVerifyCode(request: SendVerifyCodeRequest!): String
+    checkVerifyCodeBy(request: CheckVerifyCodeRequest!): String
 }

@@ -34,35 +34,13 @@ input AccountChangePwdRequest {
     confirmPwd: String!
 }
 
-input SignupVerifyCodeRequest{
+input SendVerifyCodeRequest{
     email: String!
+    verifyType: VerifyType!
 }
 
-input ChangePwdSendVerifyCodeRequest {
-    userId: String!
-}
-
-input CheckChangePwdVerifyCodeRequest {
-    userId: String!
-    verifyCode: String!
-}
-
-input CheckSignupVerifyCodeRequest {
+input CheckVerifyCodeRequest {
     email: String!
     verifyCode: String!
-}
-
-input CheckChangeUserInfoVerifyCodeRequest {
-    userId: String!
-    verifyCode: String!
-}
-
-input CheckGetUserIdVerifyCodeRequest {
-    email: String!
-    verifyCode: String!
-}
-
-input CheckRestoreUserRequest {
-    userId: String!
-    verifyCode: String!
+    verifyType: VerifyType!
 }
