@@ -11,9 +11,7 @@ import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
-import sosteam.deamhome.domain.order.service.OrderValidService
 import sosteam.deamhome.global.attribute.SNS
-import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
@@ -30,7 +28,7 @@ class AccountAuthResolver(
 	val accountChangePwdService: AccountChangePwdService
 ) {
 	@MutationMapping
-	suspend fun signUp(@Argument request: AccountCreateRequest): String {
+	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
 		val mac = getMac()
 
 		accountStatusValidService.isNotExistAccount(
@@ -62,7 +60,7 @@ class AccountAuthResolver(
 
 	@MutationMapping
 	suspend fun login(
-		@Argument request: AccountLoginRequest,
+		@Argument @Valid request: AccountLoginRequest,
 		context: GraphQLContext
 	): TokenResponse? {
 		val mac = getMac()
