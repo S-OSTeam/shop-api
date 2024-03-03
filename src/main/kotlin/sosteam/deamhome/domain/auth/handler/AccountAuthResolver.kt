@@ -26,9 +26,7 @@ class AccountAuthResolver(
 	val accountAuthDeleteService: AccountAuthDeleteService,
 	val accountCreateService: AccountCreateService,
 	val accountValidService: AccountValidService,
-	val orderValidService: OrderValidService,
 	val accountStatusValidService: AccountStatusValidService,
-	val accountStatusModifyService: AccountStatusModifyService,
 	val accountChangePwdService: AccountChangePwdService
 ) {
 	@MutationMapping
