@@ -16,7 +16,7 @@ class AccountAuthMailResolver(
 ) {
     @MutationMapping
     suspend fun sendVerifyCode(
-        @Argument @Valid request: SendVerifyCodeRequest
+        @Argument request: SendVerifyCodeRequest
     ): String {
         val mac = getMac()
         return accountSendEmailService.sendVerifyCode(request.email, request.verifyType)
@@ -24,7 +24,7 @@ class AccountAuthMailResolver(
 
     @MutationMapping
     suspend fun checkVerifyCodeBy(
-        @Argument @Valid request: CheckVerifyCodeRequest
+        @Argument request: CheckVerifyCodeRequest
     ): String {
         val mac = getMac()
         return accountSendEmailService.checkCodeByType(request.email, request.verifyCode, request.verifyType)

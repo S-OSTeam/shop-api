@@ -1,13 +1,12 @@
 package sosteam.deamhome.domain.account.entity
 
-import jakarta.validation.constraints.Null
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.BaseEntity
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Table("account_status")
 data class AccountStatus(
@@ -28,5 +27,5 @@ data class AccountStatus(
 	) : BaseEntity() {
 	var accountId: Long? = null
 	@Column("deleted_at")
-	var deletedAt: LocalDateTime? = LocalDateTime.now()
+	var deletedAt: OffsetDateTime? = OffsetDateTime.now()
 }

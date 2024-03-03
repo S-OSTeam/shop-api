@@ -30,7 +30,7 @@ class AccountAuthResolver(
 	val accountChangePwdService: AccountChangePwdService
 ) {
 	@MutationMapping
-	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
+	suspend fun signUp(@Argument request: AccountCreateRequest): String {
 		val mac = getMac()
 
 		accountStatusValidService.isNotExistAccount(
@@ -62,7 +62,7 @@ class AccountAuthResolver(
 
 	@MutationMapping
 	suspend fun login(
-		@Argument @Valid request: AccountLoginRequest,
+		@Argument request: AccountLoginRequest,
 		context: GraphQLContext
 	): TokenResponse? {
 		val mac = getMac()
