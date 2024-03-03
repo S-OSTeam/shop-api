@@ -20,9 +20,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
                 val accessCookie = ResponseCookie.from("accessToken", accessToken)
                     .maxAge(Duration.ofSeconds(Token.ACCESS.time))
                     .build()
-                println(accessCookie.toString())
                 response.responseHeaders.add(HttpHeaders.SET_COOKIE, accessCookie.toString())
-                println(accessCookie.toString())
             }
             if(!refreshToken.isNullOrEmpty()) {
                 val refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
