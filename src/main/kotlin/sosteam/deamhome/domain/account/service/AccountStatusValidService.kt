@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.exception.AccountNotFoundException
+import sosteam.deamhome.domain.account.exception.AccountNotLiveException
 import sosteam.deamhome.domain.account.exception.AlreadyExistAccountException
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
 import sosteam.deamhome.global.attribute.SNS
@@ -23,10 +24,8 @@ class AccountStatusValidService(
 	suspend fun getLiveAccountIdByStatus(userId: String?, sns: SNS, snsId: String?, email: String?): Long {
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email) ?: throw AccountNotFoundException()
 
-		//휴면 상태인지 확인
-		// 왜 NOT FOUND ??
 		if (accountStatus.status != Status.LIVE)
-			throw AccountNotFoundException()
+			throw AccountNotLiveException()
 
 		return accountStatus.accountId!!
 	}

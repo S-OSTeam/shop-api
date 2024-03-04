@@ -1,10 +1,12 @@
 package sosteam.deamhome.domain.account.entity
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
 import sosteam.deamhome.global.entity.BaseEntity
+import java.time.OffsetDateTime
 
 @Table("account_status")
 data class AccountStatus(
@@ -15,13 +17,15 @@ data class AccountStatus(
 
 	// unique column
 	val snsId: String? = null,
-	
+
 	val sns: SNS,
-	
+
 	val email: String,
-	
+
 	var status: Status = Status.LIVE,
-	
+
 	) : BaseEntity() {
 	var accountId: Long? = null
+	@Column("deleted_at")
+	var deletedAt: OffsetDateTime? = OffsetDateTime.now()
 }

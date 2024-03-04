@@ -27,3 +27,20 @@ input LoginRequest{
     snsId: String
     sns: SNS!
 }
+
+input AccountChangePwdRequest {
+    userId: String!
+    pwd: String!
+    confirmPwd: String!
+}
+
+input SendVerifyCodeRequest{
+    email: String!
+    verifyType: VerifyType!
+}
+
+input CheckVerifyCodeRequest {
+    email: String!
+    verifyCode: String!
+    verifyType: VerifyType!
+}

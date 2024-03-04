@@ -27,6 +27,6 @@ class AccountCreateService(
 		accountStatusRepository.save(accountStatus)
 		val result = accountRepository.save(account)
 
-		return AccountResponse.fromAccount(result)
+		return AccountResponse.fromAccount(account)
 	}
 }
