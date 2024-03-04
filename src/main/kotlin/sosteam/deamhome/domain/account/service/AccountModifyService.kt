@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.account.service
 
-import kotlinx.coroutines.reactor.awaitSingle
 import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -10,9 +9,8 @@ import sosteam.deamhome.domain.account.repository.AccountRepository
 
 @Service
 @RequiredArgsConstructor
-class AccountChangePwdService(
+class AccountModifyService(
     val accountRepository: AccountRepository,
-    val accountValidService: AccountValidService,
     val passwordEncoder: PasswordEncoder
 ) {
     suspend fun changePwd (

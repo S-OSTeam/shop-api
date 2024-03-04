@@ -25,7 +25,7 @@ class AccountAuthResolver(
 	val accountCreateService: AccountCreateService,
 	val accountValidService: AccountValidService,
 	val accountStatusValidService: AccountStatusValidService,
-	val accountChangePwdService: AccountChangePwdService
+	val accountChangePwdService: AccountModifyService
 ) {
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {

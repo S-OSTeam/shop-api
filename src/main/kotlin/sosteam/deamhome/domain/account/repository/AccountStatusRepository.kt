@@ -9,8 +9,7 @@ import sosteam.deamhome.domain.account.repository.custom.AccountStatusRepository
 import sosteam.deamhome.global.attribute.Status
 
 @GraphQlRepository
-interface
-AccountStatusRepository : CoroutineCrudRepository<AccountStatus, Long>, AccountStatusRepositoryCustom {
+interface AccountStatusRepository : CoroutineCrudRepository<AccountStatus, Long>, AccountStatusRepositoryCustom {
 	suspend fun deleteByUserId(userId: String)
 	suspend fun findByUserId(userId: String): AccountStatus?
 	suspend fun findAllByStatus(status: Status): Flow<AccountStatus>
