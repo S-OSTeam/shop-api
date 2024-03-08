@@ -21,3 +21,20 @@ type KakaoUserInfo {
 type KakaoAccount {
     email: String
 }
+
+type NaverTokenReturnResponse {
+    accessToken: String
+}
+
+type NaverUnlinkResponse {
+    id: String
+}
+
+type NaverUserInfo {
+    id: Long
+    naverAccount: NaverAccount
+}
+
+type NaverAccount {
+    email: String
+}

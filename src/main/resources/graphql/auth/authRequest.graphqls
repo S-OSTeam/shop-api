@@ -44,3 +44,8 @@ input CheckVerifyCodeRequest {
     verifyCode: String!
     verifyType: VerifyType!
 }
+
+input NaverRequest{
+    code: String!
+    state: String!
+}
