@@ -37,6 +37,7 @@ input ItemSearchRequest {
     sort: ItemSortCriteria
     pageNumber: Long @Min(value: 1, message: "페이지 번호는 1 이상이어야 합니다.")
     pageSize: Long @Min(value: 1, message: "페이지 크기는 1 이상이어야 합니다.")
+    direction: Direction
 }
 
 input ItemUpdateRequest {
@@ -66,4 +67,8 @@ enum ItemStatus {
 
 enum ItemSortCriteria {
     SELL, WISHLIST, RATING, REVIEW, CLICK
+}
+
+enum Direction {
+    ASC, DESC
 }

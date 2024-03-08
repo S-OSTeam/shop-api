@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.item.entity.QItem
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 import sosteam.deamhome.domain.item.repository.custom.ItemRepositoryCustom
 import sosteam.deamhome.domain.item.repository.querydsl.ItemQueryDslRepository
+import sosteam.deamhome.global.attribute.Direction
 import sosteam.deamhome.global.attribute.ItemSortCriteria
 
 
@@ -23,7 +24,8 @@ class ItemRepositoryImpl (
     private val item = QItem.item
 
     override fun searchItem(request: ItemSearchRequest): Flow<Item> {
-        val orderSpecifiers = createOrderSpecifier(request.sort)
+        val orderSpecifiers = createOrderSpecifier(request.sort, request.direction)
+        request.direction
         return repository.query { query -> query
                 .select(repository.entityProjection())
                 .from(item)
@@ -38,15 +40,21 @@ class ItemRepositoryImpl (
         return title?.let { item.title.contains(it) }
     }
 
-    private fun createOrderSpecifier(itemSortCriteria: ItemSortCriteria?): OrderSpecifier<*> {
+    private fun createOrderSpecifier(itemSortCriteria: ItemSortCriteria?, orderDirection: Direction?): OrderSpecifier<*> {
+        val direction = when (orderDirection) {
+            Direction.ASC -> Order.ASC
+            Direction.DESC -> Order.DESC
+            else -> Order.DESC // 기본값 설정
+        }
+
         return when (itemSortCriteria) {
             // 정렬 기준 없으면 판매량 순으로 함
-            null -> OrderSpecifier(Order.DESC, item.sellCnt)
-            ItemSortCriteria.SELL -> OrderSpecifier(Order.DESC, item.sellCnt)
-            ItemSortCriteria.WISHLIST -> OrderSpecifier(Order.DESC, item.wishCnt)
-            ItemSortCriteria.RATING -> OrderSpecifier(Order.DESC, item.avgReview)
-            ItemSortCriteria.REVIEW -> OrderSpecifier(Order.DESC, item.reviewCnt)
-            ItemSortCriteria.CLICK -> OrderSpecifier(Order.DESC, item.clickCnt)
+            null -> OrderSpecifier(direction, item.sellCnt)
+            ItemSortCriteria.SELL -> OrderSpecifier(direction, item.sellCnt)
+            ItemSortCriteria.WISHLIST -> OrderSpecifier(direction, item.wishCnt)
+            ItemSortCriteria.RATING -> OrderSpecifier(direction, item.avgReview)
+            ItemSortCriteria.REVIEW -> OrderSpecifier(direction, item.reviewCnt)
+            ItemSortCriteria.CLICK -> OrderSpecifier(direction, item.clickCnt)
         }
     }
 

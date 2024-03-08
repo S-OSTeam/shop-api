@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.item.handler.request
 
+import sosteam.deamhome.global.attribute.Direction
 import sosteam.deamhome.global.attribute.ItemSortCriteria
 
 data class ItemSearchRequest(
@@ -14,6 +15,8 @@ data class ItemSearchRequest(
     // 페이지 번호
     val pageNumber: Long,
     // 페이지 크기
-    val pageSize: Long
+    val pageSize: Long,
+    // 오름차순, 내림차순
+    val direction: Direction?
 ) {
 }
