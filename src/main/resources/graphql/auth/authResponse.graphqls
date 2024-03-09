@@ -27,14 +27,11 @@ type NaverTokenReturnResponse {
 }
 
 type NaverUnlinkResponse {
-    id: String
+    result: String
+    accessToken: String
 }
 
 type NaverUserInfo {
-    id: Long
-    naverAccount: NaverAccount
-}
-
-type NaverAccount {
+    id: String
     email: String
 }

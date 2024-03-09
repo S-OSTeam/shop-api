@@ -19,7 +19,6 @@ import sosteam.deamhome.domain.naver.dto.response.NaverUserInfo
 import sosteam.deamhome.domain.naver.dto.response.NaverUserInfoResponse
 import sosteam.deamhome.domain.naver.exception.NaverTokenNotFoundException
 import sosteam.deamhome.global.attribute.SNS
-import sosteam.deamhome.global.provider.log
 import sosteam.deamhome.global.security.provider.RandomKeyProvider
 
 @Service
@@ -49,9 +48,8 @@ class NaverService(
 		val token = getNaverToken(code, state)
 		token.accessToken ?: NaverTokenNotFoundException()
 		val naverInfo = getNaverUserInfo(token.accessToken!!)
-		log().debug("NAVER_INFO : $naverInfo")
-		log().debug("NAVER_INFO : ${naverInfo.email.toString()}")
-		val user = accountRepository.findAccountBySnsIdAndSns(naverInfo.email.toString(), SNS.NAVER)
+		val SnsId = naverInfo.email.toString().substringBefore("@")
+		val user = accountRepository.findAccountBySnsIdAndSns(SnsId, SNS.NAVER)
 			?: throw SnsIdNotFoundException()
 		accountStatusValidService.getLiveAccountIdByStatus(user.userId, user.sns, user.snsId, user.email)
 		return user

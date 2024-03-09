@@ -13,19 +13,22 @@ data class AccountStatus(
 	@Id
 	var id: Long?,
 	// unique column
+	@Column("user_id")
 	val userId: String,
-
+	
 	// unique column
+	@Column("sns_id")
 	val snsId: String? = null,
-
+	
 	val sns: SNS,
-
+	
 	val email: String,
-
+	
 	var status: Status = Status.LIVE,
-
-	) : BaseEntity() {
+	
 	var accountId: Long? = null
+
+) : BaseEntity() {
 	@Column("deleted_at")
 	var deletedAt: OffsetDateTime? = OffsetDateTime.now()
 }

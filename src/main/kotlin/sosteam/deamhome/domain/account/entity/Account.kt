@@ -2,6 +2,7 @@ package sosteam.deamhome.domain.account.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import sosteam.deamhome.domain.faq.entity.Faq
@@ -15,6 +16,7 @@ data class Account(
 	@Id
 	var id: Long?,
 	// unique column
+	@Column("user_id")
 	val userId: String,
 	var pwd: String,
 	val sex: Boolean,
@@ -27,10 +29,14 @@ data class Account(
 	
 	// unique column
 	var email: String,
+	@Column("receive_mail")
 	var receiveMail: Boolean,
 	
+	@Column("created_ip")
 	val createdIp: String,
+	@Column("admin_txt")
 	var adminTxt: String = "",
+	@Column("sns_id")
 	val snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
 	
@@ -38,12 +44,14 @@ data class Account(
 	var phone: String?,
 	
 	// unique column
+	@Column("user_name")
 	var userName: String,
 	
 	var point: Int = 0,
 	
 	var role: Role = Role.ROLE_GUEST,
 	
+	@Column("login_at")
 	var loginAt: LocalDateTime,
 	
 	) : LogEntity() {
@@ -57,8 +65,10 @@ data class Account(
 	
 	private var reviews: ArrayList<Long?> = ArrayList()
 	
+	@Column("review_report_ban_logs")
 	private var reviewReportBanLogs: ArrayList<LocalDateTime> = ArrayList()
 	
+	@Column("review_report_logs")
 	private var reviewReportLogs: ArrayList<LocalDateTime> = ArrayList()
 	
 	fun getWishList(): List<String> {
