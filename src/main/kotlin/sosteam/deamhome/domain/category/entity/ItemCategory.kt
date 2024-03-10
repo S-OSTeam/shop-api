@@ -7,12 +7,14 @@ import sosteam.deamhome.global.category.entity.CategoryEntity
 
 @Table("item_category")
 data class ItemCategory(
-	@Id
-	var id: Long?,
-	override var title: String,
-	// unique column
-	@Column("public_id")
-	override var publicId: String,
-	@Column("parent_public_id")
-	override var parentPublicId: String
+    @Id
+    @Column("id")
+    var id: Long?,
+    @Column("title")
+    override var title: String,
+    // unique column
+    @Column("public_id")
+    override var publicId: String,
+    @Column("parent_public_id")
+    override var parentPublicId: String
 ) : CategoryEntity(2)

@@ -28,10 +28,10 @@ class ItemCreateService(
 			imageUrls = request.images.map {
 				imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight)
 					.fileUrl
-			}.toMutableList()
+			}
 		}
 		
 		val saveItem = itemRepository.save(item)
-		return ItemResponse.fromItem(item)
+		return ItemResponse.fromItem(saveItem)
 	}
 }

@@ -14,7 +14,7 @@ import sosteam.deamhome.domain.review.handler.request.ReviewMonthRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewReportRequest
 import sosteam.deamhome.domain.review.handler.request.ReviewUpdateRequest
 import sosteam.deamhome.domain.review.repository.ReviewRepository
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
 @Service
@@ -26,7 +26,7 @@ class ReviewValidService(
 		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
-		val now = LocalDateTime.now()
+		val now = OffsetDateTime.now()
 		
 		// 리뷰 생성 후 일주일이 지났는지 확인
 		if (ChronoUnit.DAYS.between(createdAt, now) > 7) {
@@ -40,7 +40,7 @@ class ReviewValidService(
 		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
-		val now = LocalDateTime.now()
+		val now = OffsetDateTime.now()
 		
 		// 리뷰 생성 후 한달이 지났는지 확인
 		if (ChronoUnit.MONTHS.between(createdAt, now) <= 1) {
@@ -53,7 +53,7 @@ class ReviewValidService(
 		val review = reviewRepository.findByPublicId(request.reviewId)
 		
 		val createdAt = review.getCreatedAt()
-		val now = LocalDateTime.now()
+		val now = OffsetDateTime.now()
 		// 리뷰 생성 후 일주일이 지났는지 확인
 		if (ChronoUnit.DAYS.between(createdAt, now) > 7) {
 			throw ReviewDeletionTimeLimitExceededException()

@@ -17,6 +17,7 @@ interface ItemRepository : CoroutineCrudRepository<Item, Long>, ItemRepositoryCu
 	fun findByCategoryPublicIdIn(publicIds: List<String>): Flow<Item>
 
 	fun findByPublicIdIn(publicIds: List<String>, pageRequest: PageRequest): Flow<Item>
-	suspend fun findItemById(id: String): Item?
+
+	fun findByCategoryPublicId(categoryPublicId: String): Flow<Item>
 
 }
