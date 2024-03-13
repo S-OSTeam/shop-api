@@ -37,7 +37,8 @@ class NaverService(
 ) {
 	suspend fun getNaverLoginPage(): String {
 		val state = randomKeyProvider.randomAlphabetNumber(32)
-		val url = UriComponentsBuilder.fromUriString("https://nid.naver.com/oauth2.0/authorize")
+		val naverOAuth = "https://nid.naver.com/oauth2.0/authorize"
+		val url = UriComponentsBuilder.fromUriString(naverOAuth)
 			.queryParam("client_id", clientId).queryParam("response_type", "code")
 			.queryParam("redirect_uri", naverRedirectUri).queryParam("state", state).build()
 		
@@ -56,11 +57,13 @@ class NaverService(
 	}
 	
 	suspend fun getNaverToken(code: String, state: String): NaverTokenReturnResponse {
-		val webclient = WebClient.builder().baseUrl("https://nid.naver.com")
+		val naverOAuth = "https://nid.naver.com"
+		val naverPath = "/oauth2.0/token"
+		val webclient = WebClient.builder().baseUrl(naverOAuth)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build()
 		
 		val response = webclient.post().uri { uriBuilder ->
-			uriBuilder.path("/oauth2.0/token").queryParam("client_id", clientId)
+			uriBuilder.path(naverPath).queryParam("client_id", clientId)
 				.queryParam("client_secret", clientSecret).queryParam("grant_type", "authorization_code")
 				.queryParam("state", state).queryParam("code", code).build()
 		}.retrieve().onStatus({ status -> status.value() != 200 }) {
@@ -75,10 +78,12 @@ class NaverService(
 	}
 	
 	suspend fun getNaverUserInfo(token: String): NaverUserInfo {
-		val webclient = WebClient.builder().baseUrl("https://openapi.naver.com")
+		val naverOAuth = "https://openapi.naver.com"
+		val naverPath = "/v1/nid/me"
+		val webclient = WebClient.builder().baseUrl(naverOAuth)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build()
 		
-		val response = webclient.get().uri("/v1/nid/me").header("Authorization", "Bearer $token").retrieve()
+		val response = webclient.get().uri(naverPath).header("Authorization", "Bearer $token").retrieve()
 			.bodyToMono(NaverUserInfoResponse::class.java).awaitSingle()
 		
 		response.info ?: throw NaverTokenNotFoundException()
@@ -87,11 +92,13 @@ class NaverService(
 	}
 	
 	suspend fun unlinkNaver(token: String): NaverUnlinkResponse {
-		val webclient = WebClient.builder().baseUrl("https://nid.naver.com")
+		val naverOAuth = "https://nid.naver.com"
+		val naverPath = "/oauth2.0/token"
+		val webclient = WebClient.builder().baseUrl(naverOAuth)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build()
 		
 		val response = webclient.post().uri { uriBuilder ->
-			uriBuilder.path("/oauth2.0/token").queryParam("client_id", clientId)
+			uriBuilder.path(naverPath).queryParam("client_id", clientId)
 				.queryParam("client_secret", clientSecret).queryParam("grant_type", "delete")
 				.queryParam("access_token", token).queryParam("service_provider", "NAVER").build()
 		}.retrieve().onStatus({ status -> status.value() != 200 }) {
