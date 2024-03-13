@@ -8,6 +8,9 @@ extend type Mutation {
     kakaoLogin(code: String): TokenResponse
     kakaoUnlink(token: String): KakaoUnlinkResponse
 
+    naverLogin(request: NaverRequest): TokenResponse
+    naverUnlink(token: String): NaverUnlinkResponse
+
     changePassword(request: AccountChangePwdRequest!): String
 
     sendVerifyCode(request: SendVerifyCodeRequest!): String

@@ -18,15 +18,15 @@ class AccountCreateService(
 	private val passwordEncoder: PasswordEncoder
 ) {
 	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
-
+		
 		val accountStatus = accountCreateRequest.asStatus()
 		val account = accountCreateRequest.asDomain()
-		accountStatus.accountId = account.id
 		account.pwd = passwordEncoder.encode(account.pwd)
-
-		accountStatusRepository.save(accountStatus)
+		
 		val result = accountRepository.save(account)
-
+		accountStatus.accountId = result.id
+		accountStatusRepository.save(accountStatus)
+		
 		return AccountResponse.fromAccount(account)
 	}
 }
