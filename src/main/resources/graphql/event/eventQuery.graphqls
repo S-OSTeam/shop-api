@@ -1,6 +1,6 @@
 extend type Query {
     # 현재 진행중인 이벤트 가져오기
-    getEventList: [EventItemResponse]
+    getEventList (eventType: EventType): [EventItemResponse]
 
     # eventId 이용해서 클릭 시 상세정보 조회
     getEventInfo (eventId: Long): EventInfoResponse
