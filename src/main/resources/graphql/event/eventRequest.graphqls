@@ -3,9 +3,14 @@ input EventRequest {
     endedAt: DateTime!
     title: String! @NotBlank
     contents: String
+    # 리스트 아이템 이미지 썸네일
     thumbnail: String
     items: [String]
     images: [ImageRequest]
+    # 이벤트 종류
+    eventType: EventType
+    # 클릭 시 이동할 링크
+    link: String
 }
 
 input EventPageRequest {

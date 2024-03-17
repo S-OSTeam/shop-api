@@ -1,6 +1,8 @@
 package sosteam.deamhome.domain.event.service
 
 import org.springframework.stereotype.Service
+import sosteam.deamhome.domain.event.entity.Event
+import sosteam.deamhome.domain.event.entity.enum.EventType
 import sosteam.deamhome.domain.event.handler.request.EventPageRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
 import sosteam.deamhome.domain.event.handler.response.EventItemResponse
@@ -16,8 +18,8 @@ class EventReadService (
     private val eventValidService: EventValidService,
 ){
     // 현재 진행중인 이벤트 간략 리스트 리턴
-    suspend fun getEventList():List<EventItemResponse>{
-        val eventList = eventRepository.findByEndedAtAfter(LocalDateTime.now())
+    suspend fun getEventList(eventType: EventType):List<EventItemResponse>{
+        val eventList: List<Event> =  eventRepository.findByEndedAtAfterAndEventType(LocalDateTime.now(), eventType)
         return eventList.map{EventItemResponse.fromEvent(it) }
     }
 

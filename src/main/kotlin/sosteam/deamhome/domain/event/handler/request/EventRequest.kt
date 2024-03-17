@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.event.handler.request
 
 import sosteam.deamhome.domain.event.entity.Event
+import sosteam.deamhome.domain.event.entity.enum.EventType
 import sosteam.deamhome.global.entity.DTO
 import sosteam.deamhome.global.image.handler.request.ImageRequest
 import java.time.LocalDateTime
@@ -15,6 +16,8 @@ data class EventRequest (
     val thumbnail: String?,
     val items: MutableList<String>?,
     val images: List<ImageRequest>?,
+    val eventType: EventType,
+    val link: String?,
 ): DTO {
     override fun asDomain(): Event {
        return Event(
@@ -24,7 +27,9 @@ data class EventRequest (
            title = title,
            contents = contents,
            thumbnail = thumbnail,
-           items = items ?: mutableListOf() ,
+           items = items ?: mutableListOf(),
+           eventType = eventType,
+           link = link,
        )
     }
 }
