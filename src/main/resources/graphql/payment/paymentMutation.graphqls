@@ -1,0 +1,4 @@
+extend type Mutation {
+    # 결제금액 사전등록
+    createPrepareData(orderPublicId: Long!): String
+}

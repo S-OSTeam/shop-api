@@ -1,0 +1,27 @@
+type Payment {
+    imp_uid: String!
+    merchant_uid: String!
+    pay_method: String!
+    channel: String!
+    pg_provider: String!
+    emb_pg_provider: String!
+    pg_tid: String!
+    escrow: Boolean!
+    apply_num: String!
+    bank_code: String!
+    bank_name: String!
+    card_code: String!
+    card_name: String!
+    card_number: String!
+    card_quota: Int!
+    card_type: Int!
+    vbank_code: String!
+    vbank_name: String!
+    vbank_num: String!
+    vbank_holder: DateTime!
+    originalWork: String!
+    material: String!
+    size: String!
+    weight: String!
+    shippingCost: Int!
+}

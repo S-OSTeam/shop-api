@@ -33,6 +33,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven("https://jitpack.io")
 }
 
 dependencies {
@@ -102,6 +103,7 @@ dependencies {
 	
 	implementation("com.graphql-java:graphql-java-extended-validation:21.0")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
+	implementation("com.github.iamport:iamport-rest-client-java:0.2.23")
 }
 
 tasks.withType<Jar> {
