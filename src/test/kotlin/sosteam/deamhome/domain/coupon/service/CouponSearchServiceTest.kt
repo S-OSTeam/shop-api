@@ -15,7 +15,8 @@ import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
 import sosteam.deamhome.domain.coupon.repository.CouponRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import java.time.LocalDateTime
+import sosteam.deamhome.global.attribute.ItemStatus
+import java.time.OffsetDateTime
 
 class CouponSearchServiceTest : BehaviorSpec({
 	isolationMode = IsolationMode.InstancePerLeaf
@@ -51,7 +52,7 @@ class CouponSearchServiceTest : BehaviorSpec({
 					mapOf("item1" to CouponResponse.fromCoupon(coupon3))
 				)
 				println(expectedResults)
-				result[0]["item2"]?.publicId shouldBe expectedResults[0]["item2"]?.publicId
+				result[0].coupon.publicId shouldBe expectedResults[0]["item2"]?.publicId
 			}
 		}
 	}
@@ -68,8 +69,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 			itemIds = listOf("item1", "item2"),
 			categoryIds = listOf(),
 			status = true,
-			startDate = LocalDateTime.now(),
-			endDate = LocalDateTime.now().plusDays(10),
+			startDate = OffsetDateTime.now(),
+			endDate = OffsetDateTime.now().plusDays(10),
 			discount = 10,
 			minPurchaseAmount = null,
 			links = listOf()
@@ -85,8 +86,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 			itemIds = listOf("item2", "item3"),
 			categoryIds = listOf(),
 			status = true,
-			startDate = LocalDateTime.now(),
-			endDate = LocalDateTime.now().plusDays(10),
+			startDate = OffsetDateTime.now(),
+			endDate = OffsetDateTime.now().plusDays(10),
 			discount = 20,
 			minPurchaseAmount = null,
 			links = listOf()
@@ -102,8 +103,8 @@ class CouponSearchServiceTest : BehaviorSpec({
 			itemIds = listOf("item1"),
 			categoryIds = listOf(),
 			status = true,
-			startDate = LocalDateTime.now(),
-			endDate = LocalDateTime.now().plusDays(10),
+			startDate = OffsetDateTime.now(),
+			endDate = OffsetDateTime.now().plusDays(10),
 			discount = 1500,
 			minPurchaseAmount = null,
 			links = listOf()
@@ -116,7 +117,18 @@ class CouponSearchServiceTest : BehaviorSpec({
 			content = "item",
 			summary = "item",
 			price = 1000,
-			sellerId = "seller123"
+			sellerId = "seller123",
+			freeDelivery = false,
+			reviewScore = listOf(0, 0, 0, 0, 0),
+			option = listOf(),
+			productNumber = "0",
+			deadline = OffsetDateTime.MAX,
+			originalWork = "",
+			material = "",
+			size = "",
+			weight = "",
+			shippingCost = 0,
+			status = ItemStatus.AVAILABLE
 		)
 		item2 = Item(
 			id = 2L,
@@ -126,7 +138,18 @@ class CouponSearchServiceTest : BehaviorSpec({
 			content = "item",
 			summary = "item",
 			price = 1000,
-			sellerId = "seller123"
+			sellerId = "seller123",
+			freeDelivery = false,
+			reviewScore = listOf(0, 0, 0, 0, 0),
+			option = listOf(),
+			productNumber = "0",
+			deadline = OffsetDateTime.MAX,
+			originalWork = "",
+			material = "",
+			size = "",
+			weight = "",
+			shippingCost = 0,
+			status = ItemStatus.AVAILABLE
 		)
 		item3 = Item(
 			id = 3L,
@@ -136,7 +159,18 @@ class CouponSearchServiceTest : BehaviorSpec({
 			content = "item",
 			summary = "item",
 			price = 1000,
-			sellerId = "seller123"
+			sellerId = "seller123",
+			freeDelivery = false,
+			reviewScore = listOf(0, 0, 0, 0, 0),
+			option = listOf(),
+			productNumber = "0",
+			deadline = OffsetDateTime.MAX,
+			originalWork = "",
+			material = "",
+			size = "",
+			weight = "",
+			shippingCost = 0,
+			status = ItemStatus.AVAILABLE
 		)
 		searchRequest = CouponSearchRequest(
 			userId = "user123",
