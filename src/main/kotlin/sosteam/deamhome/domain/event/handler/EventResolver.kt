@@ -11,6 +11,7 @@ import sosteam.deamhome.domain.event.handler.request.EventRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
 import sosteam.deamhome.domain.event.handler.response.EventItemResponse
 import sosteam.deamhome.domain.event.service.EventCreateService
+import sosteam.deamhome.domain.event.service.EventDeleteService
 import sosteam.deamhome.domain.event.service.EventReadService
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
 
@@ -18,13 +19,18 @@ import sosteam.deamhome.domain.item.handler.response.ItemResponse
 class EventResolver (
     private val eventCreateService: EventCreateService,
     private val eventReadService: EventReadService,
+    private val eventDeleteService: EventDeleteService,
 ){
     // 이벤트 생성
     @MutationMapping
     suspend fun createEvent(@Argument request: EventRequest): EventInfoResponse{
         return eventCreateService.createEvent(request)
     }
-
+    // id에 해당하는 이벤트 삭제
+    @MutationMapping
+    suspend fun deleteEvent(@Argument eventId: Long){
+        eventDeleteService.deleteEvent(eventId)
+    }
     // 현재 진행중인 이벤트 리스트 가져오기
     @QueryMapping
     suspend fun getEventList(@Argument eventType: EventType): List<EventItemResponse>{
