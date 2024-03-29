@@ -13,6 +13,7 @@ class EventInfoResponse (
     val thumbnail: String?,
     val items: MutableList<String>,
     val images: MutableList<String>,
+    val link: String?
 ){
     companion object{
         fun fromEvent(event: Event): EventInfoResponse{
@@ -25,6 +26,7 @@ class EventInfoResponse (
                 thumbnail = event.thumbnail,
                 items = event.items,
                 images = event.images,
+                link = event.link,
             )
         }
     }
