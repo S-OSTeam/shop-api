@@ -21,6 +21,7 @@ import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
 import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
 import sosteam.deamhome.global.attribute.SNS
+import sosteam.deamhome.global.security.provider.RandomKeyProvider
 
 @Service
 @Slf4j
@@ -31,20 +32,23 @@ class KakaoService(
     @Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
     private val kakaoRedirectUri: String,
     private val accountRepository: AccountRepository,
-    private val accountStatusValidService: AccountStatusValidService
+    private val accountStatusValidService: AccountStatusValidService,
+    private val randomKeyProvider: RandomKeyProvider
 ) {
     suspend fun getKakaoLoginPage(): String {
+        val state = randomKeyProvider.randomAlphabetNumber(32)
         val reqUrl = "https://kauth.kakao.com/oauth/authorize"
         val uriBuilder = UriComponentsBuilder.fromHttpUrl(reqUrl)
             .queryParam("response_type", "code")
             .queryParam("client_id", kakaoRestApiToken)
             .queryParam("redirect_uri", kakaoRedirectUri)
+            .queryParam("state",state)
 
         return uriBuilder.toUriString()
     }
 
-    suspend fun kakaoSign(code: String): Account {
-        val token = getKakaoToken(code)
+    suspend fun kakaoSign(code: String, state: String): Account {
+        val token = getKakaoToken(code,state)
         val kakaoInfo = getKakaoUserInfo(token.accessToken)
         val user = accountRepository.findAccountBySnsIdAndSns(kakaoInfo.id.toString(), SNS.KAKAO)
             ?: throw SnsIdNotFoundException()
@@ -52,13 +56,14 @@ class KakaoService(
         return user
     }
 
-    suspend fun getKakaoToken(code: String): KakaoTokenReturnResponse {
+    suspend fun getKakaoToken(code: String, state: String): KakaoTokenReturnResponse {
         val reqUrl = "https://kauth.kakao.com/oauth/token"
 
         val formData = LinkedMultiValueMap<String, String>()
         formData.add("code", code)
         formData.add("grant_type", "authorization_code")
         formData.add("client_id", kakaoRestApiToken)
+        formData.add("state", state)
 
         val response = WebClient.builder()
             .baseUrl(reqUrl)
