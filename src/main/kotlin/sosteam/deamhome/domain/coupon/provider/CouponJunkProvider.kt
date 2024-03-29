@@ -4,6 +4,7 @@ import sosteam.deamhome.domain.coupon.entity.Coupon
 import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.global.attribute.ItemStatus
 import java.time.OffsetDateTime
 
 class CouponJunkProvider {
@@ -25,9 +26,18 @@ class CouponJunkProvider {
 				avgReview = 0.0,
 				reviewCnt = 0,
 				qnaCnt = 0,
-				status = false,
+				status = ItemStatus.AVAILABLE,
 				sellerId = "",
-				freeDelivery = false
+				freeDelivery = false,
+				reviewScore = listOf(0, 0, 0, 0, 0),
+				option = listOf(),
+				productNumber = "0",
+				deadline = OffsetDateTime.MAX,
+				originalWork = "",
+				material = "",
+				size = "",
+				weight = "",
+				shippingCost = 0,
 			)
 		}
 		
