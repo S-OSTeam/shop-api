@@ -1,5 +1,5 @@
 extend type Mutation {
-    # 이벤트 생성
+    # 이벤트 생성 :+1:
     createEvent(request: EventRequest!): EventInfoResponse
     # 이벤트 삭제
     deleteEvent(eventId: Long!): String
