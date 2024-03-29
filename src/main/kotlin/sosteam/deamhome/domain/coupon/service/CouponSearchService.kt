@@ -85,9 +85,9 @@ class CouponSearchService {
 		log().debug("couponsRow :" + couponsRow)
 		
 		// 1:1로 대응되는 행렬 생성
-		/*while (couponsRow.size > itemsColumn.size) {
+		while (couponsRow.size > itemsColumn.size) {
 			itemsColumn.add(CouponJunkProvider.createJunkItem())
-		}*/
+		}
 		while (couponsRow.size < itemsColumn.size) {
 			couponsRow.add(CouponJunkProvider.createJunkCoupon())
 		}

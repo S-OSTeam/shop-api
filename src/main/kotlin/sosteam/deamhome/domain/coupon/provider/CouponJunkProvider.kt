@@ -9,7 +9,7 @@ import java.time.OffsetDateTime
 
 class CouponJunkProvider {
 	companion object {
-		/*fun createJunkItem(): Item {
+		fun createJunkItem(): Item {
 			val PRICE = 112345678
 			return Item(
 				id = null,
@@ -39,7 +39,7 @@ class CouponJunkProvider {
 				weight = "",
 				shippingCost = 0,
 			)
-		}*/
+		}
 
 		fun createJunkCoupon(): Coupon {
 			val DISCOUNT = -112345678
