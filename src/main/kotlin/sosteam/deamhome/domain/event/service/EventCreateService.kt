@@ -1,6 +1,8 @@
 package sosteam.deamhome.domain.event.service
 
 import org.springframework.stereotype.Service
+import sosteam.deamhome.domain.event.entity.enum.EventType
+import sosteam.deamhome.domain.event.exception.InvalidEventException
 import sosteam.deamhome.domain.event.exception.InvalidEventTimeException
 import sosteam.deamhome.domain.event.handler.request.EventRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
@@ -18,7 +20,20 @@ class EventCreateService (
         if (request.startedAt.isAfter(request.endedAt)) {
             throw InvalidEventTimeException()
         }
+        // 이벤트별 필수정보 에러처리 (생기면 추가)
+        when(request.eventType){
+            EventType.EVENT -> { //이벤트
 
+            }
+            EventType.MAIN -> { //메인 : 썸네일, 링크
+                if(request.thumbnail == null || request.link == null){
+                    throw InvalidEventException()
+                }
+            }
+            else -> { // 공지사항
+
+            }
+        }
         val event = request.asDomain().apply{
             // 이미지 저장
             images = request.images?.map{
