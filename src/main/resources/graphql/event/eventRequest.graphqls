@@ -1,6 +1,6 @@
 input EventRequest {
-    startedAt: String!
-    endedAt: String!
+    startedAt: DateTime!
+    endedAt: DateTime!
     title: String! @NotBlank
     contents: String
     # 리스트 아이템 이미지 썸네일

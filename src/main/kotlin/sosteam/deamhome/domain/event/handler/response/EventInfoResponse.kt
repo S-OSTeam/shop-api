@@ -2,12 +2,13 @@ package sosteam.deamhome.domain.event.handler.response
 
 import sosteam.deamhome.domain.event.entity.Event
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 // 전체 정보 response
 class EventInfoResponse (
     val id: Long?,
-    val startedAt: LocalDateTime,
-    val endedAt: LocalDateTime,
+    val startedAt: OffsetDateTime,
+    val endedAt: OffsetDateTime,
     val title: String,
     val contents: String?,
     val thumbnail: String?,

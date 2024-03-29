@@ -5,12 +5,13 @@ import sosteam.deamhome.domain.event.entity.enum.EventType
 import sosteam.deamhome.global.entity.DTO
 import sosteam.deamhome.global.image.handler.request.ImageRequest
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 // 이벤트 생성 요청 Request
 data class EventRequest (
 
-    val startedAt: LocalDateTime,
-    val endedAt: LocalDateTime,
+    val startedAt: OffsetDateTime,
+    val endedAt: OffsetDateTime,
     val title: String,
     val contents: String?,
     val thumbnail: String?,

@@ -1,18 +1,18 @@
 package sosteam.deamhome.domain.event.handler.response
 
 import sosteam.deamhome.domain.event.entity.Event
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 // 리스트 안 아이템 간략 response
 class EventItemResponse (
     val id: Long?,
-    val startedAt: LocalDateTime,
-    val endedAt: LocalDateTime,
+    val startedAt: OffsetDateTime,
+    val endedAt: OffsetDateTime,
     val title: String,
     val contents: String?,
     val thumbnail: String?,
 
-){
+    ){
     companion object{
         fun fromEvent(event: Event): EventItemResponse{
             return EventItemResponse(

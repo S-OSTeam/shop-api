@@ -6,15 +6,16 @@ import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.domain.event.entity.enum.EventType
 import sosteam.deamhome.global.entity.BaseEntity
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Table("event")
 data class Event(
     @Id
     var id: Long?,
     @Column("started_at")
-    var startedAt: LocalDateTime,
+    var startedAt: OffsetDateTime,
     @Column("ended_at")
-    var endedAt: LocalDateTime,
+    var endedAt: OffsetDateTime,
     var title: String,
     var contents: String?,
     var thumbnail: String?,
