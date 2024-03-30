@@ -8,7 +8,7 @@ input EventRequest {
     items: [String]
     images: [ImageRequest]
     # 이벤트 종류
-    eventType: EventType
+    eventType: EventType!
     # 클릭 시 이동할 링크
     link: String
 }
