@@ -6,7 +6,9 @@ import sosteam.deamhome.domain.order.exception.OrderWaitDeliveredException
 import sosteam.deamhome.domain.order.repository.OrderRepository
 
 @Service
-class OrderValidService(val orderRepository: OrderRepository) {
+class OrderValidService(
+	private val orderRepository: OrderRepository
+) {
 
 	suspend fun isNotExistLiveOrder(accountId: String): Boolean {
 		val orders = orderRepository.getOrdersByAccountAndNotFinished(accountId).toList()
@@ -15,4 +17,6 @@ class OrderValidService(val orderRepository: OrderRepository) {
 			throw OrderWaitDeliveredException()
 		return true
 	}
+
+
 }
