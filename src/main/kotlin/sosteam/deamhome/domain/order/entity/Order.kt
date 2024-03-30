@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.order.entity
 
+import com.github.f4b6a3.ulid.UlidCreator
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.attribute.OrderStatus
@@ -10,12 +11,12 @@ import java.time.OffsetDateTime
 class Order(
 	@Id
 	var id: Long?,
-	var publicId: String,
 	val address: String,
 	val mainDoorPassWord: String,
 	val deliveryRequest: String,
 	val userName: String,
 	var userNickname: String,
+	// 수신인
 	var addressee: String,
 	val email: String,
 	val phone: String,
@@ -38,27 +39,9 @@ class Order(
 	val downloadDays: OffsetDateTime,
 	val reasonRefund: String
 ) : BaseEntity() {
-	
+	val publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 	var orderStatus: OrderStatus = OrderStatus.PENDING
-	
 	var adminMemo: String? = null
-	
 	var isPaid = false
 	var isRefund = false
-	
-	private val items: MutableList<String> = mutableListOf()
-	private val optionItems: MutableList<String> = mutableListOf()
-	
-	@Transient
-	val itemsCount: Int = 0
-	
-	fun addItem(itemId: String): List<String> {
-		items.add(itemId)
-		return items
-	}
-	
-	fun addOptionItem(itemId: String): List<String> {
-		items.add(itemId)
-		return items
-	}
 }
