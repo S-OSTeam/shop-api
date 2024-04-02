@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.order.service
+package sosteam.deamhome.domain.order.service.order
 
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service

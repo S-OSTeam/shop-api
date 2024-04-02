@@ -13,17 +13,17 @@ class Order(
 	var id: Long?,
 	val address: String,
 	val mainDoorPassWord: String,
-	val deliveryRequest: String,
+	val deliveryRequest: String?,
 	val userName: String,
 	var userNickname: String,
 	// 수신인
 	var addressee: String,
 	val email: String,
 	val phone: String,
-	var memo: String,
+	var memo: String?,
 	val userId: String,
 	var totalPrice: Int,
-	val content: String,
+	val content: String?,
 	var payType: String,
 	val appNo: String,
 	val bankId: String,
@@ -35,9 +35,9 @@ class Order(
 	val approveDatetime: OffsetDateTime?,
 	val couponIds: List<String?>,
 	val pointPrice: Int,
-	var shippingCompany: String,
+	var shippingCompany: String?,
 	val downloadDays: OffsetDateTime,
-	val reasonRefund: String
+	val reasonRefund: String?,
 ) : BaseEntity() {
 	val publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 	var orderStatus: OrderStatus = OrderStatus.PENDING
