@@ -10,9 +10,9 @@ class OrderedItem (
     @Id
     var id: Long?,
     @Column("order_id")
-    val orderId: Long,
+    val orderId: String,
     @Column("item_id")
-    val itemId: Long,
+    val itemId: String,
     @Column("count")
     val count: Int,
 
