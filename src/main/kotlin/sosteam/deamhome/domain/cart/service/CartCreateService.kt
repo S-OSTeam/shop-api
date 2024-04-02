@@ -18,7 +18,6 @@ class CartCreateService (
         val (itemId, cnt) = request
 
         val existingCartItem = cartRepository.findByUserIdAndItemId(userId, itemId)
-        println("result:" + existingCartItem)
         if(existingCartItem != null){ //추가하려는 아이템이 이미 존재
             //Todo: updateService에서 이미 있는 아이템 개수 추가 넣기
             throw CartCheckListInvalidException()

@@ -11,7 +11,6 @@ import sosteam.deamhome.domain.item.repository.ItemRepository
 @Service
 class CartReadService (
     private val itemRepository: ItemRepository,
-    private val accountValidService: AccountValidService,
     private val cartRepository: CartRepository,
     ){
 
