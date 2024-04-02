@@ -5,6 +5,7 @@ import org.springframework.data.annotation.PersistenceCreator
 import org.springframework.data.annotation.Transient
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.order.entity.OrderedItem
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Table("cart_item")
@@ -15,4 +16,13 @@ data class CartItem(
     val userId: String,
     var cnt: Int,
     var checked: Boolean,
-) : BaseEntity()
+) : BaseEntity() {
+    fun asOrderedItem(orderId: String): OrderedItem {
+        return OrderedItem(
+            id = null,
+            orderId = orderId,
+            itemId = itemId,
+            count = cnt,
+        )
+    }
+}
