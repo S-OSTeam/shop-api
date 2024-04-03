@@ -21,7 +21,7 @@ data class OrderRequest (
     val appNo: String,
     val bankId: String,
 //    val orderDateTime: OffsetDateTime,
-    val couponIds: List<String?>,
+    val couponIds: List<String?>?,
     val pointPrice: Int,
     var shippingCompany: String,
     val downloadDays: OffsetDateTime,

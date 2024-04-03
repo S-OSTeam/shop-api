@@ -30,7 +30,7 @@ data class OrderInfoResponse(
     val refundDateTime: OffsetDateTime?,
     val deliveryDateTime: OffsetDateTime?,
     val approveDatetime: OffsetDateTime?,
-    val couponIds: List<String?>,
+    val couponIds: List<String?>?,
     val pointPrice: Int,
     val shippingCompany: String?,
     val downloadDays: OffsetDateTime,

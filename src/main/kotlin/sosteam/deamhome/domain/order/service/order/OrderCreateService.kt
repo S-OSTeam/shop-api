@@ -13,6 +13,7 @@ import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.order.entity.Order
 import sosteam.deamhome.domain.order.entity.OrderedItem
+import sosteam.deamhome.domain.order.exception.OrderEmptyException
 import sosteam.deamhome.domain.order.handler.request.OrderRequest
 import sosteam.deamhome.domain.order.handler.response.OrderInfoResponse
 import sosteam.deamhome.domain.order.repository.OrderRepository
@@ -33,6 +34,20 @@ class OrderCreateService (
         // 장바구니 아이템
         val cartItems : List<CartItem> = cartRepository.findByUserId(userId).toList()
 
+        // 주문 상품 없음
+        if (cartItems.isEmpty()){
+            throw OrderEmptyException()
+        }
+
+        // 주문 아이템 저장
+        saveOrderedItem(cartItems,order)
+
+        val saved = orderRepository.save(order)
+        return OrderInfoResponse.fromOrder(saved)
+    }
+
+    private suspend fun saveOrderedItem(cartItems : List<CartItem>, order: Order){
+
         for (cartItem in cartItems) {
             if(cartItem.checked){ // 체크 돼있을 시
                 val item: Item = itemRepository.findByPublicId(cartItem.itemId)
@@ -46,9 +61,5 @@ class OrderCreateService (
                 orderedItemRepository.save(orderedItem)
             }
         }
-
-        val saved = orderRepository.save(order)
-        return OrderInfoResponse.fromOrder(saved)
     }
-
 }
