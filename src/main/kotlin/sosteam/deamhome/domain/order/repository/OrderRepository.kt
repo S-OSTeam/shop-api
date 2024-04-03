@@ -10,4 +10,5 @@ import sosteam.deamhome.domain.order.repository.custom.OrderRepositoryCustom
 @GraphQlRepository
 interface OrderRepository : CoroutineCrudRepository<Order, Long>, OrderRepositoryCustom{
     fun findAllByUserId(userId: String): Flow<Order>
+    suspend fun findOrderByPublicId(publicId: String): Order?
 }

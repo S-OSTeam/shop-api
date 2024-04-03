@@ -8,6 +8,7 @@ import sosteam.deamhome.domain.order.handler.request.OrderRequest
 import sosteam.deamhome.domain.order.handler.response.OrderInfoResponse
 import sosteam.deamhome.domain.order.handler.response.OrderedItemResponse
 import sosteam.deamhome.domain.order.service.order.OrderCreateService
+import sosteam.deamhome.domain.order.service.order.OrderDeleteService
 import sosteam.deamhome.domain.order.service.order.OrderReadService
 import sosteam.deamhome.domain.order.service.orderItem.OrderedItemReadService
 import sosteam.deamhome.global.security.service.AuthenticationService
@@ -18,6 +19,7 @@ class OrderResolver(
     private val authenticationService: AuthenticationService,
     private val orderReadService: OrderReadService,
     private val orderedItemReadService: OrderedItemReadService,
+    private val orderDeleteService: OrderDeleteService,
 ) {
     //현재 사용자 장바구니 기준으로 주문 생성
     @MutationMapping
@@ -25,7 +27,13 @@ class OrderResolver(
         return orderCreateService.createOrder(request, authenticationService.getUserIdFromToken())
     }
 
-    // order 조회
+    // 주문 삭제
+    @MutationMapping
+    suspend fun deleteOrder(@Argument orderId: String){
+        return orderDeleteService.deleteOrder(orderId)
+    }
+
+    // 주문 조회
     @QueryMapping
     suspend fun getOrders(): List<OrderInfoResponse>{
         return orderReadService.getOrder(authenticationService.getUserIdFromToken())
