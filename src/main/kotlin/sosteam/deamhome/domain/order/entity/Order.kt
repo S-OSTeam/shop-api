@@ -33,7 +33,7 @@ class Order(
 	val refundDateTime: OffsetDateTime?,
 	val deliveryDateTime: OffsetDateTime?,
 	val approveDatetime: OffsetDateTime?,
-	val couponIds: List<String?>,
+	val couponIds: List<String?>?,
 	val pointPrice: Int,
 	var shippingCompany: String?,
 	val downloadDays: OffsetDateTime,
