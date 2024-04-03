@@ -7,6 +7,7 @@ import sosteam.deamhome.domain.cart.entity.CartItem
 import sosteam.deamhome.domain.cart.handler.response.CartItemResponse
 import sosteam.deamhome.domain.cart.handler.response.CartResponse
 import sosteam.deamhome.domain.cart.repository.CartRepository
+import sosteam.deamhome.domain.cart.service.CartDeleteService
 import sosteam.deamhome.domain.cart.service.CartReadService
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
@@ -25,6 +26,7 @@ class OrderCreateService (
     private val orderedItemRepository: OrderedItemRepository,
     private val cartRepository: CartRepository,
     private val itemRepository: ItemRepository,
+    private val cartDeleteService: CartDeleteService,
 ){
     //현재 사용자 장바구니 기준으로 주문 생성
     @Transactional
@@ -41,6 +43,9 @@ class OrderCreateService (
 
         // 주문 아이템 저장
         saveOrderedItem(cartItems,order)
+
+        // 장바구니 주문 아이템 제거
+        cartDeleteService.deleteCheckedItem(userId)
 
         val saved = orderRepository.save(order)
         return OrderInfoResponse.fromOrder(saved)
