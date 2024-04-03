@@ -4,7 +4,7 @@ type OrderInfoResponse{
     isPaid: Boolean!,
     isRefund: Boolean!,
     address: String!,
-    mainDoorPassWord: String!,
+    mainDoorPassword: String!,
     deliveryRequest: String,
     userName: String!,
     userNickname: String!,

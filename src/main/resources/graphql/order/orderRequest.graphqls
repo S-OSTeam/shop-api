@@ -1,6 +1,6 @@
 input OrderRequest{
     address: String!,
-    mainDoorPassWord: String!,
+    mainDoorPassword: String!,
     deliveryRequest: String,
     userName: String!,
     userNickname: String!,
