@@ -1,4 +1,6 @@
 extend type Query {
     # order 가져오기
     getOrders:[OrderInfoResponse]
+    # 주문에 속한 아이템 목록 가져오기
+    getOrderedItems(orderId: String!): [OrderedItemResponse]
 }

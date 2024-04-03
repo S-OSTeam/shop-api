@@ -30,3 +30,12 @@ type OrderInfoResponse{
     downloadDays: DateTime!,
     reasonRefund: String,
 }
+
+type OrderedItemResponse{
+    title: String!,
+    content: String!,
+    price: Int!,
+    image: String!,
+    itemId: String!,
+    cnt: Int!,
+}
