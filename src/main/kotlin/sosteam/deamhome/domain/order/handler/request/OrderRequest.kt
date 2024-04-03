@@ -6,7 +6,7 @@ import java.time.OffsetDateTime
 
 data class OrderRequest (
     val address: String,
-    val mainDoorPassWord: String,
+    val mainDoorPassword: String,
     val deliveryRequest: String?,
     val userName: String,
     var userNickname: String,
@@ -30,7 +30,7 @@ data class OrderRequest (
         return Order(
             id = null,
             address = address,
-            mainDoorPassWord = mainDoorPassWord,
+            mainDoorPassword = mainDoorPassword,
             deliveryRequest = deliveryRequest,
             userName = userName,
             userNickname = userNickname,
