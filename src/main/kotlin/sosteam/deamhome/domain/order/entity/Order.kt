@@ -61,7 +61,7 @@ class Order(
 	val reasonRefund: String?,
 ) : BaseEntity() {
 	@Column("public_id")
-	val publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+	var publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 	@Column("order_status")
 	var orderStatus: OrderStatus = OrderStatus.PENDING
 	@Column("admin_memo")
