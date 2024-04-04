@@ -25,6 +25,5 @@ class Image(
 	var height: Int,
 ) : BaseEntity() {
 	@Id
-	@Setter
 	var id: Long? = null
 }
