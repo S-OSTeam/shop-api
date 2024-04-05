@@ -11,13 +11,13 @@ class ReviewLikeProvider(
 	private val reviewLikeLogRepository: ReviewLikeLogRepository,
 	private val reviewRepository: ReviewRepository
 ) {
-	suspend fun updateReviewLike(userId: String, reviewId: String, favor: Boolean): Review {
+	suspend fun updateReviewLike(userId: String, reviewId: String, favor: Boolean?): Review {
 		val review = reviewRepository.findByPublicId(reviewId)
 		val userLiked = review.likeUsers.contains(userId)
 		
-		if (favor && !userLiked) {
+		if (favor == true && !userLiked) {
 			review.likeUsers.add(userId)
-		} else if (!favor && userLiked) {
+		} else if ((favor == false || favor == null) && userLiked) {
 			review.likeUsers.remove(userId)
 		}
 		

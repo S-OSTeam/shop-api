@@ -16,5 +16,5 @@ class ReviewLikeLog(
 	@Column("item_id")
 	val itemId: String,
 	@Column("favor")
-	val favor: Boolean
+	val favor: Boolean?
 ) : LogEntity()

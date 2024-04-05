@@ -34,7 +34,7 @@ input ReviewUpdateRequest{
 input ReviewLikeRequest{
     reviewId: String! @NotBlank(message : "리뷰 ID는 필수 입력 항목입니다.")
     userId: String! @NotBlank(message : "유저 ID는 필수 입력 항목입니다.")
-    favor: Boolean!
+    favor: Boolean
 }
 
 input ReviewMonthRequest{
