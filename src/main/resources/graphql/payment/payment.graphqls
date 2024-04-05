@@ -1,0 +1,6 @@
+extend type Mutation {
+    # 코드 전송
+    giveCode: String
+    # 코드 수신
+    takeCode(code: String): String
+}
