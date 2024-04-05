@@ -15,7 +15,7 @@ class CartValidService (
             ?: throw ItemNotFoundException()
 
         return if(cnt > item.stockCnt){
-            throw CartItemExceedsStockException()
+            throw CartItemExceedsStockException(item = item)
         }else {
             true
          }
