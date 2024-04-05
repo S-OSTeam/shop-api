@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.cart.entity.CartItem
+import sosteam.deamhome.domain.cart.exception.CartItemExceedsStockException
 import sosteam.deamhome.domain.cart.handler.response.CartItemResponse
 import sosteam.deamhome.domain.cart.handler.response.CartResponse
 import sosteam.deamhome.domain.cart.repository.CartRepository
@@ -58,6 +59,12 @@ class OrderCreateService (
                 val item: Item = itemRepository.findByPublicId(cartItem.itemId)
                     ?: throw ItemNotFoundException()
 
+                if(item.stockCnt < cartItem.cnt){ // 재고부족
+                    throw CartItemExceedsStockException(item = item)
+                }else{ // 재고수량 반영
+                    item.stockCnt -= cartItem.cnt
+                    itemRepository.save(item)
+                }
                 // 주문 가격 계산
                 // Todo: totalPrice 일단 물건 순 가격 합으로 계산함 ( 쿠폰이랑 포인트 포함 계산 가격으로 하는지 모르겠음)
                 order.totalPrice += item.price * cartItem.cnt
