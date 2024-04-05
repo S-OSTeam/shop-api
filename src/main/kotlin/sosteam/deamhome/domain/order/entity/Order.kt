@@ -63,7 +63,7 @@ class Order(
 	@Column("public_id")
 	var publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 	@Column("order_status")
-	var orderStatus: OrderStatus = OrderStatus.PENDING
+	var orderStatus: OrderStatus = OrderStatus.PROCESSING
 	@Column("admin_memo")
 	var adminMemo: String? = null
 	@Column("is_paid")
