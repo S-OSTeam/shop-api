@@ -58,6 +58,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.session:spring-session-data-redis")
 	implementation("org.springframework.session:spring-session-core")
+
+	implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+	implementation("org.springframework.security:spring-security-crypto:6.0.3")
 	
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("name.nkonev.multipart-spring-graphql:multipart-spring-graphql:1.1.3")

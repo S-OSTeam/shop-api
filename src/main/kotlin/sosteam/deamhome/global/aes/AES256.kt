@@ -16,7 +16,7 @@ class AES256(
     private val encoder = Base64.getEncoder()
     private val decoder = Base64.getDecoder()
 
-    fun encryptString(encryptString: String): String {
+    suspend fun encryptString(encryptString: String): String {
 
         val encryptedString = this.cipherPkcs5(Cipher.ENCRYPT_MODE, secretKey)
             .doFinal(encryptString.toByteArray(Charsets.UTF_8))
@@ -24,7 +24,7 @@ class AES256(
         return String(encoder.encode(encryptedString)) // base 64 encoding
     }
 
-    fun decryptString(decryptString: String): String {
+    suspend fun decryptString(decryptString: String): String {
 
         val byteString = decoder.decode(decryptString.toByteArray(Charsets.UTF_8)) // base 64 decoding
         return String(
@@ -32,7 +32,7 @@ class AES256(
         ) // decryption
     }
 
-    fun cipherPkcs5(opMode: Int, secretKey: String): Cipher {
+    suspend fun cipherPkcs5(opMode: Int, secretKey: String): Cipher {
         val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
         val sk = SecretKeySpec(this.secretKey.toByteArray(Charsets.UTF_8), "AES")
         val iv = IvParameterSpec(this.secretKey.substring(0, 16).toByteArray(Charsets.UTF_8))
