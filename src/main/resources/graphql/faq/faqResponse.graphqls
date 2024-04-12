@@ -5,7 +5,6 @@ type FaqResponse {
     images: [Upload!]
 }
 
-#TODO ㅁㅁㅁ
 type FaqCategory {
     title: String!
     faqIds: [String]
