@@ -1,13 +1,16 @@
 input FaqCategoryRequest {
-    faqCategories: [FaqsRequest!]
+    faqCategories: [FaqCreateRequest!]
 }
 
-input FaqsRequest {
-    faq: [Faq]
-}
-
-input Faq {
+input FaqCreateRequest {
     id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+
+input FaqUpdateRequest {
+    publicId: String!
     title: String!
     content: String!
     images: [Upload!]
