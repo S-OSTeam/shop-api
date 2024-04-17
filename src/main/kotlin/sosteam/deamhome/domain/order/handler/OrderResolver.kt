@@ -11,6 +11,7 @@ import sosteam.deamhome.domain.order.service.order.OrderCreateService
 import sosteam.deamhome.domain.order.service.order.OrderDeleteService
 import sosteam.deamhome.domain.order.service.order.OrderReadService
 import sosteam.deamhome.domain.order.service.orderItem.OrderedItemReadService
+import sosteam.deamhome.global.attribute.OrderStatus
 import sosteam.deamhome.global.security.service.AuthenticationService
 
 @RestController
@@ -38,6 +39,12 @@ class OrderResolver(
     suspend fun getOrders(): List<OrderInfoResponse>{
         return orderReadService.getOrder(authenticationService.getUserIdFromToken())
     }
+
+    @QueryMapping
+    suspend fun getOrdersByStatus(@Argument orderStatus: OrderStatus): List<OrderInfoResponse>{
+        return orderReadService.getOrder(authenticationService.getUserIdFromToken())
+    }
+
 
     // 주문 아이템 조회
     @QueryMapping
