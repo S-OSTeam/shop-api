@@ -13,7 +13,6 @@ class AuthMail(
 	var id: Long?,
 	val email: String,
 	val authCode: String,
-	@Setter
 	var endAt: LocalDateTime = LocalDateTime.now().plusMinutes(10)
 ) : LogEntity() {
 	
