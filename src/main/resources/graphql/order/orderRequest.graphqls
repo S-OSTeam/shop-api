@@ -18,3 +18,10 @@ input OrderRequest{
     shippingCompany: String!,
     downloadDays: DateTime!,
 }
+
+input OrderReadRequest {
+    # 시작 시간
+    start: DateTime!,
+    # 종료 시간
+    end: DateTime!,
+}

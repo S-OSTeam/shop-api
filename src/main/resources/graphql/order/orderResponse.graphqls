@@ -29,6 +29,7 @@ type OrderInfoResponse{
     shippingCompany: String,
     downloadDays: DateTime!,
     reasonRefund: String,
+    createdAt: DateTime,
 }
 
 type OrderedItemResponse{
