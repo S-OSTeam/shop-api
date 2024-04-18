@@ -1,6 +1,10 @@
 extend type Mutation {
     # 주문 생성
     createOrder(request: OrderRequest!) : OrderInfoResponse
+
     # 주문 삭제
     deleteOrder(orderId: String!): String
+
+    # 주문 수정
+    updateOrder(request: OrderUpdateRequest!): String
 }
