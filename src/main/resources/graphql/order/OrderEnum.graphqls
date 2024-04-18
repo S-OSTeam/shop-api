@@ -12,5 +12,9 @@ enum OrderStatus{
     # 배송 완료
     DELIVERED,
     # 환불
-    REFUND
+    REFUND,
+    # 교환
+    EXCHANGE,
+    # 반품
+    RETURN
 }
