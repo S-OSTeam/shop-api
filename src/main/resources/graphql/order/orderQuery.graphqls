@@ -1,6 +1,6 @@
 extend type Query {
     # order 가져오기
-    getOrders:[OrderInfoResponse]
+    getOrders(request: OrderReadRequest):[OrderInfoResponse]
 
     # order 상태별 가져오기
     getOrdersByStatus(orderStatus: OrderStatus!):[OrderInfoResponse]
