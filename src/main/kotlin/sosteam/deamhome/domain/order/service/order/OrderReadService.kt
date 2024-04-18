@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.order.entity.Order
 import sosteam.deamhome.domain.order.handler.request.OrderReadRequest
+import sosteam.deamhome.domain.order.handler.request.OrderReadRequestByStatus
 import sosteam.deamhome.domain.order.handler.response.OrderInfoResponse
 import sosteam.deamhome.domain.order.repository.OrderRepository
 import sosteam.deamhome.global.attribute.OrderStatus
@@ -19,9 +20,9 @@ class OrderReadService (
         val orderResponses = mutableListOf<OrderInfoResponse>()
         var orders: List<Order>
 
-        if (request != null) {
+        if (request != null) {// 기간 설정
             orders = orderRepository.findAllByUserIdAndCreatedAtBetween(userId, request.start, request.end).toList()
-        } else {
+        } else { // 전체 조회
             orders = orderRepository.findAllByUserId(userId).toList()
         }
 
@@ -36,9 +37,22 @@ class OrderReadService (
     }
 
     // 주문 상태별 order list 가져오기
-    suspend fun getOrderByStatus(userId: String, orderStatus: OrderStatus): List<OrderInfoResponse>{
+    suspend fun getOrderByStatus(userId: String, request: OrderReadRequestByStatus): List<OrderInfoResponse>{
+        val (start, end, orderStatus) = request
+
         val orderResponses = mutableListOf<OrderInfoResponse>()
-        val orders: List<Order> = orderRepository.findAllByUserIdAndOrderStatus(userId, orderStatus).toList()
+        var orders: List<Order>
+
+
+        if (start != null && end != null) { // 기간 설정
+            orders = orderRepository.findAllByUserIdAndOrderStatusAndCreatedAtBetween(
+                userId,
+                orderStatus,
+                start,
+                end).toList()
+        } else { // 전체 조회
+            orders = orderRepository.findAllByUserIdAndOrderStatus(userId, orderStatus).toList()
+        }
 
         for (order in orders) {
             val orderResponse: OrderInfoResponse = OrderInfoResponse.fromOrder(order)
