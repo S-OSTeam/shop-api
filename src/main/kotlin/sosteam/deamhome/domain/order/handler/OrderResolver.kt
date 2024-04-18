@@ -4,6 +4,8 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
+import sosteam.deamhome.domain.order.handler.request.OrderReadRequest
+import sosteam.deamhome.domain.order.handler.request.OrderReadRequestByStatus
 import sosteam.deamhome.domain.order.handler.request.OrderRequest
 import sosteam.deamhome.domain.order.handler.response.OrderInfoResponse
 import sosteam.deamhome.domain.order.handler.response.OrderedItemResponse
@@ -11,6 +13,7 @@ import sosteam.deamhome.domain.order.service.order.OrderCreateService
 import sosteam.deamhome.domain.order.service.order.OrderDeleteService
 import sosteam.deamhome.domain.order.service.order.OrderReadService
 import sosteam.deamhome.domain.order.service.orderItem.OrderedItemReadService
+import sosteam.deamhome.global.attribute.OrderStatus
 import sosteam.deamhome.global.security.service.AuthenticationService
 
 @RestController
@@ -35,9 +38,17 @@ class OrderResolver(
 
     // 주문 조회
     @QueryMapping
-    suspend fun getOrders(): List<OrderInfoResponse>{
-        return orderReadService.getOrder(authenticationService.getUserIdFromToken())
+    suspend fun getOrders(@Argument request: OrderReadRequest?): List<OrderInfoResponse>{
+        System.out.println("resolver:"+ request);
+        return orderReadService.getOrder(authenticationService.getUserIdFromToken(), request)
     }
+
+    // 항목별 주문조회
+    @QueryMapping
+    suspend fun getOrdersByStatus(@Argument request: OrderReadRequestByStatus): List<OrderInfoResponse>{
+        return orderReadService.getOrderByStatus(authenticationService.getUserIdFromToken(), request)
+    }
+
 
     // 주문 아이템 조회
     @QueryMapping

@@ -35,6 +35,7 @@ data class OrderInfoResponse(
     val shippingCompany: String?,
     val downloadDays: OffsetDateTime,
     val reasonRefund: String?,
+    val createdAt: OffsetDateTime,
 ){
     companion object{
         fun fromOrder(order: Order): OrderInfoResponse {
@@ -69,6 +70,7 @@ data class OrderInfoResponse(
                 shippingCompany = order.shippingCompany,
                 downloadDays = order.downloadDays,
                 reasonRefund = order.reasonRefund,
+                createdAt = order.getCreatedAt()
             )
         }
     }
