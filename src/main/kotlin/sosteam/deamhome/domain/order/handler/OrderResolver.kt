@@ -5,6 +5,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.order.handler.request.OrderReadRequest
+import sosteam.deamhome.domain.order.handler.request.OrderReadRequestByStatus
 import sosteam.deamhome.domain.order.handler.request.OrderRequest
 import sosteam.deamhome.domain.order.handler.response.OrderInfoResponse
 import sosteam.deamhome.domain.order.handler.response.OrderedItemResponse
@@ -44,8 +45,8 @@ class OrderResolver(
 
     // 항목별 주문조회
     @QueryMapping
-    suspend fun getOrdersByStatus(@Argument orderStatus: OrderStatus): List<OrderInfoResponse>{
-        return orderReadService.getOrderByStatus(authenticationService.getUserIdFromToken(), orderStatus)
+    suspend fun getOrdersByStatus(@Argument request: OrderReadRequestByStatus): List<OrderInfoResponse>{
+        return orderReadService.getOrderByStatus(authenticationService.getUserIdFromToken(), request)
     }
 
 

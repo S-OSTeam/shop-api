@@ -25,3 +25,13 @@ input OrderReadRequest {
     # 종료 시간
     end: DateTime!,
 }
+
+input OrderReadRequestByStatus {
+    # 시작 시간
+    start: DateTime,
+    # 종료 시간
+    end: DateTime,
+    # 상태
+    orderStatus: OrderStatus!,
+
+}
