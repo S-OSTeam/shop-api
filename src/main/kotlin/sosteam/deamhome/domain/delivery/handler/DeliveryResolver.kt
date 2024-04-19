@@ -4,8 +4,8 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.delivery.service.DeliveryTrackerService
-import sosteam.deamhome.domain.delivery.TrackEvent
-import sosteam.deamhome.domain.delivery.TrackInfo
+import sosteam.deamhome.domain.delivery.handler.response.TrackEvent
+import sosteam.deamhome.domain.delivery.handler.response.TrackInfo
 
 @RestController
 class DeliveryResolver(
