@@ -1,3 +1,35 @@
+type TrackInfo {
+    trackingNumber: String!
+    lastEvent: TrackEvent
+    events: TrackEventConnection
+}
+
+type TrackEventConnection {
+    edges: [TrackEventEdge]
+}
+
+type TrackEventEdge {
+    node: TrackEvent
+}
+
+type TrackEvent {
+    status: TrackEventStatus!
+    time: DateTime
+    description: String
+    location: Location
+}
+
+type Location {
+    countryCode: String
+    postalCode: String
+    name: String
+}
+
+type TrackEventStatus {
+    code: TrackEventStatusCode!
+    name: String
+}
+
 enum TrackEventStatusCode {
     UNKNOWN
     INFORMATION_RECEIVED
@@ -8,19 +40,4 @@ enum TrackEventStatusCode {
     DELIVERED
     AVAILABLE_FOR_PICKUP
     EXCEPTION
-}
-
-type TrackInfo {
-    lastEvent: TrackEvent
-}
-
-type TrackEvent {
-    status: TrackEventStatus!
-    time: DateTime
-    description: String
-}
-
-type TrackEventStatus {
-    code: TrackEventStatusCode!
-    name: String
 }

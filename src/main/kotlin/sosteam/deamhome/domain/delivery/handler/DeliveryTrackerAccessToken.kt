@@ -1,4 +1,4 @@
-package sosteam.deamhome.domain.delivery
+package sosteam.deamhome.domain.delivery.handler
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
