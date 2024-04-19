@@ -5,6 +5,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.graphql.client.FieldAccessException
 import org.springframework.graphql.client.HttpGraphQlClient
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -16,7 +17,9 @@ import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
+import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
+import sosteam.deamhome.domain.delivery.exception.DeliveryTrackerApiException
 import sosteam.deamhome.domain.delivery.handler.DeliveryTrackerAccessToken
 import sosteam.deamhome.domain.delivery.handler.response.TrackEvent
 import sosteam.deamhome.domain.delivery.handler.response.TrackInfo
@@ -70,6 +73,12 @@ class DeliveryTrackerService(
         return webClient.post()
             .body(BodyInserters.fromFormData(bodyMap))
             .retrieve()
+            .onStatus({ status -> status.is4xxClientError or status.is5xxServerError }) { clientResponse ->
+                clientResponse.bodyToMono(String::class.java)
+                    .flatMap { errorMessage ->
+                        Mono.error(DeliveryTrackerApiException(message = errorMessage))
+                    }
+            }
             .bodyToMono<DeliveryTrackerAccessToken>()
             .awaitSingle()
     }
@@ -108,12 +117,18 @@ class DeliveryTrackerService(
             "carrierId" to carrierId,
             "trackingNumber" to trackingNumber
         )
-        return graphQlClient.document(query)
-            .variables(variables)
-            .retrieve("track")
-            .toEntity(TrackInfo::class.java)
-            .awaitSingle()
-            .lastEvent
+
+        try {
+            return graphQlClient.document(query)
+                .variables(variables)
+                .retrieve("track")
+                .toEntity(TrackInfo::class.java)
+                .awaitSingle()
+                .lastEvent
+        } catch (ex: FieldAccessException) {
+            val (message, code) = extractMessageAndCode(ex.message!!)
+            throw DeliveryTrackerApiException(message = message?:"", errorCode = code?:"")
+        }
     }
 
     suspend fun getTracks(token: DeliveryTrackerAccessToken, carrierId: String, trackingNumber: String, last: Int): TrackInfo {
@@ -172,11 +187,29 @@ class DeliveryTrackerService(
             "carrierId" to carrierId,
             "trackingNumber" to trackingNumber
         )
-        return graphQlClient.document(query)
-            .variables(variables)
-            .retrieve("track")
-            .toEntity(TrackInfo::class.java)
-            .awaitSingle()
+
+        try {
+            return graphQlClient.document(query)
+                .variables(variables)
+                .retrieve("track")
+                .toEntity(TrackInfo::class.java)
+                .awaitSingle()
+        } catch (ex: FieldAccessException) {
+            val (message, code) = extractMessageAndCode(ex.message!!)
+            throw DeliveryTrackerApiException(message = message?:"", errorCode = code?:"")
+        }
+    }
+
+    suspend fun extractMessageAndCode(response: String): Pair<String?, String?> {
+        val messageRegex = Regex("message=(.*?),")
+        val messageMatchResult = messageRegex.find(response)
+        val message = messageMatchResult?.groupValues?.get(1)
+
+        val codeRegex = Regex("code=(.*?)\\}")
+        val codeMatchResult = codeRegex.find(response)
+        val code = codeMatchResult?.groupValues?.get(1)
+
+        return Pair(message, code)
     }
 
 
