@@ -25,4 +25,9 @@ class StoreValidService (
         return storeRepository.findById(id)
             ?: throw StoreNotFoundException()
     }
+    // StoreName으로 스토어 찾기
+    suspend fun findStoreByStoreName(storeName: String): Store{
+        return storeRepository.findStoreByStoreName(storeName)
+            ?: throw StoreNotFoundException()
+    }
 }
