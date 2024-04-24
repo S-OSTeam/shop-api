@@ -1,4 +1,7 @@
 extend type Mutation {
     # store 생성
     createStore(request: StoreRequest!): StoreResponse
+
+    # store 삭제
+    deleteStore(id: Long): String
 }

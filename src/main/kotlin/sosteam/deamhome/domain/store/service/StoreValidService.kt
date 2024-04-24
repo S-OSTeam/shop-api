@@ -1,7 +1,9 @@
 package sosteam.deamhome.domain.store.service
 
 import org.springframework.stereotype.Service
+import sosteam.deamhome.domain.store.entity.Store
 import sosteam.deamhome.domain.store.exception.StoreNameAlreadyExistException
+import sosteam.deamhome.domain.store.exception.StoreNotFoundException
 import sosteam.deamhome.domain.store.repository.StoreRepository
 
 @Service
@@ -18,4 +20,9 @@ class StoreValidService (
         }
     }
 
+    // Id로 스토어 찾기
+    suspend fun findStoreById(id: Long): Store{
+        return storeRepository.findById(id)
+            ?: throw StoreNotFoundException()
+    }
 }

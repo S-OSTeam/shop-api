@@ -17,4 +17,8 @@ class StoreResolver (
         return storeCreateService.createStore(request)
     }
 
+    @MutationMapping
+    suspend fun deleteStore(@Argument id: Long){
+        deleteStore(id)
+    }
 }
