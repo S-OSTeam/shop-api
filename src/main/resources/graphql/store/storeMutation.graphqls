@@ -1,0 +1,4 @@
+extend type Mutation {
+    # store 생성
+    createStore(request: StoreRequest!): StoreResponse
+}
