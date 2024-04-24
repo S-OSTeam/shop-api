@@ -32,4 +32,9 @@ class StoreResolver (
     suspend fun getStore(@Argument storeName: String): StoreResponse{
         return storeReadService.getStore(storeName)
     }
+
+    @QueryMapping
+    suspend fun getStoreList(): List<StoreResponse>{
+        return storeReadService.getStoreList()
+    }
 }

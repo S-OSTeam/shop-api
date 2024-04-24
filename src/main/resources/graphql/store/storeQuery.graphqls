@@ -1,0 +1,7 @@
+extend type Query{
+    # 스토어 이름으로 정보 가져오기
+    getStore(storeName: String): StoreResponse
+
+    # 스토어 리스트 가져오기
+    getStoreList: [StoreResponse]
+}
