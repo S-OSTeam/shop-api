@@ -6,5 +6,5 @@ import sosteam.deamhome.domain.store.entity.Store
 
 @GraphQlRepository
 interface StoreRepository : CoroutineCrudRepository<Store, Long>{
-
+    suspend fun findStoreByStoreName(storeName: String): Store?
 }

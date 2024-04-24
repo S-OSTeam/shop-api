@@ -7,10 +7,10 @@ data class Store (
     @Id
     var id: Long?,
     val storeName: String,
-    val description: String,
+    val description: String?,
     val address: String,
     val businessLicenseNumber: String,
-    val image: String,
+    val image: String?,
 ) : BaseEntity(){
     var items: List<String> = listOf()
 }
