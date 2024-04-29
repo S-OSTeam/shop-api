@@ -1,0 +1,9 @@
+extend type Mutation {
+    # 장바구니 아이템 추가
+    addCartItem(request: CartRequest): CartItemResponse
+    # 장바구니 아이템 삭제
+    deleteCartItem(request: CartDeleteRequest): String
+    # 장바구니 아이템 수, 체크여부 변경
+    updateCartItem(request: CartRequest): CartItemResponse
+
+}

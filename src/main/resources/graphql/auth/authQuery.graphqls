@@ -1,0 +1,13 @@
+extend type Query {
+    #카카오 로그인 url 호출 함수
+    kakaoLoginUrl: String
+
+    #카카오 유저 정보 가져오는 함수
+    kakaoUserInfo(code: String): KakaoUserInfo
+
+    #네이버 로그인 url 호출 함수
+    naverLoginUrl: String
+
+    #네이버 유저 정보 가져오는 함수
+    naverUserInfo(request: NaverRequest): NaverUserInfo
+}

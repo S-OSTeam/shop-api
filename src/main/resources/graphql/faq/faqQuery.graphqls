@@ -1,0 +1,3 @@
+extend type Query {
+    getFaqs(request: FaqsRequest): FaqResponse!
+}

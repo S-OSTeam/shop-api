@@ -1,0 +1,5 @@
+extend type Mutation {
+    createCoupon(request: CouponCreateRequest!) : CouponResponse
+    updateCoupon(request: CouponUpdateRequest!) : CouponResponse
+    deleteCoupon(request: CouponDeleteRequest!) : Long
+}

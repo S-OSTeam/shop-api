@@ -1,7 +1,8 @@
 package sosteam.deamhome.domain.log.repository
 
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
 import sosteam.deamhome.domain.log.entity.ReviewLikeLog
 
-interface ReviewLikeLogRepository: ReactiveMongoRepository<ReviewLikeLog,String> {
-}
+@Repository
+interface ReviewLikeLogRepository : CoroutineCrudRepository<ReviewLikeLog, Long>

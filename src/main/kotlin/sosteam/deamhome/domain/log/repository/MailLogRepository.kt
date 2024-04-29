@@ -1,7 +1,9 @@
 package sosteam.deamhome.domain.log.repository
 
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.log.entity.MailLog
 
-interface MailLogRepository: ReactiveMongoRepository<MailLog,String>{
+@GraphQlRepository
+interface MailLogRepository: CoroutineCrudRepository<MailLog, Long> {
 }

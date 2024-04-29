@@ -1,0 +1,4 @@
+extend type Mutation {
+    #위시리스트 수정 함수
+    updateWishListItemInclude(request: WishListRequest ): [String]
+}

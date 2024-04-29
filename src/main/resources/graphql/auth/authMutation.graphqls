@@ -1,0 +1,18 @@
+extend type Mutation {
+    signUp(request: SignUpRequest!): String
+    signOut: String
+    login(request: LoginRequest!): TokenResponse
+    logout: String
+    reIssue: TokenResponse
+
+    kakaoLogin(code: String): TokenResponse
+    kakaoUnlink(token: String): KakaoUnlinkResponse
+
+    naverLogin(request: NaverRequest): TokenResponse
+    naverUnlink(token: String): NaverUnlinkResponse
+
+    changePassword(request: AccountChangePwdRequest!): String
+
+    sendVerifyCode(request: SendVerifyCodeRequest!): String
+    checkVerifyCodeBy(request: CheckVerifyCodeRequest!): String
+}

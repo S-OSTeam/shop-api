@@ -11,12 +11,12 @@ import sosteam.deamhome.global.attribute.OrderStatus
 
 @GraphQlRepository
 class OrderRepositoryImpl(val querydsl: OrderQuerydslRepository) : OrderRepositoryCustom {
-	val order = QOrder.order
+	private val order = QOrder.order
 	
 	override fun getOrdersByAccountAndNotFinished(accountId: String): Flow<Order> {
 		return querydsl.findAll(
-			order.accountId.eq(accountId)
-				.and(order.orderStatus.eq(OrderStatus.PENDING).or(order.orderStatus.eq(OrderStatus.TRANSIT)))
+			order.userId.eq(accountId)
+				.and(order.orderStatus.stringValue().eq(OrderStatus.PENDING.name).or(order.orderStatus.stringValue().eq(OrderStatus.TRANSIT.name)))
 		).asFlow()
 	}
 }

@@ -1,0 +1,46 @@
+input OrderRequest{
+    address: String!,
+    mainDoorPassword: String!,
+    deliveryRequest: String,
+    userName: String!,
+    userNickname: String!,
+    addressee: String!,
+    email: String!,
+    phone: String!,
+    memo: String,
+    userId: String!,
+    content: String!,
+    payType: String!,
+    appNo: String!,
+    bankId: String!,
+    couponIds: [String],
+    pointPrice: Int!,
+    shippingCompany: String!,
+    downloadDays: DateTime!,
+}
+
+input OrderReadRequest {
+    # 시작 시간
+    start: DateTime!,
+    # 종료 시간
+    end: DateTime!,
+}
+
+input OrderReadRequestByStatus {
+    # 시작 시간
+    start: DateTime,
+    # 종료 시간
+    end: DateTime,
+    # 상태
+    orderStatus: OrderStatus!,
+
+}
+
+input OrderUpdateRequest {
+    orderId: String!,
+    address: String!,
+    mainDoorPassword: String!,
+    deliveryRequest: String,
+    addressee: String!,
+    memo: String,
+}

@@ -1,0 +1,8 @@
+enum EventType{
+    # 이벤트
+    EVENT,
+    # 공지사항
+    NOTICE,
+    # 메인배너 이미지 리스트
+    MAIN,
+}

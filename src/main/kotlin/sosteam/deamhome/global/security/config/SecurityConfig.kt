@@ -5,18 +5,16 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import reactor.core.publisher.Mono
-import sosteam.deamhome.global.security.filter.TokenAuthFilter
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
+class SecurityConfig {
 	
 	@Bean
 	fun filterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
@@ -37,7 +35,7 @@ class SecurityConfig(val tokenAuthFilter: TokenAuthFilter) {
 			.csrf { it.disable() }
 			.cors { it.disable() }
 			.httpBasic { it.disable() }
-			//.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+		//.addFilterAt(tokenAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 		
 		return http.build()
 	}

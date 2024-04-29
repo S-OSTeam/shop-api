@@ -1,7 +1,9 @@
 package sosteam.deamhome.domain.log.entity
 
+import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.LogEntity
 
+@Table
 class CartLog(
     ip:String,
     userAgent:String,

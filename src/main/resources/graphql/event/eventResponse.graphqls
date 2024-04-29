@@ -1,0 +1,20 @@
+type EventInfoResponse {
+    id: Long!
+    startedAt: DateTime!
+    endedAt: DateTime!
+    title: String!
+    contents: String
+    thumbnail: String
+    items: [String]
+    images: [String]
+    link: String
+}
+
+type EventItemResponse {
+    id: Long!
+    startedAt: DateTime!
+    endedAt: DateTime!
+    title: String!
+    contents: String
+    thumbnail: String
+}

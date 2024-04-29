@@ -31,7 +31,7 @@ data class AccountCreateRequest(
 	
 	val sex: Boolean = false,
 	
-	val birtyday: LocalDateTime = LocalDateTime.now(),
+	val birthday: LocalDateTime = LocalDateTime.now(),
 	
 	val zipcode: String,
 	val address1: String,
@@ -61,31 +61,35 @@ data class AccountCreateRequest(
 ) : DTO {
 	override fun asDomain(): Account {
 		return Account(
-			this.userId,
-			this.pwd,
-			this.sex,
-			this.birtyday,
-			this.zipcode,
-			this.address1,
-			this.address2,
-			this.address3,
-			this.address4,
-			this.email,
-			this.receiveMail,
-			this.createdIp,
-			"",
-			this.snsId,
-			this.sns,
-			this.phone,
-			this.userName,
-			this.point,
-			Role.ROLE_USER,
-			LocalDateTime.now()
+			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
+			id = null,
+			userId = this.userId,
+			pwd = pwd,
+			sex = this.sex,
+			birthday = this.birthday,
+			zipcode = this.zipcode,
+			address1 = this.address1,
+			address2 = this.address2,
+			address3 = this.address3,
+			address4 = this.address4,
+			email = this.email,
+			receiveMail = this.receiveMail,
+			createdIp = this.createdIp,
+			adminTxt = "",
+			snsId = this.snsId,
+			sns = this.sns,
+			phone = this.phone,
+			userName = this.userName,
+			point = this.point,
+			role = Role.ROLE_USER,
+			loginAt = LocalDateTime.now()
 		)
 	}
 	
 	fun asStatus(): AccountStatus {
 		return AccountStatus(
+			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
+			id = null,
 			userId = this.userId,
 			snsId = this.snsId,
 			sns = this.sns,

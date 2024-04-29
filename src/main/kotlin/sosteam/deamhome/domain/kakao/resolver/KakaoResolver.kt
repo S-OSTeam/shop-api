@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.kakao.resolver
 
+import graphql.GraphQLContext
 import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
@@ -7,16 +8,23 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
+import sosteam.deamhome.domain.auth.entity.dto.AccountLoginDTO
+import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 import sosteam.deamhome.domain.kakao.service.KakaoService
+import sosteam.deamhome.global.provider.RequestProvider
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
+import sosteam.deamhome.global.security.response.TokenResponse
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 class KakaoResolver(
-    private val kakaoService: KakaoService
+    private val kakaoService: KakaoService,
+    private val accountAuthCreateService: AccountAuthCreateService
 ) {
     @QueryMapping
     suspend fun kakaoLoginUrl(): String {
@@ -24,13 +32,30 @@ class KakaoResolver(
     }
 
     @MutationMapping
-    suspend fun kakaoSignUp(@Argument @Valid code: String): KakaoTokenReturnResponse {
-        return kakaoService.kakaoSign(code)
+    suspend fun kakaoLogin(
+        @Argument @Valid code: String,
+        context: GraphQLContext
+    ): TokenResponse? {
+        val mac = getMac()
+        val agent = getAgent()
+        val account = kakaoService.kakaoSign(code)
+
+        val loginDTO = AccountLoginDTO.fromDomain(account)
+        val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
+
+        if(agent.contains("Mobile")) {
+            return tokenResponse
+        }
+        context.put("accessToken", tokenResponse.accessToken)
+        context.put("refreshToken", tokenResponse.refreshToken)
+
+        return null
     }
 
+
     @QueryMapping
-    suspend fun kakaoUserInfo(@Argument @Valid token: String): KakaoUserInfo {
-        return kakaoService.getKakaoUserInfo(token)
+    suspend fun kakaoUserInfo(@Argument @Valid code: String): KakaoUserInfo {
+        return kakaoService.getKakaoUserInfo(kakaoService.getKakaoToken(code).accessToken)
     }
 
     @MutationMapping

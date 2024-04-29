@@ -1,49 +1,65 @@
 package sosteam.deamhome.domain.item.handler.request
 
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
-import org.springframework.http.codec.multipart.FilePart
+import com.github.f4b6a3.ulid.UlidCreator
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.entity.DTO
+import sosteam.deamhome.global.image.handler.request.ImageRequest
+import java.time.OffsetDateTime
 
 data class ItemRequest(
 
-    @field: Min(1L)
-    val categoryPublicId: Long,
-    @field: NotBlank(message = "제목은 필수 입력 항목입니다.")
-    @field: Size(max = 10, message = "제목 최대 길이는 10 입니다.")
-    val title: String,
-    @field: NotBlank(message = "상품 정보는 필수 입력 항목입니다.")
-    val content: String,
-    @field: NotBlank(message = "상품 요약은 필수 입력 항목입니다.")
-    val summary: String,
-    val price: Int = 0,
-    val status: Boolean = false,
-    @field: NotBlank(message = "판매자는 필수 입력 항목입니다.")
-    val sellerId: String,
-    val freeDelivery: Boolean = false,
-    val images: List<FilePart>
+	val categoryPublicId: String,
+	val title: String,
+	val content: String,
+	val summary: String,
+	val price: Int = 0,
+	val status: ItemStatus,
+	val sellerId: String,
+	val stockCnt: Int,
+	val freeDelivery: Boolean = false,
+	val option: ArrayList<String> = arrayListOf(),
+	val productNumber: String,
+	val deadline: OffsetDateTime,
+	val originalWork: String,
+	val material: String,
+	val size: String,
+	val weight: String,
+	val shippingCost: Int,
+	val images: List<ImageRequest>
 
 ) : DTO {
-    override fun asDomain(): Item {
-        return Item(
-            categoryPublicId = this.categoryPublicId,
-            title = this.title,
-            content = this.content,
-            summary = this.summary,
-            price = this.price,
-            status = this.status,
-            sellerId = this.sellerId,
-            freeDelivery = this.freeDelivery,
-            sellCnt = 0,
-            wishCnt = 0,
-            clickCnt = 0,
-            avgReview = 0.0,
-            reviewCnt = 0,
-            qnaCnt = 0
-            //publicId 는 SequenceGenerator 로 할당
-            //images 는 .apply 로 할당
-        )
-    }
+	override fun asDomain(): Item {
+		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+		return Item(
+			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
+			id = null,
+			publicId = publicId,
+			categoryPublicId = this.categoryPublicId,
+			title = this.title,
+			content = this.content,
+			summary = this.summary,
+			price = this.price,
+			status = this.status,
+			sellerId = this.sellerId,
+			stockCnt = this.stockCnt,
+			freeDelivery = this.freeDelivery,
+			option = this.option,
+			productNumber = this.productNumber,
+			deadline = this.deadline,
+			originalWork = this.originalWork,
+			material = this.material,
+			size = this.size,
+			weight = this.weight,
+			shippingCost = this.shippingCost,
+			sellCnt = 0,
+			wishCnt = 0,
+			clickCnt = 0,
+			avgReview = 0.0,
+			reviewCnt = 0,
+			qnaCnt = 0,
+			reviewScore = arrayListOf(0, 0, 0, 0, 0),
+			//imageUrls 는 .apply 로 할당
+		)
+	}
 }

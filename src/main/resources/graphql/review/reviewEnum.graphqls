@@ -1,0 +1,3 @@
+enum ReviewFavor {
+    LIKE,DISLIKE,NONE
+}

@@ -15,7 +15,7 @@ class AccountReactiveUserDetailsService(
 ) : ReactiveUserDetailsService {
 	override fun findByUsername(username: String?): Mono<UserDetails> = mono {
 		val account = accountRepository.findAccountByUserId(username!!) ?: throw AccountNotFoundException()
-		
+
 		return@mono User(account.userId, null, account.getAuthorities())
 	}
 }

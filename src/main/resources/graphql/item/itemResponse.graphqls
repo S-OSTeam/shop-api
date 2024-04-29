@@ -1,0 +1,39 @@
+type ItemResponse {
+    publicId: String!
+    categoryPublicId: String!
+    title: String!
+    content: String!
+    summary: String!
+    price: Int!
+    sellCnt: Int!
+    wishCnt: Int!
+    stockCnt: Int!
+    clickCnt: Int!
+    avgReview: Float!
+    reviewCnt: Int!
+    qnaCnt: Int!
+    status: ItemStatus!
+    sellerId: String!
+    freeDelivery: Boolean!
+    imageUrls: [String!]!
+    option: [String]!
+    productNumber: String!
+    deadline: DateTime!
+    originalWork: String!
+    material: String!
+    size: String!
+    weight: String!
+    shippingCost: Int!
+}
+
+type ItemCategoryResponse{
+    title: String!
+    publicId: String!
+    parentPublicId: String
+}
+
+type ItemCategoryTreeResponse{
+    publicId: String!
+    title: String!
+    children: [ItemCategoryTreeResponse]!
+}

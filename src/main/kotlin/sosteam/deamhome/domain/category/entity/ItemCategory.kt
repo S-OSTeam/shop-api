@@ -1,16 +1,20 @@
 package sosteam.deamhome.domain.category.entity
 
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.Document
-import sosteam.deamhome.global.entity.BaseEntity
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
+import sosteam.deamhome.global.category.entity.CategoryEntity
 
-@Document
+@Table("item_category")
 data class ItemCategory(
-    var title: String,
-    @Indexed(unique = true)
-    var publicId: Long,
-    var parentPublicId: Long
-) : BaseEntity() {
-    fun isTop(): Boolean = parentPublicId == publicId
-
-}
+    @Id
+    @Column("id")
+    var id: Long?,
+    @Column("title")
+    override var title: String,
+    // unique column
+    @Column("public_id")
+    override var publicId: String,
+    @Column("parent_public_id")
+    override var parentPublicId: String
+) : CategoryEntity(2)

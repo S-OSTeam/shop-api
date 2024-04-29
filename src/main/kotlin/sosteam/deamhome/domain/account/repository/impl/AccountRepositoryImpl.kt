@@ -14,9 +14,9 @@ class AccountRepositoryImpl(
 	private val querydsl: AccountQueryDslRepository,
 ) : AccountRepositoryCustom {
 	private val account = QAccount.account
-	
+
 	override fun getDormantAccount(): Flow<Account> {
 		return querydsl.findAll(account.loginAt.before(LocalDateTime.now().minusYears(1))).asFlow()
 	}
-	
+
 }

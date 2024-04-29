@@ -3,7 +3,6 @@ package sosteam.deamhome.global.security.filter
 import org.springframework.http.HttpHeaders
 import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
-import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
@@ -12,7 +11,7 @@ import sosteam.deamhome.global.attribute.Token
 import sosteam.deamhome.global.security.provider.JWTProvider
 import sosteam.deamhome.global.security.provider.RedisProvider
 
-@Component
+//@Component
 class TokenAuthFilter(val jwtProvider: JWTProvider, val redisProvider: RedisProvider) : WebFilter {
 	override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
 		val request = exchange.request

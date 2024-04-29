@@ -12,16 +12,15 @@ class ItemDeleteService(
     private val itemRepository: ItemRepository,
     private val imageProvider: ImageProvider
 ) {
-    suspend fun deleteItemByPublicId(publicId: Long): String {
+    suspend fun deleteItemByPublicId(publicId: String): Long {
         // 존재하는 아이템인지 확인
         val item = itemRepository.findByPublicId(publicId)
             ?: throw ItemNotFoundException()
         // 아이템의 이미지들 삭제
-        for (image in item.images) {
-            imageProvider.deleteImage(image.path)
+        for (imageUrl in item.imageUrls) {
+            imageProvider.deleteImage(imageUrl)
         }
         //아이템 삭제
-        itemRepository.deleteByPublicId(publicId)
-        return item.title
+        return itemRepository.deleteByPublicId(publicId)
     }
 }

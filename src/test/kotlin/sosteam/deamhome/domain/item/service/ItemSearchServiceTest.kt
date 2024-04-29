@@ -1,88 +1,138 @@
 package sosteam.deamhome.domain.item.service
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import sosteam.deamhome.domain.category.entity.ItemCategory
+import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.exception.ItemNotFoundException
+import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
+import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.item.repository.ItemRepository
+import sosteam.deamhome.global.attribute.ItemStatus
+import java.time.OffsetDateTime
 
 class ItemSearchServiceTest : BehaviorSpec({
 
     val itemRepository = mockk<ItemRepository>()
     val itemCategoryRepository = mockk<ItemCategoryRepository>()
-    val itemSearchService = ItemSearchService(itemRepository, itemCategoryRepository)
+    val service = ItemSearchService(itemRepository, itemCategoryRepository)
 
-    Given("a valid item title") {
-        val title1 = "Test Item 1"
-        val title2 = "Test Item 2"
-        val mockItem1 = Item(title = title1, publicId = 1L, content = "", sellerId = "", summary = "")
-        val mockItem2 = Item(title = title2, publicId = 2L, content = "", sellerId = "", summary = "")
+    Given("a valid categoryPublicId") {
+        val category = ItemCategory(
+            id = 1L,
+            title = "Test Category",
+            publicId = "testPublicId",
+            parentPublicId = "testParentPublicId"
+        )
+        val categoryPublicId = category.publicId
+        val item = Item(
+            id = 1L,
+            publicId = "testItemPublicId",
+            categoryPublicId = categoryPublicId,
+            title = "Test Item",
+            content = "",
+            summary = "",
+            price = 10000,
+            sellCnt = 0,
+            wishCnt = 0,
+            clickCnt = 0,
+            avgReview = 0.0,
+            reviewCnt = 0,
+            qnaCnt = 0,
+            status = ItemStatus.AVAILABLE,
+            sellerId = "",
+            freeDelivery = false,
+            stockCnt = 0,
+            reviewScore = emptyList(),
+            option = emptyList(),
+            productNumber = "",
+            deadline = OffsetDateTime.now(),
+            originalWork = "",
+            material = "",
+            size = "",
+            weight = "",
+            shippingCost = 0
+        )
 
-        When("finding items containing the title") {
-            coEvery { itemRepository.findItemsContainTitle("Test") } returns flowOf(mockItem1, mockItem2)
-            val result = itemSearchService.findItemsContainTitle("Test")
-            val toList = result.toList()
+        When("finding items by categoryPublicId") {
+            coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns category
+            coEvery { itemCategoryRepository.findByParentPublicId(category.publicId) } returns flowOf(category)
+            coEvery { itemCategoryRepository.findByParentPublicIdIn(any()) } returns emptyFlow()
+            coEvery { itemRepository.findByCategoryPublicIdIn(any()) } returns flowOf(item)
 
-            Then("it should return a Flow of corresponding ItemResponse") {
-                toList.size shouldBe 2
-                toList.map { it.title } shouldContain "Test Item 1"
-                toList.map { it.title } shouldContain "Test Item 2"
+            Then("it should return a list of ItemResponse") {
+                val items = service.findItemsByCategoryPublicId(categoryPublicId)
+                items.first().title shouldBe item.title
+            }
+        }
+
+        When("finding items by an invalid categoryPublicId") {
+            coEvery { itemCategoryRepository.findByPublicId(categoryPublicId) } returns null
+
+            Then("it should throw CategoryNotFoundException") {
+                val exception = shouldThrow<CategoryNotFoundException> {
+                    service.findItemsByCategoryPublicId(categoryPublicId)
+                }
+                exception.extensions["code"] shouldBe "CATEGORY_NOT_FOUND"
             }
         }
     }
 
     Given("a valid item publicId") {
-        val itemPublicId = 1L
-        val mockItem = Item(title = "Test Item", publicId = itemPublicId, content = "", sellerId = "", summary = "")
+        val item = Item(
+            id = 1L,
+            publicId = "testItemPublicId",
+            categoryPublicId = "testCategoryPublicId",
+            title = "Test Item",
+            content = "",
+            summary = "",
+            price = 10000,
+            sellCnt = 0,
+            wishCnt = 0,
+            clickCnt = 0,
+            avgReview = 0.0,
+            reviewCnt = 0,
+            qnaCnt = 0,
+            status = ItemStatus.AVAILABLE,
+            sellerId = "",
+            freeDelivery = false,
+            stockCnt = 0,
+            reviewScore = emptyList(),
+            option = emptyList(),
+            productNumber = "",
+            deadline = OffsetDateTime.now(),
+            originalWork = "",
+            material = "",
+            size = "",
+            weight = "",
+            shippingCost = 0
+        )
+        val publicId = item.publicId
 
-        When("finding item by publicId") {
-            coEvery { itemRepository.findByPublicId(itemPublicId) } returns mockItem
+        When("finding an item by publicId") {
+            coEvery { itemRepository.findByPublicId(publicId) } returns item
 
             Then("it should return the corresponding ItemResponse") {
-                val result = itemSearchService.findItemByPublicId(itemPublicId)
-                result.title shouldBe mockItem.title
-            }
-        }
-    }
-
-    Given("a valid categories") {
-        val mockCategory1 = ItemCategory(title = "Test Category 1", publicId = 1L, parentPublicId = 1L)
-        val mockCategory2 = ItemCategory(title = "Test Category 2", publicId = 2L, parentPublicId = 1L)
-        val mockCategory3 = ItemCategory(title = "Test Category 3", publicId = 3L, parentPublicId = 1L)
-        val mockItem1 = Item(title = "Test Item 1", categoryPublicId = 2L, publicId = 1L, content = "", sellerId = "", summary = "")
-        val mockItem2 = Item(title = "Test Item 2", categoryPublicId = 3L, publicId = 2L, content = "", sellerId = "", summary = "")
-
-
-        coEvery { itemCategoryRepository.findByParentPublicId(1L) } returns flowOf(mockCategory2, mockCategory3)
-        coEvery { itemCategoryRepository.findByParentPublicIdIn(listOf(2L, 3L)) } returns emptyFlow()
-        coEvery { itemRepository.findByCategoryPublicIdIn(listOf(1L, 2L, 3L)) } returns flowOf(mockItem1, mockItem2)
-
-        When("finding items by category publicId") {
-            coEvery { itemCategoryRepository.findByPublicId(1L) } returns mockCategory1
-            val result = itemSearchService.findItemsByCategoryPublicId(1L)
-
-            Then("it should return a list of corresponding ItemResponse") {
-                result.size shouldBe 2
-                result.map { it.title } shouldContain "Test Item 1"
-                result.map { it.title } shouldContain "Test Item 2"
+                val itemResponse = service.findItemByPublicId(publicId)
+                itemResponse.title shouldBe item.title
             }
         }
 
-        When("finding items by category title") {
-            coEvery { itemCategoryRepository.findByTitle("Test Category 1") } returns mockCategory1
-            val result = itemSearchService.findItemsByCategoryTitle("Test Category 1")
+        When("finding an item by an invalid publicId") {
+            coEvery { itemRepository.findByPublicId(publicId) } returns null
 
-            Then("it should return a list of corresponding ItemResponse") {
-                result.size shouldBe 2
-                result.map { it.title } shouldContain "Test Item 1"
-                result.map { it.title } shouldContain "Test Item 2"
+            Then("it should throw ItemNotFoundException") {
+                val exception = shouldThrow<ItemNotFoundException> {
+                    service.findItemByPublicId(publicId)
+                }
+                exception.extensions["code"] shouldBe "ITEM_NOT_FOUND"
             }
         }
     }
