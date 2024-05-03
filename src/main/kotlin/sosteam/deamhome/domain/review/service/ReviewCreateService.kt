@@ -19,6 +19,7 @@ class ReviewCreateService(
 	private val itemRepository: ItemRepository,
 	private val imageProvider: ImageProvider,
 ) {
+	
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
 		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
 		val item = itemRepository.findByPublicId(request.itemId) ?: throw ItemNotFoundException()
@@ -27,41 +28,7 @@ class ReviewCreateService(
 		itemRepository.save(item)
 		
 		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
-		
-		val imageUrls: MutableList<String> = request.images.map {
-			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
-		}.toMutableList()
-		
-		val review = Review(
-			id = null,
-			publicId = publicId,
-			parentPublicId = publicId,
-			title = request.title,
-			content = request.content,
-			score = request.score,
-			status = false,
-			userId = request.userId,
-			itemId = request.itemId,
-			imageUrls = imageUrls,
-			likeUsers = mutableListOf(),
-			purchaseOptions = request.purchaseOptions.toMutableList(),
-			reportUsers = mutableListOf(),
-			reportContent = mutableListOf()
-		)
-		val savedReview = reviewRepository.save(review)
-		account.addReview(savedReview.id)
-		accountRepository.save(account)
-		return ReviewResponse.fromReview(savedReview)
-	}
-	
-	suspend fun createLaterReview(request: ReviewCreateRequest): ReviewResponse {
-		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		val item = itemRepository.findByPublicId(request.itemId) ?: throw ItemNotFoundException()
-		item.avgReview = (item.avgReview * item.reviewCnt + request.score) / item.reviewCnt
-		item.reviewCnt++
-		itemRepository.save(item)
-		
-		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+		val parentPublicId = if (request.parentPublicId.isNullOrEmpty()) publicId else request.parentPublicId
 		
 		val imageUrls: MutableList<String> = request.images.map {
 			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
@@ -70,7 +37,7 @@ class ReviewCreateService(
 		val laterReview = Review(
 			id = null,
 			publicId = publicId,
-			parentPublicId = request.parentPublicId!!,
+			parentPublicId = parentPublicId,
 			title = request.title,
 			content = request.content,
 			score = request.score,

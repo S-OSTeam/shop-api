@@ -25,11 +25,6 @@ class ReviewResolver(
 		return reviewCreateService.createReview(request)
 	}
 	
-	@MutationMapping
-	suspend fun createLaterReview(@Argument request: ReviewCreateRequest): ReviewResponse {
-		return reviewCreateService.createLaterReview(request)
-	}
-	
 	@QueryMapping
 	suspend fun findReviews(
 		@Argument @Valid request: ReviewSearchRequest,

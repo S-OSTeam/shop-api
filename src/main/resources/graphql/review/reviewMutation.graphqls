@@ -1,7 +1,6 @@
 extend type Mutation {
     # review 생성
     createReview(request: ReviewCreateRequest!): ReviewResponse
-    createLaterReview(request: ReviewCreateRequest!): ReviewResponse
     # review 업데이트
     updateReview(request: ReviewUpdateRequest!): ReviewResponse
     # review 삭제
