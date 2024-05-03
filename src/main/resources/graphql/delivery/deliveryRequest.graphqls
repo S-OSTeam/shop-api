@@ -1,0 +1,5 @@
+input DeliveryRequest {
+    carrierId: String! @NotBlank(message: "운송업체가 입력되지 않았습니다.")
+    trackingNumber: String! @NotBlank(message: "운송업체가 입력되지 않았습니다.")
+    last: Int
+}

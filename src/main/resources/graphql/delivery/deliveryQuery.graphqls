@@ -1,9 +1,9 @@
 extend type Query {
 
     # 마지막 배송 추적
-    getLastTrack(carrierId: String @NotBlank, trackingNumber: String @NotBlank): TrackEvent
+    getLastTrack(request: DeliveryRequest!): TrackEvent
 
     # 모든 배송 추적
-    getAllTracks(carrierId: String @NotBlank, trackingNumber: String @NotBlank, last: Int): TrackInfo
+    getAllTracks(request: DeliveryRequest!): TrackInfo
 
 }

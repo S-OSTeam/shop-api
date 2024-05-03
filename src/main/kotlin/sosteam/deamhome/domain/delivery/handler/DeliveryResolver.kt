@@ -3,6 +3,7 @@ package sosteam.deamhome.domain.delivery.handler
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
+import sosteam.deamhome.domain.delivery.handler.request.DeliveryRequest
 import sosteam.deamhome.domain.delivery.service.DeliveryTrackerService
 import sosteam.deamhome.domain.delivery.handler.response.TrackEvent
 import sosteam.deamhome.domain.delivery.handler.response.TrackInfo
@@ -15,15 +16,15 @@ class DeliveryResolver(
     private var tokenTimestamp: Long = 0
 
     @QueryMapping
-    suspend fun getLastTrack(@Argument carrierId: String, @Argument trackingNumber: String): TrackEvent {
+    suspend fun getLastTrack(@Argument request: DeliveryRequest): TrackEvent {
         val token = getToken()
-        return deliveryTrackerService.getLastTrack(token, carrierId, trackingNumber)
+        return deliveryTrackerService.getLastTrack(token, request.carrierId, request.trackingNumber)
     }
 
     @QueryMapping
-    suspend fun getAllTracks(@Argument carrierId: String, @Argument trackingNumber: String, @Argument last: Int?): TrackInfo {
+    suspend fun getAllTracks(@Argument request: DeliveryRequest): TrackInfo {
         val token = getToken()
-        return deliveryTrackerService.getTracks(token, carrierId, trackingNumber, last ?: 10)
+        return deliveryTrackerService.getTracks(token, request.carrierId, request.trackingNumber, request.last)
     }
 
     private suspend fun getToken(): DeliveryTrackerAccessToken {
