@@ -35,9 +35,9 @@ class ReviewCreateService(
 		val review = Review(
 			id = null,
 			publicId = publicId,
+			parentPublicId = publicId,
 			title = request.title,
 			content = request.content,
-			monthReview = "",
 			score = request.score,
 			status = false,
 			userId = request.userId,
@@ -49,6 +49,41 @@ class ReviewCreateService(
 			reportContent = mutableListOf()
 		)
 		val savedReview = reviewRepository.save(review)
+		account.addReview(savedReview.id)
+		accountRepository.save(account)
+		return ReviewResponse.fromReview(savedReview)
+	}
+	
+	suspend fun createLaterReview(request: ReviewCreateRequest): ReviewResponse {
+		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
+		val item = itemRepository.findByPublicId(request.itemId) ?: throw ItemNotFoundException()
+		item.avgReview = (item.avgReview * item.reviewCnt + request.score) / item.reviewCnt
+		item.reviewCnt++
+		itemRepository.save(item)
+		
+		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+		
+		val imageUrls: MutableList<String> = request.images.map {
+			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
+		}.toMutableList()
+		
+		val laterReview = Review(
+			id = null,
+			publicId = publicId,
+			parentPublicId = request.parentPublicId!!,
+			title = request.title,
+			content = request.content,
+			score = request.score,
+			status = false,
+			userId = request.userId,
+			itemId = request.itemId,
+			imageUrls = imageUrls,
+			likeUsers = mutableListOf(),
+			purchaseOptions = request.purchaseOptions.toMutableList(),
+			reportUsers = mutableListOf(),
+			reportContent = mutableListOf()
+		)
+		val savedReview = reviewRepository.save(laterReview)
 		account.addReview(savedReview.id)
 		accountRepository.save(account)
 		return ReviewResponse.fromReview(savedReview)

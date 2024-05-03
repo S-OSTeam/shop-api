@@ -5,8 +5,8 @@ import sosteam.deamhome.domain.review.entity.Review
 data class ReviewResponse(
 	val reviewId: String,
 	val title: String,
+	val parentPublicId: String,
 	val content: String,
-	val monthReview: String,
 	val score: Int,
 	val status: Boolean,
 	val userId: String,
@@ -20,8 +20,8 @@ data class ReviewResponse(
 			return ReviewResponse(
 				reviewId = review.publicId,
 				title = review.title,
+				parentPublicId = review.parentPublicId,
 				content = review.content,
-				monthReview = review.monthReview,
 				score = review.score,
 				status = review.status,
 				userId = review.userId,
