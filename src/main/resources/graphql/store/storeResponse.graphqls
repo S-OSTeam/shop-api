@@ -1,0 +1,8 @@
+type StoreResponse{
+    id: Long
+    storeName: String,
+    description: String,
+    address: String,
+    businessLicenseNumber: String,
+    image: String
+}
