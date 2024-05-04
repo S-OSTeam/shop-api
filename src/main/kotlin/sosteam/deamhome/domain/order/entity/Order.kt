@@ -12,11 +12,11 @@ import java.time.OffsetDateTime
 class Order(
 	@Id
 	var id: Long?,
-	val address: String,
+	var address: String,
 	@Column("main_door_password")
-	val mainDoorPassword: String,
+	var mainDoorPassword: String,
 	@Column("delivery_request")
-	val deliveryRequest: String?,
+	var deliveryRequest: String?,
 	@Column("user_name")
 	val userName: String,
 	@Column("user_nickname")

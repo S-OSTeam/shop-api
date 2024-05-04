@@ -35,3 +35,13 @@ input OrderReadRequestByStatus {
     orderStatus: OrderStatus!,
 
 }
+
+input OrderUpdateRequest {
+    orderId: String!,
+    address: String!,
+    mainDoorPassword: String!,
+    deliveryRequest: String,
+    addressee: String!,
+    memo: String,
+}
+

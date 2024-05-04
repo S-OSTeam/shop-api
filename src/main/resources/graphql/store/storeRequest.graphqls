@@ -1,0 +1,7 @@
+input StoreRequest{
+    storeName: String!,
+    description: String,
+    address: String!,
+    businessLicenseNumber: String!,
+    image: String,
+}
