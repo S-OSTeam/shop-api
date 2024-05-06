@@ -41,7 +41,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
             size = null,
             weight = null,
             shippingCost = null,
-            images = null
+            imageUrls = null
         )
 
         When("updating an existing item") {

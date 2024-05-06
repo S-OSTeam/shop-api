@@ -22,6 +22,6 @@ data class ItemUpdateRequest (
     var size: String?,
     var weight: String?,
     var shippingCost: Int?,
-    var images: List<ImageRequest>?
+    var imageUrls: List<String>?
 ) {
 }

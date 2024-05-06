@@ -41,7 +41,7 @@ class ItemCreateServiceTest : BehaviorSpec({
             size = "",
             weight = "",
             shippingCost = 0,
-            images = emptyList()
+            imageUrls = emptyList()
         )
 
         val mockCategory = ItemCategory(id = 1L, title = "Test Category", publicId = "testPublicId", parentPublicId = "testPublicId")
