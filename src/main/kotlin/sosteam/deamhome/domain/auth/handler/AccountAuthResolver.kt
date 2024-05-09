@@ -83,7 +83,8 @@ class AccountAuthResolver(
 		context.put("accessToken", tokenResponse.accessToken)
 		context.put("refreshToken", tokenResponse.refreshToken)
 
-		return null
+		// 일단 토큰 반환하도록 설정
+		return tokenResponse
 	}
 
 	@MutationMapping
