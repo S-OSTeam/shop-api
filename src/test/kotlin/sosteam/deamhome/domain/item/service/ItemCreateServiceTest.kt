@@ -71,8 +71,9 @@ class ItemCreateServiceTest : BehaviorSpec({
             material = request.material,
             size = request.size,
             weight = request.weight,
-            shippingCost = request.shippingCost
-        ).apply { imageUrls = emptyList() }
+            shippingCost = request.shippingCost,
+            imageUrls = emptyList()
+        )
 
         When("creating an item") {
             coEvery { itemCategoryRepository.findByPublicId(request.categoryPublicId) } returns mockCategory
