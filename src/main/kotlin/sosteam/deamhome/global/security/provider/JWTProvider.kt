@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import sosteam.deamhome.global.attribute.Token
 import sosteam.deamhome.global.security.response.TokenResponse
+import java.time.ZoneOffset
 import java.util.*
 
 @Component
@@ -25,7 +26,7 @@ class JWTProvider(
 		val accessToken = createToken(userId, roles, mac, Token.ACCESS, issuedAt)
 		val refreshToken = createToken(userId, roles, mac, Token.REFRESH, issuedAt)
 		
-		return TokenResponse(accessToken, refreshToken, userId, issuedAt)
+		return TokenResponse(accessToken, refreshToken, userId, issuedAt.toInstant().atOffset(ZoneOffset.UTC))
 	}
 	
 	fun createToken(
