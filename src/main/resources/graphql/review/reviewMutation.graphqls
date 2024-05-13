@@ -8,8 +8,6 @@ extend type Mutation {
 
     # review 좋아요 업데이트
     updateReviewLike(request: ReviewLikeRequest!): ReviewResponse
-    # review 한달사용 후기 업데이트
-    updateMonthReview(request: ReviewMonthRequest!): ReviewResponse
     # review 신고 업데이트
     updateReviewReport(request: ReviewReportRequest!): ReviewResponse
 }
