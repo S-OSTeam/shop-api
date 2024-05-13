@@ -26,7 +26,7 @@ data class ItemRequest(
 	val size: String,
 	val weight: String,
 	val shippingCost: Int,
-	val images: List<ImageRequest>
+	val imageUrls: List<String>
 
 ) : DTO {
 	override fun asDomain(): Item {
@@ -52,6 +52,7 @@ data class ItemRequest(
 			size = this.size,
 			weight = this.weight,
 			shippingCost = this.shippingCost,
+			imageUrls = this.imageUrls,
 			sellCnt = 0,
 			wishCnt = 0,
 			clickCnt = 0,
@@ -59,7 +60,6 @@ data class ItemRequest(
 			reviewCnt = 0,
 			qnaCnt = 0,
 			reviewScore = arrayListOf(0, 0, 0, 0, 0),
-			//imageUrls 는 .apply 로 할당
 		)
 	}
 }

@@ -23,14 +23,7 @@ class ItemCreateService(
 		
 		// TODO sellerId 가 존재하는지 확인?
 		
-		val item = request.asDomain().apply {
-			// 이미지 저장
-			imageUrls = request.images.map {
-				imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight)
-					.fileUrl
-			}
-		}
-		
+		val item = request.asDomain()
 		val saveItem = itemRepository.save(item)
 		return ItemResponse.fromItem(saveItem)
 	}

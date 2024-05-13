@@ -41,7 +41,7 @@ class ItemCreateServiceTest : BehaviorSpec({
             size = "",
             weight = "",
             shippingCost = 0,
-            images = emptyList()
+            imageUrls = emptyList()
         )
 
         val mockCategory = ItemCategory(id = 1L, title = "Test Category", publicId = "testPublicId", parentPublicId = "testPublicId")
@@ -71,8 +71,9 @@ class ItemCreateServiceTest : BehaviorSpec({
             material = request.material,
             size = request.size,
             weight = request.weight,
-            shippingCost = request.shippingCost
-        ).apply { imageUrls = emptyList() }
+            shippingCost = request.shippingCost,
+            imageUrls = emptyList()
+        )
 
         When("creating an item") {
             coEvery { itemCategoryRepository.findByPublicId(request.categoryPublicId) } returns mockCategory
