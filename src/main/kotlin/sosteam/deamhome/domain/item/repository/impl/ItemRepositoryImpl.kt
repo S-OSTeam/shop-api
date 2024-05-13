@@ -25,7 +25,6 @@ class ItemRepositoryImpl (
 
     override fun searchItem(request: ItemSearchRequest): Flow<Item> {
         val orderSpecifiers = createOrderSpecifier(request.sort, request.direction)
-        request.direction
         return repository.query { query -> query
                 .select(repository.entityProjection())
                 .from(item)

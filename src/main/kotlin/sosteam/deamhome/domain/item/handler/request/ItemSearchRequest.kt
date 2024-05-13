@@ -13,9 +13,9 @@ data class ItemSearchRequest(
     // 정렬 기준
     val sort: ItemSortCriteria?,
     // 페이지 번호
-    val pageNumber: Long,
+    val pageNumber: Long = 1,
     // 페이지 크기
-    val pageSize: Long,
+    val pageSize: Long = 10,
     // 오름차순, 내림차순
     val direction: Direction?
 ) {
