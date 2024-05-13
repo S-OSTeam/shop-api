@@ -15,6 +15,8 @@ import sosteam.deamhome.domain.order.service.order.OrderDeleteService
 import sosteam.deamhome.domain.order.service.order.OrderReadService
 import sosteam.deamhome.domain.order.service.order.OrderUpdateService
 import sosteam.deamhome.domain.order.service.orderItem.OrderedItemReadService
+import sosteam.deamhome.domain.payment.exception.UnauthorizedSessionException
+import sosteam.deamhome.domain.payment.verifier.PaymentVerifier
 import sosteam.deamhome.global.attribute.OrderStatus
 import sosteam.deamhome.global.security.service.AuthenticationService
 
@@ -26,10 +28,13 @@ class OrderResolver(
     private val orderedItemReadService: OrderedItemReadService,
     private val orderDeleteService: OrderDeleteService,
     private val orderUpdateService: OrderUpdateService,
+    private val paymentVerifier: PaymentVerifier
 ) {
     //현재 사용자 장바구니 기준으로 주문 생성
     @MutationMapping
     suspend fun createOrder(@Argument request: OrderRequest): OrderInfoResponse{
+        if (!paymentVerifier.isVerified())
+            throw UnauthorizedSessionException()
         return orderCreateService.createOrder(request, authenticationService.getUserIdFromToken())
     }
 
