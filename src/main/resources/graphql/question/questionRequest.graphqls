@@ -1,17 +1,18 @@
-input FaqCategoryRequest {
-    faqCategories: [FaqCreateRequest!]
+input QuestionCategoryRequest {
+    QuestionCategories: [QuestionCreateRequest!]
 }
 
-input FaqCreateRequest {
+input QuestionCreateRequest {
     id: String
     title: String!
     content: String!
     images: [Upload!]
 }
 
-input FaqUpdateRequest {
+input QuestionUpdateRequest {
     publicId: String!
     title: String!
     content: String!
     images: [Upload!]
 }
+

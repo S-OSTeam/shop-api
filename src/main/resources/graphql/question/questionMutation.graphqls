@@ -1,0 +1,9 @@
+extend type Mutation {
+    createQuestion(request: QuestionRequest!) : QuestionResponse
+    updateQuestion(request: QuestionUpdateRequest!): String
+    deleteQuestionByPublicId(publicId: Long!): String
+
+    ##카테고리
+    createQuestionCategory(request: ItemCategoryRequest!): QuestionCategoryResponse
+    deleteQuestionCategoryByPublicId(publicId: Long!) : String
+}
