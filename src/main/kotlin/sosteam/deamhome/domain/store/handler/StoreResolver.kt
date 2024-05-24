@@ -4,6 +4,7 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
+import sosteam.deamhome.domain.item.handler.response.ItemResponse
 import sosteam.deamhome.domain.store.handler.request.StoreRequest
 import sosteam.deamhome.domain.store.handler.response.StoreResponse
 import sosteam.deamhome.domain.store.service.StoreCreateService
@@ -36,5 +37,10 @@ class StoreResolver (
     @QueryMapping
     suspend fun getStoreList(): List<StoreResponse>{
         return storeReadService.getStoreList()
+    }
+
+    @QueryMapping
+    suspend fun getStoreItemList(@Argument storeName: String): List<ItemResponse>{
+        return storeReadService.getStoreItemList(storeName)
     }
 }
