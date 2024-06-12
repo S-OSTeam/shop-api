@@ -40,7 +40,7 @@ class CouponJunkProvider {
 				shippingCost = 0,
 			)
 		}
-		
+
 		fun createJunkCoupon(): Coupon {
 			val DISCOUNT = -112345678
 			return Coupon(

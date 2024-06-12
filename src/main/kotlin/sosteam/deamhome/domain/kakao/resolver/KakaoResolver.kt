@@ -10,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 import sosteam.deamhome.domain.auth.entity.dto.AccountLoginDTO
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
+import sosteam.deamhome.domain.kakao.dto.request.KakaoLoginRequest
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
@@ -33,12 +34,12 @@ class KakaoResolver(
 
     @MutationMapping
     suspend fun kakaoLogin(
-        @Argument @Valid code: String,
+        @Argument request: KakaoLoginRequest,
         context: GraphQLContext
     ): TokenResponse? {
         val mac = getMac()
         val agent = getAgent()
-        val account = kakaoService.kakaoSign(code)
+        val account = kakaoService.kakaoSign(request.code, request.state)
 
         val loginDTO = AccountLoginDTO.fromDomain(account)
         val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
@@ -54,8 +55,8 @@ class KakaoResolver(
 
 
     @QueryMapping
-    suspend fun kakaoUserInfo(@Argument @Valid code: String): KakaoUserInfo {
-        return kakaoService.getKakaoUserInfo(kakaoService.getKakaoToken(code).accessToken)
+    suspend fun kakaoUserInfo(@Argument request: KakaoLoginRequest): KakaoUserInfo {
+        return kakaoService.getKakaoUserInfo(kakaoService.getKakaoToken(request.code, request.state).accessToken)
     }
 
     @MutationMapping

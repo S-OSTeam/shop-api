@@ -49,3 +49,8 @@ input NaverRequest{
     code: String!
     state: String!
 }
+
+input KakaoLoginRequest {
+    code: String!
+    state: String!
+}
