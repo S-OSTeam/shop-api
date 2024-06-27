@@ -46,8 +46,9 @@ class ItemDeleteServiceTest : BehaviorSpec({
             material = "",
             size = "",
             weight = "",
-            shippingCost = 0
-        ).apply { imageUrls = emptyList() }
+            shippingCost = 0,
+            imageUrls = emptyList()
+        )
 
         When("deleting a non-existent item") {
 

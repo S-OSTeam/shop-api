@@ -45,23 +45,8 @@ class ItemUpdateService(
 			size = request.size ?: existingItem.size,
 			weight = request.weight ?: existingItem.weight,
 			shippingCost = request.shippingCost ?: existingItem.shippingCost,
-		).apply {
-			// 새 이미지가 있는 경우에만 기존 이미지를 삭제하고 새 이미지를 저장
-			imageUrls = if (request.images != null) {
-				// 이미지 삭제
-				existingItem.imageUrls.forEach { imageUrl ->
-					imageProvider.deleteImage(imageUrl)
-				}
-				// 새 이미지 저장
-				request.images!!.map { imageRequest ->
-					imageProvider.saveImage(imageRequest.image, imageRequest.outer, imageRequest.inner, imageRequest.resizeWidth, imageRequest.resizeHeight).fileUrl
-				}
-			} else {
-				// 새 이미지가 없는 경우에는 기존 이미지를 그대로 사용
-				existingItem.imageUrls
-			}
-		}
-
+			imageUrls = request.imageUrls ?: existingItem.imageUrls
+		)
 		val savedItem = itemRepository.save(updatedItem)
 		return ItemResponse.fromItem(savedItem)
 	}

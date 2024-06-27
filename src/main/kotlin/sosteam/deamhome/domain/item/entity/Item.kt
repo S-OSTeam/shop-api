@@ -72,7 +72,7 @@ data class Item(
 	// 배송비
 	@Column("shipping_cost")
 	var shippingCost: Int,
-) : BaseEntity(){
 	@Column("image_urls")
 	var imageUrls: List<String> = listOf()
+) : BaseEntity(){
 }

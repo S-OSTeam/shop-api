@@ -2,7 +2,7 @@ type ReviewResponse{
     reviewId: String
     title: String
     content: String
-    monthReview: String
+    parentPublicId: String
     score: Int
     status: Boolean
     userId: String

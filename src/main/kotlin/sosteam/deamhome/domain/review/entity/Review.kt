@@ -9,12 +9,12 @@ import sosteam.deamhome.global.entity.LogEntity
 class Review(
 	@Id
 	var id: Long?,
+	var title: String,
 	@Column("public_id")
 	var publicId: String,
-	var title: String,
+	@Column("parent_public_id")
+	var parentPublicId: String,
 	var content: String,
-	@Column("month_review")
-	var monthReview: String,
 	var score: Int = 0,
 	var status: Boolean = false,
 	@Column("user_id")

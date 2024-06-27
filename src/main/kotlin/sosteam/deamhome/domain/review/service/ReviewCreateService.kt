@@ -19,6 +19,7 @@ class ReviewCreateService(
 	private val itemRepository: ItemRepository,
 	private val imageProvider: ImageProvider,
 ) {
+	
 	suspend fun createReview(request: ReviewCreateRequest): ReviewResponse {
 		val account = accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
 		val item = itemRepository.findByPublicId(request.itemId) ?: throw ItemNotFoundException()
@@ -27,17 +28,18 @@ class ReviewCreateService(
 		itemRepository.save(item)
 		
 		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+		val parentPublicId = if (request.parentPublicId.isNullOrEmpty()) publicId else request.parentPublicId
 		
 		val imageUrls: MutableList<String> = request.images.map {
 			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
 		}.toMutableList()
 		
-		val review = Review(
+		val laterReview = Review(
 			id = null,
 			publicId = publicId,
+			parentPublicId = parentPublicId,
 			title = request.title,
 			content = request.content,
-			monthReview = "",
 			score = request.score,
 			status = false,
 			userId = request.userId,
@@ -48,7 +50,7 @@ class ReviewCreateService(
 			reportUsers = mutableListOf(),
 			reportContent = mutableListOf()
 		)
-		val savedReview = reviewRepository.save(review)
+		val savedReview = reviewRepository.save(laterReview)
 		account.addReview(savedReview.id)
 		accountRepository.save(account)
 		return ReviewResponse.fromReview(savedReview)

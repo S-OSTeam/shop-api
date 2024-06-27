@@ -35,7 +35,6 @@ input OrderReadRequestByStatus {
     orderStatus: OrderStatus!,
 
 }
-
 input OrderUpdateRequest {
     orderId: String!,
     address: String!,
@@ -44,3 +43,4 @@ input OrderUpdateRequest {
     addressee: String!,
     memo: String,
 }
+

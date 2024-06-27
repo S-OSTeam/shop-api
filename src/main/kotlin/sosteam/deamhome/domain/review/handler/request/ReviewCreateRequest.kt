@@ -4,6 +4,7 @@ import sosteam.deamhome.global.image.handler.request.ImageRequest
 
 data class ReviewCreateRequest(
 	val title: String,
+	val parentPublicId: String?,
 	val content: String,
 	val score: Int,
 	val status: Boolean,
