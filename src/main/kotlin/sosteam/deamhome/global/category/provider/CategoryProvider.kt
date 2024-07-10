@@ -91,5 +91,26 @@ class CategoryProvider<T: CategoryEntity> (
 
 
 
+    suspend fun findAllSubCategoriesTree(categoryId: String, fromCategory: (T) -> CategoryTreeResponse<T>): CategoryTreeResponse<T> {
+        val allCategories = repository.findAll().toList()  // 모든 카테고리를 불러옴
+        val map = mutableMapOf<String, CategoryTreeResponse<T>>()  // 카테고리 ID를 키로 하는 맵
+
+        // 모든 카테고리를 맵에 추가
+        allCategories.forEach { category ->
+            map[category.publicId] = fromCategory(category)
+        }
+
+        // 카테고리 간의 부모-자식 관계 설정
+        allCategories.forEach { category ->
+            val parent = map[category.parentPublicId]
+            val child = map[category.publicId]
+            parent?.children?.add(child!!)
+        }
+
+        // 시작 카테고리의 자식만을 추출하여 반환
+        return map[categoryId] ?: throw CategoryNotFoundException("Cannot find category with ID: $categoryId")
+    }
+
+
 
 }
