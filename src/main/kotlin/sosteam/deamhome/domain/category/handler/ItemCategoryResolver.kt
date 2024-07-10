@@ -37,6 +37,11 @@ class ItemCategoryResolver(
     }
 
     @QueryMapping
+    suspend fun findSubCategoriesTree(@Argument categoryId: String) : ItemCategoryTreeResponse {
+        return itemCategorySearchService.findSubCategoriesTree(categoryId)
+    }
+
+    @QueryMapping
     suspend fun findItemCategoriesContainTitle(@Argument title: String) : List<ItemCategoryResponse> {
         return itemCategorySearchService.findItemCategoriesContainTitle(title).toList()
     }
