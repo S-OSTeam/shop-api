@@ -41,4 +41,16 @@ class ItemCategorySearchService (
 
     }
 
+
+    suspend fun findSubCategoriesTree(categoryId: String): ItemCategoryTreeResponse {
+        // 카테고리 트리를 구성하는 함수를 정의
+        val fromCategory: (ItemCategory) -> CategoryTreeResponse<ItemCategory> = ::fromItemCategory
+
+        // CategoryProvider의 findSubCategoriesTree 메소드를 호출하여 카테고리 트리 구성
+        val categoryTree = categoryProvider.findAllSubCategoriesTree(categoryId, fromCategory)
+
+        // 결과 반환
+        return categoryTree as ItemCategoryTreeResponse  // 안전한 타입 캐스팅
+    }
+
 }
