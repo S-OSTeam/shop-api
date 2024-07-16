@@ -33,9 +33,17 @@ class ItemResolver(
             // publicId 가 있으면 publicId 로 검색
             listOf(itemSearchService.findItemByPublicId(it))
         } ?: request.categoryPublicId?.let {
-            // categoryPublicId 가 있으면 categoryPublicId 로 카테고리 하위 모든 아이템들을 검색
             // 검색 창에 검색하는 경우가 아니라 카테고리를 클릭하였을 경우 검색임
-            itemSearchService.findItemsByCategoryPublicId(it)
+            val items = itemSearchService.findItemsByCategoryPublicId(it)
+
+            // 페이지네이션을 위한 계산
+            val pageNumber = request.pageNumber.toInt()
+            val pageSize = request.pageSize.toInt()
+            val pageStart = (pageNumber - 1) * pageSize
+            val pageEnd = pageStart + pageSize
+
+            // 요청된 페이지에 맞게 아이템 리스트를 잘라 반환
+            items.slice(pageStart until pageEnd.coerceAtMost(items.size))
         } ?:
             //검색창에 검색
             itemSearchService.searchItem(request).toList()
