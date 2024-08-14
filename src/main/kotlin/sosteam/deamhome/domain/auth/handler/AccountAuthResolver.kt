@@ -5,7 +5,10 @@ import jakarta.validation.Valid
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.account.service.*
+import sosteam.deamhome.domain.account.service.AccountCreateService
+import sosteam.deamhome.domain.account.service.AccountModifyService
+import sosteam.deamhome.domain.account.service.AccountStatusValidService
+import sosteam.deamhome.domain.account.service.AccountValidService
 import sosteam.deamhome.domain.auth.handler.request.AccountChangePwdRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
@@ -30,18 +33,18 @@ class AccountAuthResolver(
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
 		val mac = getMac()
-
+		
 		accountStatusValidService.isNotExistAccount(
 			request.userId,
 			request.sns,
 			request.snsId,
 			request.email
 		)
-
+		
 		val createAccount = accountCreateService.createAccount(request)
 		return createAccount.userId
 	}
-
+	
 	// TODO AccountStatusModifyService.updateAccountStatus 를 MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제
 //	@MutationMapping
 //	suspend fun signOut(): String {
@@ -57,7 +60,7 @@ class AccountAuthResolver(
 //
 //		return userId
 //	}
-
+	
 	@MutationMapping
 	suspend fun login(
 		@Argument @Valid request: AccountLoginRequest,
@@ -65,7 +68,7 @@ class AccountAuthResolver(
 	): TokenResponse? {
 		val mac = getMac()
 		val agent = getAgent()
-
+		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
 				request.userId,
@@ -73,39 +76,35 @@ class AccountAuthResolver(
 				null,
 				request.email
 			)
-
+		
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
 		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
-
-		if(agent.contains("Mobile")) {
-			return tokenResponse
-		}
+		
 		context.put("accessToken", tokenResponse.accessToken)
 		context.put("refreshToken", tokenResponse.refreshToken)
-
-		// 일단 토큰 반환하도록 설정
-		return tokenResponse
+		
+		return null
 	}
-
+	
 	@MutationMapping
 	suspend fun logout(): String {
 		val accessToken = getToken()
 		val refreshToken = getRefreshToken()
 		val mac = getMac()
-
+		
 		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, mac)
-
+		
 		return userId
 	}
-
+	
 	@MutationMapping
 	suspend fun reIssue(): TokenResponse {
 		val token = getToken()
 		val mac = getMac()
-
+		
 		return accountAuthCreateService.reIssueTokenResponse(mac, token)
 	}
-
+	
 	@MutationMapping
 	suspend fun changePassword(request: AccountChangePwdRequest): String {
 		val mac = getMac()
