@@ -3,7 +3,6 @@ package sosteam.deamhome.domain.question.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import sosteam.deamhome.domain.account.entity.enum.QuestionType
 import sosteam.deamhome.global.category.entity.CategoryEntity
 
 @Table("question_category")

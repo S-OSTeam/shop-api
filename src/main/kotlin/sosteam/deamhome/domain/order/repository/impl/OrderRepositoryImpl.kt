@@ -7,7 +7,7 @@ import sosteam.deamhome.domain.order.entity.Order
 import sosteam.deamhome.domain.order.entity.QOrder
 import sosteam.deamhome.domain.order.repository.custom.OrderRepositoryCustom
 import sosteam.deamhome.domain.order.repository.querydsl.OrderQuerydslRepository
-import sosteam.deamhome.global.attribute.OrderStatus
+import sosteam.deamhome.domain.order.entity.OrderStatus
 
 @GraphQlRepository
 class OrderRepositoryImpl(val querydsl: OrderQuerydslRepository) : OrderRepositoryCustom {
@@ -16,7 +16,13 @@ class OrderRepositoryImpl(val querydsl: OrderQuerydslRepository) : OrderReposito
 	override fun getOrdersByAccountAndNotFinished(accountId: String): Flow<Order> {
 		return querydsl.findAll(
 			order.userId.eq(accountId)
-				.and(order.orderStatus.stringValue().eq(OrderStatus.PENDING.name).or(order.orderStatus.stringValue().eq(OrderStatus.TRANSIT.name)))
+				.and(
+					order.orderStatus.stringValue().eq(OrderStatus.PENDING.name).or(
+						order.orderStatus.stringValue().eq(
+							OrderStatus.TRANSIT.name
+						)
+					)
+				)
 		).asFlow()
 	}
 }

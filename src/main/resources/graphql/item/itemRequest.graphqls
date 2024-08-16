@@ -60,15 +60,3 @@ input ItemUpdateRequest {
     shippingCost: Int
     images: [ImageRequest] @ContainerSize(max: 10, message: "이미지는 10개 까지 동시 업로드 가능합니다.")
 }
-
-enum ItemStatus {
-    RESERVED, SUSPENDED, DELETED, SOLDOUT, AVAILABLE
-}
-
-enum ItemSortCriteria {
-    SELL, WISHLIST, RATING, REVIEW, CLICK
-}
-
-enum Direction {
-    ASC, DESC
-}

@@ -1,17 +1,25 @@
 type QuestionResponse {
-    id: String
+    publicId: String!
+    categoryPublicId: String!
     title: String!
     content: String!
-    images: [Upload!]
-}
-
-type QuestionCategory {
-    title: String!
-    questionIds: [String]
+    summary: String!
+    status: QuestionStatus!
+    questionType: QuestionType!
+    storeId: String!
+    imageUrls: [String!]!
 }
 
 type QuestionCategoryResponse{
+    title: String!
+    publicId: String!
+    parentPublicId: String
+    questionType: QuestionType!
+}
+
+type QuestionCategoryTreeResponse{
     publicId: String!
     title: String!
-    children: [QuestionCategoryResponse]!
+    questionType: QuestionType!
+    children: [QuestionCategoryTreeResponse]!
 }

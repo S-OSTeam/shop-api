@@ -1,4 +1,9 @@
-enum questionType{
+enum QuestionType{
     FAQ,
     QNA
+}
+
+enum QuestionStatus{
+    VISIBLE,
+    INVISIBLE
 }

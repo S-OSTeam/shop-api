@@ -3,7 +3,6 @@ package sosteam.deamhome.domain.item.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.entity.BaseEntity
 import java.time.OffsetDateTime
 
@@ -32,7 +31,7 @@ data class Item(
 	@Column("click_cnt")
 	var clickCnt: Int = 0,
 	@Column("stock_cnt")
-	var stockCnt:Int = 0,
+	var stockCnt: Int = 0,
 	@Column("avg_review")
 	var avgReview: Double = 0.0,
 	@Column("review_cnt")
@@ -74,5 +73,5 @@ data class Item(
 	var shippingCost: Int,
 	@Column("image_urls")
 	var imageUrls: List<String> = listOf()
-) : BaseEntity(){
+) : BaseEntity() {
 }
