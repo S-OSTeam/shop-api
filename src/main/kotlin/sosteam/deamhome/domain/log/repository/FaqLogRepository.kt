@@ -1,7 +1,6 @@
 package sosteam.deamhome.domain.log.repository
 
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
-import sosteam.deamhome.domain.log.entity.FaqLog
+import sosteam.deamhome.domain.log.entity.QuestionLog
 
-interface FaqLogRepository: CoroutineCrudRepository<FaqLog, Long> {
-}
+interface QuestionLogRepository : CoroutineCrudRepository<QuestionLog, Long>

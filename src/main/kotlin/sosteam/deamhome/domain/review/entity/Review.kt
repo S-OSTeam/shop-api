@@ -29,6 +29,6 @@ class Review(
 	var purchaseOptions: MutableList<String>,
 	@Column("report_users")
 	var reportUsers: MutableList<String>,
-	@Column("report_content")
-	var reportContent: MutableList<String>
+	@Column("report_contents")
+	var reportContents: MutableList<String>
 ) : LogEntity()

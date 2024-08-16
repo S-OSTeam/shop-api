@@ -1,0 +1,17 @@
+type QuestionResponse {
+    id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+
+type QuestionCategory {
+    title: String!
+    questionIds: [String]
+}
+
+type QuestionCategoryResponse{
+    publicId: String!
+    title: String!
+    children: [QuestionCategoryResponse]!
+}
