@@ -102,11 +102,11 @@ CREATE TABLE IF NOT EXISTS public.content_save
 ALTER TABLE IF EXISTS public.content_save
     OWNER to postgres;
 
--- Table: public.faq
+-- Table: public.question
 
--- DROP TABLE IF EXISTS public.faq;
+-- DROP TABLE IF EXISTS public.question;
 
-CREATE TABLE IF NOT EXISTS public.faq
+CREATE TABLE IF NOT EXISTS public.question
 (
     id bigint NOT NULL,
     title character varying(30) COLLATE pg_catalog."default" NOT NULL,
@@ -119,19 +119,19 @@ CREATE TABLE IF NOT EXISTS public.faq
     updated_at timestamp without time zone,
     question_id character varying(36) COLLATE pg_catalog."default",
     "storeId" character varying(36) COLLATE pg_catalog."default",
-    CONSTRAINT faq_pkey PRIMARY KEY (id)
+    CONSTRAINT question_pkey PRIMARY KEY (id)
     )
 
     TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.faq
+ALTER TABLE IF EXISTS public.question
     OWNER to postgres;
 
--- Table: public.faq_category
+-- Table: public.question_category
 
--- DROP TABLE IF EXISTS public.faq_category;
+-- DROP TABLE IF EXISTS public.question_category;
 
-CREATE TABLE IF NOT EXISTS public.faq_category
+CREATE TABLE IF NOT EXISTS public.question_category
 (
     id bigint NOT NULL,
     parent_public_id uuid,
@@ -140,12 +140,12 @@ CREATE TABLE IF NOT EXISTS public.faq_category
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     store_id character varying(36) COLLATE pg_catalog."default",
-    CONSTRAINT faq_category_pkey PRIMARY KEY (id)
+    CONSTRAINT question_category_pkey PRIMARY KEY (id)
     )
 
     TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.faq_category
+ALTER TABLE IF EXISTS public.question_category
     OWNER to postgres;
 
 -- Table: public.image

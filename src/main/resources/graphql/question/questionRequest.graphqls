@@ -1,0 +1,18 @@
+input QuestionCategoryRequest {
+    QuestionCategories: [QuestionCreateRequest!]
+}
+
+input QuestionCreateRequest {
+    id: String
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+
+input QuestionUpdateRequest {
+    publicId: String!
+    title: String!
+    content: String!
+    images: [Upload!]
+}
+

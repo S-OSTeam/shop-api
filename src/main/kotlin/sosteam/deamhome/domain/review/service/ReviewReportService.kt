@@ -27,7 +27,7 @@ class ReviewReportService(
 			throw ReviewReportAlreadyExistException()
 		}
 		review.reportUsers.add(request.userId)
-		review.reportContent.add(request.reportContent)
+		review.reportContents.add(request.reportContent)
 		
 		// 신고 개수가 10개 이상이면 리뷰 제한
 		if (review.reportUsers.size >= 10) {

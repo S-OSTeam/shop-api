@@ -4,4 +4,7 @@ extend type Query{
 
     # 스토어 리스트 가져오기
     getStoreList: [StoreResponse]
+
+    # 스토어 아이템 리스트 가져오기
+    getStoreItemList(storeName: String): [ItemResponse]
 }

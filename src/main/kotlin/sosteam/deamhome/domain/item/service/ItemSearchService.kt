@@ -47,6 +47,13 @@ class ItemSearchService (
             .map { ItemResponse.fromItem(it) }
     }
 
+    // 페이지네이션 없이
+    suspend fun findItemByPublicIdIn(publicIdList: List<String>): List<ItemResponse>{
+        return itemRepository.findByPublicIdIn(publicIdList)
+            .toList()
+            .map { ItemResponse.fromItem(it) }
+    }
+
     // 하위의 카테고리에 있는 아이템을 반환하는 함수
     private suspend fun findItemsInCategoryAndDescendants(category: ItemCategory): List<Item>{
         val parentIds: MutableList<String> = mutableListOf()
@@ -67,5 +74,9 @@ class ItemSearchService (
             .map { ItemResponse.fromItem(it) }
     }
 
-
+    //storeName 해당하는 item PublicId 리스트 반환
+    suspend fun searchPublicIdByStore(storeName: String):List<String> {
+        val items = itemRepository.findBySellerId(storeName).toList()
+        return items.map{it.publicId}
+    }
 }

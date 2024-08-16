@@ -26,6 +26,7 @@ data class AccountStatus(
 	
 	var status: Status = Status.LIVE,
 	
+	@Column("account_id")
 	var accountId: Long? = null
 
 ) : BaseEntity() {

@@ -4,11 +4,10 @@ import com.github.f4b6a3.ulid.UlidCreator
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.entity.DTO
-import sosteam.deamhome.global.image.handler.request.ImageRequest
 import java.time.OffsetDateTime
 
 data class ItemRequest(
-
+	
 	val categoryPublicId: String,
 	val title: String,
 	val content: String,

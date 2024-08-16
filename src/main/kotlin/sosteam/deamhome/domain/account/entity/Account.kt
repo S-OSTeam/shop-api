@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import sosteam.deamhome.domain.faq.entity.Faq
+import sosteam.deamhome.domain.question.entity.Question
 import sosteam.deamhome.global.attribute.Role
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.entity.LogEntity
@@ -59,7 +59,7 @@ data class Account(
 		const val maxWishListSize = 100
 	}
 	
-	private var faqs: ArrayList<String> = ArrayList()
+	private var questions: ArrayList<String> = ArrayList()
 	
 	private var wishlist: ArrayList<String> = ArrayList()
 	
@@ -93,9 +93,9 @@ data class Account(
 		return wishlist.size
 	}
 	
-	fun addFaq(faq: Faq): List<String> {
-//		faqs.add(faq.id)
-		return faqs
+	fun addQuestion(question: Question): List<String> {
+//		questions.add(question.id)
+		return questions
 	}
 	
 	fun addReview(review: Long?): List<Long?> {

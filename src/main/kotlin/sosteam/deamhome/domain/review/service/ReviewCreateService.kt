@@ -48,7 +48,7 @@ class ReviewCreateService(
 			likeUsers = mutableListOf(),
 			purchaseOptions = request.purchaseOptions.toMutableList(),
 			reportUsers = mutableListOf(),
-			reportContent = mutableListOf()
+			reportContents = mutableListOf()
 		)
 		val savedReview = reviewRepository.save(laterReview)
 		account.addReview(savedReview.id)

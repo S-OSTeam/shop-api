@@ -1,0 +1,16 @@
+type AccountResponse{
+    userId: String!,
+    sex: Boolean!,
+    birthday: DateTime!,
+    zipcode: String!,
+    address1: String!,
+    address2: String,
+    address3: String,
+    address4: String,
+    email: String!,
+    receiveMail: Boolean!,
+    snsId: String,
+    phone: String,
+    userName: String!,
+    point: Int!,
+}
