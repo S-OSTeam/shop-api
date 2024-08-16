@@ -1,12 +1,12 @@
-package sosteam.deamhome.domain.faq.entity
+package sosteam.deamhome.domain.question.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import sosteam.deamhome.global.entity.BaseEntity
 
-@Table("faq")
-class Faq(
+@Table("question")
+class Question(
 	var title: String,
 	var content: String,
 	@Column("user_id")
