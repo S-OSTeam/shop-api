@@ -4,7 +4,7 @@ import sosteam.deamhome.domain.coupon.entity.Coupon
 import sosteam.deamhome.domain.coupon.entity.CouponDiscountType
 import sosteam.deamhome.domain.coupon.entity.CouponType
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.global.attribute.ItemStatus
+import sosteam.deamhome.domain.item.entity.ItemStatus
 import java.time.OffsetDateTime
 
 class CouponJunkProvider {
@@ -40,7 +40,7 @@ class CouponJunkProvider {
 				shippingCost = 0,
 			)
 		}
-
+		
 		fun createJunkCoupon(): Coupon {
 			val DISCOUNT = -112345678
 			return Coupon(

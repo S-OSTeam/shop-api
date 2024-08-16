@@ -1,7 +1,7 @@
 package sosteam.deamhome.domain.item.handler.response
 
 import sosteam.deamhome.domain.item.entity.Item
-import sosteam.deamhome.global.attribute.ItemStatus
+import sosteam.deamhome.domain.item.entity.ItemStatus
 import java.time.OffsetDateTime
 
 class ItemResponse(

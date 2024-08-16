@@ -1,0 +1,11 @@
+enum ItemStatus {
+    RESERVED, SUSPENDED, DELETED, SOLDOUT, AVAILABLE
+}
+
+enum ItemSortCriteria {
+    SELL, WISHLIST, RATING, REVIEW, CLICK
+}
+
+enum Direction {
+    ASC, DESC
+}
