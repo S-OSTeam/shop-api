@@ -20,22 +20,22 @@ class AccountStatusValidService(
 	suspend fun getStatusByUserIdOrSNS(userId: String?, sns: SNS, snsId: String?, email: String?): AccountStatus? {
 		return accountStatusRepository.getStatusByUserIdOrSNS(userId, sns, snsId, email)
 	}
-
+	
 	suspend fun getLiveAccountIdByStatus(userId: String?, sns: SNS, snsId: String?, email: String?): Long {
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email) ?: throw AccountNotFoundException()
-
+		
 		if (accountStatus.status != Status.LIVE)
 			throw AccountNotLiveException()
-
+		
 		return accountStatus.accountId!!
 	}
-
+	
 	suspend fun isNotExistAccount(userId: String?, sns: SNS, snsId: String?, email: String?): Boolean {
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email)
-
+		
 		if (accountStatus != null)
 			throw AlreadyExistAccountException()
-
+		
 		return true
 	}
 }

@@ -12,6 +12,6 @@ extend type Query {
     # 모든 ItemCategory 를 tree 형태로 검색
     findAllItemCategoriesTree: [ItemCategoryTreeResponse]
     # 특정 PublicId 아래의 모든 하위 카테고리를 tree 형태로 검색
-    findSubCategoriesTree(categoryId: String @NotBlank): ItemCategoryTreeResponse
+    findSubItemCategoriesTree(categoryId: String @NotBlank): ItemCategoryTreeResponse
 
 }

@@ -1,18 +1,44 @@
-input QuestionCategoryRequest {
-    QuestionCategories: [QuestionCreateRequest!]
+input QuestionRequest {
+    categoryPublicId: String! @NotBlank(message: "카테고리가 입력되지 않았습니다.")
+    title: String! @NotBlank(message: "제목이 입력되지 않았습니다.") @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    content: String! @NotBlank(message: "상품 정보가 입력되지 않았습니다.")
+    summary: String! @NotBlank(message: "상품 요약이 입력되지 않았습니다.")
+    status: QuestionStatus!
+    questionType: QuestionType!
+    imageUrls: [String!]! @ContainerSize(min: 1, max: 10, message: "이미지는 1~10개 까지 동시 업로드 가능합니다.")
 }
 
-input QuestionCreateRequest {
-    id: String
-    title: String!
-    content: String!
-    images: [Upload!]
+input QuestionCategoryRequest {
+    title: String! @NotBlank(message: "제목은 필수 입력 항목입니다.") @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    questionType: QuestionType!
+    parentPublicId: String
+}
+
+input QuestionCategoryUpdateRequest {
+    publicId: String! @NotBlank(message: "publicId 는 필수 입력 항목입니다.")
+    parentPublicId: String
+    questionType: QuestionType!
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+}
+
+input QuestionSearchRequest {
+    publicId: String
+    categoryPublicId: String
+    questionType: QuestionType!
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    pageNumber: Long @Min(value: 1, message: "페이지 번호는 1 이상이어야 합니다.")
+    pageSize: Long @Min(value: 1, message: "페이지 크기는 1 이상이어야 합니다.")
+    direction: Direction
 }
 
 input QuestionUpdateRequest {
-    publicId: String!
-    title: String!
-    content: String!
-    images: [Upload!]
+    publicId: String! @NotBlank(message: "publicId 는 필수 입력 항목입니다.")
+    categoryPublicId: String
+    title: String @Size(max: 30, message: "제목 최대 길이는 30 입니다.")
+    content: String
+    summary: String
+    status: QuestionStatus!
+    questionType: QuestionType!
+    storeId: String
+    images: [ImageRequest] @ContainerSize(max: 10, message: "이미지는 10개 까지 동시 업로드 가능합니다.")
 }
-

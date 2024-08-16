@@ -19,6 +19,11 @@ class Question(
 	var questionId: String?,
 	@Column("store_id")
 	var storeId: String?,
+	@Column("question_type")
+	var questionType: QuestionType,
+	@Column("question_status")
+	var questionStatus: QuestionStatus,
+	@Column("image_urls")
 	var imageUrls: MutableList<String> = mutableListOf()
 ) : BaseEntity() {
 	@Id

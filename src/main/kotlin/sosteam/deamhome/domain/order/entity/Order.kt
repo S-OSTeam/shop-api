@@ -4,7 +4,6 @@ import com.github.f4b6a3.ulid.UlidCreator
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import sosteam.deamhome.global.attribute.OrderStatus
 import sosteam.deamhome.global.entity.BaseEntity
 import java.time.OffsetDateTime
 
@@ -62,12 +61,16 @@ class Order(
 ) : BaseEntity() {
 	@Column("public_id")
 	var publicId: String = UlidCreator.getMonotonicUlid().toString().replace("-", "")
+	
 	@Column("order_status")
 	var orderStatus: OrderStatus = OrderStatus.PROCESSING
+	
 	@Column("admin_memo")
 	var adminMemo: String? = null
+	
 	@Column("is_paid")
 	var isPaid = false
+	
 	@Column("is_refund")
 	var isRefund = false
 }

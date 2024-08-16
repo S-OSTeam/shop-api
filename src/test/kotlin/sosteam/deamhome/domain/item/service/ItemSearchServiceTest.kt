@@ -12,7 +12,7 @@ import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.global.attribute.ItemStatus
+import sosteam.deamhome.domain.item.entity.enums.ItemStatus
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import java.time.OffsetDateTime
 

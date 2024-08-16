@@ -16,45 +16,45 @@ import sosteam.deamhome.domain.category.service.ItemCategoryUpdateService
 
 @RestController
 class ItemCategoryResolver(
-    private val itemCategoryCreateService: ItemCategoryCreateService,
-    private val itemCategorySearchService: ItemCategorySearchService,
-    private val itemCategoryDeleteService: ItemCategoryDeleteService,
-    private val itemCategoryUpdateService: ItemCategoryUpdateService
+	private val itemCategoryCreateService: ItemCategoryCreateService,
+	private val itemCategorySearchService: ItemCategorySearchService,
+	private val itemCategoryDeleteService: ItemCategoryDeleteService,
+	private val itemCategoryUpdateService: ItemCategoryUpdateService
 ) {
-    @MutationMapping
-    suspend fun createItemCategory(@Argument request: ItemCategoryRequest) : ItemCategoryResponse {
-        return itemCategoryCreateService.createCategory(request)
-    }
-
-    @QueryMapping
-    suspend fun findItemCategoryByPublicId(@Argument publicId: String) : ItemCategoryResponse {
-        return itemCategorySearchService.findItemCategoryByPublicId(publicId)
-    }
-
-    @QueryMapping
-    suspend fun findAllItemCategoriesTree() : List<ItemCategoryTreeResponse> {
-        return itemCategorySearchService.findAllItemCategoriesTree()
-    }
-
-    @QueryMapping
-    suspend fun findSubCategoriesTree(@Argument categoryId: String) : ItemCategoryTreeResponse {
-        return itemCategorySearchService.findSubCategoriesTree(categoryId)
-    }
-
-    @QueryMapping
-    suspend fun findItemCategoriesContainTitle(@Argument title: String) : List<ItemCategoryResponse> {
-        return itemCategorySearchService.findItemCategoriesContainTitle(title).toList()
-    }
-
-    @MutationMapping
-    suspend fun deleteItemCategoryByPublicId(@Argument publicId: String) : String{
-        itemCategoryDeleteService.deleteItemCategoryByPublicId(publicId)
-        return "deleted"
-    }
-
-    @MutationMapping
-    suspend fun updateItemCategory(@Argument request: ItemCategoryUpdateRequest) : ItemCategoryResponse {
-        return itemCategoryUpdateService.updateItemCategory(request)
-    }
-
+	@MutationMapping
+	suspend fun createItemCategory(@Argument request: ItemCategoryRequest): ItemCategoryResponse {
+		return itemCategoryCreateService.createCategory(request)
+	}
+	
+	@QueryMapping
+	suspend fun findItemCategoryByPublicId(@Argument publicId: String): ItemCategoryResponse {
+		return itemCategorySearchService.findItemCategoryByPublicId(publicId)
+	}
+	
+	@QueryMapping
+	suspend fun findAllItemCategoriesTree(): List<ItemCategoryTreeResponse> {
+		return itemCategorySearchService.findAllItemCategoriesTree()
+	}
+	
+	@QueryMapping
+	suspend fun findSubItemCategoriesTree(@Argument categoryId: String): ItemCategoryTreeResponse {
+		return itemCategorySearchService.findSubCategoriesTree(categoryId)
+	}
+	
+	@QueryMapping
+	suspend fun findItemCategoriesContainTitle(@Argument title: String): List<ItemCategoryResponse> {
+		return itemCategorySearchService.findItemCategoriesContainTitle(title).toList()
+	}
+	
+	@MutationMapping
+	suspend fun deleteItemCategoryByPublicId(@Argument publicId: String): String {
+		itemCategoryDeleteService.deleteItemCategoryByPublicId(publicId)
+		return publicId
+	}
+	
+	@MutationMapping
+	suspend fun updateItemCategory(@Argument request: ItemCategoryUpdateRequest): ItemCategoryResponse {
+		return itemCategoryUpdateService.updateItemCategory(request)
+	}
+	
 }

@@ -15,7 +15,7 @@ import sosteam.deamhome.domain.coupon.handler.response.CouponResponse
 import sosteam.deamhome.domain.coupon.repository.CouponRepository
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.global.attribute.ItemStatus
+import sosteam.deamhome.domain.item.entity.ItemStatus
 import java.time.OffsetDateTime
 
 class CouponSearchServiceTest : BehaviorSpec({
