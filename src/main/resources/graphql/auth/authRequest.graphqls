@@ -14,8 +14,8 @@ input SignUpRequest{
     phone: String
     receiveMail: Boolean
 
-    snsId: String
-    sns: SNS
+    snsCode: String
+    sns: SNS!
 
     userName: String!
 }
@@ -24,7 +24,7 @@ input LoginRequest{
     pwd: String!
     userId: String
     email: String
-    snsId: String
+    snsCode: String
     sns: SNS!
 }
 
@@ -43,14 +43,4 @@ input CheckVerifyCodeRequest {
     email: String!
     verifyCode: String!
     verifyType: VerifyType!
-}
-
-input NaverRequest{
-    code: String!
-    state: String!
-}
-
-input KakaoLoginRequest {
-    code: String!
-    state: String!
 }
