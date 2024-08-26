@@ -9,16 +9,10 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
-import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.account.exception.SnsIdNotFoundException
-import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.account.service.AccountStatusValidService
 import sosteam.deamhome.domain.naver.dto.response.NaverTokenReturnResponse
 import sosteam.deamhome.domain.naver.dto.response.NaverUnlinkResponse
-import sosteam.deamhome.domain.naver.dto.response.NaverUserInfo
 import sosteam.deamhome.domain.naver.dto.response.NaverUserInfoResponse
 import sosteam.deamhome.domain.naver.exception.NaverTokenNotFoundException
-import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.security.provider.RandomKeyProvider
 
 @Service
@@ -31,8 +25,8 @@ class NaverService(
 	private val clientSecret: String,
 	@Value("\${spring.security.oauth2.client.naver.redirect_uri}")
 	private val naverRedirectUri: String,
-	private val accountRepository: AccountRepository,
-	private val accountStatusValidService: AccountStatusValidService,
+	@Value("spring.security.oauth2.client.naver.state")
+	private val naverState: String,
 	private val randomKeyProvider: RandomKeyProvider
 ) {
 	suspend fun getNaverLoginPage(): String {
@@ -45,18 +39,7 @@ class NaverService(
 		return url.toUriString()
 	}
 	
-	suspend fun naverSign(code: String, state: String): Account {
-		val token = getNaverToken(code, state)
-		token.accessToken ?: NaverTokenNotFoundException()
-		val naverInfo = getNaverUserInfo(token.accessToken!!)
-		val SnsId = naverInfo.email.toString().substringBefore("@")
-		val user = accountRepository.findAccountBySnsIdAndSns(SnsId, SNS.NAVER)
-			?: throw SnsIdNotFoundException()
-		accountStatusValidService.getLiveAccountIdByStatus(user.userId, user.sns, user.snsId, user.email)
-		return user
-	}
-	
-	suspend fun getNaverToken(code: String, state: String): NaverTokenReturnResponse {
+	suspend fun getNaverToken(code: String): NaverTokenReturnResponse {
 		val naverOAuth = "https://nid.naver.com"
 		val naverPath = "/oauth2.0/token"
 		val webclient = WebClient.builder().baseUrl(naverOAuth)
@@ -65,7 +48,7 @@ class NaverService(
 		val response = webclient.post().uri { uriBuilder ->
 			uriBuilder.path(naverPath).queryParam("client_id", clientId)
 				.queryParam("client_secret", clientSecret).queryParam("grant_type", "authorization_code")
-				.queryParam("state", state).queryParam("code", code).build()
+				.queryParam("state", naverState).queryParam("code", code).build()
 		}.retrieve().onStatus({ status -> status.value() != 200 }) {
 			throw NaverTokenNotFoundException()
 		}.bodyToMono(NaverTokenReturnResponse::class.java).awaitSingle()
@@ -77,7 +60,7 @@ class NaverService(
 		return response
 	}
 	
-	suspend fun getNaverUserInfo(token: String): NaverUserInfo {
+	suspend fun getNaverUserId(token: String): String {
 		val naverOAuth = "https://openapi.naver.com"
 		val naverPath = "/v1/nid/me"
 		val webclient = WebClient.builder().baseUrl(naverOAuth)
@@ -86,9 +69,9 @@ class NaverService(
 		val response = webclient.get().uri(naverPath).header("Authorization", "Bearer $token").retrieve()
 			.bodyToMono(NaverUserInfoResponse::class.java).awaitSingle()
 		
-		response.info ?: throw NaverTokenNotFoundException()
+		response.info?.id ?: throw NaverTokenNotFoundException()
 		
-		return response.info
+		return response.info.id
 	}
 	
 	suspend fun unlinkNaver(token: String): NaverUnlinkResponse {
