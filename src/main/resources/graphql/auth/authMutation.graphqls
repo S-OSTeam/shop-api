@@ -5,11 +5,9 @@ extend type Mutation {
     logout: String
     reIssue: TokenResponse
 
-    kakaoLogin(request: KakaoLoginRequest!): TokenResponse
-    kakaoUnlink(token: String): KakaoUnlinkResponse
+    kakaoUnlink(snsCode: String): KakaoUnlinkResponse
 
-    naverLogin(request: NaverRequest): TokenResponse
-    naverUnlink(token: String): NaverUnlinkResponse
+    naverUnlink(snsCode: String): NaverUnlinkResponse
 
     changePassword(request: AccountChangePwdRequest!): String
 
