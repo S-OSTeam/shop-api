@@ -15,11 +15,19 @@ import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 class AccountCreateService(
 	private val accountRepository: AccountRepository,
 	private val accountStatusRepository: AccountStatusRepository,
+	private val accountStatusValidService: AccountStatusValidService,
 	private val passwordEncoder: PasswordEncoder
 ) {
 	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
 		
+		val snsId = accountStatusValidService.getSnsId(
+			accountCreateRequest.userId,
+			accountCreateRequest.sns,
+			accountCreateRequest.snsCode
+		)
 		val accountStatus = accountCreateRequest.asStatus()
+		accountStatus.snsId = snsId
+		
 		val account = accountCreateRequest.asDomain()
 		account.pwd = passwordEncoder.encode(account.pwd)
 		

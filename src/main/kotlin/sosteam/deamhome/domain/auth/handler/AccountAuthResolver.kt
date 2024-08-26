@@ -14,7 +14,6 @@ import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
-import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
@@ -37,7 +36,7 @@ class AccountAuthResolver(
 		accountStatusValidService.isNotExistAccount(
 			request.userId,
 			request.sns,
-			request.snsId,
+			request.snsCode,
 			request.email
 		)
 		
@@ -61,6 +60,10 @@ class AccountAuthResolver(
 //		return userId
 //	}
 	
+	/**
+	 * NORMAL: 일반 로그인 로직 실행
+	 * SNS: Naver, Kakao 코드를 받아와 해당 코드로 토큰 발급, 그 후 인증한 뒤 유저 id를 가져와서 로그인 없는 경우 자동 가입 처리
+	 */
 	@MutationMapping
 	suspend fun login(
 		@Argument @Valid request: AccountLoginRequest,
@@ -69,11 +72,12 @@ class AccountAuthResolver(
 		val mac = getMac()
 		val agent = getAgent()
 		
+		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
 				request.userId,
-				SNS.NORMAL,
-				null,
+				request.sns,
+				request.snsCode,
 				request.email
 			)
 		
