@@ -9,8 +9,6 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
-import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.account.service.AccountStatusValidService
 import sosteam.deamhome.domain.naver.dto.response.NaverTokenReturnResponse
 import sosteam.deamhome.domain.naver.dto.response.NaverUnlinkResponse
 import sosteam.deamhome.domain.naver.dto.response.NaverUserInfoResponse
@@ -29,8 +27,6 @@ class NaverService(
 	private val naverRedirectUri: String,
 	@Value("spring.security.oauth2.client.naver.state")
 	private val naverState: String,
-	private val accountRepository: AccountRepository,
-	private val accountStatusValidService: AccountStatusValidService,
 	private val randomKeyProvider: RandomKeyProvider
 ) {
 	suspend fun getNaverLoginPage(): String {

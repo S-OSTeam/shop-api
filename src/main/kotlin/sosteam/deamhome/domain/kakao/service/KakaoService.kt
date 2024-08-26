@@ -10,16 +10,11 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
-import sosteam.deamhome.domain.account.entity.Account
-import sosteam.deamhome.domain.account.exception.SnsIdNotFoundException
-import sosteam.deamhome.domain.account.repository.AccountRepository
-import sosteam.deamhome.domain.account.service.AccountStatusValidService
 import sosteam.deamhome.domain.kakao.dto.response.KakaoTokenReturnResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
 import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
-import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.security.provider.RandomKeyProvider
 
 @Service
@@ -32,8 +27,6 @@ class KakaoService(
 	private val kakaoRedirectUri: String,
 	@Value("spring.security.oauth2.client.kakao.state")
 	private val kakaoState: String,
-	private val accountRepository: AccountRepository,
-	private val accountStatusValidService: AccountStatusValidService,
 	private val randomKeyProvider: RandomKeyProvider
 ) {
 	suspend fun getKakaoLoginPage(): String {
@@ -46,15 +39,6 @@ class KakaoService(
 			.queryParam("state", state)
 		
 		return uriBuilder.toUriString()
-	}
-	
-	suspend fun kakaoSign(code: String): Account {
-		val token = getKakaoToken(code)
-		val kakaoId = getKakaoUserId(token.accessToken)
-		val user = accountRepository.findAccountBySnsIdAndSns(kakaoId, SNS.KAKAO)
-			?: throw SnsIdNotFoundException()
-		accountStatusValidService.getLiveAccountIdByStatus(user.userId, user.sns, user.snsId, user.email)
-		return user
 	}
 	
 	suspend fun getKakaoToken(code: String): KakaoTokenReturnResponse {
