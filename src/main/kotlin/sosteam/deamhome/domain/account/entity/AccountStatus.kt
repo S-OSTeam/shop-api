@@ -18,7 +18,7 @@ data class AccountStatus(
 	
 	// unique column
 	@Column("sns_id")
-	val snsId: String? = null,
+	var snsId: String? = null,
 	
 	val sns: SNS,
 	

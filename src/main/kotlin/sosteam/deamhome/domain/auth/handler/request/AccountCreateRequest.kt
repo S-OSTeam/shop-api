@@ -48,7 +48,7 @@ data class AccountCreateRequest(
 	val receiveMail: Boolean = false,
 	val createdIp: String = "127.0.0.1",
 	
-	val snsId: String?,
+	val snsCode: String?,
 	
 	val sns: SNS = SNS.NORMAL,
 	
@@ -76,7 +76,7 @@ data class AccountCreateRequest(
 			receiveMail = this.receiveMail,
 			createdIp = this.createdIp,
 			adminTxt = "",
-			snsId = this.snsId,
+			snsId = null,
 			sns = this.sns,
 			phone = this.phone,
 			userName = this.userName,
@@ -91,7 +91,7 @@ data class AccountCreateRequest(
 			// id 는 save 하고 postgreSQL bigSerial 으로 자동 생성
 			id = null,
 			userId = this.userId,
-			snsId = this.snsId,
+			snsId = null,
 			sns = this.sns,
 			email = this.email,
 			status = Status.LIVE,

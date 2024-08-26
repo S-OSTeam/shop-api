@@ -27,34 +27,35 @@ class AccountValidService(
 	private val jwtProvider: JWTProvider,
 	private val redisProvider: RedisProvider
 ) {
-
+	
 	//userId로 account 가져오기
 	suspend fun getAccountByUserId(userId: String): Account {
 		return accountRepository.findAccountByUserId(userId)
 			?: throw AccountNotFoundException()
 	}
-
+	
 	suspend fun getAccountLoginDTO(id: Long, pwd: String): AccountLoginDTO {
+		
 		val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
-
+		
 		if (!passwordEncoder.matches(pwd, account.pwd)) {
 			throw LoginFailureException()
 		}
-
+		
 		return AccountLoginDTO.fromDomain(account)
 	}
-
+	
 	suspend fun getAccountByUserName(userName: String): Account? {
 		return accountRepository.findAccountByUserName(userName)
 	}
-
+	
 	suspend fun isValidAccount(accountCreateRequest: AccountCreateRequest): Boolean {
 		if (accountCreateRequest.pwd != accountCreateRequest.confirmPwd)
 			throw PasswordNotMatchedException()
-
+		
 		return true
 	}
-
+	
 	suspend fun issueJwtToken(accountLoginDTO: AccountLoginDTO): TokenResponse {
 		val mac = getMac()
 		val token = jwtProvider.generate(
@@ -65,5 +66,5 @@ class AccountValidService(
 		redisProvider.setDataExpire(accountLoginDTO.userId, token.refreshToken, Token.REFRESH.time)
 		return token
 	}
-
+	
 }
