@@ -26,6 +26,11 @@ type ItemResponse {
     shippingCost: Int!
 }
 
+type ItemSearchResponse{
+    items: [ItemResponse]!
+    totalCount: Long!
+}
+
 type ItemCategoryResponse{
     title: String!
     publicId: String!
