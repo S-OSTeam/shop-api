@@ -15,7 +15,7 @@ import sosteam.deamhome.domain.kakao.dto.response.KakaoUnlinkResponse
 import sosteam.deamhome.domain.kakao.dto.response.KakaoUserInfo
 import sosteam.deamhome.domain.kakao.exception.KakaoTokenNotFoundException
 import sosteam.deamhome.domain.kakao.exception.KakaoUserNotFoundException
-import sosteam.deamhome.global.security.provider.RandomKeyProvider
+import sosteam.deamhome.global.provider.log
 
 @Service
 @Slf4j
@@ -25,23 +25,22 @@ class KakaoService(
 	private val kakaoRestApiToken: String,
 	@Value("\${spring.security.oauth2.client.kakao.redirect_uri}")
 	private val kakaoRedirectUri: String,
-	@Value("spring.security.oauth2.client.kakao.state")
-	private val kakaoState: String,
-	private val randomKeyProvider: RandomKeyProvider
+	@Value("\${spring.security.oauth2.client.kakao.state}")
+	private val kakaoState: String
 ) {
 	suspend fun getKakaoLoginPage(): String {
-		val state = randomKeyProvider.randomAlphabetNumber(32)
 		val reqUrl = "https://kauth.kakao.com/oauth/authorize"
 		val uriBuilder = UriComponentsBuilder.fromHttpUrl(reqUrl)
 			.queryParam("response_type", "code")
 			.queryParam("client_id", kakaoRestApiToken)
 			.queryParam("redirect_uri", kakaoRedirectUri)
-			.queryParam("state", state)
+			.queryParam("state", kakaoState)
 		
 		return uriBuilder.toUriString()
 	}
 	
-	suspend fun getKakaoToken(code: String): KakaoTokenReturnResponse {
+	suspend fun getKakaoToken(code: String): String {
+		log().info(getKakaoLoginPage())
 		val reqUrl = "https://kauth.kakao.com/oauth/token"
 		
 		val formData = LinkedMultiValueMap<String, String>()
@@ -61,9 +60,9 @@ class KakaoService(
 			.awaitSingle() // 비동기 응답 대기
 		
 		if (response == null || response.accessToken.isNullOrEmpty())
-			throw KakaoTokenNotFoundException("kakao token is empty")
+			throw KakaoTokenNotFoundException()
 		
-		return response
+		return response.accessToken
 	}
 	
 	suspend fun getKakaoUserId(kakaoCode: String): String {
@@ -76,14 +75,14 @@ class KakaoService(
 			.build()
 			.post()
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.header("Authorization", "Bearer " + token)
+			.header("Authorization", "Bearer $token")
 			.retrieve()
 			.bodyToMono(KakaoUserInfo::class.java)
 			.awaitSingle()
 			.id
 		
 		if (response == null)
-			throw KakaoUserNotFoundException("cannot get kakao user info")
+			throw KakaoUserNotFoundException()
 		
 		return response.toString()
 	}

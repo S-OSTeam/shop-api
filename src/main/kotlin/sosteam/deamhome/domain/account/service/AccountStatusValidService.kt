@@ -48,10 +48,9 @@ class AccountStatusValidService(
 	suspend fun isNotExistAccount(
 		userId: String?,
 		sns: SNS,
-		snsCode: String?,
+		snsId: String?,
 		email: String?
 	): Boolean {
-		val snsId = getSnsId(userId, sns, snsCode)
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email)
 		
 		if (accountStatus != null)
