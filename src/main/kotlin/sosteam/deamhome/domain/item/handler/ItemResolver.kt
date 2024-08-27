@@ -9,6 +9,7 @@ import sosteam.deamhome.domain.item.handler.request.ItemRequest
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.domain.item.handler.response.ItemSearchResponse
 import sosteam.deamhome.domain.item.service.ItemCreateService
 import sosteam.deamhome.domain.item.service.ItemDeleteService
 import sosteam.deamhome.domain.item.service.ItemSearchService
@@ -28,13 +29,17 @@ class ItemResolver(
     }
 
     @QueryMapping
-    suspend fun searchItem(@Argument request: ItemSearchRequest): List<ItemResponse> {
+    suspend fun searchItem(@Argument request: ItemSearchRequest): ItemSearchResponse {
         return request.publicId?.let {
             // publicId 가 있으면 publicId 로 검색
-            listOf(itemSearchService.findItemByPublicId(it))
+            val item = itemSearchService.findItemByPublicId(it)
+            ItemSearchResponse(items = listOf(item), totalCount = 1)
         } ?: request.categoryPublicId?.let {
-            // 검색 창에 검색하는 경우가 아니라 카테고리를 클릭하였을 경우 검색임
+            // 카테고리를 클릭하였을 경우 검색
             val items = itemSearchService.findItemsByCategoryPublicId(it)
+
+            // 총 개수 계산
+            val totalCount = items.size.toLong()
 
             // 페이지네이션을 위한 계산
             val pageNumber = request.pageNumber.toInt()
@@ -43,10 +48,19 @@ class ItemResolver(
             val pageEnd = pageStart + pageSize
 
             // 요청된 페이지에 맞게 아이템 리스트를 잘라 반환
-            items.slice(pageStart until pageEnd.coerceAtMost(items.size))
-        } ?:
-            //검색창에 검색
-            itemSearchService.searchItem(request).toList()
+            val paginatedItems = items.slice(pageStart until pageEnd.coerceAtMost(items.size))
+
+            ItemSearchResponse(items = paginatedItems, totalCount = totalCount)
+        } ?: run {
+            // 검색창에 검색
+            val itemsFlow = itemSearchService.searchItem(request)
+            val items = itemsFlow.toList()
+
+            // 총 개수 계산
+            val totalCount = items.size.toLong()
+
+            ItemSearchResponse(items = items, totalCount = totalCount)
+        }
     }
 
     @MutationMapping

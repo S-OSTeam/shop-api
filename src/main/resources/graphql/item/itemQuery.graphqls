@@ -1,6 +1,6 @@
 extend type Query {
     # 아이템 검색
-    searchItem(request: ItemSearchRequest!): [ItemResponse]
+    searchItem(request: ItemSearchRequest!): ItemSearchResponse
 
     ##카테고리
     # PublicId 로 ItemCategory 검색
