@@ -19,12 +19,19 @@ class AccountCreateService(
 	private val passwordEncoder: PasswordEncoder
 ) {
 	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
-		
 		val snsId = accountStatusValidService.getSnsId(
 			accountCreateRequest.userId,
 			accountCreateRequest.sns,
 			accountCreateRequest.snsCode
 		)
+		
+		accountStatusValidService.isNotExistAccount(
+			accountCreateRequest.userId,
+			accountCreateRequest.sns,
+			snsId,
+			accountCreateRequest.email
+		)
+		
 		val accountStatus = accountCreateRequest.asStatus()
 		accountStatus.snsId = snsId
 		
