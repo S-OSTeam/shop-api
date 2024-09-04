@@ -17,6 +17,7 @@ import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getSNSToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
 import sosteam.deamhome.global.security.response.TokenResponse
 
@@ -33,14 +34,16 @@ class AccountAuthResolver(
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
 		val mac = getMac()
 		
+		val snsToken = getSNSToken()
+		
 		accountStatusValidService.isNotExistAccount(
 			request.userId,
 			request.sns,
-			request.snsCode,
+			snsToken,
 			request.email
 		)
 		
-		val createAccount = accountCreateService.createAccount(request)
+		val createAccount = accountCreateService.createAccount(request, snsToken)
 		return createAccount.userId
 	}
 	
@@ -72,18 +75,20 @@ class AccountAuthResolver(
 		val mac = getMac()
 		val agent = getAgent()
 		
+		val snsToken = accountStatusValidService.getSnsToken(request.sns, request.snsCode)
 		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
 				request.userId,
 				request.sns,
-				request.snsCode,
+				snsToken,
 				request.email
 			)
 		
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
 		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
 		
+		context.put("snsToken", snsToken)
 		context.put("accessToken", tokenResponse.accessToken)
 		context.put("refreshToken", tokenResponse.refreshToken)
 		

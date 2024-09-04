@@ -18,11 +18,11 @@ class AccountCreateService(
 	private val accountStatusValidService: AccountStatusValidService,
 	private val passwordEncoder: PasswordEncoder
 ) {
-	suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
+	suspend fun createAccount(accountCreateRequest: AccountCreateRequest, snsToken: String?): AccountResponse {
 		val snsId = accountStatusValidService.getSnsId(
 			accountCreateRequest.userId,
 			accountCreateRequest.sns,
-			accountCreateRequest.snsCode
+			snsToken
 		)
 		
 		accountStatusValidService.isNotExistAccount(

@@ -65,17 +65,16 @@ class KakaoService(
 		return response.accessToken
 	}
 	
-	suspend fun getKakaoUserId(kakaoCode: String): String {
+	suspend fun getKakaoUserId(kakaoToken: String): String {
 		val reqUrl = "https://kapi.kakao.com/v2/user/me"
 		
-		val token = getKakaoToken(kakaoCode)
 		
 		val response = WebClient.builder()
 			.baseUrl(reqUrl)
 			.build()
 			.post()
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.header("Authorization", "Bearer $token")
+			.header("Authorization", "Bearer $kakaoToken")
 			.retrieve()
 			.bodyToMono(KakaoUserInfo::class.java)
 			.awaitSingle()

@@ -25,18 +25,25 @@ class AccountStatusValidService(
 		return accountStatusRepository.getStatusByUserIdOrSNS(userId, sns, snsId, email)
 	}
 	
-	suspend fun getSnsId(userId: String?, sns: SNS, snsCode: String?): String? {
+	suspend fun getSnsId(userId: String?, sns: SNS, snsToken: String?): String? {
 		return when (sns) {
 			SNS.NORMAL -> userId
-			SNS.NAVER -> snsCode?.let { naverService.getNaverUserId(it) }
-			SNS.KAKAO -> snsCode?.let { kakaoService.getKakaoUserId(it) }
+			SNS.NAVER -> snsToken?.let { naverService.getNaverUserId(it) }
+			SNS.KAKAO -> snsToken?.let { kakaoService.getKakaoUserId(it) }
 			else -> null
 		}
 	}
 	
-	suspend fun getLiveAccountIdByStatus(userId: String?, sns: SNS, snsCode: String?, email: String?): Long {
-		val snsId = getSnsId(userId, sns, snsCode)
-		
+	suspend fun getSnsToken(sns: SNS, snsCode: String?): String? {
+		return when (sns) {
+			SNS.NAVER -> snsCode?.let { naverService.getNaverToken(it) }
+			SNS.KAKAO -> snsCode?.let { kakaoService.getKakaoToken(it) }
+			else -> null
+		}
+	}
+	
+	suspend fun getLiveAccountIdByStatus(userId: String?, sns: SNS, snsToken: String?, email: String?): Long {
+		val snsId = getSnsId(userId, sns, snsToken)
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email) ?: throw AccountNotFoundException()
 		
 		if (accountStatus.status != Status.LIVE)
@@ -48,9 +55,10 @@ class AccountStatusValidService(
 	suspend fun isNotExistAccount(
 		userId: String?,
 		sns: SNS,
-		snsId: String?,
+		snsToken: String?,
 		email: String?
 	): Boolean {
+		val snsId = getSnsId(userId, sns, snsToken)
 		val accountStatus = getStatusByUserIdOrSNS(userId, sns, snsId, email)
 		
 		if (accountStatus != null)

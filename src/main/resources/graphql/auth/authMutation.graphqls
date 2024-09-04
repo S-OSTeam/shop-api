@@ -1,6 +1,6 @@
 extend type Mutation {
     signUp(request: SignUpRequest!): String
-    signOut: String
+    signOut(snsCode: String): String
     login(request: LoginRequest!): TokenResponse
     logout: String
     reIssue: TokenResponse
