@@ -48,8 +48,6 @@ data class AccountCreateRequest(
 	val receiveMail: Boolean = false,
 	val createdIp: String = "127.0.0.1",
 	
-	val snsCode: String?,
-	
 	val sns: SNS = SNS.NORMAL,
 	
 	val phone: String?,

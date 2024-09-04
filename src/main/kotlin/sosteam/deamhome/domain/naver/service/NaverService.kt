@@ -63,21 +63,20 @@ class NaverService(
 		return response.accessToken
 	}
 	
-	suspend fun getNaverUserId(naverCode: String): String {
-		val token = getNaverToken(naverCode)
+	suspend fun getNaverUserId(naverToken: String): String {
 		val naverOAuth = "https://openapi.naver.com"
 		val naverPath = "/v1/nid/me"
 		val webclient = WebClient.builder().baseUrl(naverOAuth)
 			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE).build()
 		
-		log().info(token)
+		log().debug(naverToken)
 		
 		val response = webclient.get().uri { uriBuilder ->
 			uriBuilder
 				.path(naverPath)
 				.build()
 		}
-			.header("Authorization", "Bearer $token").retrieve()
+			.header("Authorization", "Bearer $naverToken").retrieve()
 			.bodyToMono(NaverUserInfoResponse::class.java)
 			.awaitSingle()
 		
@@ -86,7 +85,7 @@ class NaverService(
 		return response.info.id
 	}
 	
-	suspend fun unlinkNaver(token: String): NaverUnlinkResponse {
+	suspend fun unlinkNaver(snsCode: String): NaverUnlinkResponse {
 		val naverOAuth = "https://nid.naver.com"
 		val naverPath = "/oauth2.0/token"
 		val webclient = WebClient.builder().baseUrl(naverOAuth)
@@ -95,7 +94,7 @@ class NaverService(
 		val response = webclient.post().uri { uriBuilder ->
 			uriBuilder.path(naverPath).queryParam("client_id", clientId)
 				.queryParam("client_secret", clientSecret).queryParam("grant_type", "delete")
-				.queryParam("access_token", token).queryParam("service_provider", "NAVER").build()
+				.queryParam("access_token", snsCode).queryParam("service_provider", "NAVER").build()
 		}.retrieve().onStatus({ status -> status.value() != 200 }) {
 			throw NaverTokenNotFoundException()
 		}.bodyToMono(NaverUnlinkResponse::class.java).awaitSingle()

@@ -35,6 +35,14 @@ class RequestProvider {
 			return token.substring(8)
 		}
 		
+		//token을 가져오는 함수
+		suspend fun getSNSToken(): String? {
+			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
+			val token = headers.getFirst("Authorization-SNS")
+			
+			return token
+		}
+		
 		//mac주소를 가져오는 함수
 		suspend fun getMac(): String {
 			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
@@ -46,12 +54,12 @@ class RequestProvider {
 			
 			return mac
 		}
-
+		
 		// getUserAgent
 		suspend fun getAgent(): String {
 			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
 			val agent = headers.getFirst("User-Agent")
-
+			
 			if (agent.isNullOrEmpty()) {
 				throw AgentNotFoundException()
 			}

@@ -19,7 +19,7 @@ class KakaoResolver(
 ) {
 	
 	@MutationMapping
-	suspend fun kakaoUnlink(@Argument @Valid token: String): KakaoUnlinkResponse {
-		return kakaoService.unlinkKakao(token)
+	suspend fun kakaoUnlink(@Argument @Valid snsCode: String): KakaoUnlinkResponse {
+		return kakaoService.unlinkKakao(snsCode)
 	}
 }

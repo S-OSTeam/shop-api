@@ -14,7 +14,6 @@ input SignUpRequest{
     phone: String
     receiveMail: Boolean
 
-    snsCode: String
     sns: SNS!
 
     userName: String!

@@ -17,7 +17,7 @@ class NaverResolver(
 ) {
 	
 	@MutationMapping
-	suspend fun naverUnlink(@Argument @Valid token: String): NaverUnlinkResponse {
-		return naverService.unlinkNaver(token)
+	suspend fun naverUnlink(@Argument @Valid snsCode: String): NaverUnlinkResponse {
+		return naverService.unlinkNaver(snsCode)
 	}
 }
