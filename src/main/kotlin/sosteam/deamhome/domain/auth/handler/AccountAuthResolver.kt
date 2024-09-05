@@ -88,7 +88,8 @@ class AccountAuthResolver(
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
 		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
 		
-		context.put("snsToken", snsToken)
+		if (!snsToken.isNullOrBlank())
+			context.put("snsToken", snsToken)
 		context.put("accessToken", tokenResponse.accessToken)
 		context.put("refreshToken", tokenResponse.refreshToken)
 		
