@@ -44,7 +44,7 @@
 //			publicId = 1L,
 //			title = "test",
 //			categoryPublicId = 1L,
-//			sellerId = "test",
+//			storeId = "test",
 //			content = "",
 //			summary = ""
 //		).apply { images = mutableListOf() }

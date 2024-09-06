@@ -35,7 +35,7 @@ class ItemDeleteServiceTest : BehaviorSpec({
 			reviewCnt = 0,
 			qnaCnt = 0,
 			status = ItemStatus.AVAILABLE,
-			sellerId = "seller123",
+			storeId = "seller123",
 			freeDelivery = false,
 			stockCnt = 0,
 			reviewScore = emptyList(),

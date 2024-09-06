@@ -9,6 +9,7 @@ import sosteam.deamhome.global.entity.BaseEntity
 class Question(
 	var title: String,
 	var content: String,
+	var summary: String,
 	@Column("user_id")
 	var userId: String,
 	@Column("public_id")

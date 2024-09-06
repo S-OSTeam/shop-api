@@ -21,7 +21,7 @@ class ItemCreateService(
 		itemCategoryRepository.findByPublicId(request.categoryPublicId)
 			?: throw CategoryNotFoundException()
 		
-		// TODO sellerId 가 존재하는지 확인?
+		// TODO storeId 가 존재하는지 확인?
 		
 		val item = request.asDomain()
 		val saveItem = itemRepository.save(item)

@@ -13,7 +13,7 @@ type ItemResponse {
     reviewCnt: Int!
     qnaCnt: Int!
     status: ItemStatus!
-    sellerId: String!
+    storeId: String!
     freeDelivery: Boolean!
     imageUrls: [String!]!
     option: [String]!

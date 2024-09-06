@@ -1,17 +1,5 @@
 extend type Query {
-    # 아이템 검색
-    searchQuestion(request: QuestionSearchRequest!): [QuestionResponse]
+    searchQuestions(request: QuestionRequest): QuestionResponse!
 
-    ##카테고리
-    # PublicId 로 QuestionCategory 검색
-    findQuestionCategoryByPublicId(publicId: String @NotBlank): QuestionCategoryResponse
-    # title 로 QuestionCategory 검색
-    findQuestionCategoryByTitle(title: String @NotBlank): QuestionCategoryResponse
-    # title 을 포함하는 QuestionCategory 검색
-    findQuestionCategoriesContainTitle(title: String @NotBlank): [QuestionCategoryResponse]
-    # 모든 QuestionCategory 를 tree 형태로 검색
-    findAllQuestionCategoriesTree: [QuestionCategoryTreeResponse]
-    # 특정 PublicId 아래의 모든 하위 카테고리를 tree 형태로 검색
-    findQuestionSubCategoriesTree(categoryId: String @NotBlank): QuestionCategoryTreeResponse
-
+    findQuestionCategories(request: QuestionFilterRequest): [QuestionCategoryResponse]
 }
