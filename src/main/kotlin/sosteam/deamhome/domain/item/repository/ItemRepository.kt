@@ -9,18 +9,18 @@ import sosteam.deamhome.domain.item.repository.custom.ItemRepositoryCustom
 
 @GraphQlRepository
 interface ItemRepository : CoroutineCrudRepository<Item, Long>, ItemRepositoryCustom {
-
+	
 	suspend fun findByPublicId(publicId: String): Item?
-
+	
 	suspend fun deleteByPublicId(publicId: String): Long
-
+	
 	fun findByCategoryPublicIdIn(publicIds: List<String>): Flow<Item>
-
+	
 	fun findByPublicIdIn(publicIds: List<String>, pageRequest: PageRequest): Flow<Item>
-
+	
 	fun findByPublicIdIn(publicIds: List<String>): Flow<Item>
-
+	
 	fun findByCategoryPublicId(categoryPublicId: String): Flow<Item>
-
-	fun findBySellerId(sellerId: String): Flow<Item>
+	
+	fun findByStoreId(storeId: String): Flow<Item>
 }

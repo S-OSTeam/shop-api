@@ -43,8 +43,8 @@ data class Item(
 	var qnaCnt: Int = 0,
 	@Column("status")
 	var status: ItemStatus,
-	@Column("seller_id")
-	var sellerId: String,
+	@Column("store_id")
+	var storeId: String,
 	@Column("free_delivery")
 	var freeDelivery: Boolean = false,
 	// 옵션 선택

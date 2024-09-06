@@ -4,6 +4,9 @@ type QuestionResponse {
     title: String!
     content: String!
     summary: String!
+    storeId: String!
+    imageUrls: [String!]!
+    summary: String!
     status: QuestionStatus!
     questionType: QuestionType!
     storeId: String!
@@ -11,15 +14,8 @@ type QuestionResponse {
 }
 
 type QuestionCategoryResponse{
-    title: String!
-    publicId: String!
-    parentPublicId: String
-    questionType: QuestionType!
-}
-
-type QuestionCategoryTreeResponse{
     publicId: String!
     title: String!
     questionType: QuestionType!
-    children: [QuestionCategoryTreeResponse]!
+    children: [QuestionCategoryResponse]!
 }
