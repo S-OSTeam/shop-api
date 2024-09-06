@@ -11,7 +11,7 @@ data class ItemUpdateRequest(
 	var summary: String?,
 	var price: Int?,
 	var status: ItemStatus?,
-	var sellerId: String?,
+	var storeId: String?,
 	var freeDelivery: Boolean?,
 	var option: List<String>?,
 	var productNumber: String?,

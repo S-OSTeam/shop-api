@@ -11,7 +11,7 @@ import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.domain.item.entity.ItemStatus
+import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.image.provider.ImageProvider
 import java.time.OffsetDateTime
 
@@ -31,7 +31,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
 			summary = "Updated Summary",
 			price = 20000,
 			status = ItemStatus.AVAILABLE,
-			sellerId = "updated_seller123",
+			storeId = "updated_seller123",
 			freeDelivery = true,
 			option = listOf("updated_option1", "updated_option2"),
 			productNumber = "updated_12345",
@@ -54,7 +54,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
 				summary = "Original Summary",
 				price = 10000,
 				status = ItemStatus.SOLDOUT,
-				sellerId = "original_seller123",
+				storeId = "original_seller123",
 				freeDelivery = false,
 				option = listOf("original_option1", "original_option2"),
 				productNumber = "original_12345",
@@ -73,7 +73,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
 				summary = request.summary!!,
 				price = request.price!!,
 				status = request.status!!,
-				sellerId = request.sellerId!!,
+				storeId = request.storeId!!,
 				freeDelivery = request.freeDelivery!!,
 				option = request.option!!,
 				productNumber = request.productNumber!!
@@ -97,7 +97,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
 				response.summary shouldBe request.summary
 				response.price shouldBe request.price
 				response.status shouldBe request.status
-				response.sellerId shouldBe request.sellerId
+				response.storeId shouldBe request.storeId
 				response.freeDelivery shouldBe request.freeDelivery
 				response.option shouldBe request.option
 				response.productNumber shouldBe request.productNumber
