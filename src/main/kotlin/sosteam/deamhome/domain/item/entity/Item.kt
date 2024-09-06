@@ -32,7 +32,7 @@ data class Item(
 	@Column("click_cnt")
 	var clickCnt: Int = 0,
 	@Column("stock_cnt")
-	var stockCnt:Int = 0,
+	var stockCnt: Int = 0,
 	@Column("avg_review")
 	var avgReview: Double = 0.0,
 	@Column("review_cnt")
@@ -44,8 +44,8 @@ data class Item(
 	var qnaCnt: Int = 0,
 	@Column("status")
 	var status: ItemStatus,
-	@Column("seller_id")
-	var sellerId: String,
+	@Column("store_id")
+	var storeId: String,
 	@Column("free_delivery")
 	var freeDelivery: Boolean = false,
 	// 옵션 선택
@@ -74,5 +74,5 @@ data class Item(
 	var shippingCost: Int,
 	@Column("image_urls")
 	var imageUrls: List<String> = listOf()
-) : BaseEntity(){
+) : BaseEntity() {
 }

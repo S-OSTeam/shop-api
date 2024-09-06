@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS public.item
     avg_review double precision,
     review_cnt integer,
     qna_cnt integer,
-    seller_id character varying COLLATE pg_catalog."default",
+    store_id character varying COLLATE pg_catalog."default",
     free_delivery character varying COLLATE pg_catalog."default",
     image_urls character varying[] COLLATE pg_catalog."default",
     id bigint NOT NULL DEFAULT nextval('item_id_seq'::regclass),

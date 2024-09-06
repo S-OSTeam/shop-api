@@ -1,3 +1,5 @@
 extend type Query {
-    getQuestions(request: QuestionRequest): QuestionResponse!
+    searchQuestions(request: QuestionRequest): QuestionResponse!
+
+    findQuestionCategories(request: QuestionFilterRequest): [QuestionCategoryResponse]
 }

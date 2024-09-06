@@ -1,17 +1,16 @@
 type QuestionResponse {
-    id: String
+    categoryPublicId: String!
     title: String!
     content: String!
-    images: [Upload!]
-}
-
-type QuestionCategory {
-    title: String!
-    questionIds: [String]
+    summary: String!
+    storeId: String!
+    type: questionType!
+    imageUrls: [String!]!
 }
 
 type QuestionCategoryResponse{
     publicId: String!
     title: String!
+    type: questionType!
     children: [QuestionCategoryResponse]!
 }

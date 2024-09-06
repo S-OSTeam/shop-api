@@ -27,7 +27,7 @@ class CouponJunkProvider {
 				reviewCnt = 0,
 				qnaCnt = 0,
 				status = ItemStatus.AVAILABLE,
-				sellerId = "",
+				storeId = "",
 				freeDelivery = false,
 				reviewScore = listOf(0, 0, 0, 0, 0),
 				option = listOf(),
@@ -40,7 +40,7 @@ class CouponJunkProvider {
 				shippingCost = 0,
 			)
 		}
-
+		
 		fun createJunkCoupon(): Coupon {
 			val DISCOUNT = -112345678
 			return Coupon(

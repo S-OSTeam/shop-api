@@ -9,6 +9,7 @@ import sosteam.deamhome.global.category.entity.CategoryEntity
 @Table("question_category")
 class QuestionCategory(
 	override var title: String,
+	@Column("public_id")
 	override var publicId: String,
 	@Column("parent_public_id")
 	override var parentPublicId: String,

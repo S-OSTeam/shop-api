@@ -5,7 +5,7 @@ input ItemRequest {
     summary: String! @NotBlank(message: "상품 요약이 입력되지 않았습니다.")
     price: Int! @Positive(message: "가격은 양수 입니다.")
     status: ItemStatus!
-    sellerId: String! @NotBlank(message: "판매자는 필수 입력 항목입니다.")
+    storeId: String! @NotBlank(message: "판매자는 필수 입력 항목입니다.")
     stockCnt: Int!
     freeDelivery: Boolean!
     option: [String]!
@@ -48,7 +48,7 @@ input ItemUpdateRequest {
     summary: String
     price: Int @Positive(message: "가격은 양수 입니다.")
     status: ItemStatus
-    sellerId: String
+    storeId: String
     freeDelivery: Boolean
     option: [String]
     productNumber: String
@@ -59,16 +59,4 @@ input ItemUpdateRequest {
     weight: String
     shippingCost: Int
     images: [ImageRequest] @ContainerSize(max: 10, message: "이미지는 10개 까지 동시 업로드 가능합니다.")
-}
-
-enum ItemStatus {
-    RESERVED, SUSPENDED, DELETED, SOLDOUT, AVAILABLE
-}
-
-enum ItemSortCriteria {
-    SELL, WISHLIST, RATING, REVIEW, CLICK
-}
-
-enum Direction {
-    ASC, DESC
 }

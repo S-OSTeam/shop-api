@@ -17,12 +17,12 @@ class ItemUpdateService(
 	private val itemCategoryRepository: ItemCategoryRepository,
 	private val imageProvider: ImageProvider
 ) {
-
+	
 	suspend fun updateItem(request: ItemUpdateRequest): ItemResponse {
 		// 기존 아이템을 가져옵니다
 		val existingItem = itemRepository.findByPublicId(request.publicId)
 			?: throw ItemNotFoundException()
-
+		
 		// request 에서 null 이 아닌 값만 사용하여 새 객체 생성
 		val updatedItem = existingItem.copy(
 			categoryPublicId = request.categoryPublicId?.let { categoryId ->
@@ -35,7 +35,7 @@ class ItemUpdateService(
 			summary = request.summary ?: existingItem.summary,
 			price = request.price ?: existingItem.price,
 			status = request.status ?: existingItem.status,
-			sellerId = request.sellerId ?: existingItem.sellerId,
+			storeId = request.storeId ?: existingItem.storeId,
 			freeDelivery = request.freeDelivery ?: existingItem.freeDelivery,
 			option = request.option ?: existingItem.option,
 			productNumber = request.productNumber ?: existingItem.productNumber,

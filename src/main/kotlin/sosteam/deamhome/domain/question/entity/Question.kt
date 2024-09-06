@@ -3,12 +3,14 @@ package sosteam.deamhome.domain.question.entity
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
+import sosteam.deamhome.domain.account.entity.enum.QuestionType
 import sosteam.deamhome.global.entity.BaseEntity
 
 @Table("question")
 class Question(
 	var title: String,
 	var content: String,
+	var summary: String,
 	@Column("user_id")
 	var userId: String,
 	@Column("public_id")
@@ -19,6 +21,8 @@ class Question(
 	var questionId: String?,
 	@Column("store_id")
 	var storeId: String?,
+	@Column("question_type")
+	var questionType: QuestionType,
 	var imageUrls: MutableList<String> = mutableListOf()
 ) : BaseEntity() {
 	@Id
