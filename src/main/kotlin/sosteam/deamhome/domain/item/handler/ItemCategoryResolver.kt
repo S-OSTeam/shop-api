@@ -1,18 +1,18 @@
-package sosteam.deamhome.domain.category.handler
+package sosteam.deamhome.domain.item.handler
 
 import kotlinx.coroutines.flow.toList
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
-import sosteam.deamhome.domain.category.handler.request.ItemCategoryUpdateRequest
-import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
-import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
-import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
-import sosteam.deamhome.domain.category.service.ItemCategoryDeleteService
-import sosteam.deamhome.domain.category.service.ItemCategorySearchService
-import sosteam.deamhome.domain.category.service.ItemCategoryUpdateService
+import sosteam.deamhome.domain.item.handler.request.QuestionCategoryRequest
+import sosteam.deamhome.domain.item.handler.request.QuestionCategoryUpdateRequest
+import sosteam.deamhome.domain.item.handler.response.ItemCategoryTreeResponse
+import sosteam.deamhome.domain.item.handler.response.QuestionCategoryResponse
+import sosteam.deamhome.domain.item.service.ItemCategoryCreateService
+import sosteam.deamhome.domain.item.service.ItemCategoryDeleteService
+import sosteam.deamhome.domain.item.service.ItemCategorySearchService
+import sosteam.deamhome.domain.item.service.ItemCategoryUpdateService
 
 @RestController
 class ItemCategoryResolver(
@@ -22,12 +22,12 @@ class ItemCategoryResolver(
 	private val itemCategoryUpdateService: ItemCategoryUpdateService
 ) {
 	@MutationMapping
-	suspend fun createItemCategory(@Argument request: ItemCategoryRequest): ItemCategoryResponse {
+	suspend fun createItemCategory(@Argument request: QuestionCategoryRequest): QuestionCategoryResponse {
 		return itemCategoryCreateService.createCategory(request)
 	}
 	
 	@QueryMapping
-	suspend fun findItemCategoryByPublicId(@Argument publicId: String): ItemCategoryResponse {
+	suspend fun findItemCategoryByPublicId(@Argument publicId: String): QuestionCategoryResponse {
 		return itemCategorySearchService.findItemCategoryByPublicId(publicId)
 	}
 	
@@ -42,7 +42,7 @@ class ItemCategoryResolver(
 	}
 	
 	@QueryMapping
-	suspend fun findItemCategoriesContainTitle(@Argument title: String): List<ItemCategoryResponse> {
+	suspend fun findItemCategoriesContainTitle(@Argument title: String): List<QuestionCategoryResponse> {
 		return itemCategorySearchService.findItemCategoriesContainTitle(title).toList()
 	}
 	
@@ -53,7 +53,7 @@ class ItemCategoryResolver(
 	}
 	
 	@MutationMapping
-	suspend fun updateItemCategory(@Argument request: ItemCategoryUpdateRequest): ItemCategoryResponse {
+	suspend fun updateItemCategory(@Argument request: QuestionCategoryUpdateRequest): QuestionCategoryResponse {
 		return itemCategoryUpdateService.updateItemCategory(request)
 	}
 	

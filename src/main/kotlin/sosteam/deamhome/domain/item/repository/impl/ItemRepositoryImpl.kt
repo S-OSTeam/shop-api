@@ -9,7 +9,7 @@ import org.springframework.r2dbc.core.flow
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.ItemSortCriteria
 import sosteam.deamhome.domain.item.entity.QItem
-import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
+import sosteam.deamhome.domain.item.handler.request.QuestionSearchRequest
 import sosteam.deamhome.domain.item.repository.custom.ItemRepositoryCustom
 import sosteam.deamhome.domain.item.repository.querydsl.ItemQueryDslRepository
 import sosteam.deamhome.global.attribute.Direction
@@ -21,7 +21,7 @@ class ItemRepositoryImpl(
 ) : ItemRepositoryCustom {
 	private val item = QItem.item
 	
-	override fun searchItem(request: ItemSearchRequest): Flow<Item> {
+	override fun searchItem(request: QuestionSearchRequest): Flow<Item> {
 		val orderSpecifiers = createOrderSpecifier(request.sort, request.direction)
 		return repository.query { query ->
 			query

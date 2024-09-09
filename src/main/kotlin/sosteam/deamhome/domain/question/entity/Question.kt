@@ -7,6 +7,8 @@ import sosteam.deamhome.global.entity.BaseEntity
 
 @Table("question")
 class Question(
+	@Id
+	var id: Long? = null,
 	var title: String,
 	var content: String,
 	var summary: String,
@@ -16,17 +18,18 @@ class Question(
 	var publicId: String,
 	@Column("category_public_id")
 	var categoryPublicId: String,
-	@Column("question_id")
-	var questionId: String?,
+	@Column("post_id")
+	var postId: String?,
+	@Column("item_id")
+	var itemId: String?,
 	@Column("store_id")
 	var storeId: String?,
 	@Column("question_type")
 	var questionType: QuestionType,
 	@Column("question_status")
 	var questionStatus: QuestionStatus,
+	@Column("question_is_completed")
+	var questionIsCompleted: Boolean,
 	@Column("image_urls")
-	var imageUrls: MutableList<String> = mutableListOf()
-) : BaseEntity() {
-	@Id
-	var id: Long? = null
-}
+	var imageUrls: List<String> = listOf()
+) : BaseEntity()

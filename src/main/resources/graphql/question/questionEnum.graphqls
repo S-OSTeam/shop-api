@@ -5,5 +5,11 @@ enum QuestionType{
 
 enum QuestionStatus{
     VISIBLE,
-    INVISIBLE
+    INVISIBLE,
+    REMOVED
+}
+
+enum PostType{
+    QUESTION,
+    ANSWER
 }

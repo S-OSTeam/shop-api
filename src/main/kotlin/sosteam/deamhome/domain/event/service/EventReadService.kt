@@ -7,7 +7,7 @@ import sosteam.deamhome.domain.event.handler.request.EventPageRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
 import sosteam.deamhome.domain.event.handler.response.EventItemResponse
 import sosteam.deamhome.domain.event.repository.EventRepository
-import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.domain.item.handler.response.QuestionResponse
 import sosteam.deamhome.domain.item.service.ItemSearchService
 import java.time.LocalDateTime
 
@@ -30,7 +30,7 @@ class EventReadService(
 	}
 	
 	// 이벤트 아이템 리스트 페이지네이션으로 가져오기
-	suspend fun getEventItems(request: EventPageRequest): List<ItemResponse> {
+	suspend fun getEventItems(request: EventPageRequest): List<QuestionResponse> {
 		val (eventId, page, pageSize) = request
 		// 해당 이벤트 찾기
 		val event = eventValidService.getEventById(eventId)

@@ -13,7 +13,7 @@ import sosteam.deamhome.domain.event.handler.response.EventItemResponse
 import sosteam.deamhome.domain.event.service.EventCreateService
 import sosteam.deamhome.domain.event.service.EventDeleteService
 import sosteam.deamhome.domain.event.service.EventReadService
-import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.domain.item.handler.response.QuestionResponse
 
 @RestController
 class EventResolver(
@@ -47,7 +47,7 @@ class EventResolver(
 	
 	// 이벤트 진행중인 아이템 publicId 매핑해서 리턴
 	@QueryMapping
-	suspend fun getEventItems(@Argument request: EventPageRequest): List<ItemResponse> {
+	suspend fun getEventItems(@Argument request: EventPageRequest): List<QuestionResponse> {
 		return eventReadService.getEventItems(request)
 	}
 }
