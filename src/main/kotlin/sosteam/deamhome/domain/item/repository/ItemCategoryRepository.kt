@@ -1,12 +1,14 @@
 package sosteam.deamhome.domain.item.repository
 
 import kotlinx.coroutines.flow.Flow
+import org.springframework.context.annotation.Primary
 import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.repository.custom.ItemCategoryRepositoryCustom
 import sosteam.deamhome.global.category.respository.CategoryRepository
 
 @GraphQlRepository
+@Primary
 interface ItemCategoryRepository : CategoryRepository<ItemCategory>, ItemCategoryRepositoryCustom {
 	suspend fun deleteByPublicId(publicId: String): Long
 	
