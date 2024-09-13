@@ -5,7 +5,7 @@ import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.graphql.data.GraphQlRepository
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.category.entity.QItemCategory
+import sosteam.deamhome.domain.item.entity.QItemCategory
 import sosteam.deamhome.domain.item.repository.custom.ItemCategoryRepositoryCustom
 import sosteam.deamhome.domain.item.repository.querydsl.ItemCategoryQueryDslRepository
 

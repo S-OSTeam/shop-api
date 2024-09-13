@@ -10,6 +10,8 @@ data class QuestionCategoryRequest(
 	val title: String,
 	val questionType: QuestionType,
 	val storeId: String,
+	val itemId: String?,
+	val postId: String?,
 	val parentPublicId: String?
 ) : DTO {
 	override fun asDomain(): QuestionCategory {
@@ -22,7 +24,9 @@ data class QuestionCategoryRequest(
 			questionType = this.questionType,
 			storeId = this.storeId,
 			// request 에서 parentPublicId 가 null 로 들어오면 최상위 카테고리이므로 자기 자신의 publicId 로 설정함
-			parentPublicId = this.parentPublicId ?: publicId
+			parentPublicId = this.parentPublicId ?: publicId,
+			itemId = this.itemId,
+			postId = this.postId
 		)
 	}
 }

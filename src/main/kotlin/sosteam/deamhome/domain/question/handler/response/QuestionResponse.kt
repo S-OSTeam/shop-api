@@ -9,7 +9,7 @@ class QuestionResponse(
 	val categoryPublicId: String,
 	val title: String,
 	val content: String,
-	val summary: String,
+	val summary: String?,
 	val questionType: QuestionType,
 	val questionIsCompleted: Boolean,
 	val questionStatus: QuestionStatus,

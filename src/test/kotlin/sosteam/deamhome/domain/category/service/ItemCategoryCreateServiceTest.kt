@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.item.handler.request.QuestionCategoryRequest
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.item.service.ItemCategoryCreateService
 import sosteam.deamhome.global.category.provider.CategoryProvider
 
@@ -15,7 +15,7 @@ class ItemCategoryCreateServiceTest : BehaviorSpec({
 	val itemCategoryCreateService = ItemCategoryCreateService(categoryProvider)
 	
 	Given("a valid category request") {
-		val request = QuestionCategoryRequest(
+		val request = ItemCategoryRequest(
 			title = "Test Category",
 			parentPublicId = null
 		)

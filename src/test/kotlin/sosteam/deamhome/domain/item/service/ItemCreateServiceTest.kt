@@ -7,8 +7,8 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.item.entity.enums.ItemStatus
-import sosteam.deamhome.domain.item.handler.request.QuestionRequest
+import sosteam.deamhome.domain.item.entity.ItemStatus
+import sosteam.deamhome.domain.item.handler.request.ItemRequest
 import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
@@ -23,7 +23,7 @@ class ItemCreateServiceTest : BehaviorSpec({
 	val itemCreateService = ItemCreateService(itemRepository, itemCategoryRepository, imageProvider)
 	
 	Given("a valid item request") {
-		val request = QuestionRequest(
+		val request = ItemRequest(
 			categoryPublicId = "testPublicId",
 			title = "Test Item",
 			content = "",

@@ -17,9 +17,9 @@ class QuestionCategory(
 	@Column("store_id")
 	var storeId: String,
 	@Column("post_id")
-	var postId: String,
+	var postId: String?,
 	@Column("item_id")
-	var itemId: String,
+	var itemId: String?,
 	@Column("question_type")
 	var questionType: QuestionType
 ) : CategoryEntity(2)

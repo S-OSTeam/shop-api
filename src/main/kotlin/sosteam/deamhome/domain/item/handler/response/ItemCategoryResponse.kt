@@ -8,8 +8,8 @@ class ItemCategoryResponse(
 	val parentPublicId: String
 ) {
 	companion object {
-		fun fromItemCategory(itemCategory: ItemCategory): QuestionCategoryResponse {
-			return QuestionCategoryResponse(
+		fun fromItemCategory(itemCategory: ItemCategory): ItemCategoryResponse {
+			return ItemCategoryResponse(
 				title = itemCategory.title,
 				publicId = itemCategory.publicId,
 				parentPublicId = itemCategory.parentPublicId

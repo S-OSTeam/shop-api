@@ -33,8 +33,8 @@ class ItemResponse(
 	val shippingCost: Int,
 ) {
 	companion object {
-		fun fromItem(item: Item): QuestionResponse {
-			return QuestionResponse(
+		fun fromItem(item: Item): ItemResponse {
+			return ItemResponse(
 				publicId = item.publicId,
 				categoryPublicId = item.categoryPublicId,
 				title = item.title,

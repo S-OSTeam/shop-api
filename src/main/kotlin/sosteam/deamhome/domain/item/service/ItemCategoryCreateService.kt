@@ -3,8 +3,8 @@ package sosteam.deamhome.domain.item.service
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.item.handler.request.QuestionCategoryRequest
-import sosteam.deamhome.domain.item.handler.response.QuestionCategoryResponse
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryRequest
+import sosteam.deamhome.domain.item.handler.response.ItemCategoryResponse
 import sosteam.deamhome.global.category.provider.CategoryProvider
 
 @Service
@@ -13,7 +13,7 @@ class ItemCategoryCreateService(
 	private val categoryProvider: CategoryProvider<ItemCategory>
 ) {
 	
-	suspend fun createCategory(request: QuestionCategoryRequest): QuestionCategoryResponse {
+	suspend fun createCategory(request: ItemCategoryRequest): ItemCategoryResponse {
 		
 		val itemCategory = request.asDomain()
 		

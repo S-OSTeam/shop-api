@@ -8,7 +8,6 @@ import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.item.handler.response.ItemCategoryTreeResponse
 import sosteam.deamhome.domain.item.handler.response.ItemCategoryTreeResponse.Companion.fromItemCategory
-import sosteam.deamhome.domain.item.handler.response.QuestionCategoryResponse
 import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
@@ -21,14 +20,14 @@ class ItemCategorySearchService(
 	private val categoryProvider: CategoryProvider<ItemCategory>
 ) {
 	
-	suspend fun findItemCategoryByPublicId(publicId: String): QuestionCategoryResponse {
+	suspend fun findItemCategoryByPublicId(publicId: String): ItemCategoryResponse {
 		val itemCategory = itemCategoryRepository.findByPublicId(publicId)
 			?: throw CategoryNotFoundException()
 		return ItemCategoryResponse.fromItemCategory(itemCategory)
 	}
 	
 	//   title 이 포함된 아이템카테고리 검색
-	fun findItemCategoriesContainTitle(title: String): Flow<QuestionCategoryResponse> {
+	fun findItemCategoriesContainTitle(title: String): Flow<ItemCategoryResponse> {
 		return itemCategoryRepository.findItemCategoriesContainTitle(title)
 			.map { ItemCategoryResponse.fromItemCategory(it) }
 	}

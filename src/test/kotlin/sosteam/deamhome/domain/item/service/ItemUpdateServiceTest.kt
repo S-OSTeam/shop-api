@@ -8,7 +8,7 @@ import io.mockk.mockk
 import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
-import sosteam.deamhome.domain.item.handler.request.QuestionUpdateRequest
+import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
 import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.attribute.ItemStatus
@@ -23,7 +23,7 @@ class ItemUpdateServiceTest : BehaviorSpec({
 	val service = ItemUpdateService(itemRepository, itemCategoryRepository, imageProvider)
 	
 	Given("a valid update request") {
-		val request = QuestionUpdateRequest(
+		val request = ItemUpdateRequest(
 			publicId = "testPublicId",
 			categoryPublicId = "testCategoryPublicId",
 			title = "Updated Title",

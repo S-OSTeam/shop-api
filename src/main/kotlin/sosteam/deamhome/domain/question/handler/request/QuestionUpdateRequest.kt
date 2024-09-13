@@ -10,6 +10,7 @@ data class QuestionUpdateRequest(
 	val summary: String,
 	val userId: String,
 	val postId: String?,
+	val itemId: String?,
 	val questionStatus: QuestionStatus,
 	val questionType: QuestionType,
 	val questionIsCompleted: Boolean,

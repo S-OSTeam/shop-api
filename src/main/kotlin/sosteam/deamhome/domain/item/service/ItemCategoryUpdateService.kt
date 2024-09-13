@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.item.handler.request.QuestionCategoryUpdateRequest
-import sosteam.deamhome.domain.item.handler.response.QuestionCategoryResponse
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryUpdateRequest
+import sosteam.deamhome.domain.item.handler.response.ItemCategoryResponse
 import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.exception.MaxDepthExceedException
@@ -18,7 +18,7 @@ class ItemCategoryUpdateService(
 	private val itemCategoryRepository: ItemCategoryRepository,
 	private val categoryProvider: CategoryProvider<ItemCategory>
 ) {
-	suspend fun updateItemCategory(request: QuestionCategoryUpdateRequest): QuestionCategoryResponse {
+	suspend fun updateItemCategory(request: ItemCategoryUpdateRequest): ItemCategoryResponse {
 		val itemCategory = itemCategoryRepository.findByPublicId(request.publicId)
 			?: throw CategoryNotFoundException()
 		

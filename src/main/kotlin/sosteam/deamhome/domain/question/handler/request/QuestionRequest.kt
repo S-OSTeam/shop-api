@@ -10,9 +10,10 @@ data class QuestionRequest(
 	val categoryPublicId: String,
 	val title: String,
 	val content: String,
-	val summary: String,
+	val summary: String?,
 	val userId: String,
 	val postId: String?,
+	val itemId: String?,
 	val questionStatus: QuestionStatus,
 	val questionType: QuestionType,
 	val questionIsCompleted: Boolean,
@@ -35,7 +36,8 @@ data class QuestionRequest(
 			storeId = this.storeId,
 			imageUrls = this.imageUrls,
 			postId = this.postId,
-			userId = this.userId
+			userId = this.userId,
+			itemId = this.itemId
 		)
 	}
 }

@@ -7,7 +7,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.emptyFlow
 import sosteam.deamhome.domain.item.entity.ItemCategory
-import sosteam.deamhome.domain.item.handler.request.QuestionCategoryUpdateRequest
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryUpdateRequest
 import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.service.ItemCategoryUpdateService
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
@@ -21,7 +21,7 @@ class ItemCategoryUpdateServiceTest : BehaviorSpec({
 	val service = ItemCategoryUpdateService(itemCategoryRepository, categoryProvider)
 	
 	Given("a valid update request") {
-		val request = QuestionCategoryUpdateRequest(
+		val request = ItemCategoryUpdateRequest(
 			publicId = "testPublicId",
 			title = "Updated Title",
 			parentPublicId = "newParentPublicId"
