@@ -6,12 +6,15 @@ import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.handler.request.ItemCategoryRequest
 import sosteam.deamhome.domain.item.handler.response.ItemCategoryResponse
 import sosteam.deamhome.global.category.provider.CategoryProvider
+import sosteam.deamhome.global.category.factory.CategoryProviderFactory
 
 @Service
 @Transactional
 class ItemCategoryCreateService(
-	private val categoryProvider: CategoryProvider<ItemCategory>
+	private val categoryProviderFactory: CategoryProviderFactory
 ) {
+
+	val categoryProvider = CategoryProvider(categoryProviderFactory, ItemCategory::class.java)
 	
 	suspend fun createCategory(request: ItemCategoryRequest): ItemCategoryResponse {
 		

@@ -10,14 +10,17 @@ import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.exception.MaxDepthExceedException
 import sosteam.deamhome.global.category.provider.CategoryProvider
+import sosteam.deamhome.global.category.factory.CategoryProviderFactory
 
 
 @Service
 @Transactional
 class ItemCategoryUpdateService(
 	private val itemCategoryRepository: ItemCategoryRepository,
-	private val categoryProvider: CategoryProvider<ItemCategory>
+	private val categoryProviderFactory: CategoryProviderFactory
 ) {
+
+	val categoryProvider = CategoryProvider(categoryProviderFactory, ItemCategory::class.java)
 	suspend fun updateItemCategory(request: ItemCategoryUpdateRequest): ItemCategoryResponse {
 		val itemCategory = itemCategoryRepository.findByPublicId(request.publicId)
 			?: throw CategoryNotFoundException()

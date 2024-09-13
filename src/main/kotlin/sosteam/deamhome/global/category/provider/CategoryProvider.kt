@@ -1,18 +1,19 @@
 package sosteam.deamhome.global.category.provider
 
 import kotlinx.coroutines.flow.toList
-import org.springframework.stereotype.Component
 import sosteam.deamhome.global.category.exception.AlreadyExistCategoryException
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.category.exception.MaxDepthExceedException
 import sosteam.deamhome.global.category.entity.CategoryEntity
+import sosteam.deamhome.global.category.factory.CategoryProviderFactory
 import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 import sosteam.deamhome.global.category.respository.CategoryRepository
 
-@Component
 class CategoryProvider<T: CategoryEntity> (
-    private val repository: CategoryRepository<T>
+        factory: CategoryProviderFactory,
+        clazz: Class<T>
 ) {
+    private val repository: CategoryRepository<T> = factory.getRepository(clazz)
 
     suspend fun saveCategory(category: T): T {
         return repository.save(category)
