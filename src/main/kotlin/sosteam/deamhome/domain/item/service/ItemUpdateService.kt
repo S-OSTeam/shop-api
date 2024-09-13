@@ -2,10 +2,10 @@ package sosteam.deamhome.domain.item.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 import sosteam.deamhome.global.image.provider.ImageProvider

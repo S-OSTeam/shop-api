@@ -39,6 +39,7 @@ class RequestProvider {
 		suspend fun getSNSToken(): String? {
 			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
 			val token = headers.getFirst("Authorization-SNS")
+			log().debug(token)
 			
 			return token
 		}

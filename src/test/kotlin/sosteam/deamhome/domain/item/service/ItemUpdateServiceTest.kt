@@ -5,11 +5,11 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
-import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.handler.request.ItemUpdateRequest
+import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.attribute.ItemStatus
 import sosteam.deamhome.global.image.provider.ImageProvider
@@ -67,13 +67,13 @@ class ItemUpdateServiceTest : BehaviorSpec({
 			)
 			
 			val updatedItem = existingItem.copy(
-				categoryPublicId = request.categoryPublicId!!,
-				title = request.title!!,
-				content = request.content!!,
-				summary = request.summary!!,
+				categoryPublicId = request.categoryPublicId,
+				title = request.title,
+				content = request.content,
+				summary = request.summary,
 				price = request.price!!,
 				status = request.status!!,
-				storeId = request.storeId!!,
+				storeId = request.storeId,
 				freeDelivery = request.freeDelivery!!,
 				option = request.option!!,
 				productNumber = request.productNumber!!
@@ -82,12 +82,12 @@ class ItemUpdateServiceTest : BehaviorSpec({
 			val updatedCategory = ItemCategory(
 				id = 1L,
 				title = "Test Category",
-				publicId = request.categoryPublicId!!,
+				publicId = request.categoryPublicId,
 				parentPublicId = "testParentPublicId"
 			)
 			
 			coEvery { itemRepository.findByPublicId(request.publicId) } returns existingItem
-			coEvery { itemCategoryRepository.findByPublicId(request.categoryPublicId!!) } returns updatedCategory
+			coEvery { itemCategoryRepository.findByPublicId(request.categoryPublicId) } returns updatedCategory
 			coEvery { itemRepository.save(updatedItem) } returns updatedItem
 			
 			Then("it should return the updated item") {

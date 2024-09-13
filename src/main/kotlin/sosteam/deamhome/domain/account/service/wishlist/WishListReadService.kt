@@ -1,12 +1,8 @@
 package sosteam.deamhome.domain.account.service.wishlist
 
-import kotlinx.coroutines.flow.toList
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import sosteam.deamhome.domain.account.service.AccountValidService
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
-import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.domain.item.service.ItemSearchService
 
 @Service
