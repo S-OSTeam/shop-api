@@ -28,7 +28,7 @@ class AccountCreateService(
 		accountStatusValidService.isNotExistAccount(
 			accountCreateRequest.userId,
 			accountCreateRequest.sns,
-			snsId,
+			snsToken,
 			accountCreateRequest.email
 		)
 		

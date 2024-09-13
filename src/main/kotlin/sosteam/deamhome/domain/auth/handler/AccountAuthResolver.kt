@@ -36,13 +36,6 @@ class AccountAuthResolver(
 		
 		val snsToken = getSNSToken()
 		
-		accountStatusValidService.isNotExistAccount(
-			request.userId,
-			request.sns,
-			snsToken,
-			request.email
-		)
-		
 		val createAccount = accountCreateService.createAccount(request, snsToken)
 		return createAccount.userId
 	}

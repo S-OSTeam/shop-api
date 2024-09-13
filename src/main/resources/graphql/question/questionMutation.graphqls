@@ -6,5 +6,5 @@ extend type Mutation {
     ##카테고리
     createQuestionCategory(request: QuestionCategoryRequest!): QuestionCategoryResponse
     deleteQuestionCategoryByPublicId(publicId: String!) : String
-    updateQuestionCategry(request: QuestionCategoryUpdateRequest!): QuestionCategoryResponse
+    updateQuestionCategory(request: QuestionCategoryUpdateRequest!): QuestionCategoryResponse
 }

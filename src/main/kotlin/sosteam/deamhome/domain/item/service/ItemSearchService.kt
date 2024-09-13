@@ -7,12 +7,12 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import sosteam.deamhome.domain.category.entity.ItemCategory
-import sosteam.deamhome.domain.category.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.entity.Item
+import sosteam.deamhome.domain.item.entity.ItemCategory
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.domain.item.repository.ItemCategoryRepository
 import sosteam.deamhome.domain.item.repository.ItemRepository
 import sosteam.deamhome.global.category.exception.CategoryNotFoundException
 
@@ -40,7 +40,11 @@ class ItemSearchService(
 	}
 	
 	// publicId 리스트를 받아 각 아이템 정보 찾아서 ItemResponse 리스트를 반환하는 함수
-	suspend fun findItemByPublicIdIn(publicIdList: List<String>, page: Int, pageSize: Int = 10): List<ItemResponse> {
+	suspend fun findItemByPublicIdIn(
+		publicIdList: List<String>,
+		page: Int,
+		pageSize: Int = 10
+	): List<ItemResponse> {
 		val pageRequest: PageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("created_at")))
 		return itemRepository.findByPublicIdIn(publicIdList, pageRequest)
 			.toList()

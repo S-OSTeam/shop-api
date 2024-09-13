@@ -5,8 +5,12 @@ type QuestionResponse {
     content: String!
     summary: String!
     storeId: String!
-    status: QuestionStatus!
     questionType: QuestionType!
+    questionStatus: QuestionStatus!
+    questionIsCompleted: Boolean!
+    postId: String
+    itemId: String
+    postType: PostType!
     updatedAt: DateTime
     imageUrls: [String!]!
 }
@@ -15,6 +19,11 @@ type QuestionCategoryResponse{
     publicId: String!
     title: String!
     questionType: QuestionType!
+    questionStatus: QuestionStatus!
+    questionIsCompleted: Boolean!
+    postId: String
+    itemId: String
+    postType: PostType!
     updatedAt: DateTime
     children: [QuestionCategoryResponse]!
 }

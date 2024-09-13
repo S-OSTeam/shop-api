@@ -5,5 +5,5 @@ import sosteam.deamhome.domain.item.entity.Item
 import sosteam.deamhome.domain.item.handler.request.ItemSearchRequest
 
 interface ItemRepositoryCustom {
-    fun searchItem(request: ItemSearchRequest): Flow<Item>
+	fun searchItem(request: ItemSearchRequest): Flow<Item>
 }

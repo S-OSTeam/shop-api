@@ -1,18 +1,18 @@
-package sosteam.deamhome.domain.category.handler
+package sosteam.deamhome.domain.item.handler
 
 import kotlinx.coroutines.flow.toList
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
-import sosteam.deamhome.domain.category.handler.request.ItemCategoryRequest
-import sosteam.deamhome.domain.category.handler.request.ItemCategoryUpdateRequest
-import sosteam.deamhome.domain.category.handler.response.ItemCategoryResponse
-import sosteam.deamhome.domain.category.handler.response.ItemCategoryTreeResponse
-import sosteam.deamhome.domain.category.service.ItemCategoryCreateService
-import sosteam.deamhome.domain.category.service.ItemCategoryDeleteService
-import sosteam.deamhome.domain.category.service.ItemCategorySearchService
-import sosteam.deamhome.domain.category.service.ItemCategoryUpdateService
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryRequest
+import sosteam.deamhome.domain.item.handler.request.ItemCategoryUpdateRequest
+import sosteam.deamhome.domain.item.handler.response.ItemCategoryResponse
+import sosteam.deamhome.domain.item.handler.response.ItemCategoryTreeResponse
+import sosteam.deamhome.domain.item.service.ItemCategoryCreateService
+import sosteam.deamhome.domain.item.service.ItemCategoryDeleteService
+import sosteam.deamhome.domain.item.service.ItemCategorySearchService
+import sosteam.deamhome.domain.item.service.ItemCategoryUpdateService
 
 @RestController
 class ItemCategoryResolver(
