@@ -8,7 +8,6 @@ import sosteam.deamhome.domain.item.repository.custom.ItemCategoryRepositoryCust
 import sosteam.deamhome.global.category.respository.CategoryRepository
 
 @GraphQlRepository
-@Primary
 interface ItemCategoryRepository : CategoryRepository<ItemCategory>, ItemCategoryRepositoryCustom {
 	suspend fun deleteByPublicId(publicId: String): Long
 	
