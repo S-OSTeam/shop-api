@@ -4,7 +4,6 @@ import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.dsl.BooleanExpression
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
-import kotlinx.coroutines.reactive.awaitFirstOrNull
 import lombok.RequiredArgsConstructor
 import sosteam.deamhome.domain.account.entity.AccountStatus
 import sosteam.deamhome.domain.account.entity.QAccountStatus
@@ -28,10 +27,10 @@ class AccountStatusRepositoryImpl(
 		sns: SNS,
 		snsId: String?,
 		email: String?
-	): AccountStatus? {
-		return querydsl.findOne(
+	): Flow<AccountStatus> {
+		return querydsl.findAll(
 			eqLoginData(sns, snsId, userId, email)
-		).awaitFirstOrNull()
+		).asFlow()
 	}
 	
 	//로그인을 id로 하는지 user로 하는지 sns로 하는지 확인
@@ -41,7 +40,6 @@ class AccountStatusRepositoryImpl(
 		//SNS가 이상한 경우는 request에서 걸러진다.
 		//id와 email이 이상한 경우는 걸러지지 않으므로 비어있는지 따로 확인한다.
 		
-		expr.and(accountStatus.sns.stringValue().eq(sns.name))
 		if (sns == SNS.NORMAL) {
 			val exprId = BooleanBuilder()
 			if (!userId.isNullOrBlank()) {
