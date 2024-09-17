@@ -1,7 +1,7 @@
 input SignUpRequest{
     userId: String!
-    pwd: String!
-    confirmPwd: String!
+    pwd: String
+    confirmPwd: String
     sex: Boolean
     birthday: DateTime
     zipcode: String!
@@ -20,7 +20,7 @@ input SignUpRequest{
 }
 
 input LoginRequest{
-    pwd: String!
+    pwd: String
     userId: String
     email: String
     snsCode: String
