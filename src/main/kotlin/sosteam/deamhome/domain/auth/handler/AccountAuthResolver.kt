@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.account.service.AccountValidService
 import sosteam.deamhome.domain.auth.handler.request.AccountChangePwdRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
 import sosteam.deamhome.domain.auth.handler.request.AccountLoginRequest
+import sosteam.deamhome.domain.auth.handler.request.CheckDuplicateUserRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
@@ -38,6 +39,18 @@ class AccountAuthResolver(
 		
 		val createAccount = accountCreateService.createAccount(request, snsToken)
 		return createAccount.userId
+	}
+	
+	@MutationMapping
+	suspend fun checkDuplicateUser(@Argument request: CheckDuplicateUserRequest): Boolean {
+		try {
+			val snsToken = accountStatusValidService.getSnsToken(request.sns, request.snsCode)
+			accountStatusValidService.isNotExistAccount(request.userId, request.sns, snsToken, request.email)
+		} catch (e: Exception) {
+			return false
+		}
+		
+		return true
 	}
 	
 	// TODO AccountStatusModifyService.updateAccountStatus 를 MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제

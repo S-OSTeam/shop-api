@@ -1,6 +1,7 @@
 extend type Mutation {
     signUp(request: SignUpRequest!): String
     signOut(snsCode: String): String
+    checkDuplicateUser(request: CheckDuplicateUserRequest!): Boolean!
     login(request: LoginRequest!): TokenResponse
     logout: String
     reIssue: TokenResponse

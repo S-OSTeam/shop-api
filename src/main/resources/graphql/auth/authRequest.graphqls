@@ -19,6 +19,13 @@ input SignUpRequest{
     userName: String!
 }
 
+input CheckDuplicateUserRequest{
+    userId: String
+    email: String
+    snsCode: String
+    sns: SNS!
+}
+
 input LoginRequest{
     pwd: String
     userId: String
