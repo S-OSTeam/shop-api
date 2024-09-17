@@ -1,5 +1,6 @@
 package sosteam.deamhome.domain.account.service
 
+import jakarta.validation.constraints.Pattern
 import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -7,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.handler.response.AccountResponse
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.account.repository.AccountStatusRepository
+import sosteam.deamhome.domain.auth.exception.AccountInvalidExeption
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
+import sosteam.deamhome.global.attribute.SNS
 
 @Service
 @Transactional
@@ -36,7 +39,14 @@ class AccountCreateService(
 		accountStatus.snsId = snsId
 		
 		val account = accountCreateRequest.asDomain()
-		account.pwd = passwordEncoder.encode(account.pwd)
+		val sns = accountCreateRequest.sns
+		if(sns == SNS.NORMAL) {
+			val pattern = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$".toRegex()
+			if(account.pwd.isNullOrBlank() || !pattern.matches(account.pwd!!)){
+				throw AccountInvalidExeption()
+			}
+			account.pwd = passwordEncoder.encode(account.pwd)
+		}
 		
 		val result = accountRepository.save(account)
 		accountStatus.accountId = result.id

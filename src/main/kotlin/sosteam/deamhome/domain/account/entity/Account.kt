@@ -18,7 +18,7 @@ data class Account(
 	// unique column
 	@Column("user_id")
 	val userId: String,
-	var pwd: String,
+	var pwd: String?,
 	val sex: Boolean,
 	var birthday: LocalDateTime,
 	var zipcode: String,

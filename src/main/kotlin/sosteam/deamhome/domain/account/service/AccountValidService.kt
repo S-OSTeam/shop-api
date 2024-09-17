@@ -10,6 +10,7 @@ import sosteam.deamhome.domain.account.exception.LoginFailureException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.auth.entity.dto.AccountLoginDTO
 import sosteam.deamhome.domain.auth.handler.request.AccountCreateRequest
+import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Token
 import sosteam.deamhome.global.exception.PasswordNotMatchedException
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
@@ -34,11 +35,10 @@ class AccountValidService(
 			?: throw AccountNotFoundException()
 	}
 	
-	suspend fun getAccountLoginDTO(id: Long, pwd: String): AccountLoginDTO {
-		
+	suspend fun getAccountLoginDTO(id: Long, pwd: String?, sns: SNS): AccountLoginDTO {
 		val account = accountRepository.findAccountById(id) ?: throw LoginFailureException()
 		
-		if (!passwordEncoder.matches(pwd, account.pwd)) {
+		if (sns == SNS.NORMAL && !passwordEncoder.matches(pwd, account.pwd)) {
 			throw LoginFailureException()
 		}
 		

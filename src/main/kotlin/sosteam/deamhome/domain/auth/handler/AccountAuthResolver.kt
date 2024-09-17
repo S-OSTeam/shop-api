@@ -78,7 +78,7 @@ class AccountAuthResolver(
 				request.email
 			)
 		
-		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd)
+		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd, request.sns)
 		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
 		
 		if (!snsToken.isNullOrBlank())
