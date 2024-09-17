@@ -39,19 +39,17 @@ class AccountStatusRepositoryImpl(
 		
 		//SNS가 이상한 경우는 request에서 걸러진다.
 		//id와 email이 이상한 경우는 걸러지지 않으므로 비어있는지 따로 확인한다.
-		
-		if (sns == SNS.NORMAL) {
-			val exprId = BooleanBuilder()
-			if (!userId.isNullOrBlank()) {
-				exprId.or(eqUserId(userId))
-			}
-			if (!email.isNullOrBlank()) {
-				exprId.or(eqEmail(email))
-			}
-			expr.and(exprId)
-		} else {
-			expr.and(eqSNS(snsId))
+		val exprId = BooleanBuilder()
+		if (!userId.isNullOrBlank()) {
+			exprId.or(eqUserId(userId))
 		}
+		if (!email.isNullOrBlank()) {
+			exprId.or(eqEmail(email))
+		}
+		if (sns != SNS.NORMAL) {
+			exprId.or(eqSNS(snsId))
+		}
+		expr.and(exprId)
 		
 		return expr
 	}
