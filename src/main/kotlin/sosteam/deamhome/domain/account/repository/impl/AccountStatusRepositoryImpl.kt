@@ -46,10 +46,11 @@ class AccountStatusRepositoryImpl(
 		if (!email.isNullOrBlank()) {
 			exprId.or(eqEmail(email))
 		}
-		if (sns != SNS.NORMAL) {
-			exprId.or(eqSNS(snsId))
-		}
 		expr.and(exprId)
+		
+		if (sns != SNS.NORMAL) {
+			expr.and(eqSNS(snsId))
+		}
 		
 		return expr
 	}
