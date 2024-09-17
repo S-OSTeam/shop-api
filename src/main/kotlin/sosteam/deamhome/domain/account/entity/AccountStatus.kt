@@ -31,5 +31,5 @@ data class AccountStatus(
 
 ) : BaseEntity() {
 	@Column("deleted_at")
-	var deletedAt: OffsetDateTime? = OffsetDateTime.now()
+	var deletedAt: OffsetDateTime? = null
 }
