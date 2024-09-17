@@ -14,20 +14,10 @@ data class AccountCreateRequest(
 	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
 	@get:Pattern(regexp = "^[a-z]+[a-z0-9]{5,20}$", message = "올바른 ID 형식이 아닙니다.")
 	val userId: String,
-	
-	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
-	@Pattern(
-		regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$",
-		message = "올바른 비밀번호 형식이 아닙니다."
-	)
-	val pwd: String,
-	
-	@get:NotBlank(message = "<NULL> <EMPTY> <BLANK>")
-	@Pattern(
-		regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$",
-		message = "올바른 비밀번호 형식이 아닙니다."
-	)
-	val confirmPwd: String,
+
+	val pwd: String?,
+
+	val confirmPwd: String?,
 	
 	val sex: Boolean = false,
 	
