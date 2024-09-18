@@ -22,7 +22,7 @@ class AccountStatusRepositoryImpl(
 		return querydsl.findAll(accountStatus.status.eq(Status.LIVE)).asFlow()
 	}
 	
-	override suspend fun getStatusByUserIdOrSNS(
+	override fun getStatusByUserIdOrSNS(
 		userId: String?,
 		sns: SNS,
 		snsId: String?,

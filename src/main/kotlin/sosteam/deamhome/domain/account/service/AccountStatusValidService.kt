@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import sosteam.deamhome.domain.account.entity.AccountStatus
+import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.exception.AccountNotLiveException
 import sosteam.deamhome.domain.account.exception.AlreadyExistAccountException
 import sosteam.deamhome.domain.account.exception.UserIdOrEmailDuplicateException
@@ -14,6 +15,7 @@ import sosteam.deamhome.domain.kakao.service.KakaoService
 import sosteam.deamhome.domain.naver.service.NaverService
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
+import sosteam.deamhome.global.provider.log
 
 @Service
 @Transactional
@@ -47,11 +49,14 @@ class AccountStatusValidService(
 	suspend fun getLiveAccountIdByStatus(userId: String?, sns: SNS, snsToken: String?, email: String?): Long {
 		val snsId = getSnsId(userId, sns, snsToken)
 		val accountStatusList = getStatusByUserIdOrSNS(userId, sns, snsId, email).toList()
-		val accountStatus = accountStatusList[0]
 		
-		if (accountStatusList.size != 1)
+		log().debug(accountStatusList.size.toString())
+		if (accountStatusList.isEmpty())
+			throw AccountNotFoundException()
+		else if (accountStatusList.size > 1)
 			throw UserIdOrEmailDuplicateException()
 		
+		val accountStatus = accountStatusList[0]
 		if (accountStatus.status != Status.LIVE)
 			throw AccountNotLiveException()
 		
@@ -72,6 +77,7 @@ class AccountStatusValidService(
 		
 		if (accountStatusList.size > 1)
 			throw UserIdOrEmailDuplicateException()
+		
 		return true
 	}
 }
