@@ -67,7 +67,7 @@ class AccountStatusValidService(
 		val snsId = getSnsId(userId, sns, snsToken)
 		val accountStatusList = getStatusByUserIdOrSNS(userId, sns, snsId, email).toList()
 		
-		if (accountStatusList.size == 0)
+		if (accountStatusList.size == 1)
 			throw AlreadyExistAccountException()
 		
 		if (accountStatusList.size != 1)
