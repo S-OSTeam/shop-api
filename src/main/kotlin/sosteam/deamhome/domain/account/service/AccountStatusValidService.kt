@@ -70,7 +70,7 @@ class AccountStatusValidService(
 		if (accountStatusList.size == 1)
 			throw AlreadyExistAccountException()
 		
-		if (accountStatusList.size != 1)
+		if (accountStatusList.size > 1)
 			throw UserIdOrEmailDuplicateException()
 		return true
 	}
