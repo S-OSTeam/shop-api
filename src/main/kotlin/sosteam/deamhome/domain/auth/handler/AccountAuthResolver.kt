@@ -47,10 +47,10 @@ class AccountAuthResolver(
 			val snsToken = accountStatusValidService.getSnsToken(request.sns, request.snsCode)
 			accountStatusValidService.isNotExistAccount(request.userId, request.sns, snsToken, request.email)
 		} catch (e: Exception) {
-			return false
+			return true
 		}
 		
-		return true
+		return false
 	}
 	
 	// TODO AccountStatusModifyService.updateAccountStatus 를 MongoOperation 에서 postgreSQL 로 바꾼 뒤 주석 해제
