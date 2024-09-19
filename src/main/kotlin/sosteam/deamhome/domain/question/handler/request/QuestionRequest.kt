@@ -4,6 +4,7 @@ import com.github.f4b6a3.ulid.UlidCreator
 import sosteam.deamhome.domain.question.entity.Question
 import sosteam.deamhome.domain.question.entity.QuestionStatus
 import sosteam.deamhome.domain.question.entity.QuestionType
+import sosteam.deamhome.global.attribute.PostType
 import sosteam.deamhome.global.entity.DTO
 
 data class QuestionRequest(
@@ -18,6 +19,7 @@ data class QuestionRequest(
 	val questionType: QuestionType,
 	val questionIsCompleted: Boolean,
 	val storeId: String,
+	val postType: PostType,
 	val imageUrls: List<String>
 ) : DTO {
 	override fun asDomain(): Question {
@@ -37,7 +39,8 @@ data class QuestionRequest(
 			imageUrls = this.imageUrls,
 			postId = this.postId,
 			userId = this.userId,
-			itemId = this.itemId
+			itemId = this.itemId,
+			postType = this.postType
 		)
 	}
 }

@@ -1,18 +1,19 @@
-package sosteam.deamhome.domain.item.handler.response
+package sosteam.deamhome.domain.question.handler.response
 
 import sosteam.deamhome.domain.question.entity.QuestionCategory
+import sosteam.deamhome.global.category.handler.response.CategoryTreeResponse
 
 class QuestionCategoryResponse(
-	val title: String,
-	val publicId: String,
-	val parentPublicId: String
-) {
+	override val publicId: String,
+	override val title: String,
+	override val children: MutableList<CategoryTreeResponse<QuestionCategory>> = mutableListOf()
+) : CategoryTreeResponse<QuestionCategory>() {
 	companion object {
 		fun fromQuestionCategory(questionCategory: QuestionCategory): QuestionCategoryResponse {
 			return QuestionCategoryResponse(
-				title = questionCategory.title,
 				publicId = questionCategory.publicId,
-				parentPublicId = questionCategory.parentPublicId
+				title = questionCategory.title,
+				children = mutableListOf()
 			)
 		}
 	}
