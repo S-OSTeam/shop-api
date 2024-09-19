@@ -25,5 +25,5 @@ type QuestionCategoryResponse{
     itemId: String
     postType: PostType!
     updatedAt: DateTime
-    children: [QuestionCategoryResponse]!
+    children: [QuestionCategoryResponse]
 }
