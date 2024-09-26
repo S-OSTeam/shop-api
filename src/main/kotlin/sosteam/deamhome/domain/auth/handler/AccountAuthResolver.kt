@@ -20,6 +20,7 @@ import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getSNSToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
+import sosteam.deamhome.global.provider.log
 import sosteam.deamhome.global.security.response.TokenResponse
 
 @RestController
@@ -47,6 +48,7 @@ class AccountAuthResolver(
 			val snsToken = getSNSToken()
 			accountStatusValidService.isNotExistAccount(request.userId, request.sns, snsToken, request.email)
 		} catch (e: Exception) {
+			log().debug(e.stackTraceToString())
 			return true
 		}
 		

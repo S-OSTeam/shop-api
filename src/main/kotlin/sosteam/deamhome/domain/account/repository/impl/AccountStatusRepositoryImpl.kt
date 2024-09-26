@@ -54,15 +54,24 @@ class AccountStatusRepositoryImpl(
 		return expr
 	}
 	
-	private fun eqSNS(snsId: String?): BooleanExpression {
+	private fun eqSNS(snsId: String?): BooleanExpression? {
+		if (snsId.isNullOrBlank()) {
+			return null
+		}
 		return accountStatus.snsId.eq(snsId)
 	}
 	
-	private fun eqEmail(email: String?): BooleanExpression {
+	private fun eqEmail(email: String?): BooleanExpression? {
+		if (email.isNullOrBlank()) {
+			return null
+		}
 		return accountStatus.email.eq(email)
 	}
 	
-	private fun eqUserId(userId: String?): BooleanExpression {
+	private fun eqUserId(userId: String?): BooleanExpression? {
+		if (userId.isNullOrBlank()) {
+			return null
+		}
 		return accountStatus.userId.eq(userId)
 	}
 }
