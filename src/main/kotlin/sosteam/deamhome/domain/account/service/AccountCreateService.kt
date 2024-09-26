@@ -1,6 +1,5 @@
 package sosteam.deamhome.domain.account.service
 
-import jakarta.validation.constraints.Pattern
 import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -40,16 +39,18 @@ class AccountCreateService(
 		
 		val account = accountCreateRequest.asDomain()
 		val sns = accountCreateRequest.sns
-		if(sns == SNS.NORMAL) {
+		if (sns == SNS.NORMAL) {
 			val pattern = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$".toRegex()
-			if(account.pwd.isNullOrBlank() || !pattern.matches(account.pwd!!)){
+			if (account.pwd.isNullOrBlank() || !pattern.matches(account.pwd!!)) {
 				throw AccountInvalidExeption()
 			}
 			account.pwd = passwordEncoder.encode(account.pwd)
 		}
 		
+		account.snsId = snsId
 		val result = accountRepository.save(account)
 		accountStatus.accountId = result.id
+		accountStatus.snsId = snsId
 		accountStatusRepository.save(accountStatus)
 		
 		return AccountResponse.fromAccount(account)
