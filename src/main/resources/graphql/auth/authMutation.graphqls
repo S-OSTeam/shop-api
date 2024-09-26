@@ -2,9 +2,9 @@ extend type Mutation {
     signUp(request: SignUpRequest!): String
     signOut(snsCode: String): String
     checkDuplicateUser(request: CheckDuplicateUserRequest!): Boolean!
-    login(request: LoginRequest!): TokenResponse
+    login(request: LoginRequest!): String
     logout: String
-    reIssue: TokenResponse
+    reIssue: String
 
     kakaoUnlink(snsCode: String): KakaoUnlinkResponse
 
