@@ -44,7 +44,7 @@ class AccountAuthResolver(
 	@MutationMapping
 	suspend fun checkDuplicateUser(@Argument request: CheckDuplicateUserRequest): Boolean {
 		try {
-			val snsToken = accountStatusValidService.getSnsToken(request.sns, request.snsCode)
+			val snsToken = getSNSToken()
 			accountStatusValidService.isNotExistAccount(request.userId, request.sns, snsToken, request.email)
 		} catch (e: Exception) {
 			return true
