@@ -37,7 +37,7 @@ data class Account(
 	@Column("admin_txt")
 	var adminTxt: String = "",
 	@Column("sns_id")
-	val snsId: String? = null,
+	var snsId: String? = null,
 	val sns: SNS = SNS.NORMAL,
 	
 	// unique column

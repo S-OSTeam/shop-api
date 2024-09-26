@@ -82,8 +82,9 @@ class AccountAuthResolver(
 	): TokenResponse? {
 		val mac = getMac()
 		val agent = getAgent()
+		val snsTokenHeader = getSNSToken()
 		
-		val snsToken = accountStatusValidService.getSnsToken(request.sns, request.snsCode)
+		val snsToken = snsTokenHeader ?: accountStatusValidService.getSnsToken(request.sns, request.snsCode)
 		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
