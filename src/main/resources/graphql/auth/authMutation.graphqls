@@ -4,7 +4,7 @@ extend type Mutation {
     checkDuplicateUser(request: CheckDuplicateUserRequest!): Boolean!
     login(request: LoginRequest!): String
     logout: String
-    reIssue: TokenResponse
+    reIssue: String
 
     kakaoUnlink(snsCode: String): KakaoUnlinkResponse
 
