@@ -22,7 +22,6 @@ input SignUpRequest{
 input CheckDuplicateUserRequest{
     userId: String
     email: String
-    snsCode: String
     sns: SNS!
 }
 
