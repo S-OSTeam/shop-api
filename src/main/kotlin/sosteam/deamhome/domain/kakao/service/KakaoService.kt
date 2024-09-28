@@ -67,7 +67,7 @@ class KakaoService(
 	
 	suspend fun getKakaoUserId(kakaoToken: String): String {
 		val reqUrl = "https://kapi.kakao.com/v2/user/me"
-		
+		log().debug(kakaoToken)
 		
 		val response = WebClient.builder()
 			.baseUrl(reqUrl)

@@ -11,7 +11,6 @@ extend type Mutation {
     naverUnlink(snsCode: String): NaverUnlinkResponse
 
     changePassword(request: AccountChangePwdRequest!): String
-
     sendVerifyCode(request: SendVerifyCodeRequest!): String
     checkVerifyCodeBy(request: CheckVerifyCodeRequest!): String
 }
