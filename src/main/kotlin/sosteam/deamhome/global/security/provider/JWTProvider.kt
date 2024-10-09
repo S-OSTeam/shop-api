@@ -60,12 +60,12 @@ class JWTProvider(
 		return expiration.time - System.currentTimeMillis()
 	}
 	
-	fun getData(token: String): String =
+	fun getUserId(token: String): String =
 		extractToken(token)
 			.subject
 	
 	fun getAuthentication(token: String): Authentication {
-		val userName = getData(token)
+		val userName = getUserId(token)
 		val role = getSimpleGrantedAuthority(token)
 		
 		return UsernamePasswordAuthenticationToken(
