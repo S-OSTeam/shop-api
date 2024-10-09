@@ -22,7 +22,7 @@ class AccountAuthDeleteService(
 		
 		//토큰 날짜를 통일 시키기 위해 현재 시간을 저장
 		val leftAccessTokenTime = jwtProvider.getLeftTime(access)
-		val userId = jwtProvider.getData(access)
+		val userId = jwtProvider.getUserId(access)
 		
 		//기존에 존재하던 refresh 토큰 삭제
 		redisProvider.deleteData(userId)

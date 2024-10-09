@@ -32,7 +32,7 @@ class TestJWTProvider : JWTProvider("test-token") {
 		return 1000 * 1000L
 	}
 	
-	override fun getData(token: String): String {
+	override fun getUserId(token: String): String {
 		return "testAccount"
 	}
 	
