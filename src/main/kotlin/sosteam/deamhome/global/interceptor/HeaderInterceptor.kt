@@ -14,10 +14,10 @@ import java.time.Duration
 class HeaderInterceptor : WebGraphQlInterceptor {
 	override fun intercept(request: WebGraphQlRequest, chain: WebGraphQlInterceptor.Chain): Mono<WebGraphQlResponse> {
 		return chain.next(request).doOnNext { response ->
-			getAndAddCookie("accessToken", response, "/", Token.ACCESS.time)
-			getAndAddCookie("refreshToken", response, "/", Token.REFRESH.time)
-			getAndAddCookie("snsToken", response, "/signup", 3600)
-			getAndAddCookie("snsToken", response, "/login", 3600)
+			getAndAddCookie("Authorization", response, "/", Token.ACCESS.time)
+			getAndAddCookie("Authorization-Refresh", response, "/", Token.REFRESH.time)
+			getAndAddCookie("Authorization-SNS", response, "/signup", 3600)
+			getAndAddCookie("Authorization-SNS", response, "/login", 3600)
 		}
 	}
 	
