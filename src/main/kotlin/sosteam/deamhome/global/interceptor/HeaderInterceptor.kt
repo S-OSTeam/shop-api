@@ -16,7 +16,8 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 		return chain.next(request).doOnNext { response ->
 			getAndAddCookie("accessToken", response, "/", Token.ACCESS.time)
 			getAndAddCookie("refreshToken", response, "/", Token.REFRESH.time)
-			getAndAddCookie("snsToken", response, "/login;/signup", 3600)
+			getAndAddCookie("snsToken", response, "/signup", 3600)
+			getAndAddCookie("snsToken", response, "/login", 3600)
 		}
 	}
 	
