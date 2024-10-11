@@ -36,7 +36,7 @@ class JWTProvider(
 		tokenType: Token,
 		issuedAt: Date
 	): String =
-		"DBearer " + Jwts.builder()
+		"DBearer+" + Jwts.builder()
 			.setSubject(userId)
 			.setExpiration(Date(issuedAt.time + tokenType.time))
 			.setIssuedAt(issuedAt)

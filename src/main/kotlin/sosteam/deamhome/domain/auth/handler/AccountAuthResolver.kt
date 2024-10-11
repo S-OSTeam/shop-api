@@ -86,7 +86,7 @@ class AccountAuthResolver(
 		
 		val snsToken = snsTokenHeader ?: accountStatusValidService.getSnsToken(request.sns, request.snsCode)
 		if (!snsToken.isNullOrBlank())
-			context.put("snsToken", snsToken)
+			context.put("Authorization-SNS", snsToken)
 		
 		val accountId =
 			accountStatusValidService.getLiveAccountIdByStatus(
@@ -99,8 +99,8 @@ class AccountAuthResolver(
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd, request.sns)
 		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
 		
-		context.put("accessToken", tokenResponse.accessToken)
-		context.put("refreshToken", tokenResponse.refreshToken)
+		context.put("Authorization", tokenResponse.accessToken)
+		context.put("Authorization-Refresh", tokenResponse.refreshToken)
 		
 		return null
 	}
