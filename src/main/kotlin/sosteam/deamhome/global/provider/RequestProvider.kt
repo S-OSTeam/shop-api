@@ -1,7 +1,6 @@
 package sosteam.deamhome.global.provider
 
 import kotlinx.coroutines.reactor.awaitSingle
-import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import sosteam.deamhome.domain.auth.exception.TokenNotFoundException
 import sosteam.deamhome.global.exception.AgentNotFoundException
@@ -15,10 +14,10 @@ class RequestProvider {
 		
 		//token을 가져오는 함수
 		suspend fun getToken(): String {
-			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
-			val token = headers.getFirst(HttpHeaders.AUTHORIZATION)
+			val cookies = ReactiveRequestContextHolder.getRequest().awaitSingle().cookies
+			val token = cookies.getFirst("Authorization")?.value
 			
-			if (token.isNullOrEmpty() || !token.startsWith("DBearer "))
+			if (token.isNullOrEmpty() || !token.startsWith("DBearer+"))
 				throw TokenNotFoundException()
 			
 			return token.substring(8)
@@ -26,10 +25,10 @@ class RequestProvider {
 		
 		//token을 가져오는 함수
 		suspend fun getRefreshToken(): String {
-			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
-			val token = headers.getFirst("Authorization-Refresh")
+			val cookies = ReactiveRequestContextHolder.getRequest().awaitSingle().cookies
+			val token = cookies.getFirst("Authorization-Refresh")?.value
 			
-			if (token.isNullOrEmpty() || !token.startsWith("DBearer "))
+			if (token.isNullOrEmpty() || !token.startsWith("DBearer+"))
 				throw TokenNotFoundException()
 			
 			return token.substring(8)
@@ -37,9 +36,8 @@ class RequestProvider {
 		
 		//token을 가져오는 함수
 		suspend fun getSNSToken(): String? {
-			val headers = ReactiveRequestContextHolder.getRequest().awaitSingle().headers
-			val token = headers.getFirst("Authorization-SNS")
-			log().debug(token)
+			val cookies = ReactiveRequestContextHolder.getRequest().awaitSingle().cookies
+			val token = cookies.getFirst("Authorization-SNS")?.value
 			
 			return token
 		}
