@@ -17,14 +17,18 @@ import java.util.*
 
 @Component
 class JWTProvider(
-	@Value("\${jwt.secret.key}")
-	private val secretKey: String
-) {
-	private final val encodedSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
+	@Value("\${jwt.secret.refresh.key}")
+	private val refreshKey: String,
+	@Value("\${jwt.secret.access.key}")
 	
-	fun generate(userId: String, roles: List<SimpleGrantedAuthority>, mac: String, issuedAt: Date): TokenResponse {
-		val accessToken = createToken(userId, roles, mac, Token.ACCESS, issuedAt)
-		val refreshToken = createToken(userId, roles, mac, Token.REFRESH, issuedAt)
+	private val accessKey: String
+) {
+	private final val encodedAccessKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessKey))
+	private final val encodedRefreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshKey))
+	
+	fun generate(userId: String, roles: List<SimpleGrantedAuthority>, ip: String, issuedAt: Date): TokenResponse {
+		val accessToken = createToken(userId, roles, ip, Token.ACCESS, issuedAt)
+		val refreshToken = createToken(userId, roles, ip, Token.REFRESH, issuedAt)
 		
 		return TokenResponse(accessToken, refreshToken, userId, issuedAt.toInstant().atOffset(ZoneOffset.UTC))
 	}
@@ -32,41 +36,53 @@ class JWTProvider(
 	fun createToken(
 		userId: String,
 		roles: List<SimpleGrantedAuthority>,
-		mac: String,
+		ip: String,
 		tokenType: Token,
 		issuedAt: Date
 	): String =
 		"DBearer+" + Jwts.builder()
 			.setSubject(userId)
-			.setExpiration(Date(issuedAt.time + tokenType.time))
+			.setExpiration(Date(issuedAt.time + tokenType.time * 1000))
 			.setIssuedAt(issuedAt)
-			.addClaims(createClaims(roles, mac, tokenType.type))
-			.signWith(encodedSecretKey, SignatureAlgorithm.HS384)
+			.addClaims(createClaims(roles, ip, tokenType.type))
+			.signWith(
+				if (tokenType == Token.REFRESH) {
+					encodedRefreshKey
+				} else {
+					encodedAccessKey
+				}, SignatureAlgorithm.HS384
+			)
 			.compact()
 	
-	fun extractToken(token: String): Claims {
+	fun extractToken(token: String, tokenType: Token): Claims {
 		return Jwts.parserBuilder()
-			.setSigningKey(encodedSecretKey)
+			.setSigningKey(
+				if (tokenType == Token.REFRESH) {
+					encodedRefreshKey
+				} else {
+					encodedAccessKey
+				}
+			)
 			.build()
 			.parseClaimsJws(token)
 			.body
 	}
 	
-	fun getLeftTime(token: String): Long {
-		val claims = extractToken(token)
+	fun getLeftTime(token: String, tokenType: Token): Long {
+		val claims = extractToken(token, tokenType)
 		
 		val expiration = claims.expiration
 		
 		return expiration.time - System.currentTimeMillis()
 	}
 	
-	fun getUserId(token: String): String =
-		extractToken(token)
+	fun getUserId(token: String, tokenType: Token): String =
+		extractToken(token, tokenType)
 			.subject
 	
-	fun getAuthentication(token: String): Authentication {
-		val userName = getUserId(token)
-		val role = getSimpleGrantedAuthority(token)
+	fun getAuthentication(token: String, tokenType: Token): Authentication {
+		val userName = getUserId(token, tokenType)
+		val role = getSimpleGrantedAuthority(token, tokenType)
 		
 		return UsernamePasswordAuthenticationToken(
 			userName,
@@ -75,27 +91,27 @@ class JWTProvider(
 		)
 	}
 	
-	fun getSimpleGrantedAuthority(token: String): List<SimpleGrantedAuthority> {
-		return extractToken(token)["role"].toString().split(",").filterNot { it.isEmpty() }
+	fun getSimpleGrantedAuthority(token: String, tokenType: Token): List<SimpleGrantedAuthority> {
+		return extractToken(token, tokenType)["role"].toString().split(",").filterNot { it.isEmpty() }
 			.map(::SimpleGrantedAuthority)
 	}
 	
-	fun createClaims(roles: List<SimpleGrantedAuthority>, mac: String, type: String): Map<String, Any> {
+	fun createClaims(roles: List<SimpleGrantedAuthority>, ip: String, type: String): Map<String, Any> {
 		var claims = HashMap<String, Any>()
 		claims["role"] = roles
-		claims["mac"] = mac
+		claims["ip"] = ip
 		claims["type"] = type
 		
 		return claims
 	}
 	
-	//mac 및 토큰 동시 검증
+	//ip 및 토큰 동시 검증
 	//따로 사용하는 경우가 존재 하지 않으므로 하나로 합침.
-	fun isValid(token: String, mac: String, tokenType: Token): Boolean {
+	fun isValid(token: String, ip: String, tokenType: Token): Boolean {
 		try {
-			val body = extractToken(token)
+			val body = extractToken(token, tokenType)
 			val expireTime = body.expiration
-			if (body["kind"] != tokenType.type || body["mac"] != mac || expireTime.before(Date()))
+			if (body["type"] != tokenType.type || body["ip"] != ip || expireTime.before(Date()))
 				return false
 			return true
 		} catch (e: Exception) {

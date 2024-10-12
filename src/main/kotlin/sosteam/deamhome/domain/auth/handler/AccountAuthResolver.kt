@@ -16,7 +16,7 @@ import sosteam.deamhome.domain.auth.handler.request.CheckDuplicateUserRequest
 import sosteam.deamhome.domain.auth.service.AccountAuthCreateService
 import sosteam.deamhome.domain.auth.service.AccountAuthDeleteService
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getAgent
-import sosteam.deamhome.global.provider.RequestProvider.Companion.getMac
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getIP
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getRefreshToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getSNSToken
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
@@ -34,7 +34,7 @@ class AccountAuthResolver(
 ) {
 	@MutationMapping
 	suspend fun signUp(@Argument @Valid request: AccountCreateRequest): String {
-		val mac = getMac()
+		val ip = getIP()
 		
 		val snsToken = getSNSToken()
 		
@@ -80,7 +80,7 @@ class AccountAuthResolver(
 		@Argument @Valid request: AccountLoginRequest,
 		context: GraphQLContext
 	): TokenResponse? {
-		val mac = getMac()
+		val ip = getIP()
 		val agent = getAgent()
 		val snsTokenHeader = getSNSToken()
 		
@@ -97,7 +97,7 @@ class AccountAuthResolver(
 			)
 		
 		val loginDTO = accountValidService.getAccountLoginDTO(accountId, request.pwd, request.sns)
-		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, mac)
+		val tokenResponse = accountAuthCreateService.createTokenResponse(loginDTO, ip)
 		
 		context.put("Authorization", tokenResponse.accessToken)
 		context.put("Authorization-Refresh", tokenResponse.refreshToken)
@@ -109,9 +109,9 @@ class AccountAuthResolver(
 	suspend fun logout(): String {
 		val accessToken = getToken()
 		val refreshToken = getRefreshToken()
-		val mac = getMac()
+		val ip = getIP()
 		
-		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, mac)
+		val userId = accountAuthDeleteService.deleteTokenInRedis(accessToken, refreshToken, ip)
 		
 		return userId
 	}
@@ -119,14 +119,13 @@ class AccountAuthResolver(
 	@MutationMapping
 	suspend fun reIssue(): TokenResponse {
 		val token = getToken()
-		val mac = getMac()
+		val ip = getIP()
 		
-		return accountAuthCreateService.reIssueTokenResponse(mac, token)
+		return accountAuthCreateService.reIssueTokenResponse(ip, token)
 	}
 	
 	@MutationMapping
 	suspend fun changePassword(request: AccountChangePwdRequest): String {
-		val mac = getMac()
 		return accountChangePwdService.changePwd(
 			request.userId,
 			request.pwd,
