@@ -14,15 +14,15 @@ class AccountAuthDeleteService(
 	private val redisProvider: RedisProvider
 ) {
 	//token response를 만들어 주는 함수
-	suspend fun deleteTokenInRedis(access: String, refresh: String, mac: String): String {
+	suspend fun deleteTokenInRedis(access: String, refresh: String, ip: String): String {
 		
-		if (!jwtProvider.isValid(access, mac, Token.ACCESS) || !jwtProvider.isValid(refresh, mac, Token.REFRESH)) {
+		if (!jwtProvider.isValid(access, ip, Token.ACCESS) || !jwtProvider.isValid(refresh, ip, Token.REFRESH)) {
 			throw TokenNotValidException()
 		}
 		
 		//토큰 날짜를 통일 시키기 위해 현재 시간을 저장
-		val leftAccessTokenTime = jwtProvider.getLeftTime(access)
-		val userId = jwtProvider.getUserId(access)
+		val leftAccessTokenTime = jwtProvider.getLeftTime(access, Token.ACCESS)
+		val userId = jwtProvider.getUserId(access, Token.ACCESS)
 		
 		//기존에 존재하던 refresh 토큰 삭제
 		redisProvider.deleteData(userId)

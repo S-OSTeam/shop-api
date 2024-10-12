@@ -12,6 +12,7 @@ import sosteam.deamhome.domain.cart.service.CartCreateService
 import sosteam.deamhome.domain.cart.service.CartDeleteService
 import sosteam.deamhome.domain.cart.service.CartReadService
 import sosteam.deamhome.domain.cart.service.CartUpdateService
+import sosteam.deamhome.global.attribute.Token
 import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
 import sosteam.deamhome.global.security.provider.JWTProvider
 
@@ -26,7 +27,7 @@ class CartResolver(
 	@QueryMapping
 	suspend fun getAllCartList(): List<CartResponse> {
 		val accessToken = getToken()
-		return cartReadService.getAllCartList(jwtProvider.getUserId(accessToken))
+		return cartReadService.getAllCartList(jwtProvider.getUserId(accessToken, Token.ACCESS))
 	}
 
 //    @QueryMapping
@@ -37,7 +38,7 @@ class CartResolver(
 	@MutationMapping
 	suspend fun addCartItem(@Argument request: CartRequest): CartItemResponse {
 		val accessToken = getToken()
-		return cartCreateService.addCartItem(jwtProvider.getUserId(accessToken), request)
+		return cartCreateService.addCartItem(jwtProvider.getUserId(accessToken, Token.ACCESS), request)
 	}
 	
 	@MutationMapping
@@ -45,7 +46,7 @@ class CartResolver(
 	suspend fun deleteCartItem(@Argument request: CartDeleteRequest): String {
 		val accessToken = getToken()
 		val (itemId) = request
-		return cartDeleteService.deleteCartItem(jwtProvider.getUserId(accessToken), itemId)
+		return cartDeleteService.deleteCartItem(jwtProvider.getUserId(accessToken, Token.ACCESS), itemId)
 	}
 	
 	
@@ -54,7 +55,7 @@ class CartResolver(
 	suspend fun updateCartItem(@Argument request: CartRequest): CartItemResponse {
 		val accessToken = getToken()
 		val (itemId, cnt, checked) = request
-		return cartUpdateService.changeCartItem(jwtProvider.getUserId(accessToken), itemId, cnt, checked)
+		return cartUpdateService.changeCartItem(jwtProvider.getUserId(accessToken, Token.ACCESS), itemId, cnt, checked)
 	}
 	
 	

@@ -10,18 +10,18 @@ class TestJWTProvider : JWTProvider("test-token") {
 	override fun generate(
 		userId: String,
 		roles: List<SimpleGrantedAuthority>,
-		mac: String,
+		ip: String,
 		issuedAt: Date
 	): TokenResponse {
-		val accessToken = createToken(userId, roles, mac, Token.ACCESS, issuedAt)
-		val refreshToken = createToken(userId, roles, mac, Token.REFRESH, issuedAt)
+		val accessToken = createToken(userId, roles, ip, Token.ACCESS, issuedAt)
+		val refreshToken = createToken(userId, roles, ip, Token.REFRESH, issuedAt)
 		return TokenResponse(accessToken, refreshToken, userId, issuedAt)
 	}
 	
 	override fun createToken(
 		userId: String,
 		roles: List<SimpleGrantedAuthority>,
-		mac: String,
+		ip: String,
 		tokenType: Token,
 		issuedAt: Date
 	): String {
@@ -36,7 +36,7 @@ class TestJWTProvider : JWTProvider("test-token") {
 		return "testAccount"
 	}
 	
-	override fun isValid(token: String, mac: String, tokenType: Token): Boolean {
+	override fun isValid(token: String, ip: String, tokenType: Token): Boolean {
 		return (token == "accessToken" || token == "refreshToken")
 	}
 }
