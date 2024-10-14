@@ -8,7 +8,6 @@ import org.springframework.http.ResponseCookie
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 import sosteam.deamhome.global.attribute.Token
-import java.time.Duration
 
 @Component
 class HeaderInterceptor : WebGraphQlInterceptor {
@@ -18,6 +17,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			getAndAddCookie("Authorization-Refresh", response, request, "/", Token.REFRESH.time)
 			getAndAddCookie("Authorization-SNS", response, request, "/signup", 3600)
 			getAndAddCookie("Authorization-SNS", response, request, "/login", 3600)
+			deleteSNSToken(request, response)
 		}
 	}
 	
@@ -34,7 +34,6 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 		if (!tokenContext.isNullOrEmpty() || !tokenHeader.isNullOrEmpty()) {
 			val cookie = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
-					.maxAge(Duration.ofSeconds(Token.ACCESS.time))
 					.sameSite("Strict")
 					.httpOnly(true)
 					.secure(true)
@@ -44,5 +43,33 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			}
 			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString())
 		}
+	}
+	
+	fun deleteSNSToken(request: WebGraphQlRequest, response: WebGraphQlResponse) {
+		val accessToken: String? = request.cookies.getFirst("Authorization")?.value
+		val snsToken: String? = request.cookies.getFirst("Authorization-SNS")?.value
+		
+		if (accessToken != null && snsToken != null) {
+			var cookie =
+				ResponseCookie.from("Authorization-SNS")
+					.maxAge(0)
+					.sameSite("Strict")
+					.httpOnly(true)
+					.secure(true)
+					.path("/login")
+					.build()
+			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString())
+			
+			cookie =
+				ResponseCookie.from("Authorization-SNS")
+					.maxAge(0)
+					.sameSite("Strict")
+					.httpOnly(true)
+					.secure(true)
+					.path("/signup")
+					.build()
+			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString())
+		}
+		
 	}
 }
