@@ -1,7 +1,5 @@
 package sosteam.deamhome.domain.review.handler.request
 
-import sosteam.deamhome.global.image.handler.request.ImageRequest
-
 data class ReviewCreateRequest(
 	val title: String,
 	val parentPublicId: String?,
@@ -10,6 +8,6 @@ data class ReviewCreateRequest(
 	val status: Boolean,
 	val userId: String,
 	val itemId: String,
-	val images: List<ImageRequest>,
-	val purchaseOptions: List<String>
+	val images: List<String>?,
+	val purchaseOptions: List<String>?
 )

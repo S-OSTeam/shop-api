@@ -6,7 +6,7 @@ input ReviewCreateRequest{
     status: Boolean!
     userId: String! @NotBlank(message : "유저 ID는 필수 입력 항목입니다.")
     itemId: String! @NotBlank(message : "아이템 ID는 필수 입력 항목입니다.")
-    images: [ImageRequest]
+    images: [String]
     purchaseOptions: [String]
 }
 
@@ -27,7 +27,7 @@ input ReviewUpdateRequest{
     score: Int! @Min(value : 0, message : "별점은 0~5사이 숫자입니다.") @Max(value : 5, message : "별점은 0~5사이 숫자입니다.")
     status: Boolean!
     originImageUrls: [String]
-    addImages: [ImageRequest]
+    addImages: [String]
     likeUsers: [String]
     purchaseOptions: [String]
 }

@@ -18,26 +18,12 @@ class ReviewUpdateService(
 	suspend fun updateReview(request: ReviewUpdateRequest, originReview: Review): ReviewResponse {
 		val updatedImage = originReview.imageUrls
 		// DB에 있는 Images와 비교해서 없으면 제거
-		updatedImage.filter { image ->
-			!request.originImageUrls.contains(image)
-		}.forEach { imageUrl ->
+		updatedImage?.forEach { imageUrl ->
 			imageProvider.deleteImage(imageUrl)
 		}
-		updatedImage.removeIf { image ->
-			!request.originImageUrls.contains(image)
-		}
+		
 		// 추가된 Images
-		val addImageUrls =
-			request.addImages.map {
-				imageProvider.saveImage(
-					it.image,
-					it.outer,
-					it.inner,
-					it.resizeWidth,
-					it.resizeHeight
-				).fileUrl
-			}
-		updatedImage.addAll(addImageUrls)
+		val addImageUrls = request.addImages
 		
 		val updatedReview = originReview.apply {
 			title = request.title
