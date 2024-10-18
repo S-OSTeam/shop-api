@@ -19,7 +19,7 @@ class ReviewDeleteService(
 	private val imageProvider: ImageProvider
 ) {
 	suspend fun deleteReview(request: ReviewDeleteRequest, review: Review): ResponseEntity<String> {
-		review.imageUrls.forEach {
+		review.imageUrls?.forEach {
 			imageProvider.deleteImage(it)
 		}
 		

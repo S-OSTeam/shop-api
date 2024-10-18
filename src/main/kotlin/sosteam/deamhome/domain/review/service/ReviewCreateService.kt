@@ -30,9 +30,11 @@ class ReviewCreateService(
 		val publicId = UlidCreator.getMonotonicUlid().toString().replace("-", "")
 		val parentPublicId = if (request.parentPublicId.isNullOrEmpty()) publicId else request.parentPublicId
 		
-		val imageUrls: MutableList<String> = request.images.map {
-			imageProvider.saveImage(it.image, it.outer, it.inner, it.resizeWidth, it.resizeHeight).fileUrl
-		}.toMutableList()
+		val imageUrls = if (request.images.isNullOrEmpty()) {
+			mutableListOf()
+		} else {
+			request.images.toMutableList()
+		}
 		
 		val laterReview = Review(
 			id = null,
@@ -46,7 +48,11 @@ class ReviewCreateService(
 			itemId = request.itemId,
 			imageUrls = imageUrls,
 			likeUsers = mutableListOf(),
-			purchaseOptions = request.purchaseOptions.toMutableList(),
+			purchaseOptions = if (request.purchaseOptions.isNullOrEmpty()) {
+				mutableListOf()
+			} else {
+				request.purchaseOptions.toMutableList()
+			},
 			reportUsers = mutableListOf(),
 			reportContents = mutableListOf()
 		)

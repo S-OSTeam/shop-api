@@ -11,9 +11,9 @@ data class ReviewResponse(
 	val status: Boolean,
 	val userId: String,
 	val itemId: String,
-	val imageUrls: List<String>,
-	val likeUsers: Int,
-	val purchaseOptions: List<String>
+	val imageUrls: List<String>?,
+	val likeUsers: Int?,
+	val purchaseOptions: List<String>?
 ) {
 	companion object {
 		fun fromReview(review: Review): ReviewResponse {
