@@ -34,14 +34,12 @@ class ReviewResolver(
 	
 	@MutationMapping
 	suspend fun updateReview(@Argument request: ReviewUpdateRequest): ReviewResponse {
-		val review = reviewValidService.validateUpdateReview(request)
-		return reviewUpdateService.updateReview(request, review)
+		return reviewUpdateService.updateReview(request)
 	}
 	
 	@MutationMapping
 	suspend fun deleteReview(@Argument request: ReviewDeleteRequest): ResponseEntity<String> {
-		val review = reviewValidService.validateDeleteReview(request)
-		return reviewDeleteService.deleteReview(request, review)
+		return reviewDeleteService.deleteReview(request)
 	}
 	
 	@MutationMapping

@@ -9,6 +9,10 @@ interface ImageRepository : CoroutineCrudRepository<Image, Long> {
 	
 	suspend fun findByPath(publicId: String): Image?
 	
+	suspend fun findByFileUrl(fileUrl: String): Image?
+	
 	suspend fun deleteByPath(path: String): Long
+	
+	suspend fun deleteByFileUrl(fileUrl: String): Long
 	
 }

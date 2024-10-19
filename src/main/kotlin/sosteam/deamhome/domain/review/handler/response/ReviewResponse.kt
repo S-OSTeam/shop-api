@@ -3,7 +3,7 @@ package sosteam.deamhome.domain.review.handler.response
 import sosteam.deamhome.domain.review.entity.Review
 
 data class ReviewResponse(
-	val reviewId: String,
+	val publicId: String,
 	val title: String,
 	val parentPublicId: String,
 	val content: String,
@@ -18,7 +18,7 @@ data class ReviewResponse(
 	companion object {
 		fun fromReview(review: Review): ReviewResponse {
 			return ReviewResponse(
-				reviewId = review.publicId,
+				publicId = review.publicId,
 				title = review.title,
 				parentPublicId = review.parentPublicId,
 				content = review.content,

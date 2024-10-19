@@ -38,7 +38,7 @@ data class Item(
 	var reviewCnt: Int = 0,
 	// 리뷰 점수 1점 ~ 5점
 	@Column("review_score")
-	var reviewScore: List<Int> = listOf(0, 0, 0, 0, 0),
+	var reviewScore: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0),
 	@Column("qna_cnt")
 	var qnaCnt: Int = 0,
 	@Column("status")
@@ -73,5 +73,4 @@ data class Item(
 	var shippingCost: Int,
 	@Column("image_urls")
 	var imageUrls: List<String> = listOf()
-) : BaseEntity() {
-}
+) : BaseEntity()

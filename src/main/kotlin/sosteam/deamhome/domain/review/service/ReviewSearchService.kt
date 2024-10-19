@@ -12,7 +12,7 @@ class ReviewSearchService(
 	private val reviewRepository: ReviewRepository
 ) {
 	suspend fun searchReviews(request: ReviewSearchRequest): List<ReviewResponse> {
-		val reviews = reviewRepository.findReviews(request.reviewId, request.userId, request.itemId)
+		val reviews = reviewRepository.findReviews(request.publicId, request.userId, request.itemId)
 			.toList()
 		
 		if (reviews.isEmpty()) {

@@ -111,11 +111,19 @@ class ImageProvider(
 	}
 	
 	@Transactional
-	suspend fun deleteImage(filePath: String): Boolean {
+	suspend fun deleteImageByPath(filePath: String): Boolean {
 		val path = Paths.get(filePath)
 		Files.deleteIfExists(path)
-		imageRepository.deleteByPath(filePath)
 		
 		return imageRepository.deleteByPath(filePath) > 0L
+	}
+	
+	@Transactional
+	suspend fun deleteImageByUrl(fileUrl: String): Boolean {
+		val image = imageRepository.findByFileUrl(fileUrl)
+		val path = Paths.get(image?.path)
+		Files.deleteIfExists(path)
+		
+		return imageRepository.deleteByFileUrl(fileUrl) > 0L
 	}
 }
