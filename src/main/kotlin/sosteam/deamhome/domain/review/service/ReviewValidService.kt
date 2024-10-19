@@ -21,7 +21,7 @@ class ReviewValidService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun validateUpdateReview(request: ReviewUpdateRequest): Review {
-		val review = reviewRepository.findByPublicId(request.reviewId)
+		val review = reviewRepository.findByPublicId(request.publicId)
 		
 		val createdAt = review.getCreatedAt()
 		val now = OffsetDateTime.now()
@@ -34,7 +34,7 @@ class ReviewValidService(
 	}
 	
 	suspend fun validateDeleteReview(request: ReviewDeleteRequest): Review {
-		val review = reviewRepository.findByPublicId(request.reviewId)
+		val review = reviewRepository.findByPublicId(request.publicId)
 		
 		val createdAt = review.getCreatedAt()
 		val now = OffsetDateTime.now()

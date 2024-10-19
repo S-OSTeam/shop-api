@@ -16,7 +16,7 @@ class ReviewReportService(
 	private val accountRepository: AccountRepository
 ) {
 	suspend fun updateReviewReport(request: ReviewReportRequest, account: Account): ReviewResponse {
-		val review: Review = reviewRepository.findByPublicId(request.reviewId)
+		val review: Review = reviewRepository.findByPublicId(request.publicId)
 		val userReport = review.reportUsers.contains(request.userId)
 		
 		val now = LocalDateTime.now()

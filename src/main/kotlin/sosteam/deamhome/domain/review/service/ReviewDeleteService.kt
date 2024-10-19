@@ -6,7 +6,6 @@ import sosteam.deamhome.domain.account.exception.AccountNotFoundException
 import sosteam.deamhome.domain.account.repository.AccountRepository
 import sosteam.deamhome.domain.item.exception.ItemNotFoundException
 import sosteam.deamhome.domain.item.repository.ItemRepository
-import sosteam.deamhome.domain.review.entity.Review
 import sosteam.deamhome.domain.review.handler.request.ReviewDeleteRequest
 import sosteam.deamhome.domain.review.repository.ReviewRepository
 import sosteam.deamhome.global.image.provider.ImageProvider
@@ -18,9 +17,11 @@ class ReviewDeleteService(
 	private val itemRepository: ItemRepository,
 	private val imageProvider: ImageProvider
 ) {
-	suspend fun deleteReview(request: ReviewDeleteRequest, review: Review): ResponseEntity<String> {
-		review.imageUrls?.forEach {
-			imageProvider.deleteImage(it)
+	suspend fun deleteReview(request: ReviewDeleteRequest): ResponseEntity<String> {
+		val review = reviewRepository.findByPublicId(request.publicId)
+		
+		review.imageUrls.forEach {
+			imageProvider.deleteImageByUrl(it)
 		}
 		
 		val account = accountRepository.findAccountByUserId(review.userId) ?: throw AccountNotFoundException()
@@ -32,7 +33,7 @@ class ReviewDeleteService(
 		item.reviewCnt--
 		itemRepository.save(item)
 		
-		reviewRepository.deleteByPublicId(request.reviewId)
-		return ResponseEntity.ok("Review 제거 성공 : `${request.reviewId}` ")
+		reviewRepository.deleteByPublicId(request.publicId)
+		return ResponseEntity.ok("Review 제거 성공 : `${request.publicId}` ")
 	}
 }

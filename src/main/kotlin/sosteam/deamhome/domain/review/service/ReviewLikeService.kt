@@ -14,7 +14,7 @@ class ReviewLikeService(
 ) {
 	suspend fun updateReviewLike(request: ReviewLikeRequest): ReviewResponse {
 		accountRepository.findAccountByUserId(request.userId) ?: throw AccountNotFoundException()
-		val review = reviewLikeProvider.updateReviewLike(request.userId, request.reviewId, request.favor)
+		val review = reviewLikeProvider.updateReviewLike(request.userId, request.publicId, request.favor)
 		
 		return ReviewResponse.fromReview(review)
 	}
