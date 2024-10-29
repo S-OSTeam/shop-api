@@ -9,6 +9,9 @@ import sosteam.deamhome.domain.account.handler.request.WishListRequest
 import sosteam.deamhome.domain.account.service.wishlist.WishListModifyService
 import sosteam.deamhome.domain.account.service.wishlist.WishListReadService
 import sosteam.deamhome.domain.item.handler.response.ItemResponse
+import sosteam.deamhome.global.attribute.Token
+import sosteam.deamhome.global.provider.RequestProvider.Companion.getToken
+import sosteam.deamhome.global.security.provider.JWTProvider
 import sosteam.deamhome.global.security.service.AuthenticationService
 
 @RestController
@@ -16,16 +19,19 @@ class WishListResolver(
 	private val wishListModifyService: WishListModifyService,
 	private val wishListReadService: WishListReadService,
 	private val authenticationService: AuthenticationService,
+	private val jwtProvider: JWTProvider
 ) {
 	@QueryMapping
 	suspend fun getWishList(@Argument request: WishListPageRequest): List<ItemResponse> {
+		val token = getToken()
 		val (page, pageSize) = request
-		return wishListReadService.getAllWishList(authenticationService.getUserIdFromToken(), page, pageSize)
+		return wishListReadService.getAllWishList(jwtProvider.getUserId(token, Token.ACCESS), page, pageSize)
 	}
 	
 	@MutationMapping
 	suspend fun updateWishListItemInclude(@Argument request: WishListRequest): List<String> {
+		val token = getToken()
 		val (itemId) = request
-		return wishListModifyService.addOrRemoveWishListItem(authenticationService.getUserIdFromToken(), itemId)
+		return wishListModifyService.addOrRemoveWishListItem(jwtProvider.getUserId(token, Token.ACCESS), itemId)
 	}
 }
