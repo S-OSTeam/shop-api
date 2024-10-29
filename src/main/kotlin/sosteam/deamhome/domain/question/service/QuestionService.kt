@@ -40,7 +40,7 @@ class QuestionService(
 			?: throw QuestionNotFoundException()
 		// 아이템의 이미지들 삭제
 		for (imageUrl in question.imageUrls) {
-			imageProvider.deleteImage(imageUrl)
+			imageProvider.deleteImageByUrl(imageUrl)
 		}
 		//아이템 삭제
 		return questionRepository.deleteByPublicId(publicId)

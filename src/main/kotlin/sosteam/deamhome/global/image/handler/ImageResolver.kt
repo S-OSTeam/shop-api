@@ -39,14 +39,14 @@ class ImageResolver(private val imageProvider: ImageProvider) {
 	
 	@MutationMapping
 	suspend fun deleteImage(@Argument path: String): Boolean {
-		val ret = imageProvider.deleteImage(path)
+		val ret = imageProvider.deleteImageByPath(path)
 		
 		return ret
 	}
 	
 	@MutationMapping
 	suspend fun deleteImageList(@Argument pathList: List<String>): List<Boolean> {
-		val ret = pathList.map { path -> imageProvider.deleteImage(path) }
+		val ret = pathList.map { path -> imageProvider.deleteImageByPath(path) }
 		
 		return ret
 	}

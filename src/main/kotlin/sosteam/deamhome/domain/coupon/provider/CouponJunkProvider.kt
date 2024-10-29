@@ -29,7 +29,7 @@ class CouponJunkProvider {
 				status = ItemStatus.AVAILABLE,
 				storeId = "",
 				freeDelivery = false,
-				reviewScore = listOf(0, 0, 0, 0, 0),
+				reviewScore = arrayListOf(0, 0, 0, 0, 0),
 				option = listOf(),
 				productNumber = "0",
 				deadline = OffsetDateTime.MAX,
