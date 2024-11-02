@@ -18,6 +18,8 @@ input EventFilter {
     contents: String
     id: Long
     eventType: EventType
+    startedAt: DateTime
+    endedAt: DateTime
 }
 
 input EventPageRequest {

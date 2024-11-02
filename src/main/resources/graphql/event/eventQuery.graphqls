@@ -1,10 +1,11 @@
 extend type Query {
     # 현재 진행중인 이벤트 가져오기
-    getEventList (eventType: EventType): [EventItemResponse]
+    getEventList (eventType: EventType): [EventInfoResponse]
 
     # 이벤트 속성 검색
-    getEventInfoList (request: EventFilter): [EventInfoResponse]
+    getEventInfoList (filter: EventFilter): [EventInfoResponse]
 
     # 이벤트 관련 item publicId로 아이템 정보 페이지네이션으로 가져오기
     getEventItems (request: EventPageRequest): [ItemResponse]
+
 }
