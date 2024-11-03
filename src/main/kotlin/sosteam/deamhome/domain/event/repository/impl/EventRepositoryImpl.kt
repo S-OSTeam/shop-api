@@ -18,18 +18,18 @@ class EventRepositoryImpl (
 ): EventRepositoryCustom{
     private val event = QEvent.event
 
-    override fun findEvent(filter: EventFilter): Flow<Event> {
+    override fun findEvent(filter: EventFilter?): Flow<Event> {
         return repository.query{ query ->
             query
                 .select(repository.entityProjection())
                 .from(event)
                 .where(
                     listOfNotNull(
-                        containsTitle(filter.title),
-                        filter.startedAt?.let{ event.startedAt.goe(it)},
-                        filter.endedAt?.let{event.endedAt.loe(it)},
-                        filter.eventType?.let{event.eventType.eq(it)},
-                        filter.id?.let{event.id.eq(it)},
+                        containsTitle(filter?.title),
+                        filter?.startedAt?.let{ event.startedAt.goe(it)},
+                        filter?.endedAt?.let{event.endedAt.loe(it)},
+                        filter?.eventType?.let{event.eventType.eq(it)},
+                        filter?.id?.let{event.id.eq(it)},
                     ).reduceOrNull{acc, expression -> acc.and(expression)}
                 )
 //                .orderBy(event.startedAt)
