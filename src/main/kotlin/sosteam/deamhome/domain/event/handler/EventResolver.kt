@@ -6,10 +6,10 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.web.bind.annotation.RestController
 import sosteam.deamhome.domain.event.entity.EventType
+import sosteam.deamhome.domain.event.handler.request.EventFilter
 import sosteam.deamhome.domain.event.handler.request.EventPageRequest
 import sosteam.deamhome.domain.event.handler.request.EventRequest
 import sosteam.deamhome.domain.event.handler.response.EventInfoResponse
-import sosteam.deamhome.domain.event.handler.response.EventItemResponse
 import sosteam.deamhome.domain.event.service.EventCreateService
 import sosteam.deamhome.domain.event.service.EventDeleteService
 import sosteam.deamhome.domain.event.service.EventReadService
@@ -35,14 +35,14 @@ class EventResolver(
 	
 	// 현재 진행중인 이벤트 리스트 가져오기
 	@QueryMapping
-	suspend fun getEventList(@Argument eventType: EventType): List<EventItemResponse> {
+	suspend fun getEventList(@Argument eventType: EventType): List<EventInfoResponse> {
 		return eventReadService.getEventList(eventType)
 	}
 	
 	// eventId 이용해서 클릭 시 상세정보 조회
 	@QueryMapping
-	suspend fun getEventInfo(@Argument eventId: Long): EventInfoResponse {
-		return eventReadService.getEventInfo(eventId)
+	suspend fun getEventInfoList(@Argument request: EventFilter): List<EventInfoResponse> {
+		return eventReadService.getEventListInfo(request)
 	}
 	
 	// 이벤트 진행중인 아이템 publicId 매핑해서 리턴

@@ -13,6 +13,15 @@ input EventRequest {
     link: String
 }
 
+input EventFilter {
+    title: String
+    contents: String
+    id: Long
+    eventType: EventType
+    startedAt: DateTime
+    endedAt: DateTime
+}
+
 input EventPageRequest {
     # 이벤트 id
     eventId: Long

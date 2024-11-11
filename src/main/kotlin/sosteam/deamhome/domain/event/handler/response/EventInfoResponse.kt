@@ -1,6 +1,7 @@
 package sosteam.deamhome.domain.event.handler.response
 
 import sosteam.deamhome.domain.event.entity.Event
+import sosteam.deamhome.domain.event.entity.EventType
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 
@@ -14,7 +15,8 @@ class EventInfoResponse (
     val thumbnail: String?,
     val items: MutableList<String>,
     val images: MutableList<String>,
-    val link: String?
+    val link: String?,
+    val eventType: EventType,
 ){
     companion object{
         fun fromEvent(event: Event): EventInfoResponse{
@@ -28,6 +30,7 @@ class EventInfoResponse (
                 items = event.items,
                 images = event.images,
                 link = event.link,
+                eventType = event.eventType,
             )
         }
     }
