@@ -8,13 +8,6 @@ type EventInfoResponse {
     items: [String]
     images: [String]
     link: String
+    eventType: EventType!
 }
 
-type EventItemResponse {
-    id: Long!
-    startedAt: DateTime!
-    endedAt: DateTime!
-    title: String!
-    contents: String
-    thumbnail: String
-}
