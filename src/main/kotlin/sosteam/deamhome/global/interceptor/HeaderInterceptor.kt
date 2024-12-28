@@ -34,10 +34,10 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 		if (!tokenContext.isNullOrEmpty() || !tokenHeader.isNullOrEmpty()) {
 			val cookieLocalHost = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
-					.sameSite("Struct")
-					.httpOnly(false)
-					.domain(".localhost")
-					.secure(false)
+					.sameSite("Strict")
+					.httpOnly(true)
+					.secure(true)
+					.domain("localhost")
 					.path(path)
 					.maxAge(expire)
 					.build()
@@ -45,7 +45,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			
 			val cookieDeamHome = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
-					.sameSite("Struct")
+					.sameSite("Strict")
 					.httpOnly(true)
 					.domain("deamhome.synology.me")
 					.secure(true)
