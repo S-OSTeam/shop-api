@@ -45,7 +45,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			
 			val cookieDeamHome = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
-					.sameSite("Strict")
+					.sameSite("None")
 					.httpOnly(true)
 					.domain("deamhome.synology.me")
 					.secure(true)
