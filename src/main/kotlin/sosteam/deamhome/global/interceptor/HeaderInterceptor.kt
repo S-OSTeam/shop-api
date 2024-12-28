@@ -32,16 +32,30 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 		val tokenHeader: String? = request.headers.getFirst(name)
 		
 		if (!tokenContext.isNullOrEmpty() || !tokenHeader.isNullOrEmpty()) {
-			val cookie = (tokenContext ?: tokenHeader)?.let {
+			val cookieLocalHost = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
 					.sameSite("Strict")
 					.httpOnly(true)
+					.domain("localhost")
 					.secure(true)
 					.path(path)
 					.maxAge(expire)
 					.build()
 			}
-			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString())
+			
+			val cookieDeamHome = (tokenContext ?: tokenHeader)?.let {
+				ResponseCookie.from(name, it)
+					.sameSite("Strict")
+					.httpOnly(true)
+					.domain("deamhome.synology.me")
+					.secure(true)
+					.path(path)
+					.maxAge(expire)
+					.build()
+			}
+			
+			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookieLocalHost.toString())
+			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookieDeamHome.toString())
 		}
 	}
 	
