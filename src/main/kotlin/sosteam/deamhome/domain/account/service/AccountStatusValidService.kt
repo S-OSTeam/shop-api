@@ -15,7 +15,6 @@ import sosteam.deamhome.domain.kakao.service.KakaoService
 import sosteam.deamhome.domain.naver.service.NaverService
 import sosteam.deamhome.global.attribute.SNS
 import sosteam.deamhome.global.attribute.Status
-import sosteam.deamhome.global.provider.log
 
 @Service
 @Transactional
@@ -50,7 +49,6 @@ class AccountStatusValidService(
 		val snsId = getSnsId(userId, sns, snsToken)
 		val accountStatusList = getStatusByUserIdOrSNS(userId, sns, snsId, email).toList()
 		
-		log().debug(accountStatusList.size.toString())
 		if (accountStatusList.isEmpty())
 			throw AccountNotFoundException()
 		else if (accountStatusList.size > 1)
