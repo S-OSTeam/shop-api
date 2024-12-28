@@ -35,9 +35,9 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			val cookieLocalHost = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
 					.sameSite("Struct")
-					.httpOnly(true)
-					.domain("localhost")
-					.secure(true)
+					.httpOnly(false)
+					.domain(".localhost")
+					.secure(false)
 					.path(path)
 					.maxAge(expire)
 					.build()
@@ -56,6 +56,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 			
 			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookieLocalHost.toString())
 			response.responseHeaders.add(HttpHeaders.SET_COOKIE, cookieDeamHome.toString())
+			
 		}
 	}
 	
