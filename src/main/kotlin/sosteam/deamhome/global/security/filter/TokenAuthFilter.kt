@@ -33,12 +33,12 @@ class TokenAuthFilter(
 		if (isUsableAccessToken || !refreshToken.isNullOrEmpty()) {
 			
 			//accessToken이 만료되거나 없으면 refreshToken 및 accessToken 재 발급
-			if (!isUsableAccessToken && isUsableRefreshToken(
+			if (!isUsableAccessToken && !refreshToken.isNullOrEmpty() && isUsableRefreshToken(
 					refreshToken,
 					ip,
 					redisProvider,
 					jwtProvider
-				) && !refreshToken.isNullOrEmpty()
+				)
 			) {
 				val issuedAt = Date(System.currentTimeMillis())
 				val userId = jwtProvider.getUserId(refreshToken, Token.REFRESH)
@@ -52,7 +52,8 @@ class TokenAuthFilter(
 				redisProvider.setDataExpire(userId, refreshToken, Token.REFRESH.time)
 			}
 			
-			val authentication = accessToken?.let { jwtProvider.getAuthentication(it.substring(8), Token.ACCESS) }
+			val authentication =
+				accessToken?.let { jwtProvider.getAuthentication(it.replace("DBearer+", ""), Token.ACCESS) }
 			
 			if (authentication != null)
 				chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication))
@@ -116,6 +117,7 @@ class TokenAuthFilter(
 	
 	fun getAccessTokenFromRequest(request: ServerHttpRequest): String? {
 		val bearerToken = request.cookies.getFirst("Authorization")?.value
+		
 		if (!bearerToken.isNullOrEmpty() && bearerToken.startsWith("DBearer+"))
 			return bearerToken.substring(8)
 		return null
