@@ -34,7 +34,7 @@ class HeaderInterceptor : WebGraphQlInterceptor {
 		if (!tokenContext.isNullOrEmpty() || !tokenHeader.isNullOrEmpty()) {
 			val cookieLocalHost = (tokenContext ?: tokenHeader)?.let {
 				ResponseCookie.from(name, it)
-					.sameSite("Strict")
+					.sameSite("None")
 					.httpOnly(true)
 					.domain("localhost")
 					.secure(true)
