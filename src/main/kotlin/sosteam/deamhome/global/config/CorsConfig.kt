@@ -8,7 +8,12 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 class CorsConfig : WebFluxConfigurer {
 	override fun addCorsMappings(registry: CorsRegistry) {
 		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:3000", "http://localhost:8080", "https://moviethree.synology.me")
+			.allowedOrigins(
+				"http://localhost:3000",
+				"https://localhost:3000",
+				"http://localhost:8080",
+				"https://deamhome.synology.me"
+			)
 			.allowedOriginPatterns("*")
 			.allowedMethods("GET", "POST", "PUT", "PATCH", "OPTIONS")
 			.allowCredentials(true)
